@@ -9,6 +9,9 @@ import androidx.constraintlayout.widget.Group;
 
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -34,9 +37,16 @@ public class OrderBaseHolder extends BaseHolder<OrderInfoBean> {
     }
 
     @Override
-    public void initView(View itemView, int position, OrderInfoBean data) {
+    public void initView(View itemView, int position, final OrderInfoBean data) {
         super.initView(itemView, position, data);
-
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_detail)
+                        .withParcelable(Param.TRAN,data)
+                        .navigation(mContext);
+            }
+        });
     }
     protected  void addButton(Group bottom_group, ViewGroup ll_bt, final OrderInfoBean data, Map<String, Integer> status) {
         ll_bt.removeAllViews();

@@ -21,5 +21,9 @@ public class ArouterParamApp {
      * 搜索订单
      */
     public static final String activity_search_order="/app/activity_search_order";
+    /**
+     * 订单详情也
+     */
+    public static final String activity_order_detail="/app/activity_order_detail";
 
 }
