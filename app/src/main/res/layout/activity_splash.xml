@@ -4,6 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_of_ffffff"
     tools:context=".ui.SplashActivity">
+
+    <ImageView
+        android:layout_width="31dp"
+        android:id="@+id/img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        android:src="@mipmap/img_title"
+        android:layout_height="365dp"/>
+
+    <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="35dp"
+        app:layout_constraintVertical_bias="1"
+        android:layout_width="170dp"
+        android:src="@mipmap/logo_qdy"
+        android:layout_height="41dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

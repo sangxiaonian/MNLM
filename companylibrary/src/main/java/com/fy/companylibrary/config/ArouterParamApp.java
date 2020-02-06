@@ -2,7 +2,7 @@ package com.fy.companylibrary.config;
 
 /**
  * 作者：  on 2019/10/30.
- * App module 中使用到的Arouter 路径
+ *   module 中使用到的Arouter 路径
  * <p>
  * 命名时注意参考已有命名方式，/module/路径
  * <p>
@@ -12,5 +12,8 @@ package com.fy.companylibrary.config;
  */
 public class ArouterParamApp {
 
+    public static final String fragment_home="/app/fragment_home";
+    public static final String fragment_home_type="/app/fragment_home_type";
+    public static final String activity_main="/app/activity_main";
 
 }

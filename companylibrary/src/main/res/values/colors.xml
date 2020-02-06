@@ -3,6 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="line_color">#eeeeee</color>
+
     <color name="color_of_3c466d">#3c466d</color>
     <color name="color_of_f9c57c">#F9C57C</color>
     <color name="color_of_1c234d">#1C234D</color>
@@ -25,6 +27,7 @@
     <color name="color_of_66_0b0b0b">#660B0B0B</color>//不透明度60%
     <color name="color_of_ededed">#ededed</color>
     <color name="color_of_ebebeb">#EBEBEB</color>
+    <color name="color_of_eeeeee">#eeeeee</color>
     <color name="color_of_333333">#333333</color>
     <color name="color_of_b8b8b8">#b8b8b8</color>
     <color name="color_of_f7f7f7">#f7f7f7</color>
@@ -47,5 +50,8 @@
     <color name="color_of_0b0b0b">#0b0b0b</color>
     <color name="color_of_f2f5ff">#F2F5FF</color>
     <color name="color_of_6e6e6e">#6e6e6e</color>
+    <color name="color_of_040000">#040000</color>
+    <color name="color_of_8d8d8d">#8d8d8d</color>
+    <color name="color_of_cccccc">#cccccc</color>
 
 </resources>

@@ -14,8 +14,7 @@ import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.ui.ModuleBaseActivity;
 import com.fy.companylibrary.R;
 import com.githang.statusbar.StatusBarCompat;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.PushAgent;
+
 
 /**
  * 作者：  on 2019/10/28.
@@ -70,16 +69,11 @@ public class CompanyBaseActivity extends ModuleBaseActivity {
     public void onResume() {
         super.onResume();
 
-        MobclickAgent.onResume(this);
-        PushAgent.getInstance(this).onAppStart();
-        PushAgent.getInstance(this).onAppStart();
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
     }
 
     protected void setWhitToolBar(String title) {
@@ -89,7 +83,7 @@ public class CompanyBaseActivity extends ModuleBaseActivity {
         configToolbar(
                 getResources().getColor(R.color.color_of_ffffff),
                 getResources().getColor(R.color.color_of_333333),
-                R.drawable.icon_back_36,
+                R.drawable.ic_back_3d3d3d,
                 getResources().getColor(R.color.color_of_333333),
                 true
         );

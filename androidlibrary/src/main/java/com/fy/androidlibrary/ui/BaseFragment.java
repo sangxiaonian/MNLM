@@ -22,6 +22,7 @@ import com.githang.statusbar.StatusBarCompat;
 public class BaseFragment extends Fragment  {
 
     protected Context mContext;
+    private Bundle bundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +42,13 @@ public class BaseFragment extends Fragment  {
      * @param bundle
      */
     public void setBundle(Bundle bundle){
-
+        this.bundle=bundle;
     }
+
+    public Bundle getBundle(){
+        return bundle;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

@@ -111,6 +111,38 @@ public class ConvertUtils {
     }
 
     /**
+     * 获取当前所处的时间段
+     * @return 0 凌晨 1上午 2中午 3下午 4晚上
+     */
+    public static int getTime() {
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("HH");
+        String str = df.format(date);
+        int a = Integer.parseInt(str);
+        int flag=0;
+        if (a >= 0 && a <= 6) {
+//            System.out.println("凌晨");
+            flag=0;
+        }
+        if (a > 6 && a <= 12) {
+//            System.out.println("上午");
+            flag=1;
+        }
+        if (a > 12 && a <= 13) {
+//            System.out.println("中午");
+            flag=2;
+        }
+        if (a > 13 && a <= 18) {
+//            System.out.println("下午");
+            flag=3;
+        }
+        if (a > 18 && a <= 24) {
+            flag=4;
+//            System.out.println("晚上");
+        }
+        return flag;
+    }
+    /**
      * 字符串转换成日期
      *
      * @param str    2018 年11月11日
