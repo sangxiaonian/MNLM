@@ -39,7 +39,7 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                     for (int i = 0; i < 3; i++) {
                         infoBeans.add(new OrderInfoBean());
                     }
-                    view.showOrderInfo(infoBeans,mode.getType());
+                    view.showOrderInfo(infoBeans,mode.getRole());
                 }
             })
         ;

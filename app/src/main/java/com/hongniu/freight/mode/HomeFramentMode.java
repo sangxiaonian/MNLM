@@ -1,5 +1,6 @@
 package com.hongniu.freight.mode;
 
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.HomeInfoBean;
 
@@ -10,7 +11,7 @@ import io.reactivex.Observable;
  */
 public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
 
-    private int type;//获取当前类型0 托运人 1 承运人 2 司机
+    private Role role;//获取当前类型0 托运人 1 承运人 2 司机
 
     public HomeFramentMode() {
     }
@@ -32,7 +33,7 @@ public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
      * 2 司机
      */
     @Override
-    public int getType() {
-        return type;
+    public Role getRole() {
+        return role;
     }
 }

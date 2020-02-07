@@ -33,5 +33,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation project(path: ':companylibrary')
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
-
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
 }

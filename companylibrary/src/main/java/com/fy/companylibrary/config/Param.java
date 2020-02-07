@@ -12,7 +12,7 @@ public class Param {
 
 
     public static final int PAGE_SIZE = 20;
-    public static final int SUCCESS_FLAG = 10;//返回数据成功的标记
+    public static final int SUCCESS_FLAG = 200;//返回数据成功的标记
     public static final String TRAN = "TRAN";
     public static final String TYPE = "TYPE";
 

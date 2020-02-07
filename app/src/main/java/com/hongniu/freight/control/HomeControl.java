@@ -1,6 +1,7 @@
 package com.hongniu.freight.control;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 
@@ -25,7 +26,7 @@ public class HomeControl {
          * @param infoBeans
          * @param type
          */
-        void showOrderInfo(List<OrderInfoBean> infoBeans, int type);
+        void showOrderInfo(List<OrderInfoBean> infoBeans, Role type);
     }
     public interface IHomeFragmentPresent {
         /**
@@ -46,7 +47,7 @@ public class HomeControl {
          *
          * @return 获取当前类型 0 1 2
          */
-        int getType();
+        Role getRole();
     }
 
 }

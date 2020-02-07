@@ -18,10 +18,10 @@ public class NetObserver<T> extends BaseObserver<CommonBean<T>> {
     @Override
     public void onNext(CommonBean<T> result) {
         super.onNext(result);
-        if (result.getBFlag() == Param.SUCCESS_FLAG) {
-            doOnSuccess(result.getTData());
+        if (result.getCode() == Param.SUCCESS_FLAG) {
+            doOnSuccess(result.getData());
         } else {
-            onError(new NetException(result.getBFlag(), result.getMsg()));
+            onError(new NetException(result.getCode(), result.getMsg()));
         }
     }
 

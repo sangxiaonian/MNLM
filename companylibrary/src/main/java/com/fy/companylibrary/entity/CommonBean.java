@@ -7,36 +7,36 @@ package com.fy.companylibrary.entity;
  */
 public class CommonBean<T> {
 
-    //10：成功；20：逻辑错误；30：系统错误；50：登录错误；
-    private int BFlag;
+    //200：成功；401：用户不存在（openid或token不存在或错误）
+    private int code;
 
     //错误原因
-    private String Msg;
+    private String msg;
 
     //具体信息
-    private T TData;
+    private T data;
 
-    public int getBFlag() {
-        return BFlag;
+    public int getCode() {
+        return code;
     }
 
-    public void setBFlag(int BFlag) {
-        this.BFlag = BFlag;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMsg() {
-        return Msg;
+        return msg;
     }
 
     public void setMsg(String msg) {
-        Msg = msg;
+        this.msg = msg;
     }
 
-    public T getTData() {
-        return TData;
+    public T getData() {
+        return data;
     }
 
-    public void setTData(T TData) {
-        this.TData = TData;
+    public void setData(T data) {
+        this.data = data;
     }
 }

@@ -15,5 +15,7 @@ public class ArouterParamApp {
     public static final String fragment_home="/app/fragment_home";
     public static final String fragment_home_type="/app/fragment_home_type";
     public static final String activity_main="/app/activity_main";
+    public static final String activity_my_order="/app/activity_my_order";
+    public static final String fragment_my_order="/app/fragment_my_order";
 
 }

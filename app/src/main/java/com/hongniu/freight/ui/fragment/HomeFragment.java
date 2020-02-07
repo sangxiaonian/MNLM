@@ -20,6 +20,7 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -134,15 +135,14 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     /**
      * 显示订单信息
-     *
-     * @param infoBeans
+     *  @param infoBeans
      * @param type
      */
     @Override
-    public void showOrderInfo(List<OrderInfoBean> infoBeans, int type) {
+    public void showOrderInfo(List<OrderInfoBean> infoBeans, Role type) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(Param.TRAN, (ArrayList<? extends Parcelable>) infoBeans);
-        bundle.putInt(Param.TYPE,type);
+        bundle.putSerializable(Param.TYPE,type);
         FragmentTransaction fragmentTransaction = getChildFragmentManager()
                 .beginTransaction();
         if (fragment == null) {

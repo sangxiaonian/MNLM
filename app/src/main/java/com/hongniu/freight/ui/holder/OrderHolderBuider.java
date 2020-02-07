@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.OrderInfoBean;
 
 /**
@@ -11,14 +12,14 @@ import com.hongniu.freight.entity.OrderInfoBean;
  */
 public class OrderHolderBuider {
 
-    private int type;//0 托运人 1 承运人 2 司机
+    private Role type;//0 托运人 1 承运人 2 司机
     private ViewGroup parent;
     private Context context;
     public OrderHolderBuider(Context context ) {
          this.context=context;
     }
 
-    public OrderHolderBuider setType(int type) {
+    public OrderHolderBuider setType(Role type) {
         this.type = type;
         return this;
     }
@@ -30,9 +31,9 @@ public class OrderHolderBuider {
 
     public BaseHolder<OrderInfoBean> build(){
         BaseHolder<OrderInfoBean> holder;
-        if (type==1){
+        if (type==Role.CARRIER){
             holder=new OrderCYRHolder(context,parent);
-        }else if (type==2){
+        }else if (type==Role.DRIVER){
             holder=new OrderDriverHolder(context,parent);
         }else {
             holder=new OrderTYRHolder(context,parent);

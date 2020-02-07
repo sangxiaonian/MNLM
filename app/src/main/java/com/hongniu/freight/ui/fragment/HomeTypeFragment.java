@@ -12,10 +12,12 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.OrderHolderBuider;
 
@@ -31,17 +33,19 @@ import java.util.List;
  * 2 司机
  */
 @Route(path = ArouterParamApp.fragment_home_type)
-public class HomeTypeFragment extends CompanyBaseFragment {
+public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClickListener {
 
-    private int type;
+    private Role type;
     private List<OrderInfoBean> beans;
-    RecyclerView rv;
+    private RecyclerView rv;
+    private View ll_more;
     private XAdapter<OrderInfoBean> adapter;
 
     @Override
     protected View initView(LayoutInflater inflater) {
         View inflate = inflater.inflate(R.layout.fragment_home_type, null);
         rv = inflate.findViewById(R.id.rv);
+        ll_more = inflate.findViewById(R.id.ll_more);
         return inflate;
     }
 
@@ -73,12 +77,19 @@ public class HomeTypeFragment extends CompanyBaseFragment {
         upDate();
     }
 
+    @Override
+    protected void initListener() {
+        super.initListener();
+        ll_more.setOnClickListener(this);
+    }
+
     private void upDate() {
         if (getBundle() == null) {
             return;
         }
         ArrayList<OrderInfoBean> list = getBundle().getParcelableArrayList(Param.TRAN);
-        type=getBundle().getInt(Param.TYPE,0);
+        type= (Role) getBundle().getSerializable(Param.TYPE);
+
         if (!CollectionUtils.isEmpty(list)) {
             if (beans != null) {
                 beans.clear();
@@ -90,4 +101,17 @@ public class HomeTypeFragment extends CompanyBaseFragment {
         }
     }
 
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.ll_more){
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
+                    .withSerializable(Param.TRAN,type)
+                    .navigation(mContext);
+        }
+    }
 }
