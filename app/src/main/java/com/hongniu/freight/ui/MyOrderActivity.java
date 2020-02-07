@@ -54,7 +54,9 @@ public class MyOrderActivity extends CompanyBaseActivity implements OnOptionsSel
         setToolbarRightClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.getInstance().show("搜索数据");
+               ArouterUtils.getInstance().builder(ArouterParamApp.activity_search_order)
+                       .withSerializable(Param.TRAN,role)
+                       .navigation(mContext);
             }
         });
         initView();

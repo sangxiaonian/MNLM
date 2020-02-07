@@ -2,7 +2,20 @@
 <resources>
 
 
-
+    <declare-styleable name="SearchTitleView">
+        <attr name="searchEditable" format="boolean" />
+        <attr name="searchTitle" format="string" />
+        <attr name="searchTitleColor" format="color" />
+        <attr name="searchTitleHind" format="string" />
+        <attr name="searchTitleHindColor" format="color" />
+        <attr name="searchBackGround" format="reference" />
+        <attr name="searchIcon" format="reference" />
+        <attr name="searchClearIcon" format="reference" />
+        <attr name="searchGravity" format="enum" >
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+        </attr>
+    </declare-styleable>
 
     <!--圆形控件 CircularImageView  CirculaViewFramlayout-->
     <declare-styleable name="CircularFrameLayout">

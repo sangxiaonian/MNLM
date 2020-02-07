@@ -96,7 +96,7 @@
             android:textSize="14dp"
             android:layout_marginLeft="31dp"
             app:layout_constraintEnd_toEndOf="@id/line_right"
-            app:layout_constraintStart_toStartOf="@id/line_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_line"
             tools:text="发车地址" />
 

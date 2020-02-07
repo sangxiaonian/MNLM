@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.recycle.adapter.SelectAdapter;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
@@ -22,21 +20,20 @@ import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.androidlibrary.widget.recycle.utils.XLineDivider;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
-import com.fy.companylibrary.ui.RefrushActivity;
 import com.fy.companylibrary.ui.RefrushFragmet;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.MyOrderPresenter;
 import com.hongniu.freight.ui.holder.OrderHolderBuider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.http.Path;
 
 /**
  * @data 2020/2/7
@@ -44,7 +41,7 @@ import retrofit2.http.Path;
  * @Description 我的订单页面
  */
 @Route(path = ArouterParamApp.fragment_my_order)
-public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements MyOrderControl.IMyOrderView {
+public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements MyOrderControl.IMyOrderView, SelectAdapter.SingleSelectedListener<String> {
 
     private RecyclerView rvTitle;
     MyOrderControl.IMyOrderPresenter presenter;
@@ -62,7 +59,8 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter.initData();
+        Role role = (Role) getBundle().getSerializable(Param.TRAN);
+        presenter.initData(role);
         queryData(true);
 
     }
@@ -113,7 +111,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
      * @param titles
      */
     @Override
-    public void initTitles(List<SelectAdapter.SelectInfoBean<String>> titles) {
+    public void initTitles(List<String> titles) {
         if (selectAdapter==null) {
             selectAdapter = new SelectAdapter<String>(mContext, rvTitle) {
                 @Override
@@ -128,6 +126,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
             };
             selectAdapter.setCanEmpty(false);
             selectAdapter.setSingle(true);
+            selectAdapter.setSingleSelectedListener(this);
             selectAdapter.setItemLayoutID(R.layout.item_order_title);
             rvTitle.setAdapter(selectAdapter);
             XLineDivider tagLine = new XLineDivider()
@@ -138,6 +137,19 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
                     .hideLast(false);
             rvTitle.addItemDecoration(tagLine);
         }
-        selectAdapter.setList(titles);
+        selectAdapter.notifyAllItem(titles,0);
+    }
+
+    /**
+     * 单选时候
+     *
+     * @param position
+     * @param selected
+     * @param check
+     */
+    @Override
+    public void onSingleSelected(int position, String selected, boolean check) {
+        presenter.switchStatus(position);
+        queryData(true,true);
     }
 }

@@ -1,6 +1,5 @@
 package com.hongniu.freight.control;
 
-import com.fy.androidlibrary.widget.recycle.adapter.SelectAdapter;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.Role;
@@ -19,13 +18,14 @@ public class MyOrderControl {
          * 初始化标题
          * @param titles
          */
-        void initTitles(List<SelectAdapter.SelectInfoBean<String>> titles);
+        void initTitles(List<String> titles);
     }
     public interface IMyOrderPresenter{
         /**
          * 初始化数据
+         * @param role
          */
-        void initData();
+        void initData(Role role);
         /**
          * 获取当前角色类型
          * @return
@@ -39,8 +39,17 @@ public class MyOrderControl {
          * @return
          */
         Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrder(int currentPage);
+
+        /**
+         * 切换当前状态
+         * @param position
+         */
+        void switchStatus(int position);
     }
     public interface IMyOrderMode{
+        void saveRole(Role role);
+        void saveStatus(int position);
+
         /**
          * 获取当前角色类型
          * @return
@@ -51,7 +60,7 @@ public class MyOrderControl {
          * 获取头部选择标题
          * @return
          */
-        List<SelectAdapter.SelectInfoBean<String>> getTitles();
+        List<String> getTitles();
 
 
         /**
@@ -60,5 +69,6 @@ public class MyOrderControl {
          * @return
          */
         Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrder(int currentPage);
+
     }
 }

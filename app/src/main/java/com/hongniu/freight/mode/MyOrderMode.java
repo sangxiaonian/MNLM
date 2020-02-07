@@ -1,6 +1,5 @@
 package com.hongniu.freight.mode;
 
-import com.fy.androidlibrary.widget.recycle.adapter.SelectAdapter;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.App;
@@ -10,6 +9,7 @@ import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -20,12 +20,22 @@ import io.reactivex.Observable;
 public class MyOrderMode implements MyOrderControl.IMyOrderMode {
 
     private Role role;
-    private List<SelectAdapter.SelectInfoBean<String>> titles;
+    private List<String> titles;
+    private int status;
 
     public MyOrderMode() {
-        role = Role.SHIPPER;
         titles = new ArrayList<>();
 
+    }
+
+    @Override
+    public void saveRole(Role role) {
+        this.role=role;
+    }
+
+    @Override
+    public void saveStatus(int position) {
+        this.status=position;
     }
 
     /**
@@ -44,7 +54,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
      * @return
      */
     @Override
-    public List<SelectAdapter.SelectInfoBean<String>> getTitles() {
+    public List<String> getTitles() {
         titles.clear();
         String[] stringArray = {};
         if (role == Role.SHIPPER) {
@@ -54,11 +64,12 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
         } else if (role == Role.CARRIER) {
             stringArray = App.app.getResources().getStringArray(R.array.carrier_status);
         }
-        for (int i = 0; i < stringArray.length; i++) {
-            SelectAdapter.SelectInfoBean<String> stringSelectInfoBean = new SelectAdapter.SelectInfoBean<>();
-            stringSelectInfoBean.setT(stringArray[i]);
-            titles.add(stringSelectInfoBean);
-        }
+        titles.addAll(Arrays.asList(stringArray));
+//        for (int i = 0; i < stringArray.length; i++) {
+//            SelectAdapter.SelectInfoBean<String> stringSelectInfoBean = new SelectAdapter.SelectInfoBean<>();
+//            stringSelectInfoBean.setT(stringArray[i]);
+//            titles.add(stringSelectInfoBean);
+//        }
         return titles;
     }
 

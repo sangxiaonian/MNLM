@@ -23,9 +23,11 @@ public class MyOrderPresenter implements MyOrderControl.IMyOrderPresenter {
 
     /**
      * 初始化数据
+     * @param role
      */
     @Override
-    public void initData() {
+    public void initData(Role role) {
+        mode.saveRole(role);
         view.initTitles(mode.getTitles());
     }
 
@@ -48,5 +50,15 @@ public class MyOrderPresenter implements MyOrderControl.IMyOrderPresenter {
     @Override
     public Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrder(int currentPage) {
         return mode.queryOrder(currentPage);
+    }
+
+    /**
+     * 切换当前状态
+     *
+     * @param position
+     */
+    @Override
+    public void switchStatus(int position) {
+        mode.saveStatus(position);
     }
 }
