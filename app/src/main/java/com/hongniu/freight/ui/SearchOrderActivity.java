@@ -1,14 +1,11 @@
 package com.hongniu.freight.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.widget.SearchTitleView;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
@@ -21,7 +18,8 @@ import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.OrderInfoBean;
-import com.hongniu.freight.ui.holder.OrderHolderBuider;
+import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
 import com.hongniu.freight.utils.Utils;
 
 import java.util.List;
@@ -83,7 +81,7 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
 
     @Override
     protected Observable<CommonBean<PageBean<OrderInfoBean>>> getListDatas() {
-        return Utils.creatDemoOrderInfo();
+        return Utils.createDemoOrderInfo();
     }
 
     @Override
@@ -94,6 +92,7 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(role)
+                        .setOrderButtonClickListener(new XOrderButtonClcik())
                         .build()
                         ;
             }

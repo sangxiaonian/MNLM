@@ -14,17 +14,23 @@ import io.reactivex.Observable;
  */
 public class Utils {
 
-    public static Observable<CommonBean<PageBean<OrderInfoBean>>> creatDemoOrderInfo(){
+    public static Observable<CommonBean<PageBean<OrderInfoBean>>> createDemoOrderInfo(){
         CommonBean<PageBean<OrderInfoBean>> common = new CommonBean<>();
         common.setCode(200);
         PageBean<OrderInfoBean> pageBean = new PageBean<>();
         common.setData(pageBean);
         List<OrderInfoBean> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            list.add(new OrderInfoBean());
+            OrderInfoBean orderInfoBean = new OrderInfoBean();
+            orderInfoBean.setStatus(i);
+            list.add(orderInfoBean);
         }
         pageBean.setData(list);
         return Observable.just(common);
     }
+
+
+
+
 
 }

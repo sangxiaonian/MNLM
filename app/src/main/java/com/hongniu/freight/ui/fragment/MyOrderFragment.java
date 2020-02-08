@@ -29,7 +29,8 @@ import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.MyOrderPresenter;
-import com.hongniu.freight.ui.holder.OrderHolderBuider;
+import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
 
 import java.util.List;
 
@@ -99,6 +100,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(presenter.getType())
+                        .setOrderButtonClickListener(new XOrderButtonClcik())
                         .build()
                         ;
             }

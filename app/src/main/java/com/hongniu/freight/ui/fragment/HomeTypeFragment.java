@@ -19,7 +19,8 @@ import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.OrderInfoBean;
-import com.hongniu.freight.ui.holder.OrderHolderBuider;
+import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
                 return new OrderHolderBuider(mContext).setParent(parent)
+                        .setOrderButtonClickListener(new XOrderButtonClcik())
                         .setType(type)
                         .build();
 

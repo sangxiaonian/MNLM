@@ -7,6 +7,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,11 +66,6 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
             stringArray = App.app.getResources().getStringArray(R.array.carrier_status);
         }
         titles.addAll(Arrays.asList(stringArray));
-//        for (int i = 0; i < stringArray.length; i++) {
-//            SelectAdapter.SelectInfoBean<String> stringSelectInfoBean = new SelectAdapter.SelectInfoBean<>();
-//            stringSelectInfoBean.setT(stringArray[i]);
-//            titles.add(stringSelectInfoBean);
-//        }
         return titles;
     }
 
@@ -81,15 +77,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
      */
     @Override
     public Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrder(int currentPage) {
-        CommonBean<PageBean<OrderInfoBean>> common = new CommonBean<>();
-        common.setCode(200);
-        PageBean<OrderInfoBean> pageBean = new PageBean<>();
-        common.setData(pageBean);
-        List<OrderInfoBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add(new OrderInfoBean());
-        }
-        pageBean.setData(list);
-        return Observable.just(common);
+
+        return Utils.createDemoOrderInfo();
     }
 }

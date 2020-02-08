@@ -9,6 +9,19 @@ import android.os.Parcelable;
  */
 public class OrderInfoBean implements Parcelable {
 
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public OrderInfoBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -16,15 +29,14 @@ public class OrderInfoBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-    }
-
-    public OrderInfoBean() {
+        dest.writeInt(this.status);
     }
 
     protected OrderInfoBean(Parcel in) {
+        this.status = in.readInt();
     }
 
-    public static final Parcelable.Creator<OrderInfoBean> CREATOR = new Parcelable.Creator<OrderInfoBean>() {
+    public static final Creator<OrderInfoBean> CREATOR = new Creator<OrderInfoBean>() {
         @Override
         public OrderInfoBean createFromParcel(Parcel source) {
             return new OrderInfoBean(source);

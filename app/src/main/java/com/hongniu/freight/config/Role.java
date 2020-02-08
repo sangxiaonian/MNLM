@@ -8,6 +8,7 @@ public enum  Role {
     SHIPPER(0,"托运人"),//托运人
     CARRIER(1,"承运人"),//承运人
     DRIVER(2,"司机"),//司机
+    PLATFORM(4,"平台"),//司机
     ;
     private final String name;
     private final int type;
