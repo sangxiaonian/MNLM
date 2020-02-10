@@ -166,7 +166,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:showDividers="middle">
+                <LinearLayout
+                    android:id="@+id/ll_order_center"
+                    style="@style/person_center_parent">
 
+                    <ImageView
+                        style="@style/person_center_img_left"
+                        android:src="@mipmap/ic_launcher" />
+
+                    <TextView
+                        style="@style/person_center_text"
+                        android:text="接单中心" />
+
+                    <ImageView
+                        style="@style/person_center_img_right"
+                        />
+
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_identification"
                     style="@style/person_center_parent">

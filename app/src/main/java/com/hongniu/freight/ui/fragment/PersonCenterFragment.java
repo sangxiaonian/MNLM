@@ -36,6 +36,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     private ViewGroup ll_service;//联系客服
     private ViewGroup ll_about_us;//关于我们
     private ViewGroup ll_quit;//推出账号
+    private ViewGroup ll_order_center;//接单中心
 
     private boolean hideBalance = true;//是否隐藏余额
 
@@ -53,6 +54,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         ll_service = inflate.findViewById(R.id.ll_service);
         ll_about_us = inflate.findViewById(R.id.ll_about_us);
         ll_quit = inflate.findViewById(R.id.ll_quit);
+        ll_order_center = inflate.findViewById(R.id.ll_order_center);
         return inflate;
     }
 
@@ -74,6 +76,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         ll_service.setOnClickListener(this);
         ll_about_us.setOnClickListener(this);
         ll_quit.setOnClickListener(this);
+        ll_order_center.setOnClickListener(this);
     }
 
     /**
@@ -124,6 +127,11 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     })
                     .creatDialog(mContext)
                     .show();
+        }else if (v.getId() == R.id.ll_order_center) {
+            ArouterUtils.getInstance()
+                    .builder(ArouterParamApp.activity_order_center)
+                    .navigation(mContext);
+
         }
 
 

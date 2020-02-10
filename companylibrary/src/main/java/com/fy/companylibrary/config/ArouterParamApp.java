@@ -44,5 +44,9 @@ public class ArouterParamApp {
      * 我的车辆信息
      */
     public static final String activity_my_car_list = "/app/activity_my_car_list";
+   /**
+     * 接单中心
+     */
+    public static final String activity_order_center = "/app/activity_order_center";
 
 }
