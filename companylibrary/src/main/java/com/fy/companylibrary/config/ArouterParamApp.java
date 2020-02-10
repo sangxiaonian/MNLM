@@ -26,6 +26,10 @@ public class ArouterParamApp {
      */
     public static final String activity_search_order = "/app/activity_search_order";
     /**
+     * 首页订单数据
+     */
+    public static final String fragment_order_home = "/app/fragment_order_home";
+    /**
      * 订单详情也
      */
     public static final String activity_order_detail = "/app/activity_order_detail";

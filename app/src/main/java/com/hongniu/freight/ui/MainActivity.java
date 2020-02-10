@@ -82,7 +82,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             }
         } else if (v.getId() == R.id.order) {
             if (orderFragment==null) {
-                orderFragment=new HomeFragment();
+                orderFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_order_home).navigation();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 if (currentFragment!=null){
                     transaction.hide(currentFragment);
