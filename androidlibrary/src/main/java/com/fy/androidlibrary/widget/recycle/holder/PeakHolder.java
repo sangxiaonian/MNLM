@@ -30,6 +30,7 @@ public class PeakHolder<T> extends RecyclerView.ViewHolder {
 
     }
 
+
     public PeakHolder(Context context, ViewGroup parent, int layoutID) {
         this(LayoutInflater.from(context).inflate(layoutID, parent, false));
         this.context = context;

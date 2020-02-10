@@ -134,7 +134,7 @@
                         android:layout_marginLeft="15dp"
                         android:text="******"
                         android:textColor="@color/color_of_040000"
-                        android:textSize="16dp"
+                        android:textSize="24dp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toStartOf="@id/icon_eyes"
                         app:layout_constraintStart_toEndOf="@id/view_line"
@@ -142,9 +142,12 @@
 
                     <ImageView
                         android:id="@+id/icon_eyes"
-                        android:layout_width="17dp"
-                        android:layout_height="17dp"
-                        android:src="@mipmap/ic_launcher"
+                        android:paddingTop="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingBottom="20dp"
+                        android:layout_width="37dp"
+                        android:layout_height="57dp"
+                        android:src="@mipmap/attention_forbid"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

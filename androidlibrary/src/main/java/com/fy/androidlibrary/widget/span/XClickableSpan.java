@@ -1,4 +1,4 @@
-package com.fy.androidlibrary.utils;
+package com.fy.androidlibrary.widget.span;
 
 import android.graphics.Color;
 import android.text.TextPaint;

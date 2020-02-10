@@ -27,7 +27,7 @@ import androidx.annotation.Nullable;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.widget.editext.PointLengthFilter;
-import com.fy.androidlibrary.utils.SpaceFilter;
+import com.fy.androidlibrary.widget.editext.SpaceFilter;
 import com.fy.companylibrary.R;
 
 

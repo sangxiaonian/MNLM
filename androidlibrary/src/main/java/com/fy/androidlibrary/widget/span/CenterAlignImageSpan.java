@@ -1,4 +1,4 @@
-package com.fy.androidlibrary.utils;
+package com.fy.androidlibrary.widget.span;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,13 @@ import android.text.style.ImageSpan;
 
 import androidx.annotation.NonNull;
 
+/**
+ *@data  2020/2/10
+ *@Author PING
+ *@Description
+ * 剧中对其的ImageSpan
+ *
+ */
 public class CenterAlignImageSpan extends ImageSpan {
 
     public CenterAlignImageSpan(Drawable drawable) {

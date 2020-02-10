@@ -15,6 +15,7 @@ public class Param {
     public static final int SUCCESS_FLAG = 200;//返回数据成功的标记
     public static final String TRAN = "TRAN";
     public static final String TYPE = "TYPE";
+    public static final String ABOUT_US ="https://api.hongniudai.cn/static/html/service.html" ;
 
 
 

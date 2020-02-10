@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -36,7 +37,7 @@ import java.util.List;
 public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHomeFragmentView, View.OnClickListener {
     private TextView tv_title;//标题
     private View search;//搜索
-    private View icon_eyes;//查看余额
+    private ImageView icon_eyes;//查看余额
     private TextView tv_count;//余额
     private TextView tv_count_tyr;//托运人订单数量
     private TextView tv_count_cyr;//承运人订单数量
@@ -46,6 +47,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     private View view_driver;//司机
     private View bt_learn_more;//了解更多
 
+    private boolean hideBalance=true;//是否隐藏余额
 
     private CompanyBaseFragment fragment;
     HomeControl.IHomeFragmentPresent present;
@@ -82,6 +84,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     protected void initData() {
         super.initData();
         present.initDate(this);
+        switchBalance(hideBalance);
     }
 
     @Override
@@ -91,6 +94,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         view_chengyunren.setOnClickListener(this);
         view_tuoyunren.setOnClickListener(this);
         view_driver.setOnClickListener(this);
+        icon_eyes.setOnClickListener(this);
 
 
     }
@@ -180,8 +184,15 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             ToastUtils.getInstance().show("托运人");
         } else if (v.getId() == R.id.view_driver) {
             ToastUtils.getInstance().show("司机");
+        }else if (v.getId() == R.id.icon_eyes) {
+           switchBalance(!hideBalance);
         }
 
 
+    }
+    private void switchBalance(boolean hideBalance){
+        this.hideBalance=hideBalance;
+        tv_count.setText(hideBalance?"******":"1820");
+        icon_eyes.setImageResource(hideBalance?R.mipmap.attention_forbid:R.mipmap.attention);
     }
 }

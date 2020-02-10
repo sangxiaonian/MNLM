@@ -1,15 +1,10 @@
 package com.hongniu.freight.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,9 +13,9 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
-import com.fy.androidlibrary.utils.CenterAlignImageSpan;
+import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.androidlibrary.utils.CommonUtils;
-import com.fy.androidlibrary.utils.XClickableSpan;
+import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
@@ -28,10 +23,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.control.OrderDetailControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.OrderDetailPresenter;
-import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
 import com.hongniu.freight.ui.holder.order.helper.OrderUtils;
-
-import org.w3c.dom.Text;
 
 /**
  * @data 2020/2/8

@@ -10,9 +10,12 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.widget.DialogComment;
 
 /**
@@ -34,7 +37,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     private ViewGroup ll_about_us;//关于我们
     private ViewGroup ll_quit;//推出账号
 
-    private boolean hideBalance=true;//是否隐藏余额
+    private boolean hideBalance = true;//是否隐藏余额
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -85,7 +88,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         } else if (v.getId() == R.id.ll_identification) {
             ToastUtils.getInstance().show("ll_identification");
         } else if (v.getId() == R.id.ll_car) {
-            ToastUtils.getInstance().show("ll_car");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_car_list).navigation(mContext);
         } else if (v.getId() == R.id.ll_feedback) {
             ToastUtils.getInstance().show("ll_feedback");
         } else if (v.getId() == R.id.ll_service) {
@@ -104,7 +107,8 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     .show();
 
         } else if (v.getId() == R.id.ll_about_us) {
-            ToastUtils.getInstance().show("ll_about_us");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_about_us).navigation(mContext);
+
         } else if (v.getId() == R.id.ll_quit) {
             new DialogComment.Builder()
                     .setBtLeft("取消")
@@ -125,9 +129,9 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
 
     }
 
-    private void switchBalance(boolean hideBalance){
-        this.hideBalance=hideBalance;
-        tv_count.setText(hideBalance?"******":"1820");
-        icon_eyes.setImageResource(hideBalance?R.mipmap.attention_forbid:R.mipmap.attention);
+    private void switchBalance(boolean hideBalance) {
+        this.hideBalance = hideBalance;
+        tv_count.setText(hideBalance ? "******" : "1820");
+        icon_eyes.setImageResource(hideBalance ? R.mipmap.attention_forbid : R.mipmap.attention);
     }
 }
