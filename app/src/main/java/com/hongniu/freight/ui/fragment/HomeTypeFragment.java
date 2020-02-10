@@ -111,8 +111,9 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.ll_more){
-            ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN,type)
+
+            ArouterUtils.getInstance()
+                    .builder(ArouterParamApp.activity_order_receiving)
                     .navigation(mContext);
         }
     }

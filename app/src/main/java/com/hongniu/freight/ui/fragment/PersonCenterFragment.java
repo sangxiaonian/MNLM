@@ -129,7 +129,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     .show();
         }else if (v.getId() == R.id.ll_order_center) {
             ArouterUtils.getInstance()
-                    .builder(ArouterParamApp.activity_order_center)
+                    .builder(ArouterParamApp.activity_order_receiving)
                     .navigation(mContext);
 
         }

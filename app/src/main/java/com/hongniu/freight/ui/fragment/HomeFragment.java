@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
@@ -179,11 +180,17 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         if (v.getId() == R.id.bt_learn_more) {
             ToastUtils.getInstance().show("了解更多");
         } else if (v.getId() == R.id.view_chengyunren) {
-            ToastUtils.getInstance().show("承运人");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
+                    .withSerializable(Param.TRAN,Role.CARRIER)
+                    .navigation(mContext);
         } else if (v.getId() == R.id.view_tuoyunren) {
-            ToastUtils.getInstance().show("托运人");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
+                    .withSerializable(Param.TRAN,Role.SHIPPER)
+                    .navigation(mContext);
         } else if (v.getId() == R.id.view_driver) {
-            ToastUtils.getInstance().show("司机");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
+                    .withSerializable(Param.TRAN,Role.DRIVER)
+                    .navigation(mContext);
         }else if (v.getId() == R.id.icon_eyes) {
            switchBalance(!hideBalance);
         }

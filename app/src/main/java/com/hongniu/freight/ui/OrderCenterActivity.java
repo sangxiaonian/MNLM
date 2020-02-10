@@ -25,7 +25,7 @@ import io.reactivex.Observable;
 /**
  * @data 2020/2/10
  * @Author PING
- * @Description 接单中心
+ * @Description 我要接单
  */
 @Route(path = ArouterParamApp.activity_order_center)
 public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> {
