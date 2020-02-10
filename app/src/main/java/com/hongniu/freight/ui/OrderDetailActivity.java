@@ -225,6 +225,16 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         tv_car_detail.setText(builder);
     }
 
+    /**
+     * 更改底部按钮数据
+     *
+     * @param infoBean
+     */
+    @Override
+    public void showButton(OrderInfoBean infoBean) {
+
+    }
+
     private void append(int color, SpannableStringBuilder builder, String msg) {
         int nameStart = builder.length();
         builder.append(msg);

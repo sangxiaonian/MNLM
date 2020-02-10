@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Freight</string>
+    <string name="service">联系客服 400–111-111</string>
+    <string name="call">400111111</string>
 </resources>

@@ -53,7 +53,6 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
         View inflate = inflater.inflate(R.layout.fragment_my_order, null);
         rvTitle = inflate.findViewById(R.id.rv_title);
         return inflate;
-
     }
 
 

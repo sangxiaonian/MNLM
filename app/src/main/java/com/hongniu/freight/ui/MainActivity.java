@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
@@ -112,7 +113,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             }
         } else if (v.getId() == R.id.my) {
             if (myFragment==null) {
-                myFragment=new HomeFragment();
+                myFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_person_center).navigation();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 if (currentFragment!=null){
                     transaction.hide(currentFragment);

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="person_center_parent">
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="person_center_img_left">
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_width">22dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="person_center_text">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/color_of_040000</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">50dp</item>
+    </style>
+
+
+    <style name="person_center_img_right">
+        <item name="android:layout_height">13dp</item>
+        <item name="android:layout_width">13dp</item>
+        <item name="android:src">@drawable/icon_go_999999</item>
+
+    </style>
+</resources>

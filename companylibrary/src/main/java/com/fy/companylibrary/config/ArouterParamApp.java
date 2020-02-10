@@ -18,6 +18,10 @@ public class ArouterParamApp {
     public static final String activity_my_order="/app/activity_my_order";
     public static final String fragment_my_order="/app/fragment_my_order";
     /**
+     * 个人中心
+     */
+    public static final String fragment_person_center="/app/fragment_person_center";
+    /**
      * 搜索订单
      */
     public static final String activity_search_order="/app/activity_search_order";
