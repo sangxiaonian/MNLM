@@ -66,5 +66,19 @@
         <attr name="hl_bottomShow" format="boolean" />
 
     </declare-styleable>
-
+    <declare-styleable name="DashedView">
+        <!-- 虚线颜色 -->
+        <attr name="dashedColor" format="color" />
+        <!-- 方向 -->
+        <attr name="dashedOritation" >
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+        </attr>
+        <!-- 每段线长 -->
+        <attr name="lineLength" format="dimension"/>
+        <!-- 间隔长度 -->
+        <attr name="spaceLength" format="dimension"/>
+        <!-- 虚线粗 -->
+        <attr name="dashedWidth" format="dimension"/>
+    </declare-styleable>
 </resources>

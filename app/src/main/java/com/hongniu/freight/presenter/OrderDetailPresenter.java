@@ -29,6 +29,6 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
         view.initDriverInfo(infoBean);
         view.showOrderDetail(infoBean);
         view.showCarInfo(infoBean);
-        view.showButton(infoBean);
+        view.showButton(mode.getButtonMsg());
     }
 }

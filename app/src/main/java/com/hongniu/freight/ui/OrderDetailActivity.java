@@ -3,6 +3,7 @@ package com.hongniu.freight.ui;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
@@ -44,6 +45,9 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     private TextView tv_driver_contact;//司机信息
     private TextView tv_detail;//订单详情
     private TextView tv_car_detail;//车辆信息
+    private TextView bt_left;//
+    private TextView bt_right;//
+
 
     OrderDetailControl.IOrderDetailPresenter presenter;
 
@@ -74,6 +78,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         tv_driver_contact = findViewById(R.id.tv_driver_contact);
         tv_detail = findViewById(R.id.tv_detail);
         tv_car_detail = findViewById(R.id.tv_car_detail);
+        bt_left = findViewById(R.id.bt_left);
+        bt_right = findViewById(R.id.bt_right);
     }
 
     @Override
@@ -81,6 +87,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         super.initListener();
         img_start_chat.setOnClickListener(this);
         img_end_chat.setOnClickListener(this);
+        bt_left.setOnClickListener(this);
+        bt_right.setOnClickListener(this);
     }
 
     protected void setWhitToolBar(String title) {
@@ -136,7 +144,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int titleColor = getResources().getColor(R.color.color_or_666666);
         int contactColor = getResources().getColor(R.color.color_or_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor,"司机姓名",color,"测试司机姓名",builder);
+        append(titleColor, "司机姓名", color, "测试司机姓名", builder);
         append(titleColor, builder, "司机手机");
         builder.append(gap);
         append(color, builder, "15515871516");
@@ -170,14 +178,14 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int color = getResources().getColor(R.color.color_of_040000);
         int titleColor = getResources().getColor(R.color.color_or_666666);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor,"实际运费",color,"1600元",builder);
-        append(titleColor,"货物运费",color,"1500元",builder);
-        append(titleColor,"下单时间",color,"2020-11-12",builder);
-        append(titleColor,"发货时间",color,"2020-11-11",builder);
-        append(titleColor,"货物名称",color,"测试货物名称",builder);
-        append(titleColor,"货物信息",color,"测试货物",builder);
-        append(titleColor,"支付方式",color,"在线支付",builder);
-        builder.delete(builder.length()-1,builder.length());
+        append(titleColor, "实际运费", color, "1600元", builder);
+        append(titleColor, "货物运费", color, "1500元", builder);
+        append(titleColor, "下单时间", color, "2020-11-12", builder);
+        append(titleColor, "发货时间", color, "2020-11-11", builder);
+        append(titleColor, "货物名称", color, "测试货物名称", builder);
+        append(titleColor, "货物信息", color, "测试货物", builder);
+        append(titleColor, "支付方式", color, "在线支付", builder);
+        builder.delete(builder.length() - 1, builder.length());
         tv_detail.setText(builder);
     }
 
@@ -193,8 +201,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int titleColor = getResources().getColor(R.color.color_or_666666);
         int contactColor = getResources().getColor(R.color.color_or_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor,"车牌号码",color,"浙A28394",builder);
-        append(titleColor,"承运人姓名",color,"测试承运人",builder);
+        append(titleColor, "车牌号码", color, "浙A28394", builder);
+        append(titleColor, "承运人姓名", color, "测试承运人", builder);
         append(titleColor, builder, "承运人手机");
         builder.append(gap);
         append(color, builder, "15515871516");
@@ -223,8 +231,11 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      * @param infoBean
      */
     @Override
-    public void showButton(OrderInfoBean infoBean) {
-
+    public void showButton(String[] infoBean) {
+        bt_left.setVisibility(TextUtils.isEmpty(infoBean[0])?View.GONE:View.VISIBLE);
+        bt_right.setVisibility(TextUtils.isEmpty(infoBean[1])?View.GONE:View.VISIBLE);
+        bt_left.setText(TextUtils.isEmpty(infoBean[0])?"":infoBean[0]);
+        bt_right.setText(TextUtils.isEmpty(infoBean[1])?"":infoBean[1]);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {
@@ -234,7 +245,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         builder.setSpan(new ForegroundColorSpan(color), nameStart, nameEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
-    private void append(int titleColor, String title, int color, String content, SpannableStringBuilder builder ) {
+    private void append(int titleColor, String title, int color, String content, SpannableStringBuilder builder) {
         append(titleColor, builder, title);
         builder.append(gap);
         append(color, builder, content);
@@ -252,6 +263,12 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
             ToastUtils.getInstance().show("和发货人聊天");
         } else if (v.getId() == R.id.img_end_chat) {
             ToastUtils.getInstance().show("和收货人聊天");
+
+        }else if (v.getId() == R.id.bt_left) {
+            ToastUtils.getInstance().show("左侧按钮");
+
+        }else if (v.getId() == R.id.bt_right) {
+            ToastUtils.getInstance().show("右侧按钮");
 
         }
 

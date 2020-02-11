@@ -42,7 +42,7 @@ public class OrderDetailControl {
          * 更改底部按钮数据
          * @param infoBean
          */
-        void showButton(OrderInfoBean infoBean);
+        void showButton(String[] infoBean);
     }
     public interface IOrderDetailPresenter{
         /**
@@ -56,5 +56,14 @@ public class OrderDetailControl {
          * 储存订单页面传入的数据
          */
         void saveInfo(OrderInfoBean infoBean);
+
+        int getStatus();
+
+        /**
+         * 获取底部按钮文案
+         * @return
+         */
+        String[] getButtonMsg();
+
     }
 }
