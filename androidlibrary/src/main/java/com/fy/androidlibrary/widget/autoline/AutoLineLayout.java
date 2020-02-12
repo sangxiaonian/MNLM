@@ -144,12 +144,12 @@ public class AutoLineLayout extends ViewGroup {
     }
 
     private void autoWidthLayout() {
-        int startX = 0, startY = 0;//左上角坐标
         int count = getChildCount();
-        int left = 0;
-        int top = 0;
+        int left = getPaddingLeft();
+        int top = getPaddingTop();
         int right = 0;
         int bottom = 0;
+        int startX = left, startY = top;//左上角坐标
         int lineHeight = 0;
         int vGap = helper == null ? 0 : helper.getvGap();
         int hGap = helper == null ? 0 : helper.gethGap();
@@ -164,7 +164,7 @@ public class AutoLineLayout extends ViewGroup {
             int chlidHeight = child.getMeasuredHeight();
             if (chlidWidth + startX > getWidth() - getPaddingRight() - getPaddingLeft()) {
                 //换行
-                startX = 0;
+                startX = left;
                 startY += lineHeight;
                 left = startX;
                 top = startY;

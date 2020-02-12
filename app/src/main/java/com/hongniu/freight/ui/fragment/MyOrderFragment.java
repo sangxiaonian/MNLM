@@ -128,7 +128,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
             selectAdapter.setCanEmpty(false);
             selectAdapter.setSingle(true);
             selectAdapter.setSingleSelectedListener(this);
-            selectAdapter.setItemLayoutID(R.layout.item_order_title);
+            selectAdapter.setItemLayoutID(R.layout.item_title);
             rvTitle.setAdapter(selectAdapter);
             XLineDivider tagLine = new XLineDivider()
                     .setmOrientation(LinearLayoutManager.HORIZONTAL)

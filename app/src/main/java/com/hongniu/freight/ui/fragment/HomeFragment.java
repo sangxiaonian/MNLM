@@ -47,6 +47,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     private View view_tuoyunren;//托运人
     private View view_driver;//司机
     private View bt_learn_more;//了解更多
+    private View shadow;//了解更多
 
     private boolean hideBalance=true;//是否隐藏余额
 
@@ -67,6 +68,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         tv_count_driver = inflate.findViewById(R.id.tv_count_driver);
         view_driver = inflate.findViewById(R.id.view_driver);
         bt_learn_more = inflate.findViewById(R.id.bt_learn_more);
+        shadow = inflate.findViewById(R.id.shadow);
         fragment = new HomeTypeFragment();
         present = new HomeFramentPresent(this);
         return inflate;
@@ -95,6 +97,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         view_chengyunren.setOnClickListener(this);
         view_tuoyunren.setOnClickListener(this);
         view_driver.setOnClickListener(this);
+        shadow.setOnClickListener(this);
         icon_eyes.setOnClickListener(this);
 
 
@@ -193,6 +196,10 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                     .navigation(mContext);
         }else if (v.getId() == R.id.icon_eyes) {
            switchBalance(!hideBalance);
+        }else if (v.getId() == R.id.shadow) {
+            ArouterUtils.getInstance()
+                    .builder(ArouterParamApp.activity_my_coffers)
+                    .navigation(mContext);
         }
 
 
