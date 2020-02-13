@@ -16,6 +16,7 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.utils.PickerDialogUtils;
+import com.hongniu.freight.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class FindCarActivity extends CompanyBaseActivity implements View.OnClick
         initView();
         initData();
         initListener();
+        check(false);
     }
 
     @Override
@@ -51,13 +53,13 @@ public class FindCarActivity extends CompanyBaseActivity implements View.OnClick
         bt_sum = findViewById(R.id.bt_sum);
         item_price = findViewById(R.id.item_price);
         item_car_type = findViewById(R.id.item_car_type);
-          pickerView = PickerDialogUtils.initPickerDialog(mContext, this);
+        pickerView = PickerDialogUtils.initPickerDialog(mContext, this);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        carTypes=new ArrayList<>();
+        carTypes = new ArrayList<>();
         carTypes.add("特种车");
         carTypes.add("小火车");
         carTypes.add("工程车");
@@ -82,6 +84,7 @@ public class FindCarActivity extends CompanyBaseActivity implements View.OnClick
      */
     @Override
     public void onClick(View v) {
+        Utils.setButton(bt_sum, true);
 
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
@@ -89,7 +92,7 @@ public class FindCarActivity extends CompanyBaseActivity implements View.OnClick
                 finish();
             }
         } else if (v.getId() == R.id.item_car_type) {
-           pickerView.show();
+            pickerView.show();
         }
 
     }
@@ -99,18 +102,23 @@ public class FindCarActivity extends CompanyBaseActivity implements View.OnClick
         item_car_type.setTextCenter(carTypes.get(options1));
     }
 
-    private boolean check(boolean showAlert){
-        if (TextUtils.isEmpty(item_car_type.getTextCenter())){
-            if (showAlert){
+    private boolean check(boolean showAlert) {
+        Utils.setButton(bt_sum, false);
+
+        if (TextUtils.isEmpty(item_car_type.getTextCenter())) {
+            if (showAlert) {
                 ToastUtils.getInstance().show(item_car_type.getTextCenterHide());
             }
             return false;
-        } if (TextUtils.isEmpty(item_price.getTextCenter())){
-            if (showAlert){
+        }
+        if (TextUtils.isEmpty(item_price.getTextCenter())) {
+            if (showAlert) {
                 ToastUtils.getInstance().show(item_price.getTextCenterHide());
             }
             return false;
         }
+        Utils.setButton(bt_sum, true);
+
         return true;
     }
 

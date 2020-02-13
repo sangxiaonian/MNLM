@@ -51,6 +51,7 @@ public class SearchTitleView extends FrameLayout implements SearchTextWatcher.Se
     SearchTextWatcher textWatcher;
     private OnClickListener clickListener;
     OnSearchClickListener onSearchClickListener;
+    OnClearClickListener clearClickListener;
     public SearchTitleView(@NonNull Context context) {
         this(context, null);
     }
@@ -102,7 +103,21 @@ public class SearchTitleView extends FrameLayout implements SearchTextWatcher.Se
         setTitleColor(titleColor);
         setSearchEditable(searchEditable);
         view_shadow.setOnClickListener(this);
+        imgClear.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clearClickListener!=null) {
+                    clearClickListener.onClear();
+                }else {
+                    setTitle("");
+                }
+            }
+        });
 
+    }
+
+    public void setOnClearClickListener(OnClearClickListener clearClickListener) {
+        this.clearClickListener = clearClickListener;
     }
 
     public void setOnSearchClickListener(OnSearchClickListener onSearchClickListener) {
@@ -231,5 +246,8 @@ public class SearchTitleView extends FrameLayout implements SearchTextWatcher.Se
 
     public interface OnSearchClickListener{
         void onSearch(String msg);
+    }
+    public interface OnClearClickListener{
+        void onClear();
     }
 }

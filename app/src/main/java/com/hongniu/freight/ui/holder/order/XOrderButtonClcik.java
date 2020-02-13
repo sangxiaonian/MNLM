@@ -123,8 +123,9 @@ public class XOrderButtonClcik implements OrderButtonClickListener {
      */
     @Override
     public void onSendOrderClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("立即派单");
-
+//        ToastUtils.getInstance().show("立即派单");
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
+                .navigation(mContext);
     }
 
     /**
@@ -137,6 +138,7 @@ public class XOrderButtonClcik implements OrderButtonClickListener {
 //        ToastUtils.getInstance().show("发布找车");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_find_car)
                 .navigation(mContext);
+
     }
 
     /**

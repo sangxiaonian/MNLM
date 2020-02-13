@@ -1,5 +1,8 @@
 package com.hongniu.freight.utils;
 
+import android.view.View;
+import android.widget.Button;
+
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -36,5 +39,17 @@ public class Utils {
      */
     public static int getShipperType() {
         return 1;
+    }
+
+    public static void setButton(View button, boolean enable) {
+        if (button==null){
+            return;
+        }
+        if (enable){
+            button.setAlpha(1f);
+        }else {
+            button.setAlpha(0.7f);
+
+        }
     }
 }

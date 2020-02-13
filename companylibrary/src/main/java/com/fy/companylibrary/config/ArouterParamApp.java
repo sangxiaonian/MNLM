@@ -37,6 +37,14 @@ public class ArouterParamApp {
      * 发布找车
      */
     public static final String activity_find_car = "/app/activity_find_car";
+    /**
+     * 立即派单
+     */
+    public static final String activity_assign_order = "/app/activity_assign_order";
+    /**
+     * 立刻派单搜索除车辆
+     */
+    public static final String activity_search_car = "/app/activity_search_car";
 
     public static final String activity_h5 = "/app/activity_h5";
 
