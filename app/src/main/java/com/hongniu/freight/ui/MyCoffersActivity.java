@@ -106,6 +106,7 @@ public class MyCoffersActivity extends CompanyBaseActivity implements AutoSingle
     protected void initListener() {
         super.initListener();
         tv_month_bill.setOnClickListener(this);
+        tv_balance_of_account.setOnClickListener(this);
     }
 
     @Override
@@ -159,6 +160,10 @@ public class MyCoffersActivity extends CompanyBaseActivity implements AutoSingle
         if (v.getId()==R.id.tv_month_bill){
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_bill_month)
                     .navigation(mContext);
+        }else if (v.getId()==R.id.tv_balance_of_account){
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_balance)
+                    .navigation(mContext);
+
         }
     }
 }

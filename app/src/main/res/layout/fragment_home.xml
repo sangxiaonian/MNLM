@@ -84,7 +84,6 @@
                 app:hl_shadowBackColor="@color/color_of_ffffff"
                 app:hl_shadowColor="#2a000000"
                 app:hl_shadowLimit="5dp"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search">

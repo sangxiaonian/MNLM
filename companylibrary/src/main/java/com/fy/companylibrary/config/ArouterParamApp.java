@@ -53,7 +53,14 @@ public class ArouterParamApp {
      * 月账单收入
      */
     public static final String fragment_bill_month_income = "/app/fragment_bill_month_income";
-
+    /**
+     * 余额
+     */
+    public static final String activity_balance = "/app/activity_balance";
+    /**
+     * 余额提现
+     */
+    public static final String activity_balance_pending = "/app/activity_balance_pending";
     /**
      * 关于我们
      */
@@ -78,5 +85,6 @@ public class ArouterParamApp {
      * 账单余额明细和带入张明细数据
      */
     public static final String fragment_bill_month = "/app/fragment_bill_month";
+
 
 }
