@@ -34,10 +34,10 @@ public class PickerDialogUtils {
         Calendar selectedDate = Calendar.getInstance();
 
         Calendar startDate = Calendar.getInstance();
-        startDate.set(2017, 0, 23);
+        startDate.set(selectedDate.get(Calendar.YEAR)-3, 0, 23);
 
         Calendar endDate = Calendar.getInstance();
-        endDate.set(2020, 11, 28);
+        endDate.set(selectedDate.get(Calendar.YEAR)+3, 11, 28);
         int size = 15;
         int contentSize = 23;
         if (type == null) {

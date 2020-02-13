@@ -180,6 +180,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                         />
 
                 </LinearLayout>
@@ -197,6 +198,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                          />
 
                 </LinearLayout>
@@ -215,6 +217,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                           />
 
                 </LinearLayout>
@@ -233,6 +236,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                         />
 
                 </LinearLayout>
@@ -251,6 +255,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                           />
 
                 </LinearLayout>
@@ -269,6 +274,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                     />
 
                 </LinearLayout>
@@ -287,6 +293,7 @@
 
                     <ImageView
                         style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
                        />
 
                 </LinearLayout>

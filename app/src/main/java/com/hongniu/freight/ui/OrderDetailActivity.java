@@ -96,7 +96,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
             tvToolbarTitle.setText(title);
         }
         configToolbar(
-                getResources().getColor(R.color.color_or_21222c),
+                getResources().getColor(R.color.color_of_21222c),
                 getResources().getColor(R.color.color_of_ffffff),
                 R.drawable.ic_back_white,
                 getResources().getColor(R.color.color_of_ffffff),
@@ -141,8 +141,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     public void initDriverInfo(OrderInfoBean infoBean) {
         tv_driver_contact.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
-        int titleColor = getResources().getColor(R.color.color_or_666666);
-        int contactColor = getResources().getColor(R.color.color_or_3d5688);
+        int titleColor = getResources().getColor(R.color.color_of_666666);
+        int contactColor = getResources().getColor(R.color.color_of_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
         append(titleColor, "司机姓名", color, "测试司机姓名", builder);
         append(titleColor, builder, "司机手机");
@@ -176,7 +176,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     public void showOrderDetail(OrderInfoBean infoBean) {
         tv_detail.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
-        int titleColor = getResources().getColor(R.color.color_or_666666);
+        int titleColor = getResources().getColor(R.color.color_of_666666);
         SpannableStringBuilder builder = new SpannableStringBuilder();
         append(titleColor, "实际运费", color, "1600元", builder);
         append(titleColor, "货物运费", color, "1500元", builder);
@@ -198,8 +198,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     public void showCarInfo(OrderInfoBean infoBean) {
         tv_car_detail.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
-        int titleColor = getResources().getColor(R.color.color_or_666666);
-        int contactColor = getResources().getColor(R.color.color_or_3d5688);
+        int titleColor = getResources().getColor(R.color.color_of_666666);
+        int contactColor = getResources().getColor(R.color.color_of_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
         append(titleColor, "车牌号码", color, "浙A28394", builder);
         append(titleColor, "承运人姓名", color, "测试承运人", builder);

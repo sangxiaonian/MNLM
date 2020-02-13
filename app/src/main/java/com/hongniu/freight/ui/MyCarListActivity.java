@@ -18,14 +18,10 @@ import com.fy.androidlibrary.widget.span.RoundedBackgroundSpan;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
-import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.CarInfoBean;
-import com.hongniu.freight.entity.OrderInfoBean;
-import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.entity.CarInfoListBean;
 
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +33,7 @@ import io.reactivex.Observable;
  * @Description 我的车辆
  */
 @Route(path = ArouterParamApp.activity_my_car_list)
-public class MyCarListActivity extends RefrushActivity<CarInfoBean> {
+public class MyCarListActivity extends RefrushActivity<CarInfoListBean> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +75,14 @@ public class MyCarListActivity extends RefrushActivity<CarInfoBean> {
     }
 
     @Override
-    protected Observable<CommonBean<PageBean<CarInfoBean>>> getListDatas() {
-        CommonBean<PageBean<CarInfoBean>> common = new CommonBean<>();
+    protected Observable<CommonBean<PageBean<CarInfoListBean>>> getListDatas() {
+        CommonBean<PageBean<CarInfoListBean>> common = new CommonBean<>();
         common.setCode(200);
-        PageBean<CarInfoBean> pageBean = new PageBean<>();
+        PageBean<CarInfoListBean> pageBean = new PageBean<>();
         common.setData(pageBean);
-        List<CarInfoBean> list = new ArrayList<>();
+        List<CarInfoListBean> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            CarInfoBean orderInfoBean = new CarInfoBean();
+            CarInfoListBean orderInfoBean = new CarInfoListBean();
             list.add(orderInfoBean);
         }
         pageBean.setData(list);
@@ -94,13 +90,13 @@ public class MyCarListActivity extends RefrushActivity<CarInfoBean> {
     }
 
     @Override
-    protected XAdapter<CarInfoBean> getAdapter(List<CarInfoBean> datas) {
-        return new XAdapter<CarInfoBean>(mContext, datas) {
+    protected XAdapter<CarInfoListBean> getAdapter(List<CarInfoListBean> datas) {
+        return new XAdapter<CarInfoListBean>(mContext, datas) {
             @Override
-            public BaseHolder<CarInfoBean> initHolder(ViewGroup parent, int viewType) {
-                return new BaseHolder<CarInfoBean>(context, parent, R.layout.item_car) {
+            public BaseHolder<CarInfoListBean> initHolder(ViewGroup parent, int viewType) {
+                return new BaseHolder<CarInfoListBean>(context, parent, R.layout.item_car) {
                     @Override
-                    public void initView(View itemView, int position, CarInfoBean data) {
+                    public void initView(View itemView, int position, CarInfoListBean data) {
                         super.initView(itemView, position, data);
                         TextView tv_title = itemView.findViewById(R.id.tv_title);
                         TextView tv_car_type = itemView.findViewById(R.id.tv_car_type);

@@ -46,7 +46,7 @@
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_marginLeft="11dp"
-                android:src="@drawable/icon_search_999999"
+                app:srcCompat="@drawable/icon_search_999999"
                 app:layout_constraintBottom_toBottomOf="@id/search"
                 app:layout_constraintStart_toStartOf="@id/search"
                 app:layout_constraintTop_toTopOf="@id/search" />
@@ -68,7 +68,7 @@
                 android:layout_height="17dp"
                 android:layout_marginLeft="11dp"
                 android:layout_marginEnd="14dp"
-                android:src="@drawable/icon_scan_999999"
+                app:srcCompat="@drawable/icon_scan_999999"
                 app:layout_constraintBottom_toBottomOf="@id/search"
                 app:layout_constraintEnd_toEndOf="@id/search"
                 app:layout_constraintTop_toTopOf="@id/search" />

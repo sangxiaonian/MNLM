@@ -56,8 +56,10 @@
     <color name="color_of_040000">#040000</color>
     <color name="color_of_8d8d8d">#8d8d8d</color>
     <color name="color_of_cccccc">#cccccc</color>
-    <color name="color_or_21222c">#21222c</color>
-    <color name="color_or_666666">#666666</color>
-    <color name="color_or_3d5688">#3D5688</color>
+    <color name="color_of_21222c">#21222c</color>
+    <color name="color_of_666666">#666666</color>
+    <color name="color_of_3d5688">#3D5688</color>
+    <color name="color_of_1890ff">#1890FF</color>
+    <color name="color_of_e50000">#E50000</color>
 
 </resources>

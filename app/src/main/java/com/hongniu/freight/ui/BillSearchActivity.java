@@ -1,24 +1,22 @@
-package com.hongniu.freight.ui.fragment;
+package com.hongniu.freight.ui;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.widget.SearchTitleView;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.companylibrary.config.ArouterParamApp;
-import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
-import com.fy.companylibrary.ui.RefrushFragmet;
+import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.BillInfoListBean;
+import com.hongniu.freight.ui.holder.BillHolder;
 import com.hongniu.freight.ui.holder.EmptyHolder;
 
 import java.util.ArrayList;
@@ -26,28 +24,39 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-/**
- * 作者：  on 2020/2/12.
- * <p>
- * 账单余额明细和带入张明细数据
- */
-@Route(path = ArouterParamApp.fragment_bill_month)
-public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
 
-    private int type;
+/**
+ * @data 2020/2/13
+ * @Author PING
+ * @Description 账单搜索
+ */
+@Route(path = ArouterParamApp.activity_bill_search)
+public class BillSearchActivity extends RefrushActivity<BillInfoListBean> implements View.OnClickListener, SearchTitleView.OnSearchClickListener {
+    private SearchTitleView searchTitleView;
+    private TextView tv_cancel;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        type = getBundle().getInt(Param.TYPE, 0);
-        queryData(true);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bill_search);
+        setWhitToolBar("");
+        initView();
+        initData();
+        initListener();
     }
 
     @Override
-    protected View initView(LayoutInflater inflater) {
-        View inflate = inflater.inflate(R.layout.fragment_bill_month, null);
-        return inflate;
+    protected void initView() {
+        super.initView();
+        tv_cancel = findViewById(R.id.tv_cancel);
+        searchTitleView = findViewById(R.id.search);
+    }
 
+    @Override
+    protected void initListener() {
+        super.initListener();
+        tv_cancel.setOnClickListener(this);
+        searchTitleView.setOnSearchClickListener(this);
     }
 
     /**
@@ -58,7 +67,9 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
      */
     @Override
     protected PeakHolder getEmptyHolder(ViewGroup parent) {
-        return new EmptyHolder(mContext, parent);
+        EmptyHolder emptyHolder = new EmptyHolder(mContext, parent);
+        emptyHolder.setEmptyMsg("未找到相应账单");
+        return emptyHolder;
     }
 
     @Override
@@ -81,23 +92,26 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
         return new XAdapter<BillInfoListBean>(mContext, datas) {
             @Override
             public BaseHolder<BillInfoListBean> initHolder(ViewGroup parent, int viewType) {
-                return new BaseHolder<BillInfoListBean>(context, parent, R.layout.item_bill) {
-                    @Override
-                    public void initView(View itemView, int position, BillInfoListBean data) {
-                        super.initView(itemView, position, data);
-                        TextView tvCount = itemView.findViewById(R.id.tv_count);
-                        TextView tvStatus = itemView.findViewById(R.id.tv_statute);
-                        TextView tv_des = itemView.findViewById(R.id.tv_des);
-                        TextView tv_time = itemView.findViewById(R.id.tv_time);
-                        tvStatus.setText("订单运费收入");
-                        tvCount.setText("20000");
-                        tv_des.setText("订单号 HN292928383322012");
-                        tv_time.setText("收款时间 2019-02-02 10:11:23");
-
-
-                    }
-                };
+                return new BillHolder(mContext, parent);
             }
         };
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_cancel) {
+            finish();
+        }
+    }
+
+    @Override
+    public void onSearch(String msg) {
+        queryData(true);
+
     }
 }

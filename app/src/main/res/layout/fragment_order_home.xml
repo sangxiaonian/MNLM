@@ -19,7 +19,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_gravity="center_vertical|end"
-            android:src="@drawable/icon_search_434445"
+            app:srcCompat="@drawable/icon_search_434445"
             android:layout_height="39dp"/>
     </FrameLayout>
     <LinearLayout
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
-                android:src="@mipmap/filtrate"
+                app:srcCompat="@drawable/filtrate_040000"
                 android:layout_width="8dp"
                 android:layout_marginLeft="3.5dp"
                 android:layout_height="8dp"/>

@@ -29,7 +29,7 @@
     <style name="person_center_img_right">
         <item name="android:layout_height">13dp</item>
         <item name="android:layout_width">13dp</item>
-        <item name="android:src">@drawable/icon_go_999999</item>
+
 
     </style>
 </resources>

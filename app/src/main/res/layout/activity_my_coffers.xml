@@ -63,7 +63,7 @@
                 android:layout_alignRight="@id/tv_balance_of_account"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical|end"
-                android:src="@drawable/icon_go_999999" />
+                app:srcCompat="@drawable/icon_go_999999" />
 
         </RelativeLayout>
 

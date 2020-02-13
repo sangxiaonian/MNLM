@@ -38,7 +38,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/color_or_21222c"
+                android:background="@color/color_of_21222c"
                 app:layout_constraintBottom_toBottomOf="@id/view_flag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="24dp"
-                    android:textColor="@color/color_or_666666"
+                    android:textColor="@color/color_of_666666"
                     android:textSize="14dp"
                     tools:text="发车联系人  15151515151" />
 
@@ -208,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="24dp"
-                    android:textColor="@color/color_or_666666"
+                    android:textColor="@color/color_of_666666"
                     android:textSize="14dp"
                     tools:text="收货联系人  15151515151" />
 

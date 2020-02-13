@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -35,7 +36,7 @@
             <ImageView
                 android:layout_marginLeft="8dp"
                 android:layout_width="9dp"
-                android:src="@drawable/icon_go_999999"
+                app:srcCompat="@drawable/icon_go_999999"
                 android:layout_height="9dp"/>
         </LinearLayout>
 

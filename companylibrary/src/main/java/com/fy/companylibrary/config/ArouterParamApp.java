@@ -37,6 +37,24 @@ public class ArouterParamApp {
     public static final String activity_h5 = "/app/activity_h5";
 
     /**
+     * 月账单
+     */
+    public static final String activity_bill_month = "/app/activity_bill_month";
+    /**
+     * 账单搜索
+     */
+    public static final String activity_bill_search = "/app/activity_bill_search";
+    /**
+     * 月账单支出
+     */
+    public static final String fragment_bill_month_expend = "/app/fragment_bill_month_expend";
+    public static final String fragment_bill_month_child = "/app/fragment_bill_month_child";
+    /**
+     * 月账单收入
+     */
+    public static final String fragment_bill_month_income = "/app/fragment_bill_month_income";
+
+    /**
      * 关于我们
      */
     public static final String activity_about_us = "/app/activity_about_us";

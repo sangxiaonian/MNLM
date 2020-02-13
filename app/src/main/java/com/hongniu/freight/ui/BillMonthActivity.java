@@ -1,22 +1,20 @@
 package com.hongniu.freight.ui;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.net.rx.BaseObserver;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.autoline.AutoLineLayout;
 import com.fy.androidlibrary.widget.autoline.helper.AutoLayoutHelper;
-import com.fy.androidlibrary.widget.autoline.helper.AutoTagAdapter;
 import com.fy.androidlibrary.widget.autoline.inter.AutoSingleSelectListener;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -24,73 +22,67 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.CoffersInfoBean;
 import com.hongniu.freight.ui.adapter.AutoTagSingleAdapter;
+import com.hongniu.freight.utils.PickerDialogUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import io.reactivex.Observable;
 
 /**
  * @data 2020/2/12
  * @Author PING
- * @Description 我的金库
+ * @Description 月账单
  */
-@Route(path = ArouterParamApp.activity_my_coffers)
-public class MyCoffersActivity extends CompanyBaseActivity implements AutoSingleSelectListener<String>, View.OnClickListener {
-    AutoLineLayout autoLineLayout;//标签
-    TextView tv_balance_of_account;//余额
-    TextView tv_balance_of_unentry;//待入账金额
-    TextView tv_month_bill;//月账单
-    private AutoTagAdapter<String> tagAdapter;
+@Route(path = ArouterParamApp.activity_bill_month)
+public class BillMonthActivity extends CompanyBaseActivity implements AutoSingleSelectListener<String>, OnTimeSelectListener, View.OnClickListener {
 
-    private CompanyBaseFragment currentFragment,balanceFragment,waiteFragment;
+    private AutoTagSingleAdapter tagAdapter;
+    private AutoLineLayout autoLineLayout;
+    private ViewGroup ll_time;
+    private TextView tv_time;
+    private TimePickerView timePicker;
+    private CompanyBaseFragment currentFragment, expendFragment, incomeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_coffers);
-        setWhitToolBar("我的金库");
+        setContentView(R.layout.activity_bill_month);
+        setWhitToolBar("");
+        setToolbarSrcRight(R.drawable.icon_search_434445);
+        setToolbarRightClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArouterUtils.getInstance()
+                        .builder(ArouterParamApp.activity_bill_search)
+                        .navigation();
+            }
+        });
         initView();
         initData();
         initListener();
         switchFragment(0);
-        queryInfo();
     }
-
-    private void queryInfo() {
-        Observable.just(new CoffersInfoBean())
-            .subscribe(new BaseObserver<CoffersInfoBean>(this){
-                @Override
-                public void onNext(CoffersInfoBean result) {
-                    super.onNext(result);
-                    tv_balance_of_account.setText("10000");
-                    tv_balance_of_unentry.setText("10元");
-                }
-            });
-    }
-
     @Override
     protected void initView() {
         super.initView();
-
         autoLineLayout = findViewById(R.id.auto_layout);
-        tv_balance_of_account = findViewById(R.id.tv_balance_of_account);
-        tv_balance_of_unentry = findViewById(R.id.tv_balance_of_unentry);
-        tv_month_bill = findViewById(R.id.tv_month_bill);
+        ll_time = findViewById(R.id.ll_time);
+        tv_time = findViewById(R.id.tv_time);
 
-
+        boolean[] type = new boolean[]{true, true, false, false, false, false};
+         timePicker = PickerDialogUtils.initTimePicker(mContext, this, type);
     }
+
 
     @Override
     protected void initData() {
         super.initData();
         List<String> list = new ArrayList<>();
-        list.add("余额明细");
-        list.add("待入账明细");
+        list.add("支出");
+        list.add("收入");
 
-        tagAdapter = new AutoTagSingleAdapter(mContext) ;
+        tagAdapter = new AutoTagSingleAdapter(mContext);
         tagAdapter.setDatas(list);
         tagAdapter.setSingleSelectedListener(this);
         tagAdapter.setSelectsPosition(0);
@@ -99,55 +91,58 @@ public class MyCoffersActivity extends CompanyBaseActivity implements AutoSingle
         helper.sethGap(DeviceUtils.dip2px(mContext, 25));
         autoLineLayout.setLayoutHelper(helper);
         autoLineLayout.setAdapter(tagAdapter);
-
+        tv_time.setText(ConvertUtils.formatTime(new Date(),"yyyy年MM月"));
     }
 
     @Override
     protected void initListener() {
         super.initListener();
-        tv_month_bill.setOnClickListener(this);
+        ll_time.setOnClickListener(this);
     }
 
     @Override
     public void onAutoSingleSelected(int position, String s, boolean check) {
-
         switchFragment(position);
-
     }
-
     private void switchFragment(int position) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (currentFragment !=null){
             transaction.hide(currentFragment);
         }
         if (position==0){
-            if (balanceFragment==null) {
-                balanceFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month).navigation();
-                transaction.add(R.id.content,balanceFragment);
+            if (expendFragment ==null) {
+                expendFragment = (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month_expend).navigation();
+                transaction.add(R.id.content, expendFragment);
                 Bundle bundle=new Bundle();
                 bundle.putInt(Param.TYPE,position);
-                balanceFragment.setBundle(bundle);
+                expendFragment.setBundle(bundle);
             }else {
-                transaction.show(balanceFragment);
+                transaction.show(expendFragment);
             }
 
-            currentFragment=balanceFragment;
+            currentFragment= expendFragment;
         }else {
-            if (waiteFragment==null) {
-                waiteFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month).navigation();
-                transaction.add(R.id.content,waiteFragment);
+            if (incomeFragment ==null) {
+                incomeFragment = (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month_income).navigation();
+                transaction.add(R.id.content, incomeFragment);
                 Bundle bundle=new Bundle();
                 bundle.putInt(Param.TYPE,position);
-                waiteFragment.setBundle(bundle);
+                incomeFragment.setBundle(bundle);
             }else {
-                transaction.show(waiteFragment);
+                transaction.show(incomeFragment);
             }
 
-            currentFragment=waiteFragment;
+            currentFragment= incomeFragment;
         }
         transaction.commit();
     }
 
+
+    @Override
+    public void onTimeSelect(Date date, View v) {
+        String time = ConvertUtils.formatTime(date, "yyyy年MM月");
+        tv_time.setText(time);
+    }
 
     /**
      * Called when a view has been clicked.
@@ -156,9 +151,8 @@ public class MyCoffersActivity extends CompanyBaseActivity implements AutoSingle
      */
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.tv_month_bill){
-            ArouterUtils.getInstance().builder(ArouterParamApp.activity_bill_month)
-                    .navigation(mContext);
+        if (v.getId()==R.id.ll_time){
+            timePicker.show();
         }
     }
 }
