@@ -92,7 +92,7 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(role)
-                        .setOrderButtonClickListener(new XOrderButtonClcik())
+                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
                         .build()
                         ;
             }

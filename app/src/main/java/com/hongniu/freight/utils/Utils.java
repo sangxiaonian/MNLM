@@ -30,7 +30,11 @@ public class Utils {
     }
 
 
-
-
-
+    /**
+     * 获取托运人类别
+     * @return 0 个人 1平台
+     */
+    public static int getShipperType() {
+        return 1;
+    }
 }

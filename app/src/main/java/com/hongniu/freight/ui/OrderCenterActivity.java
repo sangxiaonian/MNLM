@@ -64,7 +64,7 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> {
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(Role.CARRIER)
-                        .setOrderButtonClickListener(new XOrderButtonClcik())
+                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
                         .build()
                         ;
             }

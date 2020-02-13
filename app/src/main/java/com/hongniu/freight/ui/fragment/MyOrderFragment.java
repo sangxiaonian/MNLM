@@ -99,7 +99,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(presenter.getType())
-                        .setOrderButtonClickListener(new XOrderButtonClcik())
+                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
                         .build()
                         ;
             }

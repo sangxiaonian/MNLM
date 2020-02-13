@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
-                app:srcCompat="@drawable/filtrate_040000"
+                app:srcCompat="@drawable/filtrate_ffffff"
                 android:layout_width="8dp"
                 android:layout_marginLeft="3.5dp"
                 android:layout_height="8dp"/>

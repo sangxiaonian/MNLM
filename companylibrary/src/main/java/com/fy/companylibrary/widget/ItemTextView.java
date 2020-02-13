@@ -5,17 +5,19 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fy.androidlibrary.utils.DeviceUtils;
-import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.widget.editext.PointLengthFilter;
 import com.fy.androidlibrary.widget.editext.SpaceFilter;
 import com.fy.companylibrary.R;
@@ -55,7 +56,7 @@ public class ItemTextView extends FrameLayout {
     private OnClickListener onClickListener;
     private int maxLength;
     private int centerType;
-    private int centerGravity=-1;
+    private int centerGravity = -1;
 
     Paint mPaint;
     private boolean showLine;
@@ -71,6 +72,9 @@ public class ItemTextView extends FrameLayout {
     private ImageView imgLeft;
     private View inflate;
     private boolean centerBold;
+
+    OnCenterChangeListener changeListener;
+    private float srcRightSize;
 
     public ItemTextView(@NonNull Context context) {
         this(context, null, 0);
@@ -107,7 +111,8 @@ public class ItemTextView extends FrameLayout {
             maxLength = ta.getInt(R.styleable.ItemTextView_centerLength, -1);
             centerType = ta.getInt(R.styleable.ItemTextView_centerType, 0);
             centerGravity = ta.getInt(R.styleable.ItemTextView_centerGravity, -1);
-            srcRight = ta.getInt(R.styleable.ItemTextView_srcRight, -1);
+            srcRight = ta.getResourceId(R.styleable.ItemTextView_srcRight, 0);
+            srcRightSize = ta.getDimension(R.styleable.ItemTextView_srcRightSize, DeviceUtils.dip2px(context,13));
             colorRight = ta.getColor(R.styleable.ItemTextView_colorRight, Color.parseColor("#333333"));
             colorCenter = ta.getColor(R.styleable.ItemTextView_colorCenter, Color.parseColor("#333333"));
             colorCenterHide = ta.getColor(R.styleable.ItemTextView_colorCenterHide, Color.parseColor("#c8c8c8"));
@@ -133,9 +138,12 @@ public class ItemTextView extends FrameLayout {
         setTextCenter(textCenter);
         setTextCenterGravite(centerGravity);
 
-        setSrcRight(srcRight);
+        if (srcRight != 0) {
+            setSrcRight(srcRight);
+        }
         setSrcshow(srcshow);
         setColorRight(colorRight);
+        setColorRightSize(srcRightSize);
         setColorLeft(colorLeft);
         setColorCenter(colorCenter);
         setColorCenterHide(colorCenterHide);
@@ -150,6 +158,33 @@ public class ItemTextView extends FrameLayout {
         setEditable(editable);
         setTextCenterBold(centerBold);
 
+        etCenter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (changeListener != null) {
+                    changeListener.onCenterChange(s.toString());
+                }
+            }
+        });
+
+    }
+
+    public void setColorRightSize(float srcRightSize) {
+        this.srcRightSize = srcRightSize;
+        ViewGroup.LayoutParams params = imgGo.getLayoutParams();
+        params.width = (int) srcRightSize;
+        params.height = (int) srcRightSize;
+        imgGo.setLayoutParams(params);
     }
 
     private void setTextCenterGravite(int centerGravity) {
@@ -245,9 +280,7 @@ public class ItemTextView extends FrameLayout {
 
     public void setSrcRight(int srcRight) {
         this.srcRight = srcRight;
-        if (srcRight > 0) {
-            imgGo.setImageResource(srcRight);
-        }
+        imgGo.setImageResource(srcRight);
     }
 
     @Override
@@ -272,7 +305,6 @@ public class ItemTextView extends FrameLayout {
             etCenter.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 //            etCenter.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
         } else if (centerType == 4) {//密码
-            JLog.i(textLeft + ">>>>>");
             etCenter.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength < 0 ? Integer.MAX_VALUE : maxLength), new SpaceFilter()});
             etCenter.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         } else {
@@ -394,6 +426,10 @@ public class ItemTextView extends FrameLayout {
     }
 
 
+    public void setOnCenterChangeListener(OnCenterChangeListener changeListener) {
+        this.changeListener = changeListener;
+    }
+
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
@@ -402,6 +438,13 @@ public class ItemTextView extends FrameLayout {
 
 
     public void setTextCenterBold(boolean centerBold) {
-        etCenter.setTypeface(Typeface.defaultFromStyle(centerBold?Typeface.BOLD:Typeface.NORMAL));
+        etCenter.setTypeface(Typeface.defaultFromStyle(centerBold ? Typeface.BOLD : Typeface.NORMAL));
     }
+
+
+    public interface OnCenterChangeListener {
+        void onCenterChange(String msg);
+    }
+
+
 }

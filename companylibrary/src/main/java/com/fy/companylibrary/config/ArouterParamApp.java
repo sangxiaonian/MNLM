@@ -33,6 +33,10 @@ public class ArouterParamApp {
      * 订单详情也
      */
     public static final String activity_order_detail = "/app/activity_order_detail";
+    /**
+     * 发布找车
+     */
+    public static final String activity_find_car = "/app/activity_find_car";
 
     public static final String activity_h5 = "/app/activity_h5";
 

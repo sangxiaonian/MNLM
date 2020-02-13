@@ -66,7 +66,7 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
                 return new OrderHolderBuider(mContext).setParent(parent)
-                        .setOrderButtonClickListener(new XOrderButtonClcik())
+                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
                         .setType(type)
                         .build();
 

@@ -18,6 +18,7 @@
         <attr name="showline" format="boolean" />
         <attr name="srcLeft" format="reference" />
         <attr name="srcRight" format="reference" />
+        <attr name="srcRightSize" format="dimension" />
         <attr name="srcshow" format="boolean" />
         <attr name="srcLeftshow" format="enum" >
             <enum name="show" value="2" />
