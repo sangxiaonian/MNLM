@@ -86,6 +86,7 @@ public class ArouterParamApp {
      */
     public static final String activity_order_center = "/app/activity_order_center";
 
+
     /**
      * 接单中心
      */
@@ -102,5 +103,8 @@ public class ArouterParamApp {
      * 我要发货
      */
     public static final String activity_order_create = "/app/activity_order_create";
-
+    /**
+     * 我要发货选择地址
+     */
+    public static final String activity_map_search = "/app/activity_map_search";
 }

@@ -3,6 +3,7 @@ package com.hongniu.freight.utils;
 import android.view.View;
 import android.widget.Button;
 
+import com.amap.api.services.core.PoiItem;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -48,8 +49,28 @@ public class Utils {
         if (enable){
             button.setAlpha(1f);
         }else {
-            button.setAlpha(0.7f);
+            button.setAlpha(0.3f);
 
         }
     }
+    /**
+     * 对地址显示进行处理
+     *
+     * @param data
+     */
+    public static String dealPioPlace(PoiItem data) {
+        String placeInfor = "";
+        if (data != null && data.getProvinceName() != null) {
+            if (data.getProvinceName().equals(data.getCityName())) {
+                placeInfor = data.getProvinceName() + data.getAdName()
+                        + data.getSnippet();
+            } else {
+                placeInfor = data.getProvinceName() + data.getCityName() + data.getAdName()
+                        + data.getSnippet();
+            }
+        }
+        return placeInfor;
+    }
+
+
 }

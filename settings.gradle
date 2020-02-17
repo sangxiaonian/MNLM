@@ -1,2 +1,2 @@
-include ':app', ':androidlibrary', ':companylibrary', ':BaseLibrary'
+include ':app', ':androidlibrary', ':companylibrary', ':BaseLibrary', ':ThirdLibrary'
 rootProject.name='Freight'

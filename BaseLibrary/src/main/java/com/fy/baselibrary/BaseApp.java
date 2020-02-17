@@ -51,7 +51,7 @@ public class BaseApp extends MultiDexApplication {
         super.onCreate();
         SharedPreferencesUtils.getInstance().initSharePreference(this);
         ToastUtils.getInstance().init(this);
-    app=this;
+        app = this;
 //        Density.setDensity(this,375);
         if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog();     // 打印日志

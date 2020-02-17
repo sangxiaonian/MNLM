@@ -329,12 +329,13 @@
 
                 <com.fy.companylibrary.widget.ItemTextView
                     android:id="@+id/item_insurance_name"
-                    style="@style/item_edit"
+                    style="@style/item_text"
                     app:sizeright="15dp"
                     app:textcenterhide="请选择被保险人"
                     app:textleft="被保险人" />
 
                 <LinearLayout
+                    android:id="@+id/ll_insurance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
