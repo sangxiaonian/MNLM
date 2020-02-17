@@ -96,7 +96,8 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             }
 
         } else if (v.getId() == R.id.add) {
-            ToastUtils.getInstance().show("添加数据");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_create)
+                    .navigation();
         } else if (v.getId() == R.id.chat) {
             if (chatFragment==null) {
                 chatFragment=new HomeFragment();

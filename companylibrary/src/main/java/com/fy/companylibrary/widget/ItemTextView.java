@@ -257,10 +257,10 @@ public class ItemTextView extends FrameLayout {
         }
     }
 
-    private void setColorLeft(int colorRight) {
-        this.colorRight = colorRight;
-        if (colorRight != 0) {
-            tvLeft.setTextColor(colorRight);
+    private void setColorLeft(int colorLeft) {
+        this.colorLeft = colorLeft;
+        if (colorLeft != 0) {
+            tvLeft.setTextColor(colorLeft);
         }
     }
 
@@ -353,7 +353,6 @@ public class ItemTextView extends FrameLayout {
             etCenter.setTextColor(colorCenterHide);
             tvLeft.setTextColor(colorCenterHide);
             tvRight.setTextColor(colorCenterHide);
-            return;
         } else {
             etCenter.setTextColor(colorCenter);
             tvLeft.setTextColor(colorLeft);
