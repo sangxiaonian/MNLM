@@ -5,19 +5,32 @@ package com.hongniu.freight.entity;
  */
 public class LoginInfo {
 
-    private long id;//true	用户id
-    private String mobile;//true	用户手机号
-    private String openid;//false	微信的openid
-    private String token;//false	本次登录的token，有有效期。
-    private int type;//false	用户类型。无实际作用。
-    private int state;//false	状态
-    private String logo;//false	微信登录时用户图像的地址
-    private String contact;//false	用户的联系方式
-    private String nickname;//false	用户的微信昵称
-    private int gender;//false	性别,1男,2女,0未知
-    private String remark;//false	备注
-    private String rongToken;//true	string	融云token
-    private String logoPath;//true	string	绝对路径用于显示
+
+   private long	 id	;//true	用户id
+   private String	 mobile	;//true	用户手机号
+   private String	 openid	;//false	微信的openid
+   private String	 token	;//false	本次登录的token，有有效期。
+   private int	 type	;//false	用户类型。无实际作用。
+   private int	 state	;//false	状态
+   private String	 logo	;//false	微信登录时用户图像的地址
+   private String	 contact	;//false	用户的联系方式
+   private String	 nickname	;//false	用户的微信昵称
+   private int	 gender	;//false	性别,1男,2女,0未知
+   private String	 remark	;//false	备注
+   private String	 rongToken	;//true	融云token
+   private String	 logoPath	;//true	绝对路径用于显示
+   private boolean	 isStaff	;//true	平台员工身份 1:是 0:否
+   private int	 isDriver	;//true	司机身份1:是 0:否
+   private int	 isPersonCarrier	;//true	个人承运人身份 1:是 0:否
+   private int	 isCompanyCarrier	;//true	公司承运人身份 1:是 0:否
+   private int	 isCompanyShipper	;//true	公司托运人身份 1:是 0:否
+   private int	 isPersonShipper	;//true	个人托运人身份 1:是 0:否
+   private int	 isStaffStatus	;//true	平台员工身份状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+   private int	 isDriverStatus	;//true	认证司机状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+   private int	 isPersonShipperStatus	;//true	认证个人托运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+   private int	 isPersonCarrierStatus	;//true	认证个人承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+   private int	 isCompanyShipperStatus	;//true	认证公司托运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+   private int	 isCompanyCarrierStatus	;//true	认证公司承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
 
     public long getId() {
         return id;
@@ -121,5 +134,101 @@ public class LoginInfo {
 
     public void setLogoPath(String logoPath) {
         this.logoPath = logoPath;
+    }
+
+    public boolean isStaff() {
+        return isStaff;
+    }
+
+    public void setStaff(boolean staff) {
+        isStaff = staff;
+    }
+
+    public int getIsDriver() {
+        return isDriver;
+    }
+
+    public void setIsDriver(int isDriver) {
+        this.isDriver = isDriver;
+    }
+
+    public int getIsPersonCarrier() {
+        return isPersonCarrier;
+    }
+
+    public void setIsPersonCarrier(int isPersonCarrier) {
+        this.isPersonCarrier = isPersonCarrier;
+    }
+
+    public int getIsCompanyCarrier() {
+        return isCompanyCarrier;
+    }
+
+    public void setIsCompanyCarrier(int isCompanyCarrier) {
+        this.isCompanyCarrier = isCompanyCarrier;
+    }
+
+    public int getIsCompanyShipper() {
+        return isCompanyShipper;
+    }
+
+    public void setIsCompanyShipper(int isCompanyShipper) {
+        this.isCompanyShipper = isCompanyShipper;
+    }
+
+    public int getIsPersonShipper() {
+        return isPersonShipper;
+    }
+
+    public void setIsPersonShipper(int isPersonShipper) {
+        this.isPersonShipper = isPersonShipper;
+    }
+
+    public int getIsStaffStatus() {
+        return isStaffStatus;
+    }
+
+    public void setIsStaffStatus(int isStaffStatus) {
+        this.isStaffStatus = isStaffStatus;
+    }
+
+    public int getIsDriverStatus() {
+        return isDriverStatus;
+    }
+
+    public void setIsDriverStatus(int isDriverStatus) {
+        this.isDriverStatus = isDriverStatus;
+    }
+
+    public int getIsPersonShipperStatus() {
+        return isPersonShipperStatus;
+    }
+
+    public void setIsPersonShipperStatus(int isPersonShipperStatus) {
+        this.isPersonShipperStatus = isPersonShipperStatus;
+    }
+
+    public int getIsPersonCarrierStatus() {
+        return isPersonCarrierStatus;
+    }
+
+    public void setIsPersonCarrierStatus(int isPersonCarrierStatus) {
+        this.isPersonCarrierStatus = isPersonCarrierStatus;
+    }
+
+    public int getIsCompanyShipperStatus() {
+        return isCompanyShipperStatus;
+    }
+
+    public void setIsCompanyShipperStatus(int isCompanyShipperStatus) {
+        this.isCompanyShipperStatus = isCompanyShipperStatus;
+    }
+
+    public int getIsCompanyCarrierStatus() {
+        return isCompanyCarrierStatus;
+    }
+
+    public void setIsCompanyCarrierStatus(int isCompanyCarrierStatus) {
+        this.isCompanyCarrierStatus = isCompanyCarrierStatus;
     }
 }

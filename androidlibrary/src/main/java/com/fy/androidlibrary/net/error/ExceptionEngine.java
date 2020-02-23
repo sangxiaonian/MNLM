@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import java.net.ConnectException;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 
@@ -62,6 +63,8 @@ public class ExceptionEngine {
             msg = "网络异常，无法连接到服务器";
         } else if (e instanceof NetworkOnMainThreadException) {
             msg = "请勿在主线程进行网络请求";
+        } else if (e instanceof SocketTimeoutException) {
+            msg = "服务器连接超时,请稍后再试";
         } else {
             msg = e.getMessage();
         }

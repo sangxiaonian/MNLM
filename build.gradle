@@ -8,8 +8,8 @@ ext {
     minSdkVersion = 19
     targetSdkVersion = 29
     versionCode = 102
-//    versionName = "1.0.0"
-    versionName = releaseTime()+".01"
+    versionName = "1.0.0"
+//    versionName = releaseTime()+".01"
 
 
     Arouter_Complier = "1.1.4"

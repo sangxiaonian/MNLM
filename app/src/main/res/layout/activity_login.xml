@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:background="@color/color_of_tran"
         android:digits="1234567890"
+        android:inputType="phone"
         android:hint="请输入手机号"
         android:maxLength="6"
         android:maxLines="1"
@@ -80,4 +81,16 @@
         style="@style/bt_red"
         android:text="登录"
         android:layout_margin="0dp" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+   <TextView
+       android:layout_width="match_parent"
+       android:id="@+id/tv_argument"
+       android:text="进入泓牛代表你已同意"
+       android:textSize="12dp"
+       android:gravity="center"
+       android:textColor="@color/color_of_040000"
+       android:layout_height="wrap_content"/>
 </LinearLayout>
