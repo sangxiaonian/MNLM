@@ -4,8 +4,15 @@ import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.fy.androidlibrary.net.rx.RxUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.SharedPreferencesUtils;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
+import com.fy.companylibrary.net.CompanyClient;
+import com.google.gson.Gson;
+import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.QuerySmsParams;
 
 import java.util.ArrayList;
 
@@ -21,10 +28,49 @@ public class HttpAppFactory {
 
 
     /**
-     * 高德地图搜索PIO
-     *
-     * @param poiSearch
+     * 获取验证码
+     * @param phone
+     * @return
      */
+    public static Observable<CommonBean<String>> getSms(String phone) {
+        QuerySmsParams params = new QuerySmsParams();
+        params.setMobile(phone);
+        params.setCode(ConvertUtils.MD5(phone+ Param.key));
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .getSmsCode(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+
+    } /**
+     * 获取验证码
+     * @param phone
+     * @return
+     */
+    public static Observable<CommonBean<LoginInfo>> login(String phone, String sms) {
+        QuerySmsParams params = new QuerySmsParams();
+        params.setMobile(phone);
+        params.setCheckCode(sms);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .login(params)
+                .map(new Function<CommonBean<LoginInfo>, CommonBean<LoginInfo>>() {
+                    @Override
+                    public CommonBean<LoginInfo> apply(CommonBean<LoginInfo> loginInfoCommonBean) throws Exception {
+                        if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
+                            SharedPreferencesUtils.getInstance().putString(Param.LOGIN,new Gson().toJson(loginInfoCommonBean.getData()));
+                        }
+                        return loginInfoCommonBean;
+                    }
+                })
+                .compose(RxUtils.<CommonBean<LoginInfo>>getSchedulersObservableTransformer());
+
+    }
+
+
+
+        /**
+         * 高德地图搜索PIO
+         *
+         * @param poiSearch
+         */
     public static Observable<CommonBean<PageBean<PoiItem>>> searchPio(PoiSearch poiSearch) {
         return Observable.just(poiSearch)
                 .map(new Function<PoiSearch, PoiResult>() {

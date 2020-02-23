@@ -72,7 +72,9 @@ public class OkHttp {
     }
 
     public void addInterceptor(Interceptor interceptor) {
-        builder.addInterceptor(interceptor);
+        if (!builder.interceptors().contains(interceptor)) {
+            builder.addInterceptor(interceptor);
+        }
     }
 
 

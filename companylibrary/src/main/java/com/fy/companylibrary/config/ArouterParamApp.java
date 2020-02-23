@@ -12,6 +12,8 @@ package com.fy.companylibrary.config;
  */
 public class ArouterParamApp {
 
+    public static final String activity_login = "/app/activity_login";
+
     public static final String fragment_home = "/app/fragment_home";
     public static final String fragment_home_type = "/app/fragment_home_type";
     public static final String activity_main = "/app/activity_main";

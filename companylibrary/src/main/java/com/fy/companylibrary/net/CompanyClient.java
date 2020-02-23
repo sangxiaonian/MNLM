@@ -3,8 +3,6 @@ package com.fy.companylibrary.net;
 
 import com.fy.androidlibrary.net.HttpClient;
 import com.fy.androidlibrary.net.OkHttp;
-import com.fy.companylibrary.net.interceptor.CookRespondInterceptor;
-import com.fy.companylibrary.net.interceptor.CookiesInterceptor;
 
 import okhttp3.Interceptor;
 
@@ -28,9 +26,6 @@ public class CompanyClient {
     private CompanyClient() {
         httpClient = new HttpClient()
                 .setConnectTimeOut(30)
-                .addInterceptor(new CookiesInterceptor())//网络请求时候，自动添加cook
-                .addInterceptor(new CookRespondInterceptor())//网络请求时候，自动保存返回的cookie
-                .addInterceptor(OkHttp.getLogInterceptor())//添加log日志
         ;
     }
 

@@ -10,6 +10,8 @@ import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.utils.InfoUtils;
 
 public class SplashActivity extends CompanyBaseActivity {
 
@@ -17,8 +19,13 @@ public class SplashActivity extends CompanyBaseActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
-                    .navigation(mContext);
+            if (InfoUtils.getLoginInfo()!=null) {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                        .navigation(mContext);
+            }else {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_login)
+                        .navigation(mContext);
+            }
             finish();
         }
     };

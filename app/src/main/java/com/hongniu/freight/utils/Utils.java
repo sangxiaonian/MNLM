@@ -1,11 +1,16 @@
 package com.hongniu.freight.utils;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
 import com.amap.api.services.core.PoiItem;
+import com.fy.androidlibrary.utils.SharedPreferencesUtils;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
+import com.google.gson.Gson;
+import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderInfoBean;
 
 import java.util.ArrayList;
@@ -18,7 +23,7 @@ import io.reactivex.Observable;
  */
 public class Utils {
 
-    public static Observable<CommonBean<PageBean<OrderInfoBean>>> createDemoOrderInfo(){
+    public static Observable<CommonBean<PageBean<OrderInfoBean>>> createDemoOrderInfo() {
         CommonBean<PageBean<OrderInfoBean>> common = new CommonBean<>();
         common.setCode(200);
         PageBean<OrderInfoBean> pageBean = new PageBean<>();
@@ -36,6 +41,7 @@ public class Utils {
 
     /**
      * 获取托运人类别
+     *
      * @return 0 个人 1平台
      */
     public static int getShipperType() {
@@ -43,16 +49,17 @@ public class Utils {
     }
 
     public static void setButton(View button, boolean enable) {
-        if (button==null){
+        if (button == null) {
             return;
         }
-        if (enable){
+        if (enable) {
             button.setAlpha(1f);
-        }else {
+        } else {
             button.setAlpha(0.3f);
 
         }
     }
+
     /**
      * 对地址显示进行处理
      *
