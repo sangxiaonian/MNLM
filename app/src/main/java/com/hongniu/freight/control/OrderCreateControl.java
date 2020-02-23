@@ -1,6 +1,8 @@
 package com.hongniu.freight.control;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
+import com.fy.companylibrary.entity.CommonBean;
+import com.hongniu.freight.entity.OrderInsuranceInforBean;
 import com.hongniu.freight.entity.TranMapBean;
 
 import java.util.List;
@@ -41,6 +43,12 @@ public class OrderCreateControl {
         void showPayDialog(int payType, List<String> payWaysInfo);
 
         void showPayType(String currentPayType);
+
+        /**
+         * 显示选择被保险人信息弹窗
+         * @param inforBeans 被保险人信息
+         */
+        void showInsuranceDialog(List<OrderInsuranceInforBean> inforBeans);
     }
 
     ;
@@ -85,6 +93,12 @@ public class OrderCreateControl {
          * @param payType 支付方式
          */
         void switchPayWay(int payType);
+
+        /**
+         * 展示所有被保险人信息
+         * @param listener
+         */
+        void showInsuranceInfo(TaskControl.OnTaskListener listener);
     }
 
     ;
@@ -140,6 +154,12 @@ public class OrderCreateControl {
          * 储存当前付款方式
          */
         void savePayType(int payType);
+
+        /**
+         * 获取所有被保险人信息
+         * @return
+         */
+        Observable<CommonBean<List<OrderInsuranceInforBean>>> getAllInsuranceInfos();
     }
 
     ;

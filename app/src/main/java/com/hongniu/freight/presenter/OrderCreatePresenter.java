@@ -2,7 +2,9 @@ package com.hongniu.freight.presenter;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
+import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.OrderInsuranceInforBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.mode.OrderCreateMode;
 
@@ -104,6 +106,24 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
         mode.savePayType(payType);
         String currentPayType = mode.getPayWaysInfo().get(payType);
         view.showPayType(currentPayType);
+    }
+
+    /**
+     * 展示所有被保险人信息
+     * @param listener
+     */
+    @Override
+    public void showInsuranceInfo(TaskControl.OnTaskListener listener) {
+
+        mode.getAllInsuranceInfos()
+            .subscribe(new NetObserver<List<OrderInsuranceInforBean>>(listener){
+                @Override
+                public void doOnSuccess(List<OrderInsuranceInforBean> inforBeans) {
+                    super.doOnSuccess(inforBeans);
+                        view.showInsuranceDialog(inforBeans);
+                }
+            })
+        ;
     }
 
 }

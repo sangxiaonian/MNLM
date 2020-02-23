@@ -2,7 +2,10 @@ package com.hongniu.freight.mode;
 
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.OrderInsuranceInforBean;
 import com.hongniu.freight.entity.TranMapBean;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +28,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     private TranMapBean startInfor;
     private TranMapBean endInfor;
     private boolean isInsurance;//是否购买保险 true 是
-    private int payType =-1;//付款方式 -1未知 0现付 1到付
+    private int payType = -1;//付款方式 -1未知 0现付 1到付
     List<String> payWays;//付款方式
 
     public OrderCreateMode() {
@@ -169,7 +172,23 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
      */
     @Override
     public void savePayType(int payType) {
-        this.payType=payType;
+        this.payType = payType;
+    }
+
+    /**
+     * 获取所有被保险人信息
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<List<OrderInsuranceInforBean>>> getAllInsuranceInfos() {
+        List<OrderInsuranceInforBean> inforBeans = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            inforBeans.add(new OrderInsuranceInforBean());
+        }
+        CommonBean<List<OrderInsuranceInforBean>> commonBean=new CommonBean<>();
+        commonBean.setCode(Param.SUCCESS_FLAG);
+        commonBean.setData(inforBeans);
+       return Observable.just(commonBean);
     }
 
 

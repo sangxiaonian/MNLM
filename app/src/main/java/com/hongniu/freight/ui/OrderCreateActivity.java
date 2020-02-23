@@ -23,11 +23,14 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.OrderInsuranceInforBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.presenter.OrderCreatePresenter;
 import com.hongniu.freight.utils.PermissionUtils;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.dialog.InsuranceDialog;
+import com.hongniu.freight.widget.dialog.inter.DialogControl;
 
 import java.util.List;
 
@@ -37,7 +40,7 @@ import java.util.List;
  * @Description 创建订单
  */
 @Route(path = ArouterParamApp.activity_order_create)
-public class OrderCreateActivity extends CompanyBaseActivity implements View.OnClickListener, OrderCreateControl.IOrderCreateView, OnOptionsSelectListener, ItemTextView.OnCenterChangeListener {
+public class OrderCreateActivity extends CompanyBaseActivity implements View.OnClickListener, OrderCreateControl.IOrderCreateView, OnOptionsSelectListener, ItemTextView.OnCenterChangeListener, InsuranceDialog.OnInsuranceDialogListener {
     private View group_start;//选择发货信息
     private View group_end;//选择收货信息s
     private TextView tv_start;//发货地址
@@ -61,6 +64,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     OrderCreateControl.IOrderCreatePresenter presenter;
     private OptionsPickerView pickerDialog;
     private OptionsPickerView pickerDialogPay;
+    private InsuranceDialog insuranceDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +181,9 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         } else if (R.id.tv_agreement == v.getId()) {
             ToastUtils.getInstance().show("泓牛供应链协议");
         } else if (R.id.item_insurance_name == v.getId()) {
-            ToastUtils.getInstance().show("选择被保险人");
+//            ToastUtils.getInstance().show("选择被保险人");
+            presenter.showInsuranceInfo(this);
+
         } else if (R.id.bt_sum == v.getId()) {
             if (check(true)) {
                 ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
@@ -281,6 +287,21 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         item_pay_way.setTextCenter(currentPayType);
     }
 
+    /**
+     * 显示选择被保险人信息弹窗
+     *
+     * @param inforBeans 被保险人信息
+     */
+    @Override
+    public void showInsuranceDialog(List<OrderInsuranceInforBean> inforBeans) {
+        if (insuranceDialog==null){
+            insuranceDialog=new InsuranceDialog(mContext);
+            insuranceDialog.setItemClickListener(this);
+        }
+        insuranceDialog.setData(inforBeans);
+        insuranceDialog.show();
+    }
+
     @Override
     public void onOptionsSelect(int options1, int options2, int options3, View v) {
         presenter.onChangeTime(options1, options2, options3);
@@ -355,5 +376,34 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void onCenterChange(String msg) {
         check(false);
+    }
+
+    /**
+     * 编辑被保险人
+     *
+     * @param dialog
+     * @param position
+     * @param def
+     */
+    @Override
+    public void onClickEdite(DialogControl.IDialog dialog, int position, OrderInsuranceInforBean def) {
+        ToastUtils.getInstance().show("编辑被保险人信息");
+    }
+
+    /**
+     * 点击添加新的被保险人
+     *
+     * @param dialog
+     */
+    @Override
+    public void onClickAdd(DialogControl.IDialog dialog) {
+        ToastUtils.getInstance().show("添加被保险人信息");
+
+    }
+
+    @Override
+    public void onChoice(DialogControl.IDialog dialog, int position, OrderInsuranceInforBean def) {
+        ToastUtils.getInstance().show("选择被保险人信息");
+
     }
 }
