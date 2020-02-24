@@ -20,8 +20,14 @@ public class SplashActivity extends CompanyBaseActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (InfoUtils.getLoginInfo()!=null) {
-                ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
-                        .navigation(mContext);
+                if (InfoUtils.getRole(InfoUtils.getMyInfo())==-1) {
+                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
+                            .navigation(mContext);
+                }else {
+                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                            .navigation(mContext);
+                }
+
             }else {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_login)
                         .navigation(mContext);

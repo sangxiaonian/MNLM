@@ -18,6 +18,7 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.Utils;
 
 import io.reactivex.disposables.Disposable;
@@ -157,8 +158,17 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                             @Override
                             public void doOnSuccess(LoginInfo loginInfo) {
                                 super.doOnSuccess(loginInfo);
-                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
-                                        .navigation(mContext);
+                                int role = InfoUtils.getRole(loginInfo);
+                                if (role==-1){
+                                    //尚未认证
+                                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
+                                            .navigation(mContext);
+                                }else {
+                                    //已有认证角色
+                                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                                            .navigation(mContext);
+                                }
+
                                 finish();
                             }
                         });

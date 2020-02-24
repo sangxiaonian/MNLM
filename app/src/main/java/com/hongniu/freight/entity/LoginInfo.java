@@ -3,7 +3,7 @@ package com.hongniu.freight.entity;
 /**
  * 作者：  on 2020/2/23.
  */
-public class LoginInfo {
+public class LoginInfo extends BaseAttestationInfo{
 
 
    private long	 id	;//true	用户id
@@ -19,18 +19,6 @@ public class LoginInfo {
    private String	 remark	;//false	备注
    private String	 rongToken	;//true	融云token
    private String	 logoPath	;//true	绝对路径用于显示
-   private boolean	 isStaff	;//true	平台员工身份 1:是 0:否
-   private int	 isDriver	;//true	司机身份1:是 0:否
-   private int	 isPersonCarrier	;//true	个人承运人身份 1:是 0:否
-   private int	 isCompanyCarrier	;//true	公司承运人身份 1:是 0:否
-   private int	 isCompanyShipper	;//true	公司托运人身份 1:是 0:否
-   private int	 isPersonShipper	;//true	个人托运人身份 1:是 0:否
-   private int	 isStaffStatus	;//true	平台员工身份状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
-   private int	 isDriverStatus	;//true	认证司机状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
-   private int	 isPersonShipperStatus	;//true	认证个人托运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
-   private int	 isPersonCarrierStatus	;//true	认证个人承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
-   private int	 isCompanyShipperStatus	;//true	认证公司托运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
-   private int	 isCompanyCarrierStatus	;//true	认证公司承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
 
     public long getId() {
         return id;

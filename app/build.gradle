@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
+// 显示的时间格式，形如20171110
+static def releaseTime() {
+    return new Date().format("MM-dd-HH-mm", TimeZone.getDefault());
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.androidSupportVersion
     defaultConfig {
         applicationId "com.hongniu.freight"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -17,12 +21,6 @@ android {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
             }
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     //签名
@@ -40,6 +38,24 @@ android {
             keyPassword 'hongniu'
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "app_" + buildType.name + "_v${defaultConfig.versionName}-${releaseTime()}.apk"
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            versionNameSuffix "-debug"
+            signingConfig signingConfigs.release
+        }
+        release {
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            signingConfig signingConfigs.release
+            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
 }
 
 dependencies {

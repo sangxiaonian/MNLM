@@ -1,8 +1,11 @@
 package com.hongniu.freight.mode;
 
+import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.HomeInfoBean;
+import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.net.HttpAppFactory;
 
 import io.reactivex.Observable;
 
@@ -35,5 +38,14 @@ public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
     @Override
     public Role getRole() {
         return role;
+    }
+
+    /**
+     * 查询个信息
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<PersonInfor>> queryMyInfo() {
+      return  HttpAppFactory.queryMyInfo();
     }
 }

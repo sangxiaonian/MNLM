@@ -1,10 +1,8 @@
 package com.hongniu.freight.net;
 
-import com.fy.androidlibrary.net.rx.RxUtils;
-import com.fy.androidlibrary.utils.ConvertUtils;
-import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QuerySmsParams;
 
 import io.reactivex.Observable;
@@ -33,6 +31,14 @@ public interface AppService {
      */
     @POST("api/login/login")
     Observable<CommonBean<LoginInfo>> login(@Body QuerySmsParams params);
+
+    /**
+     * 查询个人资料
+     *
+     * @return
+     */
+    @POST("/api/user/finduserinfo")
+    Observable<CommonBean<PersonInfor>> queryMyInfo();
 
 
 }

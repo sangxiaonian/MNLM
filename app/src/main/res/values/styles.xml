@@ -53,7 +53,7 @@
         <item name="android:minHeight">55dp</item>
         <item name="centerType">normal</item>
         <item name="colorCenterHide">@color/color_of_cccccc</item>
-        <item name="android:centerColor">@color/color_of_040000</item>
+        <item name="colorCenter">@color/color_of_040000</item>
         <item name="colorLeft">@color/color_of_666666</item>
         <item name="showline">true</item>
         <item name="sizecenter">15dp</item>

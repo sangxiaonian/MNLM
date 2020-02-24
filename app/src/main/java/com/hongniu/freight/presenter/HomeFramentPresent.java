@@ -29,6 +29,7 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
      */
     @Override
     public void initDate(TaskControl.OnTaskListener listener) {
+        mode.queryMyInfo();
         mode.queryHomeInfo()
             .subscribe(new BaseObserver<HomeInfoBean>(listener){
                 @Override

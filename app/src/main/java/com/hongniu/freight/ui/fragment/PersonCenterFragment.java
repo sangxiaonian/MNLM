@@ -16,6 +16,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.H5Config;
+import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.widget.DialogComment;
 
 /**
@@ -123,9 +124,11 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     .setRightClickListener(new DialogComment.OnButtonRightClickListener() {
                         @Override
                         public void onRightClick(View view, Dialog dialog) {
-                            ToastUtils.getInstance().show("推出登录");
                             dialog.dismiss();
-
+                            InfoUtils.loginOut();
+                            ArouterUtils.getInstance().builder(ArouterParamApp.activity_login)
+                                    .navigation(mContext);
+                            getActivity().finish();
                         }
                     })
                     .creatDialog(mContext)

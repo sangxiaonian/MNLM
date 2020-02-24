@@ -13,6 +13,34 @@ package com.fy.companylibrary.config;
 public class ArouterParamApp {
 
     public static final String activity_login = "/app/activity_login";
+    /**
+     * 身份认证选择角色
+     */
+    public static final String activity_attestation_select_role = "/app/activity_attestation_select_role";
+    /**
+     * 身份认证第二部
+     */
+    public static final String activity_attestation_role_activity = "/app/activity_attestation_role_activity";
+    /**
+     * 个人托运人身份认证第二部
+     */
+    public static final String fragment_attestation_carrier_company = "/app/fragment_attestation_carrier_company";
+    /**
+     * 个人托运人身份认证第二部
+     */
+    public static final String fragment_attestation_carrier_personal = "/app/fragment_attestation_carrier_personal";
+    /**
+     * 司机身份认证
+     */
+    public static final String fragment_attestation_driver = "/app/fragment_attestation_driver";
+    /**
+     * 公司承运人身份认证第二部
+     */
+    public static final String fragment_attestation_shipper_company = "/app/fragment_attestation_shipper_company";
+    /**
+     * 个人承运人身份认证第二部
+     */
+    public static final String fragment_attestation_shipper_personal = "/app/fragment_attestation_shipper_personal";
 
     public static final String fragment_home = "/app/fragment_home";
     public static final String fragment_home_type = "/app/fragment_home_type";

@@ -12,7 +12,9 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
 import com.google.gson.Gson;
 import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QuerySmsParams;
+import com.hongniu.freight.utils.InfoUtils;
 
 import java.util.ArrayList;
 
@@ -55,12 +57,31 @@ public class HttpAppFactory {
                     @Override
                     public CommonBean<LoginInfo> apply(CommonBean<LoginInfo> loginInfoCommonBean) throws Exception {
                         if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
-                            SharedPreferencesUtils.getInstance().putString(Param.LOGIN,new Gson().toJson(loginInfoCommonBean.getData()));
+                            InfoUtils.saveLoginInfo(loginInfoCommonBean.getData());
                         }
                         return loginInfoCommonBean;
                     }
                 })
                 .compose(RxUtils.<CommonBean<LoginInfo>>getSchedulersObservableTransformer());
+
+    }
+    /**
+     * 查询个人信息
+     * @return
+     */
+    public static Observable<CommonBean<PersonInfor>> queryMyInfo() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryMyInfo()
+                .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
+                    @Override
+                    public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {
+                        if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
+                            InfoUtils.saveMyInfo(loginInfoCommonBean.getData());
+                        }
+                        return loginInfoCommonBean;
+                    }
+                })
+                .compose(RxUtils.<CommonBean<PersonInfor>>getSchedulersObservableTransformer());
 
     }
 

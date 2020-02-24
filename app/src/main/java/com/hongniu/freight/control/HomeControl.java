@@ -1,9 +1,11 @@
 package com.hongniu.freight.control;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
+import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.PersonInfor;
 
 import java.util.List;
 
@@ -48,6 +50,12 @@ public class HomeControl {
          * @return 获取当前类型 0 1 2
          */
         Role getRole();
+
+        /**
+         * 查询个信息
+         * @return
+         */
+        Observable<CommonBean<PersonInfor>> queryMyInfo();
     }
 
 }
