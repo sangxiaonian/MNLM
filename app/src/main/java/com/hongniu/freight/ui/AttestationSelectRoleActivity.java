@@ -111,11 +111,7 @@ public class AttestationSelectRoleActivity extends CompanyBaseActivity implement
      */
     @Override
     public void onSingleSelected(int position, ItemInfo selected, boolean check) {
-        ToastUtils.getInstance().show(selected.title);
           role = selected.role;
-
-
-
     }
 
     /**

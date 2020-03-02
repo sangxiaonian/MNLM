@@ -1,6 +1,7 @@
 package com.hongniu.freight.ui.fragment;
 
 import android.app.Dialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,16 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.entity.CommonBean;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.H5Config;
+import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.widget.DialogComment;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * 作者：  on 2020/2/10.
@@ -41,6 +49,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     private ViewGroup shadow;//我的金库
 
     private boolean hideBalance = true;//是否隐藏余额
+    private PersonInfor personInfor;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -64,9 +73,23 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     @Override
     protected void initData() {
         super.initData();
-        tv_name.setText("151555555555");
-        tv_role.setText("司机");
+        initInfo(InfoUtils.getMyInfo());
         switchBalance(hideBalance);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        queryInfo();
+    }
+
+    private boolean isFirst=true;
+    @Override
+    public void onTaskStart(Disposable d) {
+        if (isFirst) {
+            super.onTaskStart(d);
+        }
+
     }
 
     @Override
@@ -81,6 +104,14 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         ll_quit.setOnClickListener(this);
         ll_order_center.setOnClickListener(this);
         shadow.setOnClickListener(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            queryInfo();
+        }
     }
 
     /**
@@ -133,24 +164,52 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     })
                     .creatDialog(mContext)
                     .show();
-        }else if (v.getId() == R.id.ll_order_center) {
+        } else if (v.getId() == R.id.ll_order_center) {
             ArouterUtils.getInstance()
                     .builder(ArouterParamApp.activity_order_receiving)
                     .navigation(mContext);
 
-        }else if (v.getId() == R.id.shadow) {
+        } else if (v.getId() == R.id.shadow) {
             ArouterUtils.getInstance()
                     .builder(ArouterParamApp.activity_my_coffers)
                     .navigation(mContext);
 
         }
+    }
+
+    private void queryInfo() {
+        HttpAppFactory.queryMyInfo()
+                .subscribe(new NetObserver<PersonInfor>(this) {
+                    @Override
+                    public void doOnSuccess(PersonInfor personInfor) {
+                        super.doOnSuccess(personInfor);
+                        initInfo(personInfor);
+                    }
 
 
+                });
+    }
+
+    private void initInfo(PersonInfor personInfor) {
+        if (personInfor == null) {
+            return;
+        }
+        this.personInfor = personInfor;
+        ImageLoader.getLoader().loadHeaed(mContext, img_heard, personInfor.getLogoPath());
+        CommonUtils.setText(tv_name, personInfor.getMobile());
+        String roleName = InfoUtils.getRoleName(personInfor);
+
+        String stateName = InfoUtils.getStateName(InfoUtils.getState(personInfor));
+        if (!TextUtils.isEmpty(stateName)) {
+            roleName += "(" + stateName + ")";
+        }
+        CommonUtils.setText(tv_role, roleName);
+        switchBalance(hideBalance);
     }
 
     private void switchBalance(boolean hideBalance) {
         this.hideBalance = hideBalance;
-        tv_count.setText(hideBalance ? "******" : "1820");
+        tv_count.setText(hideBalance ? "******" : personInfor == null||TextUtils.isEmpty(personInfor.getTotalBalance()) ? "0" : personInfor.getTotalBalance());
         icon_eyes.setImageResource(hideBalance ? R.mipmap.attention_forbid : R.mipmap.attention);
     }
 }

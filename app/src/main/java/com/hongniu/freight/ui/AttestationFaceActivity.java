@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
@@ -22,7 +23,7 @@ import com.hongniu.thirdlibrary.verify.VerifyClient;
  *
  */
 @Route(path = ArouterParamApp.activity_attestation_face)
-public class AttestationFaceActivity extends CompanyBaseActivity implements View.OnClickListener, PermissionUtils.onApplyPermission {
+public class AttestationFaceActivity extends CompanyBaseActivity implements View.OnClickListener, PermissionUtils.onApplyPermission, VerifyClient.OnVerifyListener {
 
     private TextView btSum;
     private String token;
@@ -70,7 +71,7 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
                     public void doOnSuccess(VerifyTokenBeans verifyTokenBeans) {
                         super.doOnSuccess(verifyTokenBeans);
                         token = verifyTokenBeans.getToken();
-                        VerifyClient.getInstance().startVerify(mContext,token);
+                        VerifyClient.getInstance().startVerify(mContext,token,AttestationFaceActivity.this);
 
                     }
                 });
@@ -78,6 +79,31 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
 
     @Override
     public void noPermission() {
+
+    }
+
+    /**
+     * 认证成功
+     */
+    @Override
+    public void onVerifySuccess() {
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                .navigation(mContext);
+    }
+
+    /**
+     * 认证失败
+     */
+    @Override
+    public void onVerifyFail() {
+
+    }
+
+    /**
+     * 取消认证
+     */
+    @Override
+    public void onVerifyCancel() {
 
     }
 }
