@@ -2,7 +2,9 @@ package com.hongniu.freight.control;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.companylibrary.entity.CommonBean;
-import com.hongniu.freight.entity.OrderInsuranceInforBean;
+import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 
 import java.util.List;
@@ -42,13 +44,25 @@ public class OrderCreateControl {
          */
         void showPayDialog(int payType, List<String> payWaysInfo);
 
-        void showPayType(String currentPayType);
+        void showPayType(int payType, String currentPayType);
 
         /**
          * 显示选择被保险人信息弹窗
          * @param inforBeans 被保险人信息
          */
-        void showInsuranceDialog(List<OrderInsuranceInforBean> inforBeans);
+        void showInsuranceDialog(List<InsuranceInfoBean> inforBeans);
+
+        /**
+         * 获取所有参数
+         * @param params
+         */
+        void getParams(OrderCrateParams params);
+
+        /**
+         * 创建订单成功
+         * @param o
+         */
+        void finishSuccess(OrderInfoBean o);
     }
 
     ;
@@ -99,6 +113,21 @@ public class OrderCreateControl {
          * @param listener
          */
         void showInsuranceInfo(TaskControl.OnTaskListener listener);
+
+        /**
+         * 切换被保险人信息
+         * @param position
+         * @param def
+         */
+        void onChangeInsuranceInfo(int position, InsuranceInfoBean def);
+
+        /**
+         * 创建订单
+         * @param listener
+         */
+        void createOrder(TaskControl.OnTaskListener listener);
+
+
     }
 
     ;
@@ -125,7 +154,11 @@ public class OrderCreateControl {
         List<String> getDays();
 
         List<List<String>> getHours();
-
+        /**
+         * 更改发货时间
+         * @param time
+         */
+        void saveStartTime(String time);
 
         /**
          * 是否购买保险
@@ -159,7 +192,22 @@ public class OrderCreateControl {
          * 获取所有被保险人信息
          * @return
          */
-        Observable<CommonBean<List<OrderInsuranceInforBean>>> getAllInsuranceInfos();
+        Observable<CommonBean<List<InsuranceInfoBean>>> getAllInsuranceInfos();
+        /**
+         * 切换被保险人信息
+         * @param position
+         * @param def
+         */
+        void onChangeInsuranceInfo(int position, InsuranceInfoBean def);
+        OrderCrateParams getParams();
+
+        /**
+         * 创建订单
+         * @return
+         */
+        Observable<CommonBean<OrderInfoBean>> createOrder();
+
+
     }
 
     ;

@@ -11,7 +11,7 @@ import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.OrderInsuranceInforBean;
+import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.widget.dialog.inter.DialogControl;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  * 作者： ${桑小年} on 2018/12/1.
  * 保险人选择数据
  */
-public class InsuranceDialog extends AccountDialog<OrderInsuranceInforBean> {
+public class InsuranceDialog extends AccountDialog<InsuranceInfoBean> {
     public InsuranceDialog(@NonNull Context context) {
         super(context);
     }
@@ -63,13 +63,13 @@ public class InsuranceDialog extends AccountDialog<OrderInsuranceInforBean> {
     }
 
     @Override
-    protected XAdapter<OrderInsuranceInforBean> getAdapter(Context context, List<OrderInsuranceInforBean> inforBeans) {
-        return new XAdapter<OrderInsuranceInforBean>(context, InsuranceDialog.this.inforBeans) {
+    protected XAdapter<InsuranceInfoBean> getAdapter(Context context, List<InsuranceInfoBean> inforBeans) {
+        return new XAdapter<InsuranceInfoBean>(context, InsuranceDialog.this.inforBeans) {
             @Override
-            public BaseHolder<OrderInsuranceInforBean> initHolder(ViewGroup parent, int viewType) {
-                return new BaseHolder<OrderInsuranceInforBean>(context, parent, R.layout.item_order_insuranc) {
+            public BaseHolder<InsuranceInfoBean> initHolder(ViewGroup parent, int viewType) {
+                return new BaseHolder<InsuranceInfoBean>(context, parent, R.layout.item_order_insuranc) {
                     @Override
-                    public void initView(View itemView, final int position, final OrderInsuranceInforBean def) {
+                    public void initView(View itemView, final int position, final InsuranceInfoBean def) {
                         super.initView(itemView, position, def);
                         TextView tvPayWay = itemView.findViewById(R.id.tv_pay_way);
                         TextView tvPayAccount = itemView.findViewById(R.id.tv_pay_account);
@@ -110,13 +110,13 @@ public class InsuranceDialog extends AccountDialog<OrderInsuranceInforBean> {
          * @param position
          * @param def
          */
-        void onClickEdite(DialogControl.IDialog dialog, int position, OrderInsuranceInforBean def);
+        void onClickEdite(DialogControl.IDialog dialog, int position, InsuranceInfoBean def);
 
         /**
          * 点击添加新的被保险人
          */
         void onClickAdd(DialogControl.IDialog dialog);
 
-        void onChoice(DialogControl.IDialog dialog, int position, OrderInsuranceInforBean def);
+        void onChoice(DialogControl.IDialog dialog, int position, InsuranceInfoBean def);
     }
 }

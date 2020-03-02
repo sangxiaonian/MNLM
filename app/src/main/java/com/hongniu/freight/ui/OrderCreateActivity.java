@@ -23,7 +23,9 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.control.OrderCreateControl;
-import com.hongniu.freight.entity.OrderInsuranceInforBean;
+import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.presenter.OrderCreatePresenter;
 import com.hongniu.freight.utils.PermissionUtils;
@@ -120,6 +122,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         tv_agreement_insurance.setOnClickListener(this);
         tv_agreement.setOnClickListener(this);
         item_insurance_name.setOnClickListener(this);
+        bt_sum.setOnClickListener(this);
 
         item_start_time.setOnCenterChangeListener(this);
         item_cargo.setOnCenterChangeListener(this);
@@ -174,7 +177,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 //            ToastUtils.getInstance().show("支付方式");
             presenter.showPayDialog();
         } else if (R.id.img_insurance == v.getId()) {
-            ToastUtils.getInstance().show("是否购买保险");
+//            ToastUtils.getInstance().show("是否购买保险");
             presenter.onSwitchIsInsurance();
         } else if (R.id.tv_agreement_insurance == v.getId()) {
             ToastUtils.getInstance().show("泓牛供应链保险协议");
@@ -186,8 +189,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 
         } else if (R.id.bt_sum == v.getId()) {
             if (check(true)) {
-                ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
-                finish();
+                presenter.createOrder(this);
             }
         }
     }
@@ -274,6 +276,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
                 @Override
                 public void onOptionsSelect(int options1, int options2, int options3, View v) {
                     presenter.switchPayWay(options1);
+                    check(false);
                 }
             });
             pickerDialogPay.setTitleText("选择支付方式");
@@ -283,7 +286,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     }
 
     @Override
-    public void showPayType(String currentPayType) {
+    public void showPayType(int payType, String currentPayType) {
         item_pay_way.setTextCenter(currentPayType);
     }
 
@@ -293,13 +296,41 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      * @param inforBeans 被保险人信息
      */
     @Override
-    public void showInsuranceDialog(List<OrderInsuranceInforBean> inforBeans) {
+    public void showInsuranceDialog(List<InsuranceInfoBean> inforBeans) {
         if (insuranceDialog==null){
             insuranceDialog=new InsuranceDialog(mContext);
             insuranceDialog.setItemClickListener(this);
         }
         insuranceDialog.setData(inforBeans);
         insuranceDialog.show();
+    }
+
+    /**
+     * 获取所有参数
+     *
+     * @param params
+     */
+    @Override
+    public void getParams(OrderCrateParams params) {
+        params.setGoodName(item_cargo.getTextCenter());
+        params.setGoodVolume(item_size.getTextCenter());
+        params.setGoodWeight(item_weight.getTextCenter());
+        params.setMoney(item_price.getTextCenter());
+        if (item_cargo_price.isShown()){
+            params.setGoodPrice(item_cargo_price.getTextCenter());
+        }
+
+    }
+
+    /**
+     * 创建订单成功
+     *
+     * @param o
+     */
+    @Override
+    public void finishSuccess(OrderInfoBean o) {
+        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("下单成功");
+//        finish();
     }
 
     @Override
@@ -369,7 +400,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             }
             return false;
         }
-
+        Utils.setButton(bt_sum, true);
         return true;
     }
 
@@ -386,7 +417,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      * @param def
      */
     @Override
-    public void onClickEdite(DialogControl.IDialog dialog, int position, OrderInsuranceInforBean def) {
+    public void onClickEdite(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
         ToastUtils.getInstance().show("编辑被保险人信息");
     }
 
@@ -402,8 +433,9 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     }
 
     @Override
-    public void onChoice(DialogControl.IDialog dialog, int position, OrderInsuranceInforBean def) {
-        ToastUtils.getInstance().show("选择被保险人信息");
+    public void onChoice(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
+//        ToastUtils.getInstance().show("选择被保险人信息");
+        presenter.onChangeInsuranceInfo(position,def);
 
     }
 }

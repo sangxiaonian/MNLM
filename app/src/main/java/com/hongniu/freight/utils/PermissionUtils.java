@@ -79,7 +79,7 @@ public class PermissionUtils {
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        if (aBoolean) {
+                        if (!aBoolean) {
                             if (permission != null) {
                                 permission.hasPermission();
                             }

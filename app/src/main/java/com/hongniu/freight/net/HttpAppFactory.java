@@ -9,8 +9,12 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
+import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
@@ -33,19 +37,23 @@ public class HttpAppFactory {
 
     /**
      * 获取验证码
+     *
      * @param phone
      * @return
      */
     public static Observable<CommonBean<String>> getSms(String phone) {
         QuerySmsParams params = new QuerySmsParams();
         params.setMobile(phone);
-        params.setCode(ConvertUtils.MD5(phone+ Param.key));
+        params.setCode(ConvertUtils.MD5(phone + Param.key));
         return CompanyClient.getInstance().creatService(AppService.class)
                 .getSmsCode(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
 
-    } /**
+    }
+
+    /**
      * 获取验证码
+     *
      * @param phone
      * @return
      */
@@ -58,7 +66,7 @@ public class HttpAppFactory {
                 .map(new Function<CommonBean<LoginInfo>, CommonBean<LoginInfo>>() {
                     @Override
                     public CommonBean<LoginInfo> apply(CommonBean<LoginInfo> loginInfoCommonBean) throws Exception {
-                        if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
+                        if (loginInfoCommonBean.getCode() == Param.SUCCESS_FLAG) {
                             InfoUtils.saveLoginInfo(loginInfoCommonBean.getData());
                         }
                         return loginInfoCommonBean;
@@ -67,8 +75,10 @@ public class HttpAppFactory {
                 .compose(RxUtils.<CommonBean<LoginInfo>>getSchedulersObservableTransformer());
 
     }
+
     /**
      * 查询个人信息
+     *
      * @return
      */
     public static Observable<CommonBean<PersonInfor>> queryMyInfo() {
@@ -77,7 +87,7 @@ public class HttpAppFactory {
                 .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
                     @Override
                     public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {
-                        if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
+                        if (loginInfoCommonBean.getCode() == Param.SUCCESS_FLAG) {
                             InfoUtils.saveMyInfo(loginInfoCommonBean.getData());
                         }
                         return loginInfoCommonBean;
@@ -88,12 +98,11 @@ public class HttpAppFactory {
     }
 
 
-
-        /**
-         * 高德地图搜索PIO
-         *
-         * @param poiSearch
-         */
+    /**
+     * 高德地图搜索PIO
+     *
+     * @param poiSearch
+     */
     public static Observable<CommonBean<PageBean<PoiItem>>> searchPio(PoiSearch poiSearch) {
         return Observable.just(poiSearch)
                 .map(new Function<PoiSearch, PoiResult>() {
@@ -129,6 +138,7 @@ public class HttpAppFactory {
 
     /**
      * 查询个人信息
+     *
      * @return
      */
     public static Observable<CommonBean<PersonInfor>> queryIdentityCert(int userType) {
@@ -137,7 +147,7 @@ public class HttpAppFactory {
                 .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
                     @Override
                     public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {
-                        if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
+                        if (loginInfoCommonBean.getCode() == Param.SUCCESS_FLAG) {
                             InfoUtils.saveMyInfo(loginInfoCommonBean.getData());
                         }
                         return loginInfoCommonBean;
@@ -146,11 +156,13 @@ public class HttpAppFactory {
                 .compose(RxUtils.<CommonBean<PersonInfor>>getSchedulersObservableTransformer());
 
     }
+
     /**
      * 获取实名认证token
+     *
      * @return 获取实名认证token
      */
-    public static Observable<CommonBean<VerifyTokenBeans>> getVerifyToken( ) {
+    public static Observable<CommonBean<VerifyTokenBeans>> getVerifyToken() {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .getVerifyToken()
                 .compose(RxUtils.<CommonBean<VerifyTokenBeans>>getSchedulersObservableTransformer());
@@ -158,30 +170,57 @@ public class HttpAppFactory {
     }
 
     /**
-     *@data  2020/3/1
-     *@Author PING
-     *@Description
-     *
-     * 个人托运人身份认证
-     * @return
      * @param params
+     * @return
+     * @data 2020/3/1
+     * @Author PING
+     * @Description 个人托运人身份认证
      */
     public static Observable<CommonBean<String>> verifyCarrierPerson(VerifyCarrierPersonParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyCarrierPerson(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
-    }/**
-     *@data  2020/3/1
-     *@Author PING
-     *@Description
-     *
-     * 个人托运人身份认证
+    }
+
+    /**
      * @return
+     * @data 2020/3/1
+     * @Author PING
+     * @Description 个人托运人身份认证
      */
     public static Observable<CommonBean<VerifyInfoBean>> queryVerifyCarrierPerson() {
-        VerifyInfoParams params=new VerifyInfoParams();
+        VerifyInfoParams params = new VerifyInfoParams();
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryVerifyCarrierPerson( )
+                .queryVerifyCarrierPerson()
                 .compose(RxUtils.<CommonBean<VerifyInfoBean>>getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 查询被保险人列表
+     * @return
+     */
+    public static Observable<CommonBean<PageBean<InsuranceInfoBean>>> queryInsuranceList() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryInsuranceList()
+                .compose(RxUtils.<CommonBean<PageBean<InsuranceInfoBean>>>getSchedulersObservableTransformer());
+    }
+    /**
+     * 查询被保险人列表
+     * @return
+     * @param param
+     */
+    public static Observable<CommonBean<OrderInfoBean>> createOrder(OrderCrateParams param) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .createOrder(param)
+                .compose(RxUtils.<CommonBean<OrderInfoBean>>getSchedulersObservableTransformer());
+    }    /**
+     * 查询被保险人列表
+     * @return
+     * @param param
+     */
+    public static Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(QueryOrderListBean param) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOrderList(param)
+                .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
     }
 }

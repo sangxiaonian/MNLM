@@ -1,13 +1,18 @@
 package com.hongniu.freight.mode;
 
+import android.text.TextUtils;
+
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.App;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
-import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.entity.QueryOrderListBean;
+import com.hongniu.freight.net.HttpAppFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +27,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
 
     private Role role;
     private List<String> titles;
-    private int status;
+    private int statusIndex;
 
     public MyOrderMode() {
         titles = new ArrayList<>();
@@ -36,7 +41,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
 
     @Override
     public void saveStatus(int position) {
-        this.status=position;
+        this.statusIndex =position;
     }
 
     /**
@@ -77,7 +82,16 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
      */
     @Override
     public Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrder(int currentPage) {
-
-        return Utils.createDemoOrderInfo();
+        QueryOrderListBean bean=new QueryOrderListBean();
+        bean.setPageSize(Param.PAGE_SIZE);
+        bean.setPageNum(currentPage);
+        bean.setUserType(role.getType());
+        for (Status value : Status.values()) {
+            if (TextUtils.equals(value.getName(),titles.get(statusIndex))){
+                bean.setStatus(value.getStatus());
+                break;
+            }
+        }
+       return HttpAppFactory.queryOrderList(bean);
     }
 }

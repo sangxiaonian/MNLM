@@ -150,7 +150,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
      */
     @Override
     public void onSingleSelected(int position, String selected, boolean check) {
-        presenter.switchStatus(position);
+        presenter.switchStatus(position,selected);
         queryData(true,true);
     }
 }

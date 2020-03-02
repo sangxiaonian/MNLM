@@ -4,7 +4,8 @@ import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.OrderCreateControl;
-import com.hongniu.freight.entity.OrderInsuranceInforBean;
+import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.mode.OrderCreateMode;
 
@@ -70,7 +71,8 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
         List<List<List<String>>> minutes = mode.getMinutes();
         String time;
         if (options1 == 0 && options2 == 0) {
-              time = hours.get(options1).get(options2);
+            time = hours.get(options1).get(options2);
+            mode.saveStartTime(null);
         } else {
            time=String.format("%s%s%s", days.get(options1), hours.get(options1).get(options2), minutes.get(options1).get(options2).get(options3));
         }
@@ -105,7 +107,7 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     public void switchPayWay(int payType) {
         mode.savePayType(payType);
         String currentPayType = mode.getPayWaysInfo().get(payType);
-        view.showPayType(currentPayType);
+        view.showPayType(payType,currentPayType);
     }
 
     /**
@@ -116,11 +118,40 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     public void showInsuranceInfo(TaskControl.OnTaskListener listener) {
 
         mode.getAllInsuranceInfos()
-            .subscribe(new NetObserver<List<OrderInsuranceInforBean>>(listener){
+            .subscribe(new NetObserver<List<InsuranceInfoBean>>(listener){
                 @Override
-                public void doOnSuccess(List<OrderInsuranceInforBean> inforBeans) {
+                public void doOnSuccess(List<InsuranceInfoBean> inforBeans) {
                     super.doOnSuccess(inforBeans);
                         view.showInsuranceDialog(inforBeans);
+                }
+            })
+        ;
+    }
+
+    /**
+     * 切换被保险人信息
+     *
+     * @param position
+     * @param def
+     */
+    @Override
+    public void onChangeInsuranceInfo(int position, InsuranceInfoBean def) {
+       mode.onChangeInsuranceInfo(position,def);
+    }
+
+    /**
+     * 创建订单
+     * @param listener
+     */
+    @Override
+    public void createOrder(TaskControl.OnTaskListener listener) {
+        view.getParams(mode.getParams());
+        mode.createOrder()
+            .subscribe(new NetObserver<OrderInfoBean>(listener){
+                @Override
+                public void doOnSuccess(OrderInfoBean o) {
+                    super.doOnSuccess(o);
+                    view.finishSuccess(o);
                 }
             })
         ;

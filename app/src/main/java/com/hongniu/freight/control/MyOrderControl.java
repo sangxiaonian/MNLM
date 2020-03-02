@@ -43,8 +43,9 @@ public class MyOrderControl {
         /**
          * 切换当前状态
          * @param position
+         * @param selected
          */
-        void switchStatus(int position);
+        void switchStatus(int position, String selected);
     }
     public interface IMyOrderMode{
         void saveRole(Role role);

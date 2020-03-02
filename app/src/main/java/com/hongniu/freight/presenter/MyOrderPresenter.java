@@ -56,9 +56,10 @@ public class MyOrderPresenter implements MyOrderControl.IMyOrderPresenter {
      * 切换当前状态
      *
      * @param position
+     * @param selected
      */
     @Override
-    public void switchStatus(int position) {
+    public void switchStatus(int position, String selected) {
         mode.saveStatus(position);
     }
 }

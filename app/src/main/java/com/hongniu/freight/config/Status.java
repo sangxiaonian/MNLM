@@ -5,14 +5,14 @@ package com.hongniu.freight.config;
  * 订单状态数据
  */
 public enum Status {
-
-    WAITE_PAY(0,"待支付"),
-    WAITE_RECEIVING_ORDER(1,"待接单"),
-    WAITE_PAY_BALANCE(2,"差额支付中"),
-    WAITE_CAR(3,"待派车"),
-    FIND_CAR(4,"找车中"),
-    WAITE_DEPART_NO_INSURANCE(5,"待发车(未买保险)"),
-    WAITE_DEPART_INSURANCE(6,"待发车(已买保险)"),
+//1:待支付 2:待接单 3:差额支付中 4:待派车 5:找车中 6:待发车 7:运输中 8:已到达 9:已收货
+    WAITE_PAY(1,"待支付"),
+    WAITE_RECEIVING_ORDER(2,"待接单"),
+    WAITE_PAY_BALANCE(3,"差额支付中"),
+    WAITE_CAR(4,"待派车"),
+    FIND_CAR(5,"找车中"),
+    WAITE_DEPART_NO_INSURANCE(6,"待发车"),
+    WAITE_DEPART_INSURANCE(7,"待发车(已买保险)"),
     IN_TRANSIT(7,"运输中"),
     ARRIVE(8,"已到达"),
     RECEIVING(9,"已收货"),

@@ -184,6 +184,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     public void doOnSuccess(PersonInfor personInfor) {
                         super.doOnSuccess(personInfor);
                         initInfo(personInfor);
+                        isFirst=false;
                     }
 
 

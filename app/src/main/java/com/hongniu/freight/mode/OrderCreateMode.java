@@ -4,9 +4,13 @@ import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
+import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.control.OrderCreateControl;
-import com.hongniu.freight.entity.OrderInsuranceInforBean;
+import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
+import com.hongniu.freight.net.HttpAppFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,8 +34,12 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     private boolean isInsurance;//是否购买保险 true 是
     private int payType = -1;//付款方式 -1未知 0现付 1到付
     List<String> payWays;//付款方式
+    OrderCrateParams params;
+    private InsuranceInfoBean insuranceInforBean;
 
     public OrderCreateMode() {
+        params = new OrderCrateParams();
+
         days = new ArrayList<>();
         hours = new ArrayList<>();
         minutes = new ArrayList<>();
@@ -72,7 +80,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
                         @Override
                         public Integer apply(Integer integer) throws Exception {
                             days.clear();
-                            days.addAll(getCurentMonthDays(90));
+                            days.addAll(getCurrentMonthDays(90));
                             hours.clear();
                             minutes.clear();
 //                        days.remove(0);
@@ -123,6 +131,16 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     @Override
     public List<List<String>> getHours() {
         return hours;
+    }
+
+    /**
+     * 更改发货时间
+     *
+     * @param time
+     */
+    @Override
+    public void saveStartTime(String time) {
+        params.setDepartureTime(time);
     }
 
     /**
@@ -177,18 +195,83 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
 
     /**
      * 获取所有被保险人信息
+     *
      * @return
      */
     @Override
-    public Observable<CommonBean<List<OrderInsuranceInforBean>>> getAllInsuranceInfos() {
-        List<OrderInsuranceInforBean> inforBeans = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            inforBeans.add(new OrderInsuranceInforBean());
+    public Observable<CommonBean<List<InsuranceInfoBean>>> getAllInsuranceInfos() {
+//        List<InsuranceInfoBean> inforBeans = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            inforBeans.add(new InsuranceInfoBean());
+//        }
+//        final CommonBean<List<InsuranceInfoBean>> commonBean=new CommonBean<>();
+//        commonBean.setCode(Param.SUCCESS_FLAG);
+//        commonBean.setData(inforBeans);
+        //       return Observable.just(commonBean);
+
+        return HttpAppFactory.queryInsuranceList()
+                .map(new Function<CommonBean<PageBean<InsuranceInfoBean>>, CommonBean<List<InsuranceInfoBean>>>() {
+                    @Override
+                    public CommonBean<List<InsuranceInfoBean>> apply(CommonBean<PageBean<InsuranceInfoBean>> pageBeanCommonBean) throws Exception {
+                        CommonBean<List<InsuranceInfoBean>> commonBean = new CommonBean<>();
+                        commonBean.setCode(pageBeanCommonBean.getCode());
+                        commonBean.setMsg(pageBeanCommonBean.getMsg());
+                        if (commonBean.getCode() == Param.SUCCESS_FLAG) {
+                            commonBean.setData(pageBeanCommonBean.getData().getData());
+                        }
+                        return commonBean;
+                    }
+                });
+    }
+
+    /**
+     * 切换被保险人信息
+     *
+     * @param position
+     * @param def
+     */
+    @Override
+    public void onChangeInsuranceInfo(int position, InsuranceInfoBean def) {
+        this.insuranceInforBean = def;
+    }
+
+    @Override
+    public OrderCrateParams getParams() {
+        return params;
+    }
+
+    /**
+     * 创建订单
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<OrderInfoBean>> createOrder() {
+        //发货信息
+        if (startInfor != null) {
+            params.setStartPlaceInfo(startInfor.getAddressDetail());
+            params.setStartPlaceLat(startInfor.getPoiItem().getLatLonPoint().getLatitude() + "");
+            params.setStartPlaceLon(startInfor.getPoiItem().getLatLonPoint().getLongitude() + "");
+            params.setShipperName(startInfor.getName());
+            params.setShipperMobile(startInfor.getPhone());
         }
-        CommonBean<List<OrderInsuranceInforBean>> commonBean=new CommonBean<>();
-        commonBean.setCode(Param.SUCCESS_FLAG);
-        commonBean.setData(inforBeans);
-       return Observable.just(commonBean);
+
+        //收货地信息
+        if (endInfor != null) {
+            params.setDestinationInfo(endInfor.getAddressDetail());
+            params.setDestinationLat(endInfor.getPoiItem().getLatLonPoint().getLatitude() + "");
+            params.setDestinationLon(endInfor.getPoiItem().getLatLonPoint().getLongitude() + "");
+            params.setReceiverMobile(endInfor.getPhone());
+            params.setReceiverName(endInfor.getName());
+        }
+        params.setFreightPayClass(payType == 0 ? 1 : 2);
+        params.setInsurance(isInsurance ? 1 : 0);
+        if (isInsurance && insuranceInforBean != null) {
+            params.setInsuranceUserId(insuranceInforBean.getId());
+        }else {
+            params.setInsuranceUserId(null);
+        }
+
+        return HttpAppFactory.createOrder(params);
     }
 
 
@@ -197,7 +280,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
      *
      * @return
      */
-    public List<String> getCurentMonthDays(int count) {
+    private List<String> getCurrentMonthDays(int count) {
         final Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日");
 
