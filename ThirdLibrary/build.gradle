@@ -1,10 +1,6 @@
 apply plugin: 'com.android.library'
 
-repositories {
-    flatDir {
-        dirs '../libs'
-    }
-}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -18,11 +14,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
-        repositories {
-            flatDir {
-                dirs '../libs'
-            }
-        }
+
     }
 
 
@@ -52,5 +44,11 @@ dependencies {
     implementation project(path: ':companylibrary')
 
 
+    implementation files('libs\\FaceLivenessOpen-2.1.6.15.aar')
+    implementation files('libs\\NoCaptchaSDK-external-release-5.4.33.aar')
+    implementation files('libs\\SecurityBodySDK-external-release-5.4.79.aar')
+    implementation files('libs\\SecurityGuardSDK-external-release-5.4.9901.aar')
+    implementation files('libs\\oss-android-sdk-2.9.2.aar')
+    implementation files('libs\\rpsdk-3.1.0.1.aar')
 
 }

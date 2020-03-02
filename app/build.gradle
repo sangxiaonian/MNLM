@@ -81,10 +81,5 @@ dependencies {
     implementation "androidx.dynamicanimation:dynamicanimation:1.0.0"
     implementation project(path: ':ThirdLibrary')
 
-    implementation (name:'FaceLivenessOpen-2.1.6.15', ext:'aar')
-    implementation (name:'NoCaptchaSDK-external-release-5.4.33', ext:'aar')
-    implementation (name:'oss-android-sdk-2.9.2', ext:'aar')
-    implementation (name:'rpsdk-3.1.0.1', ext:'aar')
-    implementation (name:'SecurityBodySDK-external-release-5.4.79', ext:'aar')
-    implementation (name:'SecurityGuardSDK-external-release-5.4.9901', ext:'aar')
+
 }

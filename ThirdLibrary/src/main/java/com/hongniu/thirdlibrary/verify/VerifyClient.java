@@ -1,4 +1,4 @@
-package com.hongniu.freight.utils.verify;
+package com.hongniu.thirdlibrary.verify;
 
 import android.content.Context;
 

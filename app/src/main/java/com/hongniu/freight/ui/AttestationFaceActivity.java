@@ -12,7 +12,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.PermissionUtils;
-import com.hongniu.freight.utils.verify.VerifyClient;
+import com.hongniu.thirdlibrary.verify.VerifyClient;
 
 /**
  *@data  2020/3/1
