@@ -5,15 +5,17 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
-import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
-import com.google.gson.Gson;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QuerySmsParams;
+import com.hongniu.freight.entity.VerifyCarrierPersonParams;
+import com.hongniu.freight.entity.VerifyInfoBean;
+import com.hongniu.freight.entity.VerifyInfoParams;
+import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.utils.InfoUtils;
 
 import java.util.ArrayList;
@@ -125,4 +127,61 @@ public class HttpAppFactory {
 
     }
 
+    /**
+     * 查询个人信息
+     * @return
+     */
+    public static Observable<CommonBean<PersonInfor>> queryIdentityCert(int userType) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryMyInfo()
+                .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
+                    @Override
+                    public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {
+                        if (loginInfoCommonBean.getCode()==Param.SUCCESS_FLAG){
+                            InfoUtils.saveMyInfo(loginInfoCommonBean.getData());
+                        }
+                        return loginInfoCommonBean;
+                    }
+                })
+                .compose(RxUtils.<CommonBean<PersonInfor>>getSchedulersObservableTransformer());
+
+    }
+    /**
+     * 获取实名认证token
+     * @return 获取实名认证token
+     */
+    public static Observable<CommonBean<VerifyTokenBeans>> getVerifyToken( ) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .getVerifyToken()
+                .compose(RxUtils.<CommonBean<VerifyTokenBeans>>getSchedulersObservableTransformer());
+
+    }
+
+    /**
+     *@data  2020/3/1
+     *@Author PING
+     *@Description
+     *
+     * 个人托运人身份认证
+     * @return
+     * @param params
+     */
+    public static Observable<CommonBean<String>> verifyCarrierPerson(VerifyCarrierPersonParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .verifyCarrierPerson(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+    }/**
+     *@data  2020/3/1
+     *@Author PING
+     *@Description
+     *
+     * 个人托运人身份认证
+     * @return
+     */
+    public static Observable<CommonBean<VerifyInfoBean>> queryVerifyCarrierPerson() {
+        VerifyInfoParams params=new VerifyInfoParams();
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryVerifyCarrierPerson( )
+                .compose(RxUtils.<CommonBean<VerifyInfoBean>>getSchedulersObservableTransformer());
+    }
 }

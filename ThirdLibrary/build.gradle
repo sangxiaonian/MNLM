@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 
+repositories {
+    flatDir {
+        dirs '../libs'
+    }
+}
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -13,6 +18,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        repositories {
+            flatDir {
+                dirs '../libs'
+            }
+        }
     }
 
 
@@ -39,4 +49,8 @@ dependencies {
     api 'com.amap.api:search:latest.integration'
 //    定位
     api 'com.amap.api:location:latest.integration'
+    implementation project(path: ':companylibrary')
+
+
+
 }

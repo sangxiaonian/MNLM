@@ -7,10 +7,16 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.VerifyCarrierPersonParams;
+import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
+import com.hongniu.freight.entity.VerifyInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
 
 /**
@@ -41,6 +47,19 @@ public class AttestationCarrierPersonalFragment extends CompanyBaseFragment impl
     protected void initData() {
         super.initData();
         check(false);
+        HttpAppFactory.queryVerifyCarrierPerson()
+                .subscribe(new NetObserver<VerifyInfoBean>(this){
+                    @Override
+                    public void doOnSuccess(VerifyInfoBean verifyInfoBean) {
+                        super.doOnSuccess(verifyInfoBean);
+                        VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
+                        if (idnumIdentity !=null){
+                            item_email.setTextCenter(idnumIdentity.getEmail());
+                            item_id_card.setTextCenter(idnumIdentity.getIdnumber());
+                            item_name.setTextCenter(idnumIdentity.getName());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -87,7 +106,22 @@ public class AttestationCarrierPersonalFragment extends CompanyBaseFragment impl
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-                ToastUtils.getInstance().show("下一步");
+                VerifyCarrierPersonParams params=new VerifyCarrierPersonParams();
+                params.setEmail(item_email.getTextCenter());
+                params.setIdnumber(item_id_card.getTextCenter());
+                params.setName(item_name.getTextCenter());
+                HttpAppFactory.verifyCarrierPerson(params)
+                    .subscribe(new NetObserver<String>(this){
+                        @Override
+                        public void doOnSuccess(String s) {
+                            super.doOnSuccess(s);
+                            ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                                    .navigation(getContext());
+                        }
+                    })
+                ;
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                        .navigation(getContext());
             }
         }
     }

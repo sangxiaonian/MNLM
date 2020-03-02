@@ -58,6 +58,8 @@ public class AttestationRoleActivityActivity extends CompanyBaseActivity {
         }
     }
 
+
+
     private String getTitle(int role) {
         String title;
         if (role == 1) {

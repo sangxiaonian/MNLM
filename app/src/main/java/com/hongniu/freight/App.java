@@ -1,10 +1,13 @@
 package com.hongniu.freight;
 
+import com.alibaba.security.rp.RPSDK;
 import com.fy.androidlibrary.net.OkHttp;
 import com.fy.baselibrary.BaseApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.CompanyClient;
 import com.hongniu.freight.net.interceptor.HeardInterceptor;
+import com.hongniu.freight.net.interceptor.LoginOutRespondInterceptor;
+import com.hongniu.freight.utils.verify.VerifyClient;
 
 /**
  * 作者：  on 2020/2/5.
@@ -22,7 +25,11 @@ public class App extends BaseApp {
         }
         CompanyClient.getInstance()
                 .addInterceptor(new HeardInterceptor(this))
+                .addInterceptor(new LoginOutRespondInterceptor(this))
                 .addInterceptor(OkHttp.getLogInterceptor())//添加log日志
                 .setBaseUrl(Param.baseUrl);
+
+        // 初始化实人认证 SDK
+        VerifyClient.getInstance().initClient(this);
     }
 }

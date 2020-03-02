@@ -40,8 +40,24 @@ public class PermissionUtils {
      * @param activity
      */
     public static void applyStorage(Activity activity, final onApplyPermission permission) {
-        applyPermission(activity, permission,
-                Manifest.permission_group.STORAGE);
+        applyPermission(activity, permission
+                ,Manifest.permission.READ_EXTERNAL_STORAGE
+                ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+        );
+
+
+    }
+    /**
+     * 申请储存相关权限
+     *
+     * @param activity
+     */
+    public static void applyCamera(Activity activity, final onApplyPermission permission) {
+        applyPermission(activity, permission
+                ,Manifest.permission.READ_EXTERNAL_STORAGE
+                ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ,Manifest.permission.CAMERA
+        );
 
 
     }
@@ -63,7 +79,7 @@ public class PermissionUtils {
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        if (!aBoolean) {
+                        if (aBoolean) {
                             if (permission != null) {
                                 permission.hasPermission();
                             }
