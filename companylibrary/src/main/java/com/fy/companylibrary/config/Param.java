@@ -9,6 +9,7 @@ public class Param {
     public static final String debugUrl = "http://47.104.130.110:9080/wlhyapi/";
 //    public static final String debugUrl = "http://d08e08b1.ngrok.io//wlhyapi/";
     public static final String releaseUrl = "https://pmls.ehousechina.com/";
+    public static final long IMAGESIZE = 1024 * 1024 * 5;
     public static String baseUrl;
 
     //秘钥

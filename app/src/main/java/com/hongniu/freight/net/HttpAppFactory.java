@@ -9,6 +9,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
+import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
@@ -16,16 +17,22 @@ import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QuerySmsParams;
+import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.utils.InfoUtils;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * 作者： ${PING} on 2018/8/13.
@@ -197,6 +204,7 @@ public class HttpAppFactory {
 
     /**
      * 查询被保险人列表
+     *
      * @return
      */
     public static Observable<CommonBean<PageBean<InsuranceInfoBean>>> queryInsuranceList() {
@@ -204,23 +212,67 @@ public class HttpAppFactory {
                 .queryInsuranceList()
                 .compose(RxUtils.<CommonBean<PageBean<InsuranceInfoBean>>>getSchedulersObservableTransformer());
     }
+
     /**
      * 查询被保险人列表
-     * @return
+     *
      * @param param
+     * @return
      */
     public static Observable<CommonBean<OrderInfoBean>> createOrder(OrderCrateParams param) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .createOrder(param)
                 .compose(RxUtils.<CommonBean<OrderInfoBean>>getSchedulersObservableTransformer());
-    }    /**
+    }
+
+    /**
      * 查询被保险人列表
-     * @return
+     *
      * @param param
+     * @return
      */
     public static Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(QueryOrderListBean param) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderList(param)
                 .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
+    }
+
+
+    /**
+     * 上传图片
+     *
+     * @param type             文件分类：
+     *                         1-货单
+     *                         2-回单
+     *                         7-企业营业执照
+     *                         8-身份证图片
+     *                         12-驾驶证行驶证图片
+     *                         13-道路运输许可证图片
+     *                         14-挂靠协议图片
+     *                         15-司机从业资格证
+     *                         16-意见反馈图片
+     * @param path             路径
+     * @param progressListener 上传进度监听
+     * @return
+     */
+    public static Observable<UpImgData> upImage(int type, String path, FileProgressRequestBody.ProgressListener progressListener) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+
+        File file = new File(path);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        FileProgressRequestBody filePart = new FileProgressRequestBody(requestBody, progressListener);
+        builder.addFormDataPart("file", file.getName(), filePart);
+
+        builder.addFormDataPart("classify", String.valueOf(type));
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .upLoadImage(builder.build())
+                .map(new Function<CommonBean<List<UpImgData>>, UpImgData>() {
+                    @Override
+                    public UpImgData apply(CommonBean<List<UpImgData>> listCommonBean) throws Exception {
+                        return listCommonBean.getData().get(0);
+                    }
+                })
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
     }
 }

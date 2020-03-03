@@ -51,6 +51,8 @@ public class ArouterParamApp {
     public static final String activity_main = "/app/activity_main";
     public static final String activity_my_order = "/app/activity_my_order";
     public static final String fragment_my_order = "/app/fragment_my_order";
+    //意见反馈
+    public static final String activity_face_back = "/app/activity_face_back";
     /**
      * 个人中心
      */

@@ -1,4 +1,4 @@
-package com.hongniu.freight.utils;
+package com.fy.companylibrary.utils;
 
 import android.Manifest;
 import android.app.Activity;

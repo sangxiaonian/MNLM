@@ -128,7 +128,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         } else if (v.getId() == R.id.ll_car) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_car_list).navigation(mContext);
         } else if (v.getId() == R.id.ll_feedback) {
-            ToastUtils.getInstance().show("ll_feedback");
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_face_back).navigation(mContext);
         } else if (v.getId() == R.id.ll_service) {
             new DialogComment.Builder()
                     .setBtLeft("取消")

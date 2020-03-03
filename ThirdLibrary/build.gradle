@@ -51,4 +51,6 @@ dependencies {
     implementation files('libs\\oss-android-sdk-2.9.2.aar')
     implementation files('libs\\rpsdk-3.1.0.1.aar')
 
+    //https://github.com/LuckSiege/PictureSelector 图片选择器
+    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
 }

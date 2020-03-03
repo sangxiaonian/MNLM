@@ -9,6 +9,7 @@ import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QuerySmsParams;
+import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
@@ -16,6 +17,7 @@ import com.hongniu.freight.entity.VerifyTokenBeans;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -107,5 +109,13 @@ public interface AppService {
     @POST("api/deliveryOrder/queryPage")
     Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(@Body QueryOrderListBean params);
 
+
+    /**
+     * 上传图片
+     *
+     * @return
+     */
+    @POST("api/file/uploadFiles")
+    Observable<CommonBean<List<UpImgData>>> upLoadImage(@Body MultipartBody multipartBody);
 
 }
