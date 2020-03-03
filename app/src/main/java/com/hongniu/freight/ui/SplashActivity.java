@@ -19,8 +19,9 @@ public class SplashActivity extends CompanyBaseActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (InfoUtils.getLoginInfo() != null) {
-                int role = InfoUtils.getRole(InfoUtils.getLoginInfo());
-                if (role == -1 && InfoUtils.getRole(InfoUtils.getMyInfo()) == -1) {
+                int state = InfoUtils.getState(InfoUtils.getMyInfo());
+                if (state == 0 && InfoUtils.getState(InfoUtils.getLoginInfo()) == 0) {
+                    //为认证信息
                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
                             .navigation(mContext);
                 } else {

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_of_ffffff"
+    android:orientation="vertical"
+    tools:context=".ui.CarAddModifyActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/gap_app"
+                android:text="请确认承运人信息，订单完成后，实际运费将会转入承运人手机对应账户"
+                android:textColor="@color/color_of_fa8c16"
+                android:textSize="14dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="@dimen/gap_app"
+                android:layout_marginRight="@dimen/gap_app">
+
+                <com.fy.androidlibrary.widget.CircularImageView
+                    android:id="@+id/img_positive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/color_of_f6f5f8"
+                    app:viewradius="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_positive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/icon_scan_040000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="扫描上传行驶证副正面"
+                        android:textColor="@color/color_of_040000"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="@dimen/gap_app"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/gap_app">
+
+                <com.fy.androidlibrary.widget.CircularImageView
+                    android:id="@+id/img_minus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/color_of_f6f5f8"
+                    app:viewradius="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/icon_scan_040000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="扫描上传行驶证副页面"
+                        android:textColor="@color/color_of_040000"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <com.fy.companylibrary.widget.ItemTextView
+                android:id="@+id/item_car_type"
+                style="@style/item_text"
+                app:textcenterhide="请选择车辆类型"
+                app:textleft="车辆类型" />
+
+            <com.fy.companylibrary.widget.ItemTextView
+                android:id="@+id/item_car_band"
+                style="@style/item_edit"
+                app:textcenterhide="请输入车型名称"
+                app:textleft="品牌车型" />
+
+            <com.fy.companylibrary.widget.ItemTextView
+                android:id="@+id/item_car_number"
+                style="@style/item_edit"
+                app:textcenterhide="请输入车牌号码"
+                app:textleft="车牌号码" />
+
+            <com.fy.companylibrary.widget.ItemTextView
+                android:id="@+id/item_car_name"
+                style="@style/item_edit"
+                app:textcenterhide="请输入承运人姓名"
+                app:textleft="承运人姓名" />
+
+            <com.fy.companylibrary.widget.ItemTextView
+                android:id="@+id/item_car_phone"
+                style="@style/item_edit"
+                app:centerType="phone"
+                app:textcenterhide="请输入承运人手机"
+                app:textleft="承运人手机" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+<TextView
+    android:id="@+id/bt_sum"
+    android:text="保存"
+    style="@style/bt_red"
+    />
+</LinearLayout>

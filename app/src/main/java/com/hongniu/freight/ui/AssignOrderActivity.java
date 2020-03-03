@@ -14,14 +14,13 @@ import androidx.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
-import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.CarInfoListBean;
+import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.utils.Utils;
 
 /**
@@ -36,7 +35,7 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
     private ItemTextView item_car_type;
     private ItemTextView item_driver_phone;
     private ItemTextView item_driver_name;
-    private CarInfoListBean carInfo;
+    private CarInfoBean carInfo;
 
 
     @Override

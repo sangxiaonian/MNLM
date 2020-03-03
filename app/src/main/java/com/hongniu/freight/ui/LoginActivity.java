@@ -158,8 +158,8 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                             @Override
                             public void doOnSuccess(LoginInfo loginInfo) {
                                 super.doOnSuccess(loginInfo);
-                                int role = InfoUtils.getRole(loginInfo);
-                                if (role==-1){
+                                int role = InfoUtils.getState(loginInfo);
+                                if (role==0){
                                     //尚未认证
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
                                             .navigation(mContext);

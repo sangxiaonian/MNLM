@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_of_ffffff"
     android:orientation="vertical"
-    tools:context=".ui.MyCarListActivity">
+    tools:context=".ui.CarListActivity">
 
     <include layout="@layout/toolbar"/>
     <include layout="@layout/layout_refresh"/>

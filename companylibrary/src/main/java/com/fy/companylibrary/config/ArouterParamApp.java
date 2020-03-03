@@ -21,7 +21,7 @@ public class ArouterParamApp {
      * 身份认证第二部
      */
     public static final String activity_attestation_role_activity = "/app/activity_attestation_role_activity";
-      /**
+    /**
      * 人脸识别
      */
     public static final String activity_attestation_face = "/app/activity_attestation_face";
@@ -117,6 +117,10 @@ public class ArouterParamApp {
      * 我的车辆信息
      */
     public static final String activity_my_car_list = "/app/activity_my_car_list";
+    /**
+     * 新增修改车辆
+     */
+    public static final String activity_car_add_modify = "/app/activity_car_add_modify";
     /**
      * 我要接单
      */

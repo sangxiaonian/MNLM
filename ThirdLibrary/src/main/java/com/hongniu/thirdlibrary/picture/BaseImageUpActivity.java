@@ -236,7 +236,7 @@ public abstract class BaseImageUpActivity extends CompanyBaseActivity implements
                 list.add(media);
             }
         }
-        new PictureClient().startPhoto(this, 1, getMaxCount(), list, this);
+        new PictureClient().startPhoto(this,   getMaxCount(), list, this);
     }
 
     /**

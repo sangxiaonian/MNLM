@@ -10,10 +10,14 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
 import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
+import com.google.gson.JsonObject;
+import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QuerySmsParams;
@@ -177,6 +181,20 @@ public class HttpAppFactory {
     }
 
     /**
+     * 上传实名认证几个托
+     * @param result 返回识别结果(0 失败 1 成功)
+     * @return
+     */
+    public static Observable<CommonBean<Object>> uploadResult(int result) {
+        JsonObject json = new JsonObject();
+        json.addProperty("appResult", result);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .uploadResult(json)
+                .compose(RxUtils.<CommonBean<Object>>getSchedulersObservableTransformer());
+
+    }
+
+    /**
      * @param params
      * @return
      * @data 2020/3/1
@@ -274,5 +292,40 @@ public class HttpAppFactory {
                 })
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
+    }
+
+    /**
+     * 查询我的车辆列表
+     */
+    public static Observable<CommonBean<PageBean<CarInfoBean>>> queryCarList(int currentPage) {
+        PageParams param = new PageParams();
+        param.setPageNum(currentPage);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryCarList(param)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 查询车辆类型
+     * @return
+     */
+    public static Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList( ) {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryCarTypeList( )
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     *@data  2020/3/3
+     *@Author PING
+     *@Description
+     *
+     * 新增修改车辆
+     */
+    public static Observable<CommonBean<Object>> createCar(CarInfoBean infoBean) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .createCar( infoBean)
+                .compose(RxUtils.getSchedulersObservableTransformer());
     }
 }

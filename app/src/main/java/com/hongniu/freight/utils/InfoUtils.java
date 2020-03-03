@@ -101,6 +101,34 @@ public class InfoUtils {
         }
         return status;
     }
+   /**
+     * 获取当前认证状态
+     *
+     * @return
+     */
+    public static int getState(LoginInfo info) {
+        int status = 0;
+        if (info.isStaff()) {
+            //平台员工
+            status = info.getIsStaffStatus();
+        } else if (info.getIsDriver() == 1) {
+            //如果是司机
+            status = info.getIsDriverStatus();
+        } else if (info.getIsPersonCarrier() == 1) {
+            //个人承运人
+            status = info.getIsPersonCarrierStatus();
+        } else if (info.getIsCompanyCarrier() == 1) {
+            //公司承运人
+            status = info.getIsCompanyCarrierStatus();
+        } else if (info.getIsCompanyShipper() == 1) {
+            //公司托运人
+            status = info.getIsCompanyShipperStatus();
+        } else if (info.getIsPersonShipper() == 1) {
+            //个人托运人
+            status = info.getIsCompanyShipperStatus();
+        }
+        return status;
+    }
 
     /**
      * 获取当前认证状态

@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.FaceBackActivity"></activity>
+        <activity android:name=".ui.CarAddModifyActivity"></activity>
+        <activity android:name=".ui.FaceBackActivity" />
         <activity android:name=".ui.AttestationFaceActivity" />
         <activity android:name=".ui.AttestationRoleActivityActivity" />
         <activity android:name=".ui.AttestationSelectRoleActivity" />
@@ -28,7 +29,7 @@
         <activity android:name=".ui.MyCoffersActivity" />
         <activity android:name=".ui.OrderReceivingCenterActivity" />
         <activity android:name=".ui.OrderCenterActivity" />
-        <activity android:name=".ui.MyCarListActivity" />
+        <activity android:name=".ui.CarListActivity" />
         <activity android:name=".ui.AboutUsActivity" />
         <activity android:name=".ui.OrderDetailActivity" />
         <activity android:name=".ui.SearchOrderActivity" />

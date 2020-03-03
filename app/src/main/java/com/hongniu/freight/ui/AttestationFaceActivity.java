@@ -87,8 +87,16 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
      */
     @Override
     public void onVerifySuccess() {
-        ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
-                .navigation(mContext);
+        HttpAppFactory.uploadResult(1)
+                .subscribe(new NetObserver<Object>(this){
+                    @Override
+                    public void doOnSuccess(Object o) {
+                        super.doOnSuccess(o);
+                        ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                                .navigation(mContext);
+                    }
+                });
+
     }
 
     /**
@@ -96,7 +104,15 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
      */
     @Override
     public void onVerifyFail() {
-
+        HttpAppFactory.uploadResult(0)
+                .subscribe(new NetObserver<Object>(this){
+                    @Override
+                    public void doOnSuccess(Object o) {
+                        super.doOnSuccess(o);
+                        ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                                .navigation(mContext);
+                    }
+                });
     }
 
     /**

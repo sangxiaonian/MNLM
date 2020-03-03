@@ -15,14 +15,15 @@ import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.androidlibrary.widget.span.RoundedBackgroundSpan;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.CarInfoListBean;
+import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -33,7 +34,7 @@ import io.reactivex.Observable;
  * @Description 我的车辆
  */
 @Route(path = ArouterParamApp.activity_my_car_list)
-public class MyCarListActivity extends RefrushActivity<CarInfoListBean> {
+public class CarListActivity extends RefrushActivity<CarInfoBean> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +50,15 @@ public class MyCarListActivity extends RefrushActivity<CarInfoListBean> {
     @Override
     protected void initData() {
         super.initData();
-        adapter.addFoot(new PeakHolder(mContext, rv,R.layout.item_car_foot) {
+        adapter.addFoot(new PeakHolder(mContext, rv, R.layout.item_car_foot) {
             @Override
             public void initView(View itemView, int position) {
                 super.initView(itemView, position);
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.getInstance().show("添加车辆");
+                        ArouterUtils.getInstance().builder(ArouterParamApp.activity_car_add_modify)
+                                .navigation(mContext);
                     }
                 });
             }
@@ -75,28 +77,18 @@ public class MyCarListActivity extends RefrushActivity<CarInfoListBean> {
     }
 
     @Override
-    protected Observable<CommonBean<PageBean<CarInfoListBean>>> getListDatas() {
-        CommonBean<PageBean<CarInfoListBean>> common = new CommonBean<>();
-        common.setCode(200);
-        PageBean<CarInfoListBean> pageBean = new PageBean<>();
-        common.setData(pageBean);
-        List<CarInfoListBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            CarInfoListBean orderInfoBean = new CarInfoListBean();
-            list.add(orderInfoBean);
-        }
-        pageBean.setData(list);
-        return Observable.just(common);
+    protected Observable<CommonBean<PageBean<CarInfoBean>>> getListDatas() {
+        return HttpAppFactory.queryCarList(currentPage);
     }
 
     @Override
-    protected XAdapter<CarInfoListBean> getAdapter(List<CarInfoListBean> datas) {
-        return new XAdapter<CarInfoListBean>(mContext, datas) {
+    protected XAdapter<CarInfoBean> getAdapter(List<CarInfoBean> datas) {
+        return new XAdapter<CarInfoBean>(mContext, datas) {
             @Override
-            public BaseHolder<CarInfoListBean> initHolder(ViewGroup parent, int viewType) {
-                return new BaseHolder<CarInfoListBean>(context, parent, R.layout.item_car) {
+            public BaseHolder<CarInfoBean> initHolder(ViewGroup parent, int viewType) {
+                return new BaseHolder<CarInfoBean>(context, parent, R.layout.item_car) {
                     @Override
-                    public void initView(View itemView, int position, CarInfoListBean data) {
+                    public void initView(View itemView, int position, CarInfoBean data) {
                         super.initView(itemView, position, data);
                         TextView tv_title = itemView.findViewById(R.id.tv_title);
                         TextView tv_car_type = itemView.findViewById(R.id.tv_car_type);

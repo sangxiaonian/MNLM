@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.amap.api.services.core.PoiItem;
+import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
@@ -12,6 +13,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.Gson;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,4 +82,13 @@ public class Utils {
     }
 
 
+    public static String getPath(LocalMedia localMedia) {
+        String path;
+        if (DeviceUtils.getSdkVersion()>28){
+            path=localMedia.getAndroidQToPath();
+        }else {
+            path=localMedia.getPath();
+        }
+        return path;
+    }
 }

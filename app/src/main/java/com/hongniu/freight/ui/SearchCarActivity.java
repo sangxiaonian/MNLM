@@ -1,33 +1,25 @@
 package com.hongniu.freight.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.toast.ToastUtils;
-import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.SearchTitleView;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
-import com.fy.androidlibrary.widget.span.RoundedBackgroundSpan;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.CarInfoListBean;
+import com.hongniu.freight.entity.CarInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +35,7 @@ import io.reactivex.Observable;
  */
 @Route(path = ArouterParamApp.activity_search_car)
 
-public class SearchCarActivity extends RefrushActivity<CarInfoListBean> implements  SearchTextWatcher.SearchTextChangeListener {
+public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements  SearchTextWatcher.SearchTextChangeListener {
 
     private SearchTitleView searchTitleView;
     @Override
@@ -81,14 +73,14 @@ public class SearchCarActivity extends RefrushActivity<CarInfoListBean> implemen
     }
 
     @Override
-    protected Observable<CommonBean<PageBean<CarInfoListBean>>> getListDatas() {
-        CommonBean<PageBean<CarInfoListBean>> common = new CommonBean<>();
+    protected Observable<CommonBean<PageBean<CarInfoBean>>> getListDatas() {
+        CommonBean<PageBean<CarInfoBean>> common = new CommonBean<>();
         common.setCode(200);
-        PageBean<CarInfoListBean> pageBean = new PageBean<>();
+        PageBean<CarInfoBean> pageBean = new PageBean<>();
         common.setData(pageBean);
-        List<CarInfoListBean> list = new ArrayList<>();
+        List<CarInfoBean> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            CarInfoListBean orderInfoBean = new CarInfoListBean();
+            CarInfoBean orderInfoBean = new CarInfoBean();
             list.add(orderInfoBean);
         }
         pageBean.setData(list);
@@ -96,13 +88,13 @@ public class SearchCarActivity extends RefrushActivity<CarInfoListBean> implemen
     }
 
     @Override
-    protected XAdapter<CarInfoListBean> getAdapter(List<CarInfoListBean> datas) {
-        return new XAdapter<CarInfoListBean>(mContext, datas) {
+    protected XAdapter<CarInfoBean> getAdapter(List<CarInfoBean> datas) {
+        return new XAdapter<CarInfoBean>(mContext, datas) {
             @Override
-            public BaseHolder<CarInfoListBean> initHolder(ViewGroup parent, int viewType) {
-                return new BaseHolder<CarInfoListBean>(context, parent, R.layout.item_search_car) {
+            public BaseHolder<CarInfoBean> initHolder(ViewGroup parent, int viewType) {
+                return new BaseHolder<CarInfoBean>(context, parent, R.layout.item_search_car) {
                     @Override
-                    public void initView(View itemView, int position, final CarInfoListBean data) {
+                    public void initView(View itemView, int position, final CarInfoBean data) {
                         super.initView(itemView, position, data);
                         TextView tv_title = itemView.findViewById(R.id.tv_car_info);
                         TextView tv_car_type = itemView.findViewById(R.id.tv_car_type);

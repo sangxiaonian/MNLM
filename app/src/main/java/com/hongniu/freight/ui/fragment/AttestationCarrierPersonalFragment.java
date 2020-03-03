@@ -48,12 +48,12 @@ public class AttestationCarrierPersonalFragment extends CompanyBaseFragment impl
         super.initData();
         check(false);
         HttpAppFactory.queryVerifyCarrierPerson()
-                .subscribe(new NetObserver<VerifyInfoBean>(this){
+                .subscribe(new NetObserver<VerifyInfoBean>(this) {
                     @Override
                     public void doOnSuccess(VerifyInfoBean verifyInfoBean) {
                         super.doOnSuccess(verifyInfoBean);
                         VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
-                        if (idnumIdentity !=null){
+                        if (idnumIdentity != null) {
                             item_email.setTextCenter(idnumIdentity.getEmail());
                             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
                             item_name.setTextCenter(idnumIdentity.getName());
@@ -106,22 +106,21 @@ public class AttestationCarrierPersonalFragment extends CompanyBaseFragment impl
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-                VerifyCarrierPersonParams params=new VerifyCarrierPersonParams();
+                VerifyCarrierPersonParams params = new VerifyCarrierPersonParams();
                 params.setEmail(item_email.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setName(item_name.getTextCenter());
                 HttpAppFactory.verifyCarrierPerson(params)
-                    .subscribe(new NetObserver<String>(this){
-                        @Override
-                        public void doOnSuccess(String s) {
-                            super.doOnSuccess(s);
-                            ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
-                                    .navigation(getContext());
-                        }
-                    })
+                        .subscribe(new NetObserver<String>(this) {
+                            @Override
+                            public void doOnSuccess(String s) {
+                                super.doOnSuccess(s);
+                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                                        .navigation(getContext());
+                            }
+                        })
                 ;
-                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
-                        .navigation(getContext());
+
             }
         }
     }

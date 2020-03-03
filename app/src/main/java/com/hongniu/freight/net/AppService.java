@@ -2,10 +2,14 @@ package com.hongniu.freight.net;
 
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
+import com.google.gson.JsonObject;
+import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QuerySmsParams;
@@ -32,7 +36,7 @@ public interface AppService {
      * @param params
      * @return
      */
-    @POST("api/login/getcheckcode")
+    @POST("wlhyapi/api/login/getcheckcode")
     Observable<CommonBean<String>> getSmsCode(@Body QuerySmsParams params);
 
     /**
@@ -41,7 +45,7 @@ public interface AppService {
      * @param params
      * @return
      */
-    @POST("api/login/login")
+    @POST("wlhyapi/api/login/login")
     Observable<CommonBean<LoginInfo>> login(@Body QuerySmsParams params);
 
     /**
@@ -49,7 +53,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/user/finduserinfo")
+    @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<PersonInfor>> queryMyInfo();
 
     /**
@@ -57,7 +61,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/user/finduserinfo")
+    @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<PersonInfor>> queryIdentityCert();
 
     /**
@@ -65,8 +69,16 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/aliRPBasic/getVerifyToken")
+    @POST("wlhyapi/api/aliRPBasic/getVerifyToken")
     Observable<CommonBean<VerifyTokenBeans>> getVerifyToken();
+    /**
+     * 上传实名认证结果
+     *
+     * @return
+     * @param json
+     */
+    @POST("wlhyapi/api/aliRPBasic/uploadResult")
+    Observable<CommonBean<Object>> uploadResult(@Body JsonObject json);
 
     /**
      * 个人托运人身份认证
@@ -74,7 +86,7 @@ public interface AppService {
      * @param params
      * @return
      */
-    @POST("api/identityAuthen/personShipperAuth")
+    @POST("wlhyapi/api/identityAuthen/personShipperAuth")
     Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyCarrierPersonParams params);
 
     /**
@@ -82,7 +94,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/identityAuthen/queryIdentityCert")
+    @POST("wlhyapi/api/identityAuthen/queryIdentityCert")
     Observable<CommonBean<VerifyInfoBean>> queryVerifyCarrierPerson();
 
     /**
@@ -90,7 +102,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/userinsured/list")
+    @POST("wlhyapi/api/userinsured/list")
     Observable<CommonBean<PageBean<InsuranceInfoBean>>> queryInsuranceList();
 
     /**
@@ -98,7 +110,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/deliveryOrder/add")
+    @POST("wlhyapi/api/deliveryOrder/add")
     Observable<CommonBean<OrderInfoBean>> createOrder(@Body OrderCrateParams params);
 
     /**
@@ -106,7 +118,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/deliveryOrder/queryPage")
+    @POST("wlhyapi/api/deliveryOrder/queryPage")
     Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(@Body QueryOrderListBean params);
 
 
@@ -115,7 +127,29 @@ public interface AppService {
      *
      * @return
      */
-    @POST("api/file/uploadFiles")
+    @POST("wlhyapi/api/file/uploadFiles")
     Observable<CommonBean<List<UpImgData>>> upLoadImage(@Body MultipartBody multipartBody);
+
+    /**
+     * 我的车辆列表
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/car/selectpagecar")
+    Observable<CommonBean<PageBean<CarInfoBean>>> queryCarList(@Body PageParams pageParams);
+ /**
+     * 我的车辆列表
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/car/vehicletype")
+    Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList( );
+ /**
+     * 新增修改车辆
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/car/savecar")
+    Observable<CommonBean<Object>> createCar(@Body CarInfoBean infoBean );
 
 }
