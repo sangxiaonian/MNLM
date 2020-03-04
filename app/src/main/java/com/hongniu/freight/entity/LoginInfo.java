@@ -3,7 +3,7 @@ package com.hongniu.freight.entity;
 /**
  * 作者：  on 2020/2/23.
  */
-public class LoginInfo   {
+public class LoginInfo {
 
     private boolean isStaff;//true	平台员工身份 1:是 0:否
     private long id;//true	用户id
@@ -30,6 +30,15 @@ public class LoginInfo   {
     protected int isPersonCarrierStatus;//true	认证个人承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
     protected int isCompanyShipperStatus;//true	认证公司托运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
     protected int isCompanyCarrierStatus;//true	认证公司承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+    protected int isRealname;//true	int	是否实名 0未实名 1已实名
+
+    public int getIsRealname() {
+        return isRealname;
+    }
+
+    public void setIsRealname(int isRealname) {
+        this.isRealname = isRealname;
+    }
 
     public boolean isStaff() {
         return isStaff;

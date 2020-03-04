@@ -19,16 +19,15 @@ public class SplashActivity extends CompanyBaseActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (InfoUtils.getLoginInfo() != null) {
-                int state = InfoUtils.getState(InfoUtils.getMyInfo());
-                if (state == 0 && InfoUtils.getState(InfoUtils.getLoginInfo()) == 0) {
-                    //为认证信息
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
-                            .navigation(mContext);
-                } else {
+                if (InfoUtils.getLoginInfo().getIsRealname()==1||(InfoUtils.getMyInfo()!=null&&InfoUtils.getMyInfo().getIsRealname()==1)) {
                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
                             .navigation(mContext);
+                }else {
+//                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
+//                            .navigation(mContext);
+                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
+                            .navigation(mContext);
                 }
-
             } else {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_login)
                         .navigation(mContext);

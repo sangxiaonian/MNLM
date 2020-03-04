@@ -26,11 +26,11 @@ public class ArouterParamApp {
      */
     public static final String activity_attestation_face = "/app/activity_attestation_face";
     /**
-     * 个人托运人身份认证第二部
+     * 公司承运人身份认证第二部
      */
     public static final String fragment_attestation_carrier_company = "/app/fragment_attestation_carrier_company";
     /**
-     * 个人托运人身份认证第二部
+     * 个人承运人身份认证第二部
      */
     public static final String fragment_attestation_carrier_personal = "/app/fragment_attestation_carrier_personal";
     /**
@@ -38,11 +38,11 @@ public class ArouterParamApp {
      */
     public static final String fragment_attestation_driver = "/app/fragment_attestation_driver";
     /**
-     * 公司承运人身份认证第二部
+     * 公司托运人身份认证第二部
      */
     public static final String fragment_attestation_shipper_company = "/app/fragment_attestation_shipper_company";
     /**
-     * 个人承运人身份认证第二部
+     * 个人托运人身份认证第二部
      */
     public static final String fragment_attestation_shipper_personal = "/app/fragment_attestation_shipper_personal";
 

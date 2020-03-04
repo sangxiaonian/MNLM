@@ -19,6 +19,7 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class AttestationSelectRoleActivity extends CompanyBaseActivity implement
     private RecyclerView rv;
     private List<ItemInfo> itemInfos;
     private SelectAdapter<ItemInfo> selectAdapter;
-    private int role;
+    private Role role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +64,11 @@ public class AttestationSelectRoleActivity extends CompanyBaseActivity implement
         rv.setLayoutManager(manager);
 
         itemInfos = new ArrayList<>();
-        itemInfos.add(new ItemInfo("公司托运人", "货物所有者/货物管理者", 4));
-        itemInfos.add(new ItemInfo("个人托运人", "货物所有者/货物管理者", 5));
-        itemInfos.add(new ItemInfo("公司承运人", "货物运输过程中的实际承运人", 3));
-        itemInfos.add(new ItemInfo("个人承运人", "货物运输过程中的实际承运人", 2));
-        itemInfos.add(new ItemInfo("司机", "货物运输过程中的驾驶员", 1));
+        itemInfos.add(new ItemInfo("公司托运人", "货物所有者/货物管理者", Role.SHIPPER_COMPANY));
+        itemInfos.add(new ItemInfo("个人托运人", "货物所有者/货物管理者", Role.SHIPPER_PERSONAL));
+        itemInfos.add(new ItemInfo("公司承运人", "货物运输过程中的实际承运人", Role.CARRIER_COMPANY));
+        itemInfos.add(new ItemInfo("个人承运人", "货物运输过程中的实际承运人", Role.CARRIER_PERSONAL));
+        itemInfos.add(new ItemInfo("司机", "货物运输过程中的驾驶员",  Role.DRIVER));
          selectAdapter = new SelectAdapter<ItemInfo>(mContext, rv) {
             @Override
             public void initView(View itemView, int position, ItemInfo itemInfo, boolean select) {
@@ -122,9 +123,9 @@ public class AttestationSelectRoleActivity extends CompanyBaseActivity implement
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.bt_sum){
-            if (role>0) {
+            if (role!=null) {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
-                        .withInt(Param.TRAN,role)
+                        .withSerializable(Param.TRAN,role)
                         .navigation(mContext);
             }else {
                 ToastUtils.getInstance().show("请选择你的身份");
@@ -136,9 +137,9 @@ public class AttestationSelectRoleActivity extends CompanyBaseActivity implement
     class ItemInfo {
         String title;
         String describe;
-        int role;
+        Role role;
 
-        public ItemInfo(String title, String describe, int role) {
+        public ItemInfo(String title, String describe, Role role) {
             this.title = title;
             this.describe = describe;
             this.role = role;

@@ -7,19 +7,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.imgload.ImageLoader;
+import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
+import com.fy.companylibrary.utils.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
+import com.hongniu.freight.entity.UpImgData;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.thirdlibrary.picture.PictureClient;
+import com.hongniu.thirdlibrary.picture.utils.PicUtils;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+
+import java.util.List;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * 作者：  on 2020/2/24.
  * 公司托运人身份认证第二部
  */
 @Route(path = ArouterParamApp.fragment_attestation_shipper_company)
-public class AttestationShipperCompanyFragment extends CompanyBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener {
+public class AttestationShipperCompanyFragment extends AttestationBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener {
 
     private View root;
     private ItemTextView item_company_name;//企业名称
@@ -30,6 +45,8 @@ public class AttestationShipperCompanyFragment extends CompanyBaseFragment imple
     private View ll_business_license;//挂靠协议
     private ImageView img_business_license;//营业执照
     private TextView bt_sum;//邮箱
+    private int isqualification;
+    private UpImgData qualificationInfo;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -75,6 +92,22 @@ public class AttestationShipperCompanyFragment extends CompanyBaseFragment imple
         ) {
             return false;
         }
+        if (isqualification == 0) {
+            if (showAlert) {
+                ToastUtils.getInstance().show("请上传营业执照");
+            }
+            return false;
+        } else if (isqualification == 1) {
+            if (showAlert) {
+                ToastUtils.getInstance().show("营业执照上传中,请稍后");
+            }
+            return false;
+        } else if (isqualification == 3) {
+            if (showAlert) {
+                ToastUtils.getInstance().show("营业执照上传失败,请重试");
+            }
+            return false;
+        }
         Utils.setButton(bt_sum, true);
 
         return true;
@@ -104,13 +137,64 @@ public class AttestationShipperCompanyFragment extends CompanyBaseFragment imple
                 ToastUtils.getInstance().show("下一步");
             }
         } else  if (v.getId() == R.id.ll_business_license) {
-            ToastUtils.getInstance().show("营业执照");
+//            ToastUtils.getInstance().show("营业执照");
+            startPhoto(new OnResultCallbackListener() {
+                @Override
+                public void onResult(List<LocalMedia> result) {
+                    check(false);
+                    if (!CollectionUtils.isEmpty(result)) {
+                        ll_business_license.setVisibility(View.GONE);
+                        String path = PicUtils.getPath(result.get(0));
+                        ImageLoader.getLoader().load(mContext, img_business_license, path);
+                        HttpAppFactory.upImage(14,
+                                path
+                                , null
+                        )
+                                .subscribe(new BaseObserver<UpImgData>(null) {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+                                        super.onSubscribe(d);
+                                        isqualification = 1;
+                                    }
 
+                                    @Override
+                                    public void onNext(UpImgData result) {
+                                        super.onNext(result);
+                                        qualificationInfo = result;
+                                        isqualification = 2;
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
+                                        isqualification = 3;
+                                    }
+                                });
+
+                    }
+
+                }
+            });
         }
     }
 
     @Override
     public void onCenterChange(String msg) {
         check(false);
+    }
+
+    private void startPhoto(OnResultCallbackListener listener) {
+        PermissionUtils.applyCamera(getActivity(), new PermissionUtils.onApplyPermission() {
+            @Override
+            public void hasPermission() {
+                new PictureClient()
+                        .startPhoto(AttestationShipperCompanyFragment.this, 1, null, listener);
+            }
+
+            @Override
+            public void noPermission() {
+
+            }
+        });
     }
 }

@@ -32,7 +32,7 @@ public class OrderTYRHolder extends OrderBaseHolder {
         ViewGroup ll_bt = itemView.findViewById(R.id.ll_bt);
         Group bottom_group = itemView.findViewById(R.id.bottom_group);
 
-        OrderHelper helper = new OrderHelper(Role.SHIPPER);
+        OrderHelper helper = new OrderHelper(Role.SHIPPER_COMPANY);
 
         tv_time.setText("2019-04-02 09:00");
         tv_tag.setText("托运人");

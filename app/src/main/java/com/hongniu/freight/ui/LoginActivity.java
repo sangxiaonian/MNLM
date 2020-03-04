@@ -163,6 +163,9 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                                     //尚未认证
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
                                             .navigation(mContext);
+                                }else if (loginInfo.getIsRealname()==0){
+                                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                                            .navigation(mContext);
                                 }else {
                                     //已有认证角色
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)

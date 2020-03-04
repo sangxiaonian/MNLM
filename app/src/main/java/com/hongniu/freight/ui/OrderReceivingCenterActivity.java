@@ -28,7 +28,7 @@ public class OrderReceivingCenterActivity extends CompanyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_receiving);
-        role = Role.SHIPPER;
+        role = Role.SHIPPER_COMPANY  ;
         setWhitToolBar("");
         setToolbarSrcRight(R.drawable.icon_search_434445);
         setToolbarRightClick(new View.OnClickListener() {

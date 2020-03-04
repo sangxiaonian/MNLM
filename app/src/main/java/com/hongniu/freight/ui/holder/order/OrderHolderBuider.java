@@ -38,7 +38,7 @@ public class OrderHolderBuider {
 
     public BaseHolder<OrderInfoBean> build(){
         OrderBaseHolder holder;
-        if (type==Role.CARRIER){
+        if (type==Role.CARRIER_COMPANY){
             holder=new OrderCYRHolder(context,parent);
         }else if (type==Role.DRIVER){
             holder=new OrderDriverHolder(context,parent);

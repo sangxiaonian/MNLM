@@ -20,18 +20,21 @@
 
             <com.fy.companylibrary.widget.ItemTextView
                 style="@style/item_edit"
+                android:id="@+id/item_name"
                 app:textcenterhide="请输入姓名"
                 app:textleft="姓名" />
 
             <com.fy.companylibrary.widget.ItemTextView
                 style="@style/item_edit"
                 app:centerType="idcard"
+                android:id="@+id/item_id_card"
                 app:textcenterhide="请输入身份证号码"
                 app:textleft="身份证号码" />
 
             <com.fy.companylibrary.widget.ItemTextView
                 style="@style/item_edit"
                 app:centerType="normal"
+                android:id="@+id/item_email"
                 app:textcenterhide="请输入邮箱"
                 app:textleft="邮箱" />
 

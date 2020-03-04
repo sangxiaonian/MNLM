@@ -13,7 +13,6 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
-import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
@@ -30,7 +29,7 @@ import java.util.Arrays;
 @Route(path = ArouterParamApp.fragment_order_home)
 public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsSelectListener, View.OnClickListener {
 
-    private Role role=Role.SHIPPER;
+    private Role role=Role.SHIPPER_COMPANY;
     private TextView tvTitle;
     private TextView tvRole;
     private View ll_filtrate;
@@ -86,11 +85,11 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
     }
 
     private Role getRole(int options1) {
-        Role role=Role.SHIPPER;
+        Role role=Role.SHIPPER_COMPANY;
         if (options1==0){
-            role= Role.SHIPPER;
+            role= Role.SHIPPER_COMPANY;
         }else if (options1==1){
-            role=Role.CARRIER;
+            role=Role.CARRIER_COMPANY;
         }else if (options1==2){
             role=Role.DRIVER;
         }
@@ -102,7 +101,7 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
         if (currentFragment!=null){
             transaction.hide(currentFragment);
         }
-        if (role==Role.SHIPPER){
+        if (role==Role.SHIPPER_COMPANY){
             if (shipperFragment==null){
                 shipperFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();
@@ -114,7 +113,7 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
             }
             currentFragment=shipperFragment;
 
-        }else if (role==Role.CARRIER){
+        }else if (role==Role.CARRIER_COMPANY){
             if (carrierFragment==null){
                 carrierFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();

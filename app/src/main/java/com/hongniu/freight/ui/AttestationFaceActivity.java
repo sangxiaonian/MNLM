@@ -70,8 +70,13 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
                     @Override
                     public void doOnSuccess(VerifyTokenBeans verifyTokenBeans) {
                         super.doOnSuccess(verifyTokenBeans);
-                        token = verifyTokenBeans.getToken();
-                        VerifyClient.getInstance().startVerify(mContext,token,AttestationFaceActivity.this);
+                        if (verifyTokenBeans.getIsAuthen()==1){
+                            ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                                    .navigation(mContext);
+                        }else {
+                            token = verifyTokenBeans.getToken();
+                            VerifyClient.getInstance().startVerify(mContext, token, AttestationFaceActivity.this);
+                        }
 
                     }
                 });

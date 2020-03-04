@@ -8,28 +8,31 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.VerifyCarrierPersonParams;
+import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
+import com.hongniu.freight.entity.VerifyInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
 
 /**
  * 作者：  on 2020/2/24.
- * 个人承运人身份认证第二部
+ * 个人托运人身份认证第二部
  */
 @Route(path = ArouterParamApp.fragment_attestation_shipper_personal)
-public class AttestationShipperPersonalFragment extends CompanyBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener {
+public class AttestationShipperPersonalFragment  extends AttestationBaseFragment implements View.OnClickListener, ItemTextView.OnCenterChangeListener {
+
 
     private View root;
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱
-    private View ll_driver;//道路运输许可证
-    private View ll_qualification;//挂靠协议
-    private ImageView img_driver;//道路运输许可证
-    private ImageView img_qualification;//挂靠协议
-    private TextView bt_sum;//邮箱
+
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -39,10 +42,6 @@ public class AttestationShipperPersonalFragment extends CompanyBaseFragment impl
         item_id_card = inflate.findViewById(R.id.item_id_card);
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
-        ll_driver = inflate.findViewById(R.id.ll_driver);
-        ll_qualification = inflate.findViewById(R.id.ll_qualification);
-        img_driver = inflate.findViewById(R.id.img_driver);
-        img_qualification = inflate.findViewById(R.id.img_qualification);
         return inflate;
     }
 
@@ -50,6 +49,18 @@ public class AttestationShipperPersonalFragment extends CompanyBaseFragment impl
     protected void initData() {
         super.initData();
         check(false);
+
+    }
+
+    @Override
+    protected void initInfo(VerifyInfoBean verifyInfoBean) {
+        super.initInfo(verifyInfoBean);
+        VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
+        if (idnumIdentity != null) {
+            item_email.setTextCenter(idnumIdentity.getEmail());
+            item_id_card.setTextCenter(idnumIdentity.getIdnumber());
+            item_name.setTextCenter(idnumIdentity.getName());
+        }
     }
 
     @Override
@@ -59,8 +70,6 @@ public class AttestationShipperPersonalFragment extends CompanyBaseFragment impl
         item_id_card.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
         bt_sum.setOnClickListener(this);
-        ll_qualification.setOnClickListener(this);
-        ll_driver.setOnClickListener(this);
     }
 
     private boolean check(boolean showAlert) {
@@ -98,14 +107,22 @@ public class AttestationShipperPersonalFragment extends CompanyBaseFragment impl
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-                ToastUtils.getInstance().show("下一步");
+                VerifyCarrierPersonParams params = new VerifyCarrierPersonParams();
+                params.setEmail(item_email.getTextCenter());
+                params.setIdnumber(item_id_card.getTextCenter());
+                params.setName(item_name.getTextCenter());
+                HttpAppFactory.verifyCarrierPerson(params)
+                        .subscribe(new NetObserver<String>(this) {
+                            @Override
+                            public void doOnSuccess(String s) {
+                                super.doOnSuccess(s);
+                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                                        .navigation(getContext());
+                            }
+                        })
+                ;
+
             }
-        } else if (v.getId() == R.id.ll_driver) {
-            ToastUtils.getInstance().show("道路运输许可证");
-
-        } else if (v.getId() == R.id.ll_qualification) {
-            ToastUtils.getInstance().show("挂靠协议");
-
         }
     }
 

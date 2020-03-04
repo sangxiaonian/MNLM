@@ -1,17 +1,12 @@
 package com.hongniu.freight.utils;
 
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 
 import com.amap.api.services.core.PoiItem;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
-import com.fy.androidlibrary.utils.SharedPreferencesUtils;
-import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
-import com.google.gson.Gson;
-import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -90,5 +85,23 @@ public class Utils {
             path=localMedia.getPath();
         }
         return path;
+    }
+
+    public static String getTitleTime() {
+        int time = ConvertUtils.getTime();
+        String current = "";
+        if (time == 0) {
+            current = "凌晨";
+        } else if (time == 1) {
+            current = "上午";
+        } else if (time == 2) {
+            current = "中午";
+        } else if (time == 3) {
+            current = "下午";
+        } else if (time == 4) {
+            current = "晚上";
+        }
+        return current;
+
     }
 }

@@ -9,6 +9,7 @@ import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
@@ -106,6 +107,13 @@ public interface AppService {
     Observable<CommonBean<PageBean<InsuranceInfoBean>>> queryInsuranceList();
 
     /**
+     * 查询我的订单数量
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/myOrderNum")
+    Observable<CommonBean<OrderNumberInfoBean>> queryOrderNumber( );
+  /**
      * 创建订单
      *
      * @return

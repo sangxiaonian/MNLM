@@ -63,11 +63,11 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
     public List<String> getTitles() {
         titles.clear();
         String[] stringArray = {};
-        if (role == Role.SHIPPER) {
+        if (role == Role.SHIPPER_COMPANY) {
             stringArray = App.app.getResources().getStringArray(R.array.shipper_status);
         } else if (role == Role.DRIVER) {
             stringArray = App.app.getResources().getStringArray(R.array.driver_status);
-        } else if (role == Role.CARRIER) {
+        } else if (role == Role.CARRIER_COMPANY) {
             stringArray = App.app.getResources().getStringArray(R.array.carrier_status);
         }
         titles.addAll(Arrays.asList(stringArray));

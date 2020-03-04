@@ -7,12 +7,10 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.Group;
 
-import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
-import com.hongniu.freight.ui.holder.order.helper.OrderUtils;
 
 /**
  * 作者：  on 2020/2/6.
@@ -34,7 +32,7 @@ public class OrderCYRHolder extends OrderBaseHolder {
         Group bottom_group = itemView.findViewById(R.id.bottom_group);
         ViewGroup ll_bt = itemView.findViewById(R.id.ll_bt);
 
-        OrderHelper helper = new OrderHelper(Role.CARRIER);
+        OrderHelper helper = new OrderHelper(Role.CARRIER_COMPANY);
 
         tv_time.setText("2019-04-02 09:00");
         tvTitle.setText("指定火车类型");

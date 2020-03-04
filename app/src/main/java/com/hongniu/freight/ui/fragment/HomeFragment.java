@@ -1,5 +1,6 @@
 package com.hongniu.freight.ui.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Spannable;
@@ -16,7 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
-import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.permission.Permission;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -24,9 +25,13 @@ import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.HomeControl;
-import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.OrderNumberInfoBean;
+import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.presenter.HomeFramentPresent;
+import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.DialogComment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +40,7 @@ import java.util.List;
  * 作者：  on 2020/2/5.
  */
 @Route(path = ArouterParamApp.fragment_home)
-public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHomeFragmentView, View.OnClickListener {
+public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHomeFragmentView, View.OnClickListener, DialogComment.OnButtonLeftClickListener, DialogComment.OnButtonRightClickListener {
     private TextView tv_title;//标题
     private View search;//搜索
     private ImageView icon_eyes;//查看余额
@@ -49,10 +54,10 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     private View bt_learn_more;//了解更多
     private View shadow;//了解更多
 
-    private boolean hideBalance=true;//是否隐藏余额
 
     private CompanyBaseFragment fragment;
     HomeControl.IHomeFragmentPresent present;
+    DialogComment dialogComment;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -87,7 +92,15 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     protected void initData() {
         super.initData();
         present.initDate(this);
-        switchBalance(hideBalance);
+        dialogComment = new DialogComment.Builder()
+                .setBtLeft("刷新状态")
+                .setBtRight("查看详情")
+                .hideContent()
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .setLeftClickListener(this)
+                .setRightClickListener(this)
+                .creatDialog(mContext);
     }
 
     @Override
@@ -103,19 +116,6 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     }
 
-    /**
-     * 网络请求获取数据之后，显示数据
-     *
-     * @param result
-     */
-    @Override
-    public void showInfo(HomeInfoBean result) {
-        tv_title.setText(String.format("%s好，%s", getTitleTime(), "测试人"));
-        tv_count_tyr.setText(getSpanner("1单"));
-        tv_count_cyr.setText(getSpanner("2"));
-        tv_count_driver.setText(getSpanner("3"));
-
-    }
 
     private SpannableStringBuilder getSpanner(String s) {
         SpannableStringBuilder builder = new SpannableStringBuilder(s);
@@ -124,33 +124,18 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         return builder;
     }
 
-    private String getTitleTime() {
-        int time = ConvertUtils.getTime();
-        String current = "";
-        if (time == 0) {
-            current = "凌晨";
-        } else if (time == 1) {
-            current = "上午";
-        } else if (time == 2) {
-            current = "中午";
-        } else if (time == 3) {
-            current = "下午";
-        } else if (time == 4) {
-            current = "晚上";
-        }
-        return current;
-    }
 
     /**
      * 显示订单信息
-     *  @param infoBeans
+     *
+     * @param infoBeans
      * @param type
      */
     @Override
     public void showOrderInfo(List<OrderInfoBean> infoBeans, Role type) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(Param.TRAN, (ArrayList<? extends Parcelable>) infoBeans);
-        bundle.putSerializable(Param.TYPE,type);
+        bundle.putSerializable(Param.TYPE, type);
         FragmentTransaction fragmentTransaction = getChildFragmentManager()
                 .beginTransaction();
         if (fragment == null) {
@@ -174,6 +159,74 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     }
 
     /**
+     * 储存订单数量
+     *
+     * @param data
+     */
+    @Override
+    public void showOrderNum(OrderNumberInfoBean data) {
+        if (data == null) {
+            tv_count_tyr.setText(getSpanner("0单"));
+            tv_count_cyr.setText(getSpanner("0单"));
+            tv_count_driver.setText(getSpanner("0单"));
+        } else {
+            tv_count_tyr.setText(getSpanner(data.getUserOrderNum() + "单"));
+            tv_count_cyr.setText(getSpanner(data.getOwnerOrderNum() + "单"));
+            tv_count_driver.setText(getSpanner(data.getDriverOrderNum() + "单"));
+        }
+
+    }
+
+    /**
+     * 展示个人信息
+     *
+     * @param personInfo
+     */
+    @Override
+    public void showPersonInfo(PersonInfor personInfo) {
+        if (personInfo != null) {
+            tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), personInfo.getContact()));
+            if (InfoUtils.getState(personInfo) < 4) {//审核中
+                dialogComment.setTitle("认证审核中");
+                dialogComment.show();
+            } else if (InfoUtils.getState(personInfo) == 5) {
+                dialogComment.setTitle("认证驳回");
+                dialogComment.show();
+            }else {
+                dialogComment.dismiss();
+            }
+        }
+
+    }
+
+    /**
+     * 显示余额数据
+     *
+     * @param showBalance  true 显示
+     * @param totalBalance 余额
+     */
+    @Override
+    public void showBalance(boolean showBalance, String totalBalance) {
+        tv_count.setText(showBalance ? totalBalance : "******");
+        icon_eyes.setImageResource(showBalance ? R.mipmap.attention : R.mipmap.attention_forbid);
+    }
+
+    /**
+     * 跳转到查看认证信息页面
+     *
+     * @param role
+     * @param personInfo
+     */
+    @Override
+    public void jump2CheckState(Role role, PersonInfor personInfo) {
+
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
+                .withSerializable(Param.TRAN,role)
+                .withBoolean(Param.TYPE,InfoUtils.getState(personInfo)==5)
+                .navigation(mContext);
+    }
+
+    /**
      * Called when a view has been clicked.
      *
      * @param v The view that was clicked.
@@ -184,19 +237,19 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             ToastUtils.getInstance().show("了解更多");
         } else if (v.getId() == R.id.view_chengyunren) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN,Role.CARRIER)
+                    .withSerializable(Param.TRAN, Role.CARRIER_COMPANY)
                     .navigation(mContext);
         } else if (v.getId() == R.id.view_tuoyunren) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN,Role.SHIPPER)
+                    .withSerializable(Param.TRAN, Role.SHIPPER_COMPANY)
                     .navigation(mContext);
         } else if (v.getId() == R.id.view_driver) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN,Role.DRIVER)
+                    .withSerializable(Param.TRAN, Role.DRIVER)
                     .navigation(mContext);
-        }else if (v.getId() == R.id.icon_eyes) {
-           switchBalance(!hideBalance);
-        }else if (v.getId() == R.id.shadow) {
+        } else if (v.getId() == R.id.icon_eyes) {
+            present.switchBalance();
+        } else if (v.getId() == R.id.shadow) {
             ArouterUtils.getInstance()
                     .builder(ArouterParamApp.activity_my_coffers)
                     .navigation(mContext);
@@ -204,9 +257,16 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
 
     }
-    private void switchBalance(boolean hideBalance){
-        this.hideBalance=hideBalance;
-        tv_count.setText(hideBalance?"******":"1820");
-        icon_eyes.setImageResource(hideBalance?R.mipmap.attention_forbid:R.mipmap.attention);
+
+
+    @Override
+    public void onLeftClick(View view, Dialog dialog) {
+        present.upDateState(this);
+    }
+
+    @Override
+    public void onRightClick(View view, Dialog dialog) {
+        ToastUtils.getInstance().show("查看详情");
+        present.checkStateInfo();
     }
 }

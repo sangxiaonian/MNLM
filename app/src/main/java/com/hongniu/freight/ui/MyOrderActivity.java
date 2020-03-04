@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -17,12 +16,10 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
-import com.hongniu.freight.ui.fragment.MyOrderFragment;
 import com.hongniu.freight.utils.PickerDialogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @data 2020/2/7
@@ -47,7 +44,7 @@ public class MyOrderActivity extends CompanyBaseActivity implements OnOptionsSel
         setContentView(R.layout.activity_my_order);
         role = (Role) getIntent().getSerializableExtra(Param.TRAN);
         if (role==null){
-            role=Role.SHIPPER;
+            role=Role.SHIPPER_COMPANY;
         }
         setWhitToolBar("");
         setToolbarSrcRight(R.drawable.icon_search_434445);
@@ -100,11 +97,11 @@ public class MyOrderActivity extends CompanyBaseActivity implements OnOptionsSel
     }
 
     private Role getRole(int options1) {
-        Role role=Role.SHIPPER;
+        Role role=Role.SHIPPER_COMPANY;
         if (options1==0){
-            role= Role.SHIPPER;
+            role= Role.SHIPPER_COMPANY;
         }else if (options1==1){
-            role=Role.CARRIER;
+            role=Role.CARRIER_COMPANY;
         }else if (options1==2){
             role=Role.DRIVER;
         }
@@ -116,7 +113,7 @@ public class MyOrderActivity extends CompanyBaseActivity implements OnOptionsSel
         if (currentFragment!=null){
             transaction.hide(currentFragment);
         }
-        if (role==Role.SHIPPER){
+        if (role==Role.SHIPPER_COMPANY){
             if (shipperFragment==null){
                 shipperFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();
@@ -128,7 +125,7 @@ public class MyOrderActivity extends CompanyBaseActivity implements OnOptionsSel
             }
             currentFragment=shipperFragment;
 
-        }else if (role==Role.CARRIER){
+        }else if (role==Role.CARRIER_COMPANY){
             if (carrierFragment==null){
                 carrierFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();

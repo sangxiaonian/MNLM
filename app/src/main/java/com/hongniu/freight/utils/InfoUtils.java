@@ -3,6 +3,7 @@ package com.hongniu.freight.utils;
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.companylibrary.config.Param;
 import com.google.gson.Gson;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.PersonInfor;
 
@@ -76,7 +77,7 @@ public class InfoUtils {
     /**
      * 获取当前认证状态
      *
-     * @return
+     * @return 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
      */
     public static int getState(PersonInfor info) {
         int status = 0;
@@ -97,11 +98,12 @@ public class InfoUtils {
             status = info.getIsCompanyShipperStatus();
         } else if (info.getIsPersonShipper() == 1) {
             //个人托运人
-            status = info.getIsCompanyShipperStatus();
+            status = info.getIsPersonShipperStatus();
         }
         return status;
     }
-   /**
+
+    /**
      * 获取当前认证状态
      *
      * @return
@@ -125,7 +127,7 @@ public class InfoUtils {
             status = info.getIsCompanyShipperStatus();
         } else if (info.getIsPersonShipper() == 1) {
             //个人托运人
-            status = info.getIsCompanyShipperStatus();
+            status = info.getIsPersonShipperStatus();
         }
         return status;
     }
@@ -159,31 +161,31 @@ public class InfoUtils {
      *
      * @return -1 未认证角色
      */
-    public static int getRole(PersonInfor info) {
-        int status;
+    public static Role getRole(PersonInfor info) {
+        Role status;
         if (info == null) {
-            return -1;
+            return Role.UNKNOW;
         }
         if (info.getIsStaff() == 1) {
             //平台员工
-            status = 0;
+            status = Role.PLATFORM;
         } else if (info.getIsDriver() == 1) {
             //如果是司机
-            status = 1;
+            status = Role.DRIVER;
         } else if (info.getIsPersonCarrier() == 1) {
             //个人承运人
-            status = 2;
+            status = Role.CARRIER_PERSONAL;
         } else if (info.getIsCompanyCarrier() == 1) {
             //公司承运人
-            status = 3;
+            status = Role.CARRIER_COMPANY;
         } else if (info.getIsCompanyShipper() == 1) {
             //公司托运人
-            status = 4;
+            status = Role.SHIPPER_COMPANY;
         } else if (info.getIsPersonShipper() == 1) {
             //个人托运人
-            status = 5;
+            status = Role.SHIPPER_PERSONAL;
         } else {
-            status = -1;
+            status = Role.UNKNOW;
         }
         return status;
     }
@@ -193,31 +195,31 @@ public class InfoUtils {
      *
      * @return -1 未认证角色
      */
-    public static int getRole(LoginInfo info) {
-        int status;
+    public static Role getRole(LoginInfo info) {
+        Role status;
         if (info == null) {
-            return -1;
+            return Role.UNKNOW;
         }
         if (info.isStaff()) {
             //平台员工
-            status = 0;
+            status = Role.PLATFORM;
         } else if (info.getIsDriver() == 1) {
             //如果是司机
-            status = 1;
+            status = Role.DRIVER;
         } else if (info.getIsPersonCarrier() == 1) {
             //个人承运人
-            status = 2;
+            status = Role.CARRIER_PERSONAL;
         } else if (info.getIsCompanyCarrier() == 1) {
             //公司承运人
-            status = 3;
+            status = Role.CARRIER_COMPANY;
         } else if (info.getIsCompanyShipper() == 1) {
             //公司托运人
-            status = 4;
+            status = Role.SHIPPER_COMPANY;
         } else if (info.getIsPersonShipper() == 1) {
             //个人托运人
-            status = 5;
+            status = Role.SHIPPER_PERSONAL;
         } else {
-            status = -1;
+            status = Role.UNKNOW;
         }
         return status;
     }
@@ -228,32 +230,7 @@ public class InfoUtils {
      * @return -1 未认证角色
      */
     public static String getRoleName(PersonInfor info) {
-        String status;
-        if (info == null) {
-            return "";
-        }
-        if (info.getIsStaff() == 1) {
-            //平台员工
-            status = "平台员工";
-        } else if (info.getIsDriver() == 1) {
-            //如果是司机
-            status = "司机";
-        } else if (info.getIsPersonCarrier() == 1) {
-            //个人承运人
-            status = "承运人";
-        } else if (info.getIsCompanyCarrier() == 1) {
-            //公司承运人
-            status = "承运人";
-        } else if (info.getIsCompanyShipper() == 1) {
-            //公司托运人
-            status = "托运人";
-        } else if (info.getIsPersonShipper() == 1) {
-            //个人托运人
-            status = "托运人";
-        } else {
-            status = "未知";
-        }
-        return status;
+        return getRole(info).getName();
     }
 
 }

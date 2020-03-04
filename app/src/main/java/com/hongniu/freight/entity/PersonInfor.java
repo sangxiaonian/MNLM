@@ -34,6 +34,16 @@ public class PersonInfor  {
     protected int isPersonCarrierStatus;//true	认证个人承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
     protected int isCompanyShipperStatus;//true	认证公司托运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
     protected int isCompanyCarrierStatus;//true	认证公司承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+    protected int isRealname	;//true	int	是否实名 0未实名 1已实名;//true	认证公司承运人状态 0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+
+    public int getIsRealname() {
+        return isRealname;
+    }
+
+    public void setIsRealname(int isRealname) {
+        this.isRealname = isRealname;
+    }
+
 
     public String getId() {
         return id;

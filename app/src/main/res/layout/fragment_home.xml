@@ -161,7 +161,7 @@
 
             <View
                 android:id="@+id/view_tuoyunren"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="140dp"
                 android:background="@mipmap/bg_chengtuoren"
                 app:layout_constraintEnd_toStartOf="@id/view_chengyunren"
@@ -194,7 +194,7 @@
 
             <View
                 android:id="@+id/view_chengyunren"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="140dp"
                 android:background="@mipmap/bg_chengtuoren"
                 app:layout_constraintEnd_toStartOf="@id/view_driver"
@@ -227,7 +227,7 @@
             <View
                 android:id="@+id/view_driver"
 
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="140dp"
                 android:background="@mipmap/bg_chengtuoren"
                 app:layout_constraintEnd_toEndOf="parent"

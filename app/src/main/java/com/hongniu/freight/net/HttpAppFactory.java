@@ -17,6 +17,7 @@ import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
@@ -181,7 +182,7 @@ public class HttpAppFactory {
     }
 
     /**
-     * 上传实名认证几个托
+     * 上传实名认证结果
      * @param result 返回识别结果(0 失败 1 成功)
      * @return
      */
@@ -232,7 +233,17 @@ public class HttpAppFactory {
     }
 
     /**
-     * 查询被保险人列表
+     * 查询我的订单数量
+     *
+     * @return
+     */
+    public static Observable<CommonBean<OrderNumberInfoBean>> queryOrderNumber() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOrderNumber()
+                .compose(RxUtils.<CommonBean<OrderNumberInfoBean>>getSchedulersObservableTransformer());
+    }
+/**
+     * 创建订单
      *
      * @param param
      * @return
@@ -278,8 +289,12 @@ public class HttpAppFactory {
 
         File file = new File(path);
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        FileProgressRequestBody filePart = new FileProgressRequestBody(requestBody, progressListener);
-        builder.addFormDataPart("file", file.getName(), filePart);
+        if (progressListener!=null) {
+            FileProgressRequestBody filePart = new FileProgressRequestBody(requestBody, progressListener);
+            builder.addFormDataPart("file", file.getName(), filePart);
+        }else {
+            builder.addFormDataPart("file", file.getName(), requestBody);
+        }
 
         builder.addFormDataPart("classify", String.valueOf(type));
         return CompanyClient.getInstance().creatService(AppService.class)

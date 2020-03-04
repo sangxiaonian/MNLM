@@ -46,11 +46,11 @@ public class PictureClient {
      * @param count 可选图片数量
      * @param list  已选图片
      */
-    public void startPhoto(Fragment activity, int count, List<LocalMedia> list) {
+    public void startPhoto(Fragment activity, int count, List<LocalMedia> list, OnResultCallbackListener listener) {
         getClient(activity)
                 .maxSelectNum(count)// 最大图片选择数量 int
                 .selectionMedia(list)// 是否传入已选图片 List<LocalMedia> list
-
+                .forResult(  listener)
         ;
     }
 
