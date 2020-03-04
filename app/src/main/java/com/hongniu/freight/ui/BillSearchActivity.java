@@ -83,7 +83,7 @@ public class BillSearchActivity extends RefrushActivity<BillInfoListBean> implem
             BillInfoListBean orderInfoBean = new BillInfoListBean();
             list.add(orderInfoBean);
         }
-        pageBean.setData(list);
+        pageBean.setList(list);
         return Observable.just(common);
     }
 

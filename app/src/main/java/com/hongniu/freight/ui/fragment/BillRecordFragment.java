@@ -72,7 +72,7 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
             BillInfoListBean orderInfoBean = new BillInfoListBean();
             list.add(orderInfoBean);
         }
-        pageBean.setData(list);
+        pageBean.setList(list);
         return Observable.just(common);
     }
 

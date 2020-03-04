@@ -5,7 +5,7 @@ package com.hongniu.freight.entity;
  */
 public class QueryOrderListBean {
   private int  userType;//	true	number	用户类型
-  private int  status;//	订单状态 1:待支付 2:待接单 3:差额支付中 4:待派车 5:找车中 6:待发车 7:运输中 8:已到达 9:已收货
+  private String  status;//	订单状态 1:待支付 2:待接单 3:差额支付中 4:待派车 5:找车中 6:待发车 7:运输中 8:已到达 9:已收货
   private String  searchText;//	false	string	查询条件
   private int  pageNum;//	false	number	页数 默认1
   private int  pageSize;//	false	number	每页条数 默认20
@@ -18,11 +18,11 @@ public class QueryOrderListBean {
         this.userType = userType;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

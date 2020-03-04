@@ -217,7 +217,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
                         commonBean.setCode(pageBeanCommonBean.getCode());
                         commonBean.setMsg(pageBeanCommonBean.getMsg());
                         if (commonBean.getCode() == Param.SUCCESS_FLAG) {
-                            commonBean.setData(pageBeanCommonBean.getData().getData());
+                            commonBean.setData(pageBeanCommonBean.getData().getList());
                         }
                         return commonBean;
                     }

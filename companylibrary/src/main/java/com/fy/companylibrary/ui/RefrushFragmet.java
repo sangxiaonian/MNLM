@@ -8,15 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.net.rx.RxUtils;
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.recycle.EmptyRecycleView;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.baselibrary.refrush.XRefreshLayout;
-import com.fy.baselibrary.ui.ModuleBaseFragment;
 import com.fy.companylibrary.R;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
@@ -116,10 +115,10 @@ public abstract class RefrushFragmet<T> extends CompanyBaseFragment implements O
                         if (isClear) {
                             datas.clear();
                         }
-                        if (data != null && data.getData() != null && !data.getData().isEmpty()) {
+                        if (data != null && !CollectionUtils.isEmpty(data.getList())) {
                             currentPage++;
-                            datas.addAll(data.getData());
-                            if (data.getData().size() < Param.PAGE_SIZE) {
+                            datas.addAll(data.getList());
+                            if (data.getList().size() < Param.PAGE_SIZE) {
                                 showNoMore();
                             }
                         } else {

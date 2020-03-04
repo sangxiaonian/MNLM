@@ -18,6 +18,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
@@ -36,7 +37,7 @@ import java.util.List;
 @Route(path = ArouterParamApp.fragment_home_type)
 public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClickListener {
 
-    private Role type;
+    private RoleOrder type;
     private List<OrderInfoBean> beans;
     private RecyclerView rv;
     private View ll_more;
@@ -90,7 +91,7 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
             return;
         }
         ArrayList<OrderInfoBean> list = getBundle().getParcelableArrayList(Param.TRAN);
-        type= (Role) getBundle().getSerializable(Param.TYPE);
+        type= (RoleOrder) getBundle().getSerializable(Param.TYPE);
 
         if (!CollectionUtils.isEmpty(list)) {
             if (beans != null) {

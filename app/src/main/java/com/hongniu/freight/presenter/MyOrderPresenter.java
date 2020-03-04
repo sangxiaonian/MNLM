@@ -2,7 +2,7 @@ package com.hongniu.freight.presenter;
 
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
-import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.mode.MyOrderMode;
@@ -26,7 +26,7 @@ public class MyOrderPresenter implements MyOrderControl.IMyOrderPresenter {
      * @param role
      */
     @Override
-    public void initData(Role role) {
+    public void initData(RoleOrder role) {
         mode.saveRole(role);
         view.initTitles(mode.getTitles());
     }
@@ -37,7 +37,7 @@ public class MyOrderPresenter implements MyOrderControl.IMyOrderPresenter {
      * @return
      */
     @Override
-    public Role getType() {
+    public RoleOrder getType() {
         return mode.getRole();
     }
 

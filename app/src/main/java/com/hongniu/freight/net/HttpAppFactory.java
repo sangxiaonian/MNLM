@@ -136,7 +136,7 @@ public class HttpAppFactory {
                     public CommonBean<PageBean<PoiItem>> apply(ArrayList<PoiItem> poiItems) throws Exception {
                         CommonBean<PageBean<PoiItem>> bean = new CommonBean<>();
                         PageBean<PoiItem> pageBean = new PageBean<>();
-                        pageBean.setData(poiItems);
+                        pageBean.setList(poiItems);
                         bean.setCode(200);
                         bean.setData(pageBean);
                         return bean;

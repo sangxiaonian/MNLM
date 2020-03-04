@@ -13,6 +13,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
@@ -63,7 +64,7 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> {
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
-                        .setType(Role.CARRIER_COMPANY)
+                        .setType(RoleOrder.CARRIER)
                         .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
                         .build()
                         ;

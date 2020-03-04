@@ -83,7 +83,7 @@ public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements  
             CarInfoBean orderInfoBean = new CarInfoBean();
             list.add(orderInfoBean);
         }
-        pageBean.setData(list);
+        pageBean.setList(list);
         return Observable.just(common);
     }
 

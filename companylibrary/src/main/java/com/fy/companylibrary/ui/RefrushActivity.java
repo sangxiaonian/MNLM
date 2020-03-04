@@ -107,11 +107,11 @@ public abstract class RefrushActivity<T> extends CompanyBaseActivity implements 
                         if (isClear) {
                             datas.clear();
                         }
-                        if (data != null && data.getData() != null && !data.getData().isEmpty()) {
+                        if (data != null && data.getList() != null && !data.getList().isEmpty()) {
                             currentPage++;
 
-                            datas.addAll(data.getData());
-                            if (data.getData().size() < Param.PAGE_SIZE) {
+                            datas.addAll(data.getList());
+                            if (data.getList().size() < Param.PAGE_SIZE) {
                                 showNoMore();
                             }
                         } else {

@@ -31,7 +31,7 @@ public class Utils {
             orderInfoBean.setStatus(i);
             list.add(orderInfoBean);
         }
-        pageBean.setData(list);
+        pageBean.setList(list);
         return Observable.just(common);
     }
 

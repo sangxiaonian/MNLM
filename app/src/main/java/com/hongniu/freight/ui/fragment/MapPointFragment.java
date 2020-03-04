@@ -188,8 +188,8 @@ public class MapPointFragment extends CompanyBaseFragment implements MapUtils.On
                     @Override
                     public void doOnSuccess(PageBean<PoiItem> data) {
                         //查询到所地址
-                        if (!CollectionUtils.isEmpty(data.getData())) {
-                            PoiItem poiItem = data.getData().get(0);
+                        if (!CollectionUtils.isEmpty(data.getList())) {
+                            PoiItem poiItem = data.getList().get(0);
                             //移动到第一个的位置
 //                            MarkUtils.moveMark(marker, poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
                             setTagInfor(poiItem);

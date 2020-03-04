@@ -26,6 +26,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushFragmet;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.MyOrderPresenter;
@@ -59,7 +60,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Role role = (Role) getBundle().getSerializable(Param.TRAN);
+        RoleOrder role = (RoleOrder) getBundle().getSerializable(Param.TRAN);
         presenter.initData(role);
         queryData(true);
 

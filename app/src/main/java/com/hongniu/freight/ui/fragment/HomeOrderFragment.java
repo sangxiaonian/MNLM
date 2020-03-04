@@ -16,6 +16,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.utils.PickerDialogUtils;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 @Route(path = ArouterParamApp.fragment_order_home)
 public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsSelectListener, View.OnClickListener {
 
-    private Role role=Role.SHIPPER_COMPANY;
+    private RoleOrder role=RoleOrder.SHIPPER ;
     private TextView tvTitle;
     private TextView tvRole;
     private View ll_filtrate;
@@ -84,24 +85,26 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
         tvRole.setText(role.getName());
     }
 
-    private Role getRole(int options1) {
-        Role role=Role.SHIPPER_COMPANY;
+    private RoleOrder getRole(int options1) {
+        RoleOrder role=RoleOrder.SHIPPER ;
         if (options1==0){
-            role= Role.SHIPPER_COMPANY;
+            role= RoleOrder.SHIPPER ;
         }else if (options1==1){
-            role=Role.CARRIER_COMPANY;
+            role=RoleOrder.CARRIER;
         }else if (options1==2){
-            role=Role.DRIVER;
+            role=RoleOrder.DRIVER;
+        }else {
+            role=RoleOrder.UNKNOW;
         }
         return role;
     }
 
-    private void switchFragment(Role role) {
+    private void switchFragment(RoleOrder role) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         if (currentFragment!=null){
             transaction.hide(currentFragment);
         }
-        if (role==Role.SHIPPER_COMPANY){
+        if (role==RoleOrder.SHIPPER ){
             if (shipperFragment==null){
                 shipperFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();
@@ -113,7 +116,7 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
             }
             currentFragment=shipperFragment;
 
-        }else if (role==Role.CARRIER_COMPANY){
+        }else if (role==RoleOrder.CARRIER ){
             if (carrierFragment==null){
                 carrierFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();
@@ -124,7 +127,7 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
                 transaction.show(carrierFragment);
             }
             currentFragment=carrierFragment;
-        }else if (role==Role.DRIVER){
+        }else if (role==RoleOrder.DRIVER){
             if (driverFragment==null){
                 driverFragment= (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_my_order).navigation();
                 Bundle bundle=new Bundle();
@@ -147,7 +150,6 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.ll_filtrate){
-            pickerView.setSelectOptions(role.getType());
             pickerView.show();
         }else if (v.getId()==R.id.search){
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_search_order)

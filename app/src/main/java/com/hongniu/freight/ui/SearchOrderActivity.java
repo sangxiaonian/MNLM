@@ -1,6 +1,7 @@
 package com.hongniu.freight.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,7 +18,11 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.QueryOrderListBean;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
 import com.hongniu.freight.utils.Utils;
@@ -36,10 +41,9 @@ import io.reactivex.Observable;
  *
  */
 @Route(path = ArouterParamApp.activity_search_order)
-
 public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implements View.OnClickListener, SearchTitleView.OnSearchClickListener {
 
-    private Role role;
+    private RoleOrder role;
     private TextView tv_cancel;
     private SearchTitleView searchTitleView;
     @Override
@@ -47,7 +51,7 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_order);
         setWhitToolBar("");
-        role= (Role) getIntent().getSerializableExtra(Param.TRAN);
+        role= (RoleOrder) getIntent().getSerializableExtra(Param.TRAN);
         initView();
         initData();
         initListener();
@@ -81,7 +85,12 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
 
     @Override
     protected Observable<CommonBean<PageBean<OrderInfoBean>>> getListDatas() {
-        return Utils.createDemoOrderInfo();
+        QueryOrderListBean bean=new QueryOrderListBean();
+        bean.setPageSize(Param.PAGE_SIZE);
+        bean.setPageNum(currentPage);
+        bean.setUserType(role.getType());
+        bean.setSearchText(searchTitleView.getTitle());
+        return HttpAppFactory.queryOrderList(bean);
     }
 
     @Override

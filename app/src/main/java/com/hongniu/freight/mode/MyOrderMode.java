@@ -8,6 +8,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.App;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -25,7 +26,7 @@ import io.reactivex.Observable;
  */
 public class MyOrderMode implements MyOrderControl.IMyOrderMode {
 
-    private Role role;
+    private RoleOrder role;
     private List<String> titles;
     private int statusIndex;
 
@@ -35,7 +36,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
     }
 
     @Override
-    public void saveRole(Role role) {
+    public void saveRole(RoleOrder role) {
         this.role=role;
     }
 
@@ -50,7 +51,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
      * @return
      */
     @Override
-    public Role getRole() {
+    public RoleOrder getRole() {
         return role;
     }
 
@@ -63,11 +64,11 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
     public List<String> getTitles() {
         titles.clear();
         String[] stringArray = {};
-        if (role == Role.SHIPPER_COMPANY) {
+        if (role == RoleOrder.SHIPPER ) {
             stringArray = App.app.getResources().getStringArray(R.array.shipper_status);
-        } else if (role == Role.DRIVER) {
+        } else if (role == RoleOrder.DRIVER) {
             stringArray = App.app.getResources().getStringArray(R.array.driver_status);
-        } else if (role == Role.CARRIER_COMPANY) {
+        } else if (role == RoleOrder.CARRIER ) {
             stringArray = App.app.getResources().getStringArray(R.array.carrier_status);
         }
         titles.addAll(Arrays.asList(stringArray));
@@ -88,7 +89,7 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
         bean.setUserType(role.getType());
         for (Status value : Status.values()) {
             if (TextUtils.equals(value.getName(),titles.get(statusIndex))){
-                bean.setStatus(value.getStatus());
+                bean.setStatus(value.getStatus()+"");
                 break;
             }
         }
