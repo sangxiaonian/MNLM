@@ -34,6 +34,332 @@ public class OrderInfoBean implements Parcelable {
     private String ownerMobile;//	false		承运人手机
 
 
+    private String userId;//": 268,
+    private String startPlaceLon;//": 121.40225,
+    private String startPlaceLat;//": 31.311806,
+    private String destinationLon;//": 121.401128,
+    private String destinationLat;//": 31.310851,
+    private String remark;//": null,
+    private String balanceMoney;//": 0,
+    private String totalMoney;//": 1,
+    private String payTime;//": null,
+    private String payWay;//": null,
+    private String isRefundRecord;//": null,
+    private String hasFreight;//": 1,
+    private String freightPayClass;//": 1,
+    private String goodPrice;//": 0,
+    private String insuranceUserId;//": null,
+    private String isDel;//": 0,
+    private String companyAccountId;//": null,
+    private String ownerId;//": null,
+    private String driverId;//": null,
+    private String driverName;//": null,
+    private String driverMobile;//": null,
+    private String verifyUserId;//": null,
+    private String verifyFailCause;//": null,
+    private String orderTakingUserId;//": null,
+    private String orderTakingTime;//": null,
+    private String carId;//": null,
+    private String carInfo;//": null,
+    private String departTime;//": null,
+    private String arrivedTime;//": null,
+    private String receiptTime;//": null,
+    private String realMoney;//": 0,
+    private String longitude;//": null,
+    private String latitude;//": null,
+    private String userEvaluateState;//": 0,
+    private String owenrEvaluateState;//": 0,
+    private String driverEvaluateState;//": 0
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getStartPlaceLon() {
+        return startPlaceLon;
+    }
+
+    public void setStartPlaceLon(String startPlaceLon) {
+        this.startPlaceLon = startPlaceLon;
+    }
+
+    public String getStartPlaceLat() {
+        return startPlaceLat;
+    }
+
+    public void setStartPlaceLat(String startPlaceLat) {
+        this.startPlaceLat = startPlaceLat;
+    }
+
+    public String getDestinationLon() {
+        return destinationLon;
+    }
+
+    public void setDestinationLon(String destinationLon) {
+        this.destinationLon = destinationLon;
+    }
+
+    public String getDestinationLat() {
+        return destinationLat;
+    }
+
+    public void setDestinationLat(String destinationLat) {
+        this.destinationLat = destinationLat;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getBalanceMoney() {
+        return balanceMoney;
+    }
+
+    public void setBalanceMoney(String balanceMoney) {
+        this.balanceMoney = balanceMoney;
+    }
+
+    public String getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(String totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public String getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(String payTime) {
+        this.payTime = payTime;
+    }
+
+    public String getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getIsRefundRecord() {
+        return isRefundRecord;
+    }
+
+    public void setIsRefundRecord(String isRefundRecord) {
+        this.isRefundRecord = isRefundRecord;
+    }
+
+    public String getHasFreight() {
+        return hasFreight;
+    }
+
+    public void setHasFreight(String hasFreight) {
+        this.hasFreight = hasFreight;
+    }
+
+    public String getFreightPayClass() {
+        return freightPayClass;
+    }
+
+    public void setFreightPayClass(String freightPayClass) {
+        this.freightPayClass = freightPayClass;
+    }
+
+    public String getGoodPrice() {
+        return goodPrice;
+    }
+
+    public void setGoodPrice(String goodPrice) {
+        this.goodPrice = goodPrice;
+    }
+
+    public String getInsuranceUserId() {
+        return insuranceUserId;
+    }
+
+    public void setInsuranceUserId(String insuranceUserId) {
+        this.insuranceUserId = insuranceUserId;
+    }
+
+    public String getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(String isDel) {
+        this.isDel = isDel;
+    }
+
+    public String getCompanyAccountId() {
+        return companyAccountId;
+    }
+
+    public void setCompanyAccountId(String companyAccountId) {
+        this.companyAccountId = companyAccountId;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public String getDriverMobile() {
+        return driverMobile;
+    }
+
+    public void setDriverMobile(String driverMobile) {
+        this.driverMobile = driverMobile;
+    }
+
+    public String getVerifyUserId() {
+        return verifyUserId;
+    }
+
+    public void setVerifyUserId(String verifyUserId) {
+        this.verifyUserId = verifyUserId;
+    }
+
+    public String getVerifyFailCause() {
+        return verifyFailCause;
+    }
+
+    public void setVerifyFailCause(String verifyFailCause) {
+        this.verifyFailCause = verifyFailCause;
+    }
+
+    public String getOrderTakingUserId() {
+        return orderTakingUserId;
+    }
+
+    public void setOrderTakingUserId(String orderTakingUserId) {
+        this.orderTakingUserId = orderTakingUserId;
+    }
+
+    public String getOrderTakingTime() {
+        return orderTakingTime;
+    }
+
+    public void setOrderTakingTime(String orderTakingTime) {
+        this.orderTakingTime = orderTakingTime;
+    }
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getCarInfo() {
+        return carInfo;
+    }
+
+    public void setCarInfo(String carInfo) {
+        this.carInfo = carInfo;
+    }
+
+    public String getDepartTime() {
+        return departTime;
+    }
+
+    public void setDepartTime(String departTime) {
+        this.departTime = departTime;
+    }
+
+    public String getArrivedTime() {
+        return arrivedTime;
+    }
+
+    public void setArrivedTime(String arrivedTime) {
+        this.arrivedTime = arrivedTime;
+    }
+
+    public String getReceiptTime() {
+        return receiptTime;
+    }
+
+    public void setReceiptTime(String receiptTime) {
+        this.receiptTime = receiptTime;
+    }
+
+    public String getRealMoney() {
+        return realMoney;
+    }
+
+    public void setRealMoney(String realMoney) {
+        this.realMoney = realMoney;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getUserEvaluateState() {
+        return userEvaluateState;
+    }
+
+    public void setUserEvaluateState(String userEvaluateState) {
+        this.userEvaluateState = userEvaluateState;
+    }
+
+    public String getOwenrEvaluateState() {
+        return owenrEvaluateState;
+    }
+
+    public void setOwenrEvaluateState(String owenrEvaluateState) {
+        this.owenrEvaluateState = owenrEvaluateState;
+    }
+
+    public String getDriverEvaluateState() {
+        return driverEvaluateState;
+    }
+
+    public void setDriverEvaluateState(String driverEvaluateState) {
+        this.driverEvaluateState = driverEvaluateState;
+    }
+
     public String getId() {
         return id;
     }

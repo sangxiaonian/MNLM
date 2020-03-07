@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,8 +15,8 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
-import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -24,7 +25,6 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.control.OrderDetailControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.OrderDetailPresenter;
-import com.hongniu.freight.ui.holder.order.helper.OrderUtils;
 
 /**
  * @data 2020/2/8
@@ -62,6 +62,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         presenter = new OrderDetailPresenter(this);
         OrderInfoBean infoBean = getIntent().getParcelableExtra(Param.TRAN);
         presenter.initInfo(infoBean);
+        presenter.queryDetail(this);
     }
 
     @Override
@@ -108,13 +109,14 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     /**
      * 显示订单状态和编号
      *
-     * @param infoBean
+     * @param status
+     * @param orderInfo
      */
     @Override
-    public void showOrderState(OrderInfoBean infoBean) {
+    public void showOrderState(String status, String orderInfo) {
         //订单状态
-        CommonUtils.setText(tv_statute, OrderUtils.getStatus(infoBean.getStatus()));
-        tv_order.setText(String.format("订单编号  %s", "123567890"));
+        CommonUtils.setText(tv_statute, status);
+        CommonUtils.setText(tv_order, orderInfo);
     }
 
     /**
@@ -124,10 +126,12 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      */
     @Override
     public void showOrderAddressInfo(OrderInfoBean infoBean) {
-        CommonUtils.setText(tv_start, "测试发货地址");
-        CommonUtils.setText(tv_end, "测试收货地址");
-        tv_start_contact.setText(String.format("%s  %s", "发货人", "15515851515"));
-        tv_end_contact.setText(String.format("%s  %s", "收货人", "15555555555"));
+        CommonUtils.setText(tv_start, infoBean.getStartPlaceInfo());
+        CommonUtils.setText(tv_end, infoBean.getDestinationInfo());
+        tv_start_contact.setText(String.format("%s  %s", infoBean.getShipperName(), infoBean.getShipperMobile()));
+        tv_end_contact.setText(String.format("%s  %s", infoBean.getReceiverName(), infoBean.getReceiverMobile()));
+        img_start_chat.setVisibility(TextUtils.isEmpty(infoBean.getShipperMobile()) ? View.GONE : View.VISIBLE);
+        img_end_chat.setVisibility(TextUtils.isEmpty(infoBean.getReceiverMobile()) ? View.GONE : View.VISIBLE);
     }
 
     private String gap = "\t\t";
@@ -144,27 +148,31 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int titleColor = getResources().getColor(R.color.color_of_666666);
         int contactColor = getResources().getColor(R.color.color_of_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor, "司机姓名", color, "测试司机姓名", builder);
+        append(titleColor, "司机姓名", color, infoBean.getDriverName(), builder);
         append(titleColor, builder, "司机手机");
         builder.append(gap);
-        append(color, builder, "15515871516");
-        builder.append("\t");
-        int lineStart = builder.length();
-        int lineEnd = builder.length() + 1;
-        builder.append(" ");
-        builder.append("\t");
-        builder.setSpan(new CenterAlignImageSpan(this, R.drawable.ovl_line_v), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        builder.append("联系司机");
-        XClickableSpan clickableSpan = new XClickableSpan() {
+        append(color, builder, infoBean.getDriverMobile());
+        appendLine(builder);
+        appendClick(builder, "联系司机", new XClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
                 ToastUtils.getInstance().show("联系司机");
             }
 
         }
-                .setColor(contactColor);
-        builder.setSpan(clickableSpan, builder.length() - 4, builder.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                .setColor(contactColor));
         tv_driver_contact.setText(builder);
+    }
+
+    //添加一个点击事件
+    private void appendClick(SpannableStringBuilder builder, String content, ClickableSpan clickableSpan) {
+        if (TextUtils.isEmpty(content)) {
+            return;
+        }
+        builder.append(content);
+
+        builder.setSpan(clickableSpan, builder.length() - 4, builder.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
     }
 
     /**
@@ -179,14 +187,33 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int titleColor = getResources().getColor(R.color.color_of_666666);
         SpannableStringBuilder builder = new SpannableStringBuilder();
         append(titleColor, "实际运费", color, "1600元", builder);
+        append(titleColor, "货物保费", color, "1600元", builder);
         append(titleColor, "货物运费", color, "1500元", builder);
-        append(titleColor, "下单时间", color, "2020-11-12", builder);
-        append(titleColor, "发货时间", color, "2020-11-11", builder);
-        append(titleColor, "货物名称", color, "测试货物名称", builder);
-        append(titleColor, "货物信息", color, "测试货物", builder);
-        append(titleColor, "支付方式", color, "在线支付", builder);
-        builder.delete(builder.length() - 1, builder.length());
+        append(titleColor, "下单时间", color, infoBean.getCreateTime(), builder);
+        append(titleColor, "发货时间", color, TextUtils.isEmpty(infoBean.getDepartureTime()) ? "立即发货" : infoBean.getDepartureTime(), builder);
+        append(titleColor, "货物名称", color, infoBean.getGoodName(), builder);
+
+        append(titleColor, builder, "货物信息");
+        builder.append(gap);
+        append(color, builder, infoBean.getGoodWeight());
+        appendLine(builder);
+        append(color, builder, infoBean.getGoodVolume());
+        appendLine(builder);
+        append(color, builder, infoBean.getGoodPrice());
+
         tv_detail.setText(builder);
+    }
+
+    //添加一条竖线
+    private void appendLine(SpannableStringBuilder builder) {
+        builder.append("\t");
+        builder.append("\t");
+        int lineStart = builder.length();
+        int lineEnd = builder.length() + 1;
+        builder.append("\t");
+        builder.append("\t");
+        builder.setSpan(new CenterAlignImageSpan(this, R.drawable.ovl_line_v), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
     }
 
     /**
@@ -201,27 +228,21 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int titleColor = getResources().getColor(R.color.color_of_666666);
         int contactColor = getResources().getColor(R.color.color_of_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor, "车牌号码", color, "浙A28394", builder);
-        append(titleColor, "承运人姓名", color, "测试承运人", builder);
+        append(titleColor, "车牌号码", color, infoBean.getCarNum(), builder);
+        append(titleColor, "承运人姓名", color, infoBean.getOwnerName(), builder);
         append(titleColor, builder, "承运人手机");
         builder.append(gap);
-        append(color, builder, "15515871516");
-        builder.append("\t");
-        int lineStart = builder.length();
-        int lineEnd = builder.length() + 1;
-        builder.append(" ");
-        builder.append("\t");
-        builder.setSpan(new CenterAlignImageSpan(this, R.drawable.ovl_line_v), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        builder.append("联系承运人");
-        XClickableSpan clickableSpan = new XClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                ToastUtils.getInstance().show("联系承运人");
-            }
+        append(color, builder, infoBean.getOwnerMobile());
+        appendLine(builder);
+        appendClick(builder, "联系承运人"
+                , new XClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View widget) {
+                        ToastUtils.getInstance().show("联系承运人");
+                    }
 
-        }
-                .setColor(contactColor);
-        builder.setSpan(clickableSpan, builder.length() - 5, builder.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                }
+                        .setColor(contactColor));
         tv_car_detail.setText(builder);
     }
 
@@ -232,13 +253,26 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      */
     @Override
     public void showButton(String[] infoBean) {
-        bt_left.setVisibility(TextUtils.isEmpty(infoBean[0])?View.GONE:View.VISIBLE);
-        bt_right.setVisibility(TextUtils.isEmpty(infoBean[1])?View.GONE:View.VISIBLE);
-        bt_left.setText(TextUtils.isEmpty(infoBean[0])?"":infoBean[0]);
-        bt_right.setText(TextUtils.isEmpty(infoBean[1])?"":infoBean[1]);
+        bt_left.setVisibility(TextUtils.isEmpty(infoBean[0]) ? View.GONE : View.VISIBLE);
+        bt_right.setVisibility(TextUtils.isEmpty(infoBean[1]) ? View.GONE : View.VISIBLE);
+        bt_left.setText(TextUtils.isEmpty(infoBean[0]) ? "" : infoBean[0]);
+        bt_right.setText(TextUtils.isEmpty(infoBean[1]) ? "" : infoBean[1]);
+    }
+
+    /**
+     * 拨打电话
+     *
+     * @param mobile
+     */
+    @Override
+    public void statCall(String mobile) {
+        CommonUtils.call(mContext, mobile);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {
+        if (msg == null) {
+            msg = "";
+        }
         int nameStart = builder.length();
         builder.append(msg);
         int nameEnd = builder.length();
@@ -246,6 +280,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     }
 
     private void append(int titleColor, String title, int color, String content, SpannableStringBuilder builder) {
+
         append(titleColor, builder, title);
         builder.append(gap);
         append(color, builder, content);
@@ -260,14 +295,16 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.img_start_chat) {
-            ToastUtils.getInstance().show("和发货人聊天");
+            presenter.contactStart();
+//            ToastUtils.getInstance().show("和发货人聊天");
         } else if (v.getId() == R.id.img_end_chat) {
-            ToastUtils.getInstance().show("和收货人聊天");
+//            ToastUtils.getInstance().show("和收货人聊天");
+            presenter.contactEnd();
 
-        }else if (v.getId() == R.id.bt_left) {
+        } else if (v.getId() == R.id.bt_left) {
             ToastUtils.getInstance().show("左侧按钮");
 
-        }else if (v.getId() == R.id.bt_right) {
+        } else if (v.getId() == R.id.bt_right) {
             ToastUtils.getInstance().show("右侧按钮");
 
         }

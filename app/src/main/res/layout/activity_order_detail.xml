@@ -175,7 +175,7 @@
                     android:layout_height="15dp"
                     android:layout_alignRight="@id/tv_start_contact"
                     android:layout_marginTop="2dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/icon_chat" />
             </RelativeLayout>
 
             <TextView
@@ -218,7 +218,7 @@
                     android:layout_height="15dp"
                     android:layout_alignRight="@id/tv_end_contact"
                     android:layout_marginTop="2dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/icon_chat" />
             </RelativeLayout>
 
 
