@@ -183,7 +183,7 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
             }
             return false;
         }
-        Utils.setButton(bt_sum,false);
+        Utils.setButton(bt_sum,true);
 
         return true;
     }

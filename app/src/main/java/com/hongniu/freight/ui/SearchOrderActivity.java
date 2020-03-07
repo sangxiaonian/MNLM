@@ -1,7 +1,6 @@
 package com.hongniu.freight.ui;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,15 +16,12 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
-import com.hongniu.freight.config.Status;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
-import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
-import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
 
 import java.util.List;
 
@@ -101,7 +97,7 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(role)
-                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
+                        .setOrderButtonClickListener(new XOrderButtonClick(mContext))
                         .build()
                         ;
             }

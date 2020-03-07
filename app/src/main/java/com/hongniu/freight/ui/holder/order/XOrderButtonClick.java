@@ -2,21 +2,44 @@ package com.hongniu.freight.ui.holder.order;
 
 import android.content.Context;
 
+import com.fy.androidlibrary.event.BusFactory;
+import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.net.NetObserver;
+import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
 
 /**
  * 作者：  on 2020/2/8.
  */
-public class XOrderButtonClcik implements OrderButtonClickListener {
+public class XOrderButtonClick implements OrderButtonClickListener {
     private Context mContext;
+    private TaskControl.OnTaskListener listener;
+    private NextStepListener nextStepListener;
 
-    public XOrderButtonClcik(Context mContext) {
+
+
+    public XOrderButtonClick(Context mContext) {
         this.mContext = mContext;
+        if (mContext instanceof TaskControl.OnTaskListener){
+            listener= (TaskControl.OnTaskListener) mContext;
+        }
+        if (mContext instanceof NextStepListener){
+            nextStepListener= (NextStepListener) mContext;
+        }
+    }
+
+    public void setNextStepListener(NextStepListener nextStepListener) {
+        this.nextStepListener = nextStepListener;
+    }
+
+    public void seOnTaskListener(TaskControl.OnTaskListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -26,7 +49,6 @@ public class XOrderButtonClcik implements OrderButtonClickListener {
      */
     @Override
     public void onPayClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("继续付款");
         ArouterUtils.getInstance()
                 .builder(ArouterParamApp.activity_pay)
                 .withString(Param.TRAN,bean.getId())
@@ -41,7 +63,16 @@ public class XOrderButtonClcik implements OrderButtonClickListener {
     @Override
     public void onOrderCancleClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("取消订单");
-
+        HttpAppFactory.orderCancel(bean.getId())
+                .subscribe(new NetObserver<Object>(listener){
+                    @Override
+                    public void doOnSuccess(Object o) {
+                        super.doOnSuccess(o);
+                        if (nextStepListener!=null){
+                            nextStepListener.doUpdate();
+                        }
+                    }
+                });
     }
 
     /**
@@ -199,5 +230,12 @@ public class XOrderButtonClcik implements OrderButtonClickListener {
     public void onQueryPathClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("查看路线");
 
+    }
+
+    public interface NextStepListener{
+        /**
+         * 再进行取消等操作完成之后,刷新界面
+         */
+        void doUpdate();
     }
 }

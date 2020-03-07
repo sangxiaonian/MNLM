@@ -25,13 +25,12 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushFragmet;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.MyOrderPresenter;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
-import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,7 +43,7 @@ import io.reactivex.Observable;
  * @Description 我的订单页面
  */
 @Route(path = ArouterParamApp.fragment_my_order)
-public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements MyOrderControl.IMyOrderView, SelectAdapter.SingleSelectedListener<String> {
+public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XOrderButtonClick.NextStepListener,MyOrderControl.IMyOrderView, SelectAdapter.SingleSelectedListener<String> {
 
     private RecyclerView rvTitle;
     MyOrderControl.IMyOrderPresenter presenter;
@@ -106,7 +105,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(presenter.getType())
-                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
+                        .setOrderButtonClickListener(new XOrderButtonClick(mContext))
                         .build()
                         ;
             }
@@ -159,5 +158,13 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
     public void onSingleSelected(int position, String selected, boolean check) {
         presenter.switchStatus(position, selected);
         queryData(true, true);
+    }
+
+    /**
+     * 再进行取消等操作完成之后,刷新界面
+     */
+    @Override
+    public void doUpdate() {
+        queryData(true);
     }
 }

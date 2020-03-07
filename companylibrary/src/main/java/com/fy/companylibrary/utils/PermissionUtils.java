@@ -28,8 +28,12 @@ public class PermissionUtils {
      * @param activity
      */
     public static void applyMap(Activity activity, final onApplyPermission permission) {
-        applyPermission(activity, permission, Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission_group.STORAGE);
+        applyPermission(activity,
+                permission,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        );
 
 
     }
@@ -41,12 +45,13 @@ public class PermissionUtils {
      */
     public static void applyStorage(Activity activity, final onApplyPermission permission) {
         applyPermission(activity, permission
-                ,Manifest.permission.READ_EXTERNAL_STORAGE
-                ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
         );
 
 
     }
+
     /**
      * 申请储存相关权限
      *
@@ -54,9 +59,9 @@ public class PermissionUtils {
      */
     public static void applyCamera(Activity activity, final onApplyPermission permission) {
         applyPermission(activity, permission
-                ,Manifest.permission.READ_EXTERNAL_STORAGE
-                ,Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ,Manifest.permission.CAMERA
+                , Manifest.permission.READ_EXTERNAL_STORAGE
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.CAMERA
         );
 
 

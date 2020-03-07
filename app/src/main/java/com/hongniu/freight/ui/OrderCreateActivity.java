@@ -330,7 +330,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void finishSuccess(OrderInfoBean o) {
         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("下单成功");
-//        finish();
+        finish();
     }
 
     @Override

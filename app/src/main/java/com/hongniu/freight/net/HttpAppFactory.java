@@ -284,6 +284,18 @@ public class HttpAppFactory {
                 .queryOrderDetail(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
+    }  /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    public static Observable<CommonBean<OrderInfoBean>> cancelOrder(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOrderDetail(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
     }
     /**
      * 查询订单状态
@@ -295,6 +307,18 @@ public class HttpAppFactory {
         json.addProperty("id", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderStatus(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }    /**
+     * 查询订单状态
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderCancel(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderCancel(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }

@@ -142,7 +142,16 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/detail")
     Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
-   /**
+
+    /**
+     * 取消订单
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/cancel")
+    Observable<CommonBean<Object>> orderCancel(@Body JsonObject params);
+
+    /**
      * 查询订单状态
      *
      * @return
@@ -194,16 +203,17 @@ public interface AppService {
     /**
      * 查询支付需要的数据
      *
-     * @return
      * @param payInfoParams
+     * @return
      */
     @POST("wlhyapi//api/account/pay")
     Observable<CommonBean<PayInfoBean>> queryPayInfo(@Body QueryPayInfoParams payInfoParams);
-   /**
+
+    /**
      * 更新支付提现密码
      *
-     * @return
      * @param payInfoParams
+     * @return
      */
     @POST("wlhyapi/api/account/updatepass")
     Observable<CommonBean<Object>> upPass(@Body JsonObject payInfoParams);

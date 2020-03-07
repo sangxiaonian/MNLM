@@ -12,11 +12,10 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
-import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
 import com.hongniu.freight.utils.Utils;
 
 import java.util.List;
@@ -65,7 +64,7 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> {
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(RoleOrder.CARRIER)
-                        .setOrderButtonClickListener(new XOrderButtonClcik(mContext))
+                        .setOrderButtonClickListener(new XOrderButtonClick(mContext))
                         .build()
                         ;
             }
