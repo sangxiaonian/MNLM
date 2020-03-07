@@ -33,6 +33,7 @@ import com.hongniu.freight.presenter.MyOrderPresenter;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClcik;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -60,7 +61,12 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RoleOrder role = (RoleOrder) getBundle().getSerializable(Param.TRAN);
+        RoleOrder role = RoleOrder.SHIPPER;
+        if (getBundle() != null) {
+            Serializable serializable = getBundle().getSerializable(Param.TRAN);
+            role = (RoleOrder) serializable;
+        }
+
         presenter.initData(role);
         queryData(true);
 
@@ -114,16 +120,16 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
      */
     @Override
     public void initTitles(List<String> titles) {
-        if (selectAdapter==null) {
+        if (selectAdapter == null) {
             selectAdapter = new SelectAdapter<String>(mContext, rvTitle) {
                 @Override
                 public void initView(View itemView, int position, String s, boolean select) {
                     TextView tvTitle = itemView.findViewById(R.id.tv_title);
-                    View flag= itemView.findViewById(R.id.view_flag);
+                    View flag = itemView.findViewById(R.id.view_flag);
                     tvTitle.setText(s);
-                    tvTitle.setTextColor(getResources().getColor(select?R.color.color_of_040000:R.color.color_of_999999));
-                    tvTitle .setTypeface(Typeface.defaultFromStyle(select?Typeface.BOLD:Typeface.NORMAL));
-                    flag.setBackgroundResource( select?R.drawable.ovl_2_e50000:0);
+                    tvTitle.setTextColor(getResources().getColor(select ? R.color.color_of_040000 : R.color.color_of_999999));
+                    tvTitle.setTypeface(Typeface.defaultFromStyle(select ? Typeface.BOLD : Typeface.NORMAL));
+                    flag.setBackgroundResource(select ? R.drawable.ovl_2_e50000 : 0);
                 }
             };
             selectAdapter.setCanEmpty(false);
@@ -139,7 +145,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
                     .hideLast(false);
             rvTitle.addItemDecoration(tagLine);
         }
-        selectAdapter.notifyAllItem(titles,0);
+        selectAdapter.notifyAllItem(titles, 0);
     }
 
     /**
@@ -151,7 +157,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements My
      */
     @Override
     public void onSingleSelected(int position, String selected, boolean check) {
-        presenter.switchStatus(position,selected);
-        queryData(true,true);
+        presenter.switchStatus(position, selected);
+        queryData(true, true);
     }
 }

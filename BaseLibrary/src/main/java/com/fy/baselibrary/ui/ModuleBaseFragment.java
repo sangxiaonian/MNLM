@@ -49,7 +49,9 @@ public class ModuleBaseFragment extends BaseFragment implements TaskControl.OnTa
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return initView(inflater);
+        View view = initView(inflater);
+        view.setClickable(true);
+        return view;
 
     }
 

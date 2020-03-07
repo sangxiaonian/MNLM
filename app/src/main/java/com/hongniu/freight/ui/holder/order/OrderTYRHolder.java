@@ -7,15 +7,19 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.Group;
 
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
 
 /**
  * 作者：  on 2020/2/6.
+ * 托运人
+ *
  */
-public class OrderTYRHolder extends OrderBaseHolder {
+  class OrderTYRHolder extends OrderBaseHolder {
 
     public OrderTYRHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_tyr_order);
@@ -34,12 +38,12 @@ public class OrderTYRHolder extends OrderBaseHolder {
 
         OrderHelper helper = new OrderHelper(Role.SHIPPER_COMPANY);
 
-        tv_time.setText("2019-04-02 09:00");
-        tv_tag.setText("托运人");
+        CommonUtils.setText(tv_time,data.getCreateTime());
+        CommonUtils.setText(tv_start_address,data.getStartPlaceInfo());
+        CommonUtils.setText(tv_end_address,data.getDestinationInfo());
+        tv_tag.setText(RoleOrder.SHIPPER.getName());
         tvTitle.setText(helper.getStatus(data.getStatus()));
 
-        tv_start_address.setText("青海省黄南藏族自治州尖扎县银霄大道355号");
-        tv_end_address.setText("广东省河源市连平县工业路801号");
         //控制底部button
         addButton(bottom_group, ll_bt, data, helper.getButtons(data.getStatus()));
 

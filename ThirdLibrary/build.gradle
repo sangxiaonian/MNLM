@@ -44,12 +44,19 @@ dependencies {
     implementation project(path: ':companylibrary')
 
 
-    implementation files('libs\\FaceLivenessOpen-2.1.6.15.aar')
-    implementation files('libs\\NoCaptchaSDK-external-release-5.4.33.aar')
-    implementation files('libs\\SecurityBodySDK-external-release-5.4.79.aar')
-    implementation files('libs\\SecurityGuardSDK-external-release-5.4.9901.aar')
-    implementation files('libs\\oss-android-sdk-2.9.2.aar')
-    implementation files('libs\\rpsdk-3.1.0.1.aar')
+    //人脸识别
+    implementation files('libs/FaceLivenessOpen-2.1.6.15.aar')
+    implementation files('libs/NoCaptchaSDK-external-release-5.4.33.aar')
+    implementation files('libs/SecurityBodySDK-external-release-5.4.79.aar')
+    implementation files('libs/SecurityGuardSDK-external-release-5.4.9901.aar')
+    implementation files('libs/oss-android-sdk-2.9.2.aar')
+    implementation files('libs/rpsdk-3.1.0.1.aar')
+
+    //支付宝支付
+    implementation files('libs/alipaySdk-15.7.4-20200228192319-noUtdid.aar')
+    //微信支付
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
 
     //https://github.com/LuckSiege/PictureSelector 图片选择器
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'

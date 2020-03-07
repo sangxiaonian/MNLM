@@ -11,6 +11,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
 import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
+import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -18,9 +19,11 @@ import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
+import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
+import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
@@ -28,6 +31,7 @@ import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -183,6 +187,7 @@ public class HttpAppFactory {
 
     /**
      * 上传实名认证结果
+     *
      * @param result 返回识别结果(0 失败 1 成功)
      * @return
      */
@@ -242,7 +247,8 @@ public class HttpAppFactory {
                 .queryOrderNumber()
                 .compose(RxUtils.<CommonBean<OrderNumberInfoBean>>getSchedulersObservableTransformer());
     }
-/**
+
+    /**
      * 创建订单
      *
      * @param param
@@ -255,7 +261,7 @@ public class HttpAppFactory {
     }
 
     /**
-     * 查询被保险人列表
+     * 查询订单列表
      *
      * @param param
      * @return
@@ -264,6 +270,33 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderList(param)
                 .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    public static Observable<CommonBean<OrderInfoBean>> queryOrderDetail(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOrderDetail(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+    /**
+     * 查询订单状态
+     *
+     * @return
+     */
+    public static Observable<CommonBean<OrderStatusBean>> queryOrderStatus(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOrderStatus(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
     }
 
 
@@ -289,10 +322,10 @@ public class HttpAppFactory {
 
         File file = new File(path);
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        if (progressListener!=null) {
+        if (progressListener != null) {
             FileProgressRequestBody filePart = new FileProgressRequestBody(requestBody, progressListener);
             builder.addFormDataPart("file", file.getName(), filePart);
-        }else {
+        } else {
             builder.addFormDataPart("file", file.getName(), requestBody);
         }
 
@@ -322,25 +355,65 @@ public class HttpAppFactory {
 
     /**
      * 查询车辆类型
+     *
      * @return
      */
-    public static Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList( ) {
+    public static Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList() {
 
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryCarTypeList( )
+                .queryCarTypeList()
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 
     /**
-     *@data  2020/3/3
-     *@Author PING
-     *@Description
-     *
-     * 新增修改车辆
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 新增修改车辆
      */
     public static Observable<CommonBean<Object>> createCar(CarInfoBean infoBean) {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .createCar( infoBean)
+                .createCar(infoBean)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查询账户详情数据
+     * @return
+     */
+    public static Observable<CommonBean<AccountDetailBean>> queryAccountDetails() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryAccountDetails( )
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+   /**
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查询账户详情数据
+     * @return
+    * @param payInfoParams
+     */
+    public static Observable<CommonBean<PayInfoBean>> queryPayInfo(QueryPayInfoParams payInfoParams) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryPayInfo( payInfoParams)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+
+    /**
+     * 更新支付密码
+     * @param md5   密码的MD5
+     * @param code  验证码
+     * @return
+     */
+    public static Observable<CommonBean<Object>> upPassword(String md5, String code) {
+        JsonObject json = new JsonObject();
+        json.addProperty("newPassWord", md5);
+        json.addProperty("checkCode", code);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .upPass( json)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 }

@@ -40,9 +40,9 @@ public class OrderHolderBuider {
     public BaseHolder<OrderInfoBean> build(){
         OrderBaseHolder holder;
         if (type==RoleOrder.CARRIER ){
-            holder=new OrderCYRHolder(context,parent);
+            holder=new OrderTYRHolder(context,parent);
         }else if (type==RoleOrder.DRIVER){
-            holder=new OrderDriverHolder(context,parent);
+            holder=new OrderTYRHolder(context,parent);
         }else {
             holder=new OrderTYRHolder(context,parent);
         }

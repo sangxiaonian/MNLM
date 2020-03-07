@@ -230,8 +230,6 @@ public class DeviceUtils {
      * @param view
      */
     public static void hideSoft(View view) {
-
-
         if (view != null) {
             InputMethodManager inputmanger = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);

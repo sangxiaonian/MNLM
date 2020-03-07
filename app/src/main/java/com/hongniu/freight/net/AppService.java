@@ -3,21 +3,25 @@ package com.hongniu.freight.net;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.JsonObject;
+import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
-import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
+import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
+import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import java.util.List;
 
@@ -72,11 +76,12 @@ public interface AppService {
      */
     @POST("wlhyapi/api/aliRPBasic/getVerifyToken")
     Observable<CommonBean<VerifyTokenBeans>> getVerifyToken();
+
     /**
      * 上传实名认证结果
      *
-     * @return
      * @param json
+     * @return
      */
     @POST("wlhyapi/api/aliRPBasic/uploadResult")
     Observable<CommonBean<Object>> uploadResult(@Body JsonObject json);
@@ -112,8 +117,9 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/deliveryOrder/myOrderNum")
-    Observable<CommonBean<OrderNumberInfoBean>> queryOrderNumber( );
-  /**
+    Observable<CommonBean<OrderNumberInfoBean>> queryOrderNumber();
+
+    /**
      * 创建订单
      *
      * @return
@@ -128,6 +134,21 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/queryPage")
     Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(@Body QueryOrderListBean params);
+
+    /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/detail")
+    Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
+   /**
+     * 查询订单状态
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/queryStatus")
+    Observable<CommonBean<OrderStatusBean>> queryOrderStatus(@Body JsonObject params);
 
 
     /**
@@ -145,19 +166,46 @@ public interface AppService {
      */
     @POST("wlhyapi/api/car/selectpagecar")
     Observable<CommonBean<PageBean<CarInfoBean>>> queryCarList(@Body PageParams pageParams);
- /**
+
+    /**
      * 我的车辆列表
      *
      * @return
      */
     @POST("wlhyapi/api/car/vehicletype")
-    Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList( );
- /**
+    Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList();
+
+    /**
      * 新增修改车辆
      *
      * @return
      */
     @POST("wlhyapi/api/car/savecar")
-    Observable<CommonBean<Object>> createCar(@Body CarInfoBean infoBean );
+    Observable<CommonBean<Object>> createCar(@Body CarInfoBean infoBean);
+
+    /**
+     * 查询账户数据
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/account/accountdetails")
+    Observable<CommonBean<AccountDetailBean>> queryAccountDetails();
+
+    /**
+     * 查询支付需要的数据
+     *
+     * @return
+     * @param payInfoParams
+     */
+    @POST("wlhyapi//api/account/pay")
+    Observable<CommonBean<PayInfoBean>> queryPayInfo(@Body QueryPayInfoParams payInfoParams);
+   /**
+     * 更新支付提现密码
+     *
+     * @return
+     * @param payInfoParams
+     */
+    @POST("wlhyapi/api/account/updatepass")
+    Observable<CommonBean<Object>> upPass(@Body JsonObject payInfoParams);
 
 }

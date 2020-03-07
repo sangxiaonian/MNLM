@@ -5,6 +5,7 @@ import android.content.Context;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
 
@@ -26,6 +27,10 @@ public class XOrderButtonClcik implements OrderButtonClickListener {
     @Override
     public void onPayClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("继续付款");
+        ArouterUtils.getInstance()
+                .builder(ArouterParamApp.activity_pay)
+                .withString(Param.TRAN,bean.getId())
+                .navigation(mContext);
     }
 
     /**

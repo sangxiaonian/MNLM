@@ -147,4 +147,19 @@ public class ArouterParamApp {
      * 我要发货选择地址
      */
     public static final String activity_map_search = "/app/activity_map_search";
+    /**
+     * 支付订单页面
+     */
+    public static final String activity_pay = "/app/activity_pay";
+    /**
+     * 更新设置支付密码
+     */
+    public static final String activity_forget_pass = "/app/activity_forget_pass";
+
+    /**
+     * 支付完成之后,查询支付结果
+     */
+    public static final String activity_waite_pay = "/app/activity_waite_pay";
+
+
 }
