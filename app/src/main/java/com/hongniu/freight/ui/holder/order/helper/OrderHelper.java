@@ -1,6 +1,7 @@
 package com.hongniu.freight.ui.holder.order.helper;
 
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.ui.holder.order.helper.control.HelperControl;
 import com.hongniu.freight.utils.Utils;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 public class OrderHelper implements HelperControl {
     HelperControl helper;
     RoleOrder role;
+    boolean insurance;//是否购买保险,默认未购买
 
     public OrderHelper(RoleOrder role) {
         this.role = role;
@@ -21,12 +23,27 @@ public class OrderHelper implements HelperControl {
             helper = new CYRHelper();
         } else if (role == RoleOrder.DRIVER) {
             helper = new DriverHelper();
+        } else if (role == RoleOrder.PLATFORM) {
+            helper = new PlatformHelper();
         }
     }
 
     @Override
-    public String getStatus(int status) {
-        return helper.getStatus(status);
+    public HelperControl setStatus(int status) {
+        helper.setStatus(status);
+        return this;
+    }
+
+    /**
+     * 设置是否购买保险
+     *
+     * @param isInsurance true 购买 false 未购买
+     * @return
+     */
+    @Override
+    public HelperControl setInsurance(boolean isInsurance) {
+        helper.setInsurance(insurance);
+        return this;
     }
 
     /**
@@ -38,5 +55,15 @@ public class OrderHelper implements HelperControl {
     @Override
     public Map<String, Integer> getButtons(int status) {
         return helper.getButtons(status);
+    }
+
+    /**
+     * 获取状态
+     *
+     * @return
+     */
+    @Override
+    public Status getStatus() {
+        return helper.getStatus();
     }
 }

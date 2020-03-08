@@ -137,8 +137,17 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onEntryReceiveOrderClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("确认接单");
-
+//        ToastUtils.getInstance().show("确认接单");
+        HttpAppFactory.orderReceivePlatform(bean.getId())
+                .subscribe(new NetObserver<Object>(listener){
+                    @Override
+                    public void doOnSuccess(Object o) {
+                        super.doOnSuccess(o);
+                        if (nextStepListener!=null){
+                            nextStepListener.doUpdate();
+                        }
+                    }
+                });
     }
 
     /**
@@ -196,6 +205,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onReceiveOrderClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("我要接单");
+
 
     }
 

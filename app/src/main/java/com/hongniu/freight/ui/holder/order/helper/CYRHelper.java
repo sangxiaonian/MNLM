@@ -10,13 +10,10 @@ import java.util.TreeMap;
 /**
  * 作者：  on 2020/2/8.
  */
-public class CYRHelper implements HelperControl {
+public class CYRHelper extends BaseHelper {
 
 
-    @Override
-    public String getStatus(int status) {
-        return OrderUtils.getStatus(status);
-    }
+
 
     /**
      * 根据状态，获取到指定荒唐的按钮
@@ -45,8 +42,6 @@ public class CYRHelper implements HelperControl {
         } else if (status == Status.WAITE_DEPART_NO_INSURANCE.getStatus()) {
 //            result = "待发车(未买保险)";
 //            不显示订单
-        } else if (status == Status.WAITE_DEPART_INSURANCE.getStatus()) {
-//            result = "待发车(已买保险)";
         } else if (status == Status.IN_TRANSIT.getStatus()) {
 //            result = "运输中";
             map.put(OrderButtonConfig.QUERY_TRACK,1);

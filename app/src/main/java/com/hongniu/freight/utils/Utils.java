@@ -42,7 +42,7 @@ public class Utils {
      * @return 0 个人 1平台
      */
     public static int getShipperType() {
-        return 1;
+        return InfoUtils.getMyInfo()!=null?InfoUtils.getMyInfo().getIsStaff():0;
     }
 
     public static void setButton(View button, boolean enable) {

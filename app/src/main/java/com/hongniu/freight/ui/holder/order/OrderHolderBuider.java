@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
-import com.hongniu.freight.config.Role;
+import com.hongniu.freight.R;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
@@ -18,8 +18,9 @@ public class OrderHolderBuider {
     private ViewGroup parent;
     private Context context;
     OrderButtonClickListener orderButtonClickListener;
-    public OrderHolderBuider(Context context ) {
-         this.context=context;
+
+    public OrderHolderBuider(Context context) {
+        this.context = context;
     }
 
     public OrderHolderBuider setType(RoleOrder type) {
@@ -37,16 +38,10 @@ public class OrderHolderBuider {
         return this;
     }
 
-    public BaseHolder<OrderInfoBean> build(){
-        OrderBaseHolder holder;
-        if (type==RoleOrder.CARRIER ){
-            holder=new OrderTYRHolder(context,parent);
-        }else if (type==RoleOrder.DRIVER){
-            holder=new OrderTYRHolder(context,parent);
-        }else {
-            holder=new OrderTYRHolder(context,parent);
-        }
-         holder.setOrderButtonClickListener(orderButtonClickListener);
+    public BaseHolder<OrderInfoBean> build() {
+        OrderBaseHolder holder = new OrderTYRHolder(context, parent);
+        holder.setRole(type);
+        holder.setOrderButtonClickListener(orderButtonClickListener);
         return holder;
     }
 }

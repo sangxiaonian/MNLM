@@ -13,7 +13,7 @@ public enum Status {
     WAITE_CAR(4,"待派车"),
     FIND_CAR(5,"找车中"),
     WAITE_DEPART_NO_INSURANCE(6,"待发车"),
-    WAITE_DEPART_INSURANCE(7,"待发车(已买保险)"),
+//    WAITE_DEPART_INSURANCE(7,"待发车(已买保险)"),
     IN_TRANSIT(7,"运输中"),
     ARRIVE(8,"已到达"),
     RECEIVING(9,"已收货"),

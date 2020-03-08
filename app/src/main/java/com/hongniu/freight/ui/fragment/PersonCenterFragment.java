@@ -19,6 +19,7 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -167,6 +168,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         } else if (v.getId() == R.id.ll_order_center) {
             ArouterUtils.getInstance()
                     .builder(ArouterParamApp.activity_order_receiving)
+                    .withSerializable(Param.TRAN, RoleOrder.PLATFORM)
                     .navigation(mContext);
 
         } else if (v.getId() == R.id.shadow) {

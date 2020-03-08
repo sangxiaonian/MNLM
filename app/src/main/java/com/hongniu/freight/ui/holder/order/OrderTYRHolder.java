@@ -8,19 +8,18 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.Group;
 
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
+import com.hongniu.freight.ui.holder.order.helper.control.HelperControl;
 
 /**
  * 作者：  on 2020/2/6.
  * 托运人
- *
  */
-  class OrderTYRHolder extends OrderBaseHolder {
-
+class OrderTYRHolder extends OrderBaseHolder {
 
 
     public OrderTYRHolder(Context context, ViewGroup parent) {
@@ -38,13 +37,16 @@ import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
         ViewGroup ll_bt = itemView.findViewById(R.id.ll_bt);
         Group bottom_group = itemView.findViewById(R.id.bottom_group);
 
-        OrderHelper helper = new OrderHelper(role);
+        HelperControl helper = new OrderHelper(role)
+                .setInsurance(data.getInsurance() == 1)
+                .setStatus(data.getStatus());
 
-        CommonUtils.setText(tv_time,data.getCreateTime());
-        CommonUtils.setText(tv_start_address,data.getStartPlaceInfo());
-        CommonUtils.setText(tv_end_address,data.getDestinationInfo());
+        CommonUtils.setText(tv_time, ConvertUtils.formatTime(data.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
+        CommonUtils.setText(tv_start_address, data.getStartPlaceInfo());
+        CommonUtils.setText(tv_end_address, data.getDestinationInfo());
         tv_tag.setText(role.getName());
-        tvTitle.setText(helper.getStatus(data.getStatus()));
+        tv_tag.setVisibility(role== RoleOrder.PLATFORM?View.GONE:View.VISIBLE);
+        tvTitle.setText(helper.getStatus().getName());
 
         //控制底部button
         addButton(bottom_group, ll_bt, data, helper.getButtons(data.getStatus()));

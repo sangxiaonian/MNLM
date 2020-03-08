@@ -37,7 +37,7 @@ import io.reactivex.Observable;
  *
  */
 @Route(path = ArouterParamApp.activity_search_order)
-public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implements View.OnClickListener, SearchTitleView.OnSearchClickListener {
+public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implements XOrderButtonClick.NextStepListener, View.OnClickListener, SearchTitleView.OnSearchClickListener {
 
     private RoleOrder role;
     private TextView tv_cancel;
@@ -119,5 +119,13 @@ public class SearchOrderActivity extends RefrushActivity<OrderInfoBean> implemen
     @Override
     public void onSearch(String msg) {
         queryData(true);
+    }
+
+    /**
+     * 再进行取消等操作完成之后,刷新界面
+     */
+    @Override
+    public void doUpdate() {
+        queryData(true,true);
     }
 }

@@ -24,40 +24,7 @@ import java.util.Map;
  */
 public class OrderUtils {
 
-    /**
-     * 根据所给的状态获取状态值
-     *
-     * @param status
-     * @return
-     */
-    public static String getStatus(int status) {
-        String result;
-        if (status == Status.WAITE_PAY.getStatus()) {
-            result = "待支付";
-        } else if (status == Status.WAITE_RECEIVING_ORDER.getStatus()) {
-            result = "待接单";
-        } else if (status == Status.WAITE_PAY_BALANCE.getStatus()) {
-            result = "差额支付中";
-        } else if (status == Status.WAITE_CAR.getStatus()) {
-            result = "待派车";
-        } else if (status == Status.FIND_CAR.getStatus()) {
-            result = "找车中";
-        } else if (status == Status.WAITE_DEPART_NO_INSURANCE.getStatus()) {
-            result = "待发车(未买保险)";
-        } else if (status == Status.WAITE_DEPART_INSURANCE.getStatus()) {
-            result = "待发车(已买保险)";
-        } else if (status == Status.IN_TRANSIT.getStatus()) {
-            result = "运输中";
-        } else if (status == Status.ARRIVE.getStatus()) {
-            result = "已到达";
-        } else if (status == Status.RECEIVING.getStatus()) {
-            result = "已收货";
-        } else {
-            result = "未知状态";
-        }
 
-        return result;
-    }
 
 
     public static TextView getButton(Context context, int type, String msg){

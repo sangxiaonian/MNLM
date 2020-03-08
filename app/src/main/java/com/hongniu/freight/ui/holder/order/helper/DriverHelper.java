@@ -10,11 +10,7 @@ import java.util.TreeMap;
 /**
  * 作者：  on 2020/2/8.
  */
-public class DriverHelper implements HelperControl {
-    @Override
-    public String getStatus(int status) {
-        return OrderUtils.getStatus(status);
-    }
+public class DriverHelper extends BaseHelper {
 
     /**
      * 根据状态，获取到指定荒唐的按钮
@@ -41,13 +37,9 @@ public class DriverHelper implements HelperControl {
 //            result = "找车中";
             //不显示订单
         } else if (status == Status.WAITE_DEPART_NO_INSURANCE.getStatus()) {
-//            result = "待发车(未买保险)";
+//            result = "待发车)";
 //            不显示订单
             map.put(OrderButtonConfig.START_CAR,1);
-        } else if (status == Status.WAITE_DEPART_INSURANCE.getStatus()) {
-//            result = "待发车(已买保险)";
-            map.put(OrderButtonConfig.START_CAR,1);
-
         } else if (status == Status.IN_TRANSIT.getStatus()) {
 //            result = "运输中";
             map.put(OrderButtonConfig.QUERY_PATH,0);

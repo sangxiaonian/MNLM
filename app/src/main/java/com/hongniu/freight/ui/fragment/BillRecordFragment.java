@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
@@ -18,13 +19,17 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushFragmet;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.AccountDetailBean;
+import com.hongniu.freight.entity.AccountFlowParams;
 import com.hongniu.freight.entity.BillInfoListBean;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.EmptyHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * 作者：  on 2020/2/12.
@@ -39,7 +44,7 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        type = getBundle().getInt(Param.TYPE, 0);
+        type = getBundle().getInt(Param.TYPE, 1);
         queryData(true);
     }
 
@@ -61,19 +66,13 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
         return new EmptyHolder(mContext, parent);
     }
 
+    AccountFlowParams params = new AccountFlowParams();
+
     @Override
     protected Observable<CommonBean<PageBean<BillInfoListBean>>> getListDatas() {
-        CommonBean<PageBean<BillInfoListBean>> common = new CommonBean<>();
-        common.setCode(200);
-        PageBean<BillInfoListBean> pageBean = new PageBean<>();
-        common.setData(pageBean);
-        List<BillInfoListBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            BillInfoListBean orderInfoBean = new BillInfoListBean();
-            list.add(orderInfoBean);
-        }
-        pageBean.setList(list);
-        return Observable.just(common);
+        params.setPageNum(currentPage);
+        params.setFlowtype(type);
+        return HttpAppFactory.queryAccountFlows(params);
     }
 
     @Override
@@ -89,12 +88,10 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
                         TextView tvStatus = itemView.findViewById(R.id.tv_statute);
                         TextView tv_des = itemView.findViewById(R.id.tv_des);
                         TextView tv_time = itemView.findViewById(R.id.tv_time);
-                        tvStatus.setText("订单运费收入");
-                        tvCount.setText("20000");
-                        tv_des.setText("订单号 HN292928383322012");
-                        tv_time.setText("收款时间 2019-02-02 10:11:23");
-
-
+                        CommonUtils.setText(tvStatus,data.getTitle());
+                        CommonUtils.setText(tv_des,data.getSubtitle());
+                        CommonUtils.setText(tv_time,data.getSubheading());
+                        CommonUtils.setText(tvCount,data.getAmtStr());
                     }
                 };
             }

@@ -11,11 +11,14 @@ import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.utils.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.UpImgData;
+import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
 import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -47,7 +50,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
     private ViewGroup ll_business_license;//邮箱
 
     private UpImgData driverInfo;//道路运输许可证
-    private UpImgData qualificationInfo;//挂靠协议
+    private UpImgData qualificationInfo;//营业执照
     private int isDriver;//道路运输许可证是否上传完成
     private int isqualification;//挂靠协议否上传完成
 
@@ -144,7 +147,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                         ll_business_license.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
                         ImageLoader.getLoader().load(mContext, img_business_license, path);
-                        HttpAppFactory.upImage(14,
+                        HttpAppFactory.upImage(7,
                                 path
                                 , null
                         )
@@ -175,7 +178,27 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
             });
         } else if (v.getId() == R.id.bt_sum) {
             if (check(true)){
-                ToastUtils.getInstance().show("下一步");
+                VerifyCarrierCompanyParams params=new VerifyCarrierCompanyParams();
+                params.setCompanyAddress(item_company_address.getTextCenter());
+                params.setCompanyName(item_company_name.getTextCenter());
+                params.setContactName(item_name.getTextCenter());
+                params.setContactEmail(item_email.getTextCenter());
+                params.setContactMobile(item_phone.getTextCenter());
+                params.setBusinessLicenseImageUrl(qualificationInfo.getPath());
+                params.setRoadTransportPermitImageUrl(driverInfo.getPath());
+                params.setContactMobile(item_phone.getTextCenter());
+
+                HttpAppFactory.verifyCarrierCompany(params)
+                        .subscribe(new NetObserver<String>(this){
+                            @Override
+                            public void doOnSuccess(String s) {
+                                super.doOnSuccess(s);
+                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                                        .navigation(getContext());
+                                getActivity().finish();
+                            }
+                        });
+
             }
         }
     }

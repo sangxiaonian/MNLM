@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -189,7 +190,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         append(titleColor, "实际运费", color, "1600元", builder);
         append(titleColor, "货物保费", color, "1600元", builder);
         append(titleColor, "货物运费", color, "1500元", builder);
-        append(titleColor, "下单时间", color, infoBean.getCreateTime(), builder);
+        append(titleColor, "下单时间", color, ConvertUtils.formatTime(infoBean.getCreateTime(),"yyyy-MM-dd HH:mm:ss"), builder);
         append(titleColor, "发货时间", color, TextUtils.isEmpty(infoBean.getDepartureTime()) ? "立即发货" : infoBean.getDepartureTime(), builder);
         append(titleColor, "货物名称", color, infoBean.getGoodName(), builder);
 

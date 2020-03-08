@@ -12,6 +12,9 @@ import com.fy.companylibrary.net.CompanyClient;
 import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
+import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.BillInfoListBean;
+import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -26,6 +29,7 @@ import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.UpImgData;
+import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
@@ -214,6 +218,19 @@ public class HttpAppFactory {
     }
 
     /**
+     * @param params
+     * @return
+     * @data 2020/3/1
+     * @Author PING
+     * @Description 个人托运人身份认证
+     */
+    public static Observable<CommonBean<String>> verifyCarrierCompany(VerifyCarrierCompanyParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .verifyCarrierCompany(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+    }
+
+    /**
      * @return
      * @data 2020/3/1
      * @Author PING
@@ -270,6 +287,16 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderList(param)
                 .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
+    }    /**
+     * 查询订单列表
+     *
+     * @param param
+     * @return
+     */
+    public static Observable<CommonBean<PageBean<OrderInfoBean>>> queryPlatformOrderList(QueryOrderListBean param) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryPlatformOrderList(param)
+                .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
     }
 
     /**
@@ -284,7 +311,9 @@ public class HttpAppFactory {
                 .queryOrderDetail(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    }  /**
+    }
+
+    /**
      * 查询订单详情
      *
      * @return
@@ -297,6 +326,7 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
+
     /**
      * 查询订单状态
      *
@@ -309,8 +339,10 @@ public class HttpAppFactory {
                 .queryOrderStatus(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    }    /**
-     * 查询订单状态
+    }
+
+    /**
+     * 取消订单
      *
      * @return
      */
@@ -319,6 +351,18 @@ public class HttpAppFactory {
         json.addProperty("id", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .orderCancel(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }   /**
+     * 平台员工接单
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderReceivePlatform(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderReceivePlatform(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
@@ -401,35 +445,61 @@ public class HttpAppFactory {
     }
 
     /**
+     * @return
      * @data 2020/3/3
      * @Author PING
      * @Description 查询账户详情数据
-     * @return
      */
     public static Observable<CommonBean<AccountDetailBean>> queryAccountDetails() {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryAccountDetails( )
+                .queryAccountDetails()
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
-
    /**
+     * @return
      * @data 2020/3/3
      * @Author PING
      * @Description 查询账户详情数据
+    * @param params
+    */
+    public static Observable<CommonBean<PageBean<BillInfoListBean>>> searchAccountList(BillInfoSearchParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .searchAccountList(params)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * @param params
      * @return
-    * @param payInfoParams
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查询账户数据流水信息, 待入账和余额明细
+     */
+    public static Observable<CommonBean<PageBean<BillInfoListBean>>> queryAccountFlows(AccountFlowParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryAccountFlows(params)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * @param payInfoParams
+     * @return
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查询账户详情数据
      */
     public static Observable<CommonBean<PayInfoBean>> queryPayInfo(QueryPayInfoParams payInfoParams) {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryPayInfo( payInfoParams)
+                .queryPayInfo(payInfoParams)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 
 
     /**
      * 更新支付密码
-     * @param md5   密码的MD5
-     * @param code  验证码
+     *
+     * @param md5  密码的MD5
+     * @param code 验证码
      * @return
      */
     public static Observable<CommonBean<Object>> upPassword(String md5, String code) {
@@ -437,7 +507,7 @@ public class HttpAppFactory {
         json.addProperty("newPassWord", md5);
         json.addProperty("checkCode", code);
         return CompanyClient.getInstance().creatService(AppService.class)
-                .upPass( json)
+                .upPass(json)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 }

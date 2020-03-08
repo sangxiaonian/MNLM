@@ -16,6 +16,8 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.BillInfoListBean;
+import com.hongniu.freight.entity.BillInfoSearchParams;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.BillHolder;
 import com.hongniu.freight.ui.holder.EmptyHolder;
 
@@ -74,17 +76,17 @@ public class BillSearchActivity extends RefrushActivity<BillInfoListBean> implem
 
     @Override
     protected Observable<CommonBean<PageBean<BillInfoListBean>>> getListDatas() {
-        CommonBean<PageBean<BillInfoListBean>> common = new CommonBean<>();
-        common.setCode(200);
-        PageBean<BillInfoListBean> pageBean = new PageBean<>();
-        common.setData(pageBean);
-        List<BillInfoListBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            BillInfoListBean orderInfoBean = new BillInfoListBean();
-            list.add(orderInfoBean);
-        }
-        pageBean.setList(list);
-        return Observable.just(common);
+
+        BillInfoSearchParams params=new BillInfoSearchParams();
+        params.setCarNo(searchTitleView.getTitle());
+
+        return  HttpAppFactory.searchAccountList(params);
+    }
+
+    @Override
+    public void onTaskSuccess() {
+        super.onTaskSuccess();
+        showNoMore();
     }
 
     @Override

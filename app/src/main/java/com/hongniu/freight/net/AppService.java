@@ -4,6 +4,9 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
+import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.BillInfoListBean;
+import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -18,6 +21,7 @@ import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.UpImgData;
+import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
@@ -96,6 +100,15 @@ public interface AppService {
     Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyCarrierPersonParams params);
 
     /**
+     * 公司承运人身份认证
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/identityAuthen/companyCarrierAuth")
+    Observable<CommonBean<String>> verifyCarrierCompany(@Body VerifyCarrierCompanyParams params);
+
+    /**
      * 个人托运人身份认证信息
      *
      * @return
@@ -136,6 +149,14 @@ public interface AppService {
     Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(@Body QueryOrderListBean params);
 
     /**
+     * 查询
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/platformOrderList")
+    Observable<CommonBean<PageBean<OrderInfoBean>>> queryPlatformOrderList(@Body QueryOrderListBean params);
+
+    /**
      * 查询订单详情
      *
      * @return
@@ -150,6 +171,13 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/cancel")
     Observable<CommonBean<Object>> orderCancel(@Body JsonObject params);
+ /**
+     * 平台员工接单
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/platformAcceptOrder")
+    Observable<CommonBean<Object>> orderReceivePlatform(@Body JsonObject params);
 
     /**
      * 查询订单状态
@@ -199,6 +227,23 @@ public interface AppService {
      */
     @POST("wlhyapi/api/account/accountdetails")
     Observable<CommonBean<AccountDetailBean>> queryAccountDetails();
+
+    /**
+     * 搜索账单
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/finance/search")
+    Observable<CommonBean<PageBean<BillInfoListBean>>> searchAccountList(@Body BillInfoSearchParams params);
+
+    /**
+     * 查询账户数据流水信息,待入账和余额明细
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/account/accountflows")
+    Observable<CommonBean<PageBean<BillInfoListBean>>> queryAccountFlows(@Body AccountFlowParams params);
 
     /**
      * 查询支付需要的数据

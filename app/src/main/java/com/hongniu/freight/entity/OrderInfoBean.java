@@ -12,7 +12,7 @@ public class OrderInfoBean implements Parcelable {
     private int status;
     private String id;//	true	number	订单id
     private String orderNum;//	true	number	订单号
-    private String createTime;//	true	string	下单时间
+    private long createTime;//	true	string	下单时间
     private String startPlaceInfo;//	true	string	发货地
     private String destinationInfo;//	true	string	收货地
 
@@ -368,11 +368,11 @@ public class OrderInfoBean implements Parcelable {
         this.id = id;
     }
 
-    public String getCreateTime() {
+    public long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
 
@@ -549,7 +549,8 @@ public class OrderInfoBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.status);
         dest.writeString(this.id);
-        dest.writeString(this.createTime);
+        dest.writeString(this.orderNum);
+        dest.writeLong(this.createTime);
         dest.writeString(this.startPlaceInfo);
         dest.writeString(this.destinationInfo);
         dest.writeString(this.shipperName);
@@ -568,12 +569,49 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.carNum);
         dest.writeString(this.ownerName);
         dest.writeString(this.ownerMobile);
+        dest.writeString(this.userId);
+        dest.writeString(this.startPlaceLon);
+        dest.writeString(this.startPlaceLat);
+        dest.writeString(this.destinationLon);
+        dest.writeString(this.destinationLat);
+        dest.writeString(this.remark);
+        dest.writeString(this.balanceMoney);
+        dest.writeString(this.totalMoney);
+        dest.writeString(this.payTime);
+        dest.writeString(this.payWay);
+        dest.writeString(this.isRefundRecord);
+        dest.writeString(this.hasFreight);
+        dest.writeString(this.freightPayClass);
+        dest.writeString(this.goodPrice);
+        dest.writeString(this.insuranceUserId);
+        dest.writeString(this.isDel);
+        dest.writeString(this.companyAccountId);
+        dest.writeString(this.ownerId);
+        dest.writeString(this.driverId);
+        dest.writeString(this.driverName);
+        dest.writeString(this.driverMobile);
+        dest.writeString(this.verifyUserId);
+        dest.writeString(this.verifyFailCause);
+        dest.writeString(this.orderTakingUserId);
+        dest.writeString(this.orderTakingTime);
+        dest.writeString(this.carId);
+        dest.writeString(this.carInfo);
+        dest.writeString(this.departTime);
+        dest.writeString(this.arrivedTime);
+        dest.writeString(this.receiptTime);
+        dest.writeString(this.realMoney);
+        dest.writeString(this.longitude);
+        dest.writeString(this.latitude);
+        dest.writeString(this.userEvaluateState);
+        dest.writeString(this.owenrEvaluateState);
+        dest.writeString(this.driverEvaluateState);
     }
 
     protected OrderInfoBean(Parcel in) {
         this.status = in.readInt();
         this.id = in.readString();
-        this.createTime = in.readString();
+        this.orderNum = in.readString();
+        this.createTime = in.readLong();
         this.startPlaceInfo = in.readString();
         this.destinationInfo = in.readString();
         this.shipperName = in.readString();
@@ -592,6 +630,42 @@ public class OrderInfoBean implements Parcelable {
         this.carNum = in.readString();
         this.ownerName = in.readString();
         this.ownerMobile = in.readString();
+        this.userId = in.readString();
+        this.startPlaceLon = in.readString();
+        this.startPlaceLat = in.readString();
+        this.destinationLon = in.readString();
+        this.destinationLat = in.readString();
+        this.remark = in.readString();
+        this.balanceMoney = in.readString();
+        this.totalMoney = in.readString();
+        this.payTime = in.readString();
+        this.payWay = in.readString();
+        this.isRefundRecord = in.readString();
+        this.hasFreight = in.readString();
+        this.freightPayClass = in.readString();
+        this.goodPrice = in.readString();
+        this.insuranceUserId = in.readString();
+        this.isDel = in.readString();
+        this.companyAccountId = in.readString();
+        this.ownerId = in.readString();
+        this.driverId = in.readString();
+        this.driverName = in.readString();
+        this.driverMobile = in.readString();
+        this.verifyUserId = in.readString();
+        this.verifyFailCause = in.readString();
+        this.orderTakingUserId = in.readString();
+        this.orderTakingTime = in.readString();
+        this.carId = in.readString();
+        this.carInfo = in.readString();
+        this.departTime = in.readString();
+        this.arrivedTime = in.readString();
+        this.receiptTime = in.readString();
+        this.realMoney = in.readString();
+        this.longitude = in.readString();
+        this.latitude = in.readString();
+        this.userEvaluateState = in.readString();
+        this.owenrEvaluateState = in.readString();
+        this.driverEvaluateState = in.readString();
     }
 
     public static final Creator<OrderInfoBean> CREATOR = new Creator<OrderInfoBean>() {

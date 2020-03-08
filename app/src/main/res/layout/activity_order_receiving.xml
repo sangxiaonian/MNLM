@@ -29,8 +29,12 @@
 
 
     </LinearLayout>
-    <FrameLayout
-        android:id="@+id/content"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:id="@+id/rv_title"
+        android:background="@color/color_of_ffffff"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"/>
+    <include layout="@layout/layout_refresh"/>
 </LinearLayout>
