@@ -35,10 +35,10 @@ public class OrderInfoBean implements Parcelable {
 
 
     private String userId;//": 268,
-    private String startPlaceLon;//": 121.40225,
-    private String startPlaceLat;//": 31.311806,
-    private String destinationLon;//": 121.401128,
-    private String destinationLat;//": 31.310851,
+    private double startPlaceLon;//": 121.40225,
+    private double startPlaceLat;//": 31.311806,
+    private double destinationLon;//": 121.401128,
+    private double destinationLat;//": 31.310851,
     private String remark;//": null,
     private String balanceMoney;//": 0,
     private String totalMoney;//": 1,
@@ -80,35 +80,35 @@ public class OrderInfoBean implements Parcelable {
         this.userId = userId;
     }
 
-    public String getStartPlaceLon() {
+    public double getStartPlaceLon() {
         return startPlaceLon;
     }
 
-    public void setStartPlaceLon(String startPlaceLon) {
+    public void setStartPlaceLon(double startPlaceLon) {
         this.startPlaceLon = startPlaceLon;
     }
 
-    public String getStartPlaceLat() {
+    public double getStartPlaceLat() {
         return startPlaceLat;
     }
 
-    public void setStartPlaceLat(String startPlaceLat) {
+    public void setStartPlaceLat(double startPlaceLat) {
         this.startPlaceLat = startPlaceLat;
     }
 
-    public String getDestinationLon() {
+    public double getDestinationLon() {
         return destinationLon;
     }
 
-    public void setDestinationLon(String destinationLon) {
+    public void setDestinationLon(double destinationLon) {
         this.destinationLon = destinationLon;
     }
 
-    public String getDestinationLat() {
+    public double getDestinationLat() {
         return destinationLat;
     }
 
-    public void setDestinationLat(String destinationLat) {
+    public void setDestinationLat(double destinationLat) {
         this.destinationLat = destinationLat;
     }
 
@@ -570,10 +570,10 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.ownerName);
         dest.writeString(this.ownerMobile);
         dest.writeString(this.userId);
-        dest.writeString(this.startPlaceLon);
-        dest.writeString(this.startPlaceLat);
-        dest.writeString(this.destinationLon);
-        dest.writeString(this.destinationLat);
+        dest.writeDouble(this.startPlaceLon);
+        dest.writeDouble(this.startPlaceLat);
+        dest.writeDouble(this.destinationLon);
+        dest.writeDouble(this.destinationLat);
         dest.writeString(this.remark);
         dest.writeString(this.balanceMoney);
         dest.writeString(this.totalMoney);
@@ -631,10 +631,10 @@ public class OrderInfoBean implements Parcelable {
         this.ownerName = in.readString();
         this.ownerMobile = in.readString();
         this.userId = in.readString();
-        this.startPlaceLon = in.readString();
-        this.startPlaceLat = in.readString();
-        this.destinationLon = in.readString();
-        this.destinationLat = in.readString();
+        this.startPlaceLon = in.readDouble();
+        this.startPlaceLat = in.readDouble();
+        this.destinationLon = in.readDouble();
+        this.destinationLat = in.readDouble();
         this.remark = in.readString();
         this.balanceMoney = in.readString();
         this.totalMoney = in.readString();

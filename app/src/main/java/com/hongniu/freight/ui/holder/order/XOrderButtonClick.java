@@ -1,9 +1,17 @@
 package com.hongniu.freight.ui.holder.order;
 
 import android.content.Context;
+import android.content.MutableContextWrapper;
+import android.view.ViewGroup;
 
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Poi;
+import com.amap.api.navi.AmapNaviPage;
+import com.amap.api.navi.AmapNaviParams;
+import com.amap.api.navi.AmapNaviType;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -11,6 +19,10 @@ import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
+import com.hongniu.thirdlibrary.map.MapUtils;
+import com.hongniu.thirdlibrary.map.SingleLocation;
+import com.hongniu.thirdlibrary.map.inter.OnLocationListener;
+import com.hongniu.thirdlibrary.map.utils.MapConverUtils;
 
 /**
  * 作者：  on 2020/2/8.
@@ -60,7 +72,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onOrderCancleClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("取消订单");
+//        ToastUtils.getInstance().show("取消订单");
         HttpAppFactory.orderCancel(bean.getId())
                 .subscribe(new NetObserver<Object>(listener){
                     @Override
@@ -81,7 +93,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onPayBalanceClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("差额支付");
-
+//TODO 差额支付
     }
 
     /**
@@ -92,7 +104,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onPayInsuranceClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("购买保险");
-
+//TODO 购买保险
     }
 
     /**
@@ -103,7 +115,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onCheckInsuranceClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("查看保单");
-
+//TODO 查看保单
     }
 
     /**
@@ -114,7 +126,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onCheckTrackClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("查看轨迹");
-
+//TODO 查看轨迹
     }
 
     /**
@@ -125,6 +137,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onEntryReceiveClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("确认收货");
+        //TODO 确认收货
 
     }
 
@@ -156,7 +169,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onEvaluateClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("评价");
-
+        //TODO 未完成
     }
 
     /**
@@ -195,6 +208,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onReSendOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("重新派单");
+        //TODO 尚未确认
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
                 .withString(Param.TRAN,bean.getId())
                 .navigation(mContext);
@@ -219,9 +233,57 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onStartCarClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("开始发车");
+//        ToastUtils.getInstance().show("开始发车");
+
+        SingleLocation location = new SingleLocation(mContext);
+        location .setListener(new OnLocationListener() {
+                    @Override
+                    public void onStartLocation() {
+                        if (listener!=null){
+                            listener.onTaskStart(null);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccessLocation(double longitude, double latitude) {
+                        if (listener!=null){
+                            listener.onTaskSuccess();
+                        }
+                        float distance = MapConverUtils.caculeDis(bean.getStartPlaceLat(), bean.getStartPlaceLon()
+                                , latitude, longitude
+                        );
+                        if (distance>Param.ENTRY_MIN){
+                            ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离发货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法开始发车");
+                        }else {
+                            //开始发车
+                            HttpAppFactory.orderStart(bean.getId())
+                                .subscribe(new NetObserver<Object>(listener){
+                                    @Override
+                                    public void doOnSuccess(Object o) {
+                                        super.doOnSuccess(o);
+                                        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
+                                        if (nextStepListener!= null){
+                                            nextStepListener.doUpdate();
+                                        }
+                                    }
+                                })
+                            ;
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailLocation(int errorCode, String errorInfo) {
+                        if (listener!=null){
+                            listener.onTaskFail(new Exception(),errorCode,errorInfo);
+                        }
+                    }
+                });
+        location .startLoaction();
+
 
     }
+
 
     /**
      * 确认到达
@@ -231,17 +293,70 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onEntryArriveClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("确认到达");
+        SingleLocation location = new SingleLocation(mContext);
+        location .setListener(new OnLocationListener() {
+            @Override
+            public void onStartLocation() {
+                if (listener!=null){
+                    listener.onTaskStart(null);
+                }
+            }
+
+            @Override
+            public void onSuccessLocation(double longitude, double latitude) {
+                if (listener!=null){
+                    listener.onTaskSuccess();
+                }
+                float distance = MapConverUtils.caculeDis(bean.getDestinationLat(), bean.getDestinationLon()
+                        , latitude, longitude
+                );
+                if (distance>Param.ENTRY_MIN){
+                    ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离收货货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法确认到达");
+                }else {
+                    //开始发车
+                    HttpAppFactory.orderEnd(bean.getId())
+                            .subscribe(new NetObserver<Object>(listener){
+                                @Override
+                                public void doOnSuccess(Object o) {
+                                    super.doOnSuccess(o);
+                                    ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
+                                    if (nextStepListener!= null){
+                                        nextStepListener.doUpdate();
+                                    }
+                                }
+                            })
+                    ;
+                }
+
+            }
+
+            @Override
+            public void onFailLocation(int errorCode, String errorInfo) {
+                if (listener!=null){
+                    listener.onTaskFail(new Exception(),errorCode,errorInfo);
+                }
+            }
+        });
+        location .startLoaction();
 
     }
 
     /**
      * 查看路线
      *
-     * @param bean
+     * @param infoBean
      */
     @Override
-    public void onQueryPathClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("查看路线");
+    public void onQueryPathClick(OrderInfoBean infoBean) {
+//        ToastUtils.getInstance().show("查看路线");
+        Poi start = new Poi(infoBean.getStartPlaceInfo(), new LatLng(infoBean.getStartPlaceLat(), infoBean.getStartPlaceLon()), null);
+        Poi end = new Poi(infoBean.getDestinationInfo(), new LatLng(infoBean.getDestinationLat(), infoBean.getDestinationLon()), null);
+
+        AmapNaviParams amapNaviParams = new AmapNaviParams(start, null, end, AmapNaviType.DRIVER);
+        amapNaviParams.setUseInnerVoice(true);
+
+        AmapNaviPage.getInstance().showRouteActivity(mContext.getApplicationContext(),
+                amapNaviParams, null);
 
     }
 

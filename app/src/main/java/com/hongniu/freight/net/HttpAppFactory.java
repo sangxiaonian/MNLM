@@ -290,7 +290,9 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderList(param)
                 .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
-    }    /**
+    }
+
+    /**
      * 查询订单列表
      *
      * @param param
@@ -357,6 +359,7 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
+
     /**
      * 平台员工接单
      *
@@ -370,6 +373,7 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
+
     /**
      * 平台员工发布找车信息
      *
@@ -380,7 +384,9 @@ public class HttpAppFactory {
                 .orderFindCarInfo(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    }    /**
+    }
+
+    /**
      * 平台员工发布找车信息
      *
      * @return
@@ -388,6 +394,34 @@ public class HttpAppFactory {
     public static Observable<CommonBean<Object>> orderDispathCar(OrderDispathCarParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .orderDispathCar(params)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
+     * 立即发车 开始发车
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderStart(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderStart(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
+     * 确认到达
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderEnd(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderEnd(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
@@ -444,10 +478,12 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryCarList(param)
                 .compose(RxUtils.getSchedulersObservableTransformer());
-    }    /**
+    }
+
+    /**
      * 查询所有车辆列表
      */
-    public static Observable<CommonBean<PageBean<CarInfoBean>>> queryAllCarList(int currentPage,String searchText) {
+    public static Observable<CommonBean<PageBean<CarInfoBean>>> queryAllCarList(int currentPage, String searchText) {
         PageSearchParams param = new PageSearchParams();
         param.setPageNum(currentPage);
         param.setSearchText(searchText);
@@ -490,13 +526,14 @@ public class HttpAppFactory {
                 .queryAccountDetails()
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
-   /**
+
+    /**
+     * @param params
      * @return
      * @data 2020/3/3
      * @Author PING
      * @Description 查询账户详情数据
-    * @param params
-    */
+     */
     public static Observable<CommonBean<PageBean<BillInfoListBean>>> searchAccountList(BillInfoSearchParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .searchAccountList(params)

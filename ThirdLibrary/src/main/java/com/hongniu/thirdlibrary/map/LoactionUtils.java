@@ -33,6 +33,7 @@ public class LoactionUtils {
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
+
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
 

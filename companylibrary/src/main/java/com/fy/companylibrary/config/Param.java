@@ -24,6 +24,10 @@ public class Param {
     public static final String ABOUT_US ="https://api.hongniudai.cn/static/html/service.html" ;
 
 
+    /**
+     * 确认到达时候，距离目的地的最小距离 单位 千米
+     */
+    public static final int ENTRY_MIN = 5000;
     public static String LOGIN="login";//登录信息
     public static String MY="my";//个人信息
 }

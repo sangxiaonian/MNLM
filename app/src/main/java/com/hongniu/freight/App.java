@@ -6,6 +6,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.CompanyClient;
 import com.hongniu.freight.net.interceptor.HeardInterceptor;
 import com.hongniu.freight.net.interceptor.LoginOutRespondInterceptor;
+import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.verify.VerifyClient;
 
 /**

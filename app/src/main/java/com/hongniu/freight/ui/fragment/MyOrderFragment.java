@@ -165,6 +165,6 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
      */
     @Override
     public void doUpdate() {
-        queryData(true);
+        queryData(true,true);
     }
 }

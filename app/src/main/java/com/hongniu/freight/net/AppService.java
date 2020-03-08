@@ -200,6 +200,22 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/dispatch")
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
+    /**
+     * 开始发车 立即发车
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/start")
+    Observable<CommonBean<Object>> orderStart(@Body JsonObject params);
+/**
+     * 确认到达
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi//api/deliveryOrder/endSend")
+    Observable<CommonBean<Object>> orderEnd(@Body JsonObject params);
 
     /**
      * 查询订单状态
