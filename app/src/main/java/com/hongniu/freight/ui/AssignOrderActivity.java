@@ -17,10 +17,13 @@ import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.entity.OrderDispathCarParams;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
 
 /**
@@ -36,12 +39,14 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
     private ItemTextView item_driver_phone;
     private ItemTextView item_driver_name;
     private CarInfoBean carInfo;
+    private String orderID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_order);
+        orderID=getIntent().getStringExtra(Param.TRAN);
         setWhitToolBar("");
         initView();
         initData();
@@ -72,12 +77,14 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode==1&&data!=null){
-            carInfo=data.getParcelableExtra(Param.TRAN);
-            if (carInfo!=null){
+        if (requestCode == 1 && data != null) {
+            carInfo = data.getParcelableExtra(Param.TRAN);
+            if (carInfo != null) {
                 SpannableStringBuilder builder = new SpannableStringBuilder();
-                builder.append("沪A888888").append("\n")
-                    .append("司机姓名")
+                builder.append(TextUtils.isEmpty(carInfo.getCarType()) ? "" : carInfo.getCarType())
+                        .append("\n")
+                        .append(TextUtils.isEmpty(carInfo.getName()) ? "" : carInfo.getName())
+
                 ;
                 builder.append("\t");
                 int lineStart = builder.length();
@@ -85,9 +92,11 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
                 builder.append(" ");
                 builder.append("\t");
                 builder.setSpan(new CenterAlignImageSpan(this, R.drawable.ovl_line_v), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                builder.append("15515871516");
+                builder
+                        .append(TextUtils.isEmpty(carInfo.getMobile()) ? "" : carInfo.getMobile());
+
                 item_car_type.getEtCenter().setText(builder);
-            }else {
+            } else {
                 item_car_type.setTextCenter("");
             }
         }
@@ -103,12 +112,31 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-                ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
-                finish();
+
+                OrderDispathCarParams params=new OrderDispathCarParams();
+                params.setCarId(carInfo.getId());
+                params.setDriverMobile(item_driver_phone.getTextCenter());
+                params.setDriverName(item_driver_name.getTextCenter());
+                params.setRealMoney(item_price.getTextCenter());
+                params.setOrderId(orderID);
+                HttpAppFactory.orderDispathCar(params)
+                        .subscribe(new NetObserver<Object>(this){
+                            @Override
+                            public void doOnSuccess(Object o) {
+                                super.doOnSuccess(o);
+                                ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            }
+                        });
+
+
+
+
             }
         } else if (v.getId() == R.id.item_car_type) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_search_car)
-                    .navigation((Activity) mContext,1);
+                    .navigation((Activity) mContext, 1);
         }
 
     }

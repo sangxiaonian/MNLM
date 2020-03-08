@@ -168,6 +168,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onSendOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("立即派单");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
+                .withString(Param.TRAN,bean.getId())
                 .navigation(mContext);
     }
 
@@ -193,8 +194,10 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onReSendOrderClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("重新派单");
-
+//        ToastUtils.getInstance().show("重新派单");
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
+                .withString(Param.TRAN,bean.getId())
+                .navigation(mContext);
     }
 
     /**

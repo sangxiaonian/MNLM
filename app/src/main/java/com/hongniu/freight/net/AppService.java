@@ -12,11 +12,13 @@ import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.OrderDispathCarParams;
 import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
+import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
@@ -172,21 +174,32 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/cancel")
     Observable<CommonBean<Object>> orderCancel(@Body JsonObject params);
- /**
+
+    /**
      * 平台员工接单
      *
      * @return
      */
     @POST("wlhyapi/api/deliveryOrder/platformAcceptOrder")
     Observable<CommonBean<Object>> orderReceivePlatform(@Body JsonObject params);
-/**
+
+    /**
      * 平台员工发布找车
      *
+     * @param params
      * @return
- * @param params
      */
     @POST("wlhyapi/api/deliveryOrder/findCarInfo/add")
     Observable<CommonBean<Object>> orderFindCarInfo(@Body OrderFindCarParams params);
+
+    /**
+     * 平台员工派车
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/dispatch")
+    Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
 
     /**
      * 查询订单状态
@@ -212,6 +225,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/car/selectpagecar")
     Observable<CommonBean<PageBean<CarInfoBean>>> queryCarList(@Body PageParams pageParams);
+
+    /**
+     * 全部车辆列表
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/car/selectpagecar/all")
+    Observable<CommonBean<PageBean<CarInfoBean>>> queryAllCarList(@Body PageSearchParams pageParams);
 
     /**
      * 我的车辆列表

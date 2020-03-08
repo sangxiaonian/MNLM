@@ -20,11 +20,13 @@ import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.OrderDispathCarParams;
 import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
+import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
@@ -378,6 +380,16 @@ public class HttpAppFactory {
                 .orderFindCarInfo(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
+    }    /**
+     * 平台员工发布找车信息
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderDispathCar(OrderDispathCarParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderDispathCar(params)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
     }
 
 
@@ -431,6 +443,16 @@ public class HttpAppFactory {
         param.setPageNum(currentPage);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryCarList(param)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }    /**
+     * 查询所有车辆列表
+     */
+    public static Observable<CommonBean<PageBean<CarInfoBean>>> queryAllCarList(int currentPage,String searchText) {
+        PageSearchParams param = new PageSearchParams();
+        param.setPageNum(currentPage);
+        param.setSearchText(searchText);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryAllCarList(param)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 

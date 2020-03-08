@@ -20,6 +20,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +28,15 @@ import java.util.List;
 import io.reactivex.Observable;
 
 /**
- *@data  2020/2/13
- *@Author PING
- *@Description
- * 搜索车辆信息
- *
+ * @data 2020/2/13
+ * @Author PING
+ * @Description 搜索车辆信息
  */
 @Route(path = ArouterParamApp.activity_search_car)
-
-public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements  SearchTextWatcher.SearchTextChangeListener {
+public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements SearchTextWatcher.SearchTextChangeListener {
 
     private SearchTitleView searchTitleView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,7 @@ public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements  
     @Override
     protected void initView() {
         super.initView();
-        searchTitleView=findViewById(R.id.search);
+        searchTitleView = findViewById(R.id.search);
     }
 
     @Override
@@ -74,17 +73,7 @@ public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements  
 
     @Override
     protected Observable<CommonBean<PageBean<CarInfoBean>>> getListDatas() {
-        CommonBean<PageBean<CarInfoBean>> common = new CommonBean<>();
-        common.setCode(200);
-        PageBean<CarInfoBean> pageBean = new PageBean<>();
-        common.setData(pageBean);
-        List<CarInfoBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            CarInfoBean orderInfoBean = new CarInfoBean();
-            list.add(orderInfoBean);
-        }
-        pageBean.setList(list);
-        return Observable.just(common);
+        return HttpAppFactory.queryAllCarList(currentPage, searchTitleView.getTitle());
     }
 
     @Override
@@ -100,16 +89,16 @@ public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements  
                         TextView tv_car_type = itemView.findViewById(R.id.tv_car_type);
                         TextView tv_phone = itemView.findViewById(R.id.tv_phone);
 
-                        tv_car_type.setText("测试车辆类型");
-                        tv_phone.setText("15515761537");
+                        tv_car_type.setText(data.getCarType());
+                        tv_phone.setText(data.getMobile());
 
-                        tv_title.setText(String.format("%s-%s","司机姓名","沪A12345"));
+                        tv_title.setText(String.format("%s-%s", data.getName(), data.getCarNumber()));
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent();
-                                intent.putExtra(Param.TRAN,data);
-                                setResult(Activity.RESULT_OK,intent);
+                                Intent intent = new Intent();
+                                intent.putExtra(Param.TRAN, data);
+                                setResult(Activity.RESULT_OK, intent);
                                 finish();
                             }
                         });
