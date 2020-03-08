@@ -12,6 +12,7 @@ import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
@@ -178,6 +179,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/platformAcceptOrder")
     Observable<CommonBean<Object>> orderReceivePlatform(@Body JsonObject params);
+/**
+     * 平台员工发布找车
+     *
+     * @return
+ * @param params
+     */
+    @POST("wlhyapi/api/deliveryOrder/findCarInfo/add")
+    Observable<CommonBean<Object>> orderFindCarInfo(@Body OrderFindCarParams params);
 
     /**
      * 查询订单状态

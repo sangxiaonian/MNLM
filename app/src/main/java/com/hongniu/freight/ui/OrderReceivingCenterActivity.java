@@ -82,6 +82,12 @@ public class OrderReceivingCenterActivity extends RefrushActivity<OrderInfoBean>
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        queryData(true);
+    }
+
+    @Override
     protected void initData() {
         super.initData();
         titles = new ArrayList<>(Arrays.asList(Status.values()));

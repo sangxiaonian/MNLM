@@ -2,14 +2,12 @@ package com.hongniu.freight.ui.holder.order;
 
 import android.content.Context;
 
-import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
-import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
@@ -181,7 +179,9 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onFindCarClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("发布找车");
-        ArouterUtils.getInstance().builder(ArouterParamApp.activity_find_car)
+        ArouterUtils.getInstance()
+                .builder(ArouterParamApp.activity_order_find_car)
+                .withString(Param.TRAN,bean.getId())
                 .navigation(mContext);
 
     }

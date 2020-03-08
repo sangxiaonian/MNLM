@@ -12,9 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup">
+        <activity android:name=".ui.OrderFindCarActivity"></activity>
         <activity
             android:name=".ui.PayActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".ui.CarAddModifyActivity" />
         <activity android:name=".ui.WaitePayActivity" />
         <activity android:name=".ui.FaceBackActivity" />
@@ -56,8 +57,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-      <!-- 高德地图 -->
+        </activity> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="1457998aaed653947f53734c7bd5f47a" />

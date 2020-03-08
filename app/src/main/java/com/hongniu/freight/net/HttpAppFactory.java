@@ -20,6 +20,7 @@ import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
+import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
@@ -353,7 +354,8 @@ public class HttpAppFactory {
                 .orderCancel(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    }   /**
+    }
+    /**
      * 平台员工接单
      *
      * @return
@@ -363,6 +365,17 @@ public class HttpAppFactory {
         json.addProperty("id", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .orderReceivePlatform(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+    /**
+     * 平台员工发布找车信息
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderFindCarInfo(OrderFindCarParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderFindCarInfo(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
