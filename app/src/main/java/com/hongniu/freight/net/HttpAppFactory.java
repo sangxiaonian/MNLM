@@ -27,6 +27,7 @@ import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
+import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
@@ -426,6 +427,20 @@ public class HttpAppFactory {
                 ;
     }
 
+    /**
+     * 确认收货
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderEntryReceive(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderEntryReceive(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
 
     /**
      * 上传图片
@@ -580,6 +595,19 @@ public class HttpAppFactory {
         json.addProperty("checkCode", code);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .upPass(json)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 查看轨迹
+     * @param id
+     * @return
+     */
+    public static   Observable<CommonBean<PathBean>> getPath(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("orderId", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .getPath(json)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 }

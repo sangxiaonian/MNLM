@@ -19,6 +19,7 @@ import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
+import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
@@ -216,6 +217,14 @@ public interface AppService {
      */
     @POST("wlhyapi//api/deliveryOrder/endSend")
     Observable<CommonBean<Object>> orderEnd(@Body JsonObject params);
+/**
+     * .确认收货
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/receive")
+    Observable<CommonBean<Object>> orderEntryReceive(@Body JsonObject params);
 
     /**
      * 查询订单状态
@@ -308,5 +317,12 @@ public interface AppService {
      */
     @POST("wlhyapi/api/account/updatepass")
     Observable<CommonBean<Object>> upPass(@Body JsonObject payInfoParams);
+
+    /**
+     * 获取指定订单所有位置信息
+     */
+    @POST("wlhyapi/api/position/list")
+    Observable<CommonBean<PathBean>> getPath(@Body JsonObject infor);
+
 
 }

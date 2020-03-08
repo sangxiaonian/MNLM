@@ -181,12 +181,12 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
 
     private void queryInfo() {
         HttpAppFactory.queryMyInfo()
-                .subscribe(new NetObserver<PersonInfor>(this) {
+                .subscribe(new NetObserver<PersonInfor>(isFirst?this:null) {
                     @Override
                     public void doOnSuccess(PersonInfor personInfor) {
                         super.doOnSuccess(personInfor);
                         initInfo(personInfor);
-                        isFirst=false;
+                        isFirst=true;
                     }
 
 

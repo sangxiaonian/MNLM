@@ -125,6 +125,10 @@ public class ArouterParamApp {
      * 我要接单
      */
     public static final String activity_order_center = "/app/activity_order_center";
+ /**
+     * 查看轨迹
+     */
+    public static final String activity_map_check_path = "/app/activity_map_check_path";
 
 
     /**

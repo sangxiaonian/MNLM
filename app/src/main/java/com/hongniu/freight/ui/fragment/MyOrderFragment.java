@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.utils.DeviceUtils;
+import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.widget.recycle.adapter.SelectAdapter;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
@@ -102,10 +103,12 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
         return new XAdapter<OrderInfoBean>(mContext, datas) {
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
+                XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(mContext);
+                xOrderButtonClick.setNextStepListener(MyOrderFragment.this);
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(presenter.getType())
-                        .setOrderButtonClickListener(new XOrderButtonClick(mContext))
+                        .setOrderButtonClickListener(xOrderButtonClick)
                         .build()
                         ;
             }
@@ -166,5 +169,6 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
     @Override
     public void doUpdate() {
         queryData(true,true);
+        JLog.e("------------------此处开始刷新数据----------------");
     }
 }

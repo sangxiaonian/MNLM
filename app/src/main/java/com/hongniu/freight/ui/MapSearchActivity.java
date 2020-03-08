@@ -90,6 +90,7 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
 
         }
         etSearch.clearFocus();
+        check(false);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
 
 
         item_address.setOnCenterChangeListener(this);
-                item_name.setOnCenterChangeListener(this);
+        item_name.setOnCenterChangeListener(this);
         item_phone.setOnCenterChangeListener(this);
 
     }
@@ -147,7 +148,7 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
 
                 String phone = item_phone.getTextCenter().trim();
                 String address = TextUtils.isEmpty(item_address.getTextCenter()) ? null : item_address.getTextCenter();
-                bean.setAddressDetail(Utils.dealPioPlace(bean.getPoiItem())+address);
+                bean.setAddressDetail(Utils.dealPioPlace(bean.getPoiItem()) + address);
                 bean.setAddress(address);
                 bean.setName(TextUtils.isEmpty(item_name.getTextCenter()) ? null : item_name.getTextCenter());
                 bean.setPhone(TextUtils.isEmpty(phone) ? null : phone);
@@ -159,31 +160,33 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
     }
 
     private boolean check(boolean show) {
-        Utils.setButton(bt_sum,false);
-        if (bean.getPoiItem()==null){
-            if (show){
+        Utils.setButton(bt_sum, false);
+        if (bean.getPoiItem() == null) {
+            if (show) {
                 ToastUtils.getInstance().show("请选择地址信息");
             }
             return false;
         }
 
-        if (TextUtils.isEmpty(item_address.getTextCenter())){
-            if (show){
-                ToastUtils.getInstance().show("请填写门牌号");
-            }
-            return false;
-        }   if (TextUtils.isEmpty(item_name.getTextCenter())){
-            if (show){
-                ToastUtils.getInstance().show("请填写"+item_name.getTextCenterHide());
-            }
-            return false;
-        }   if (TextUtils.isEmpty(item_phone.getTextCenter())){
-            if (show){
-                ToastUtils.getInstance().show("请填写"+item_phone.getTextCenterHide());
+//        if (TextUtils.isEmpty(item_address.getTextCenter())) {
+//            if (show) {
+//                ToastUtils.getInstance().show("请填写门牌号");
+//            }
+//            return false;
+//        }
+        if (TextUtils.isEmpty(item_name.getTextCenter())) {
+            if (show) {
+                ToastUtils.getInstance().show("请填写" + item_name.getTextCenterHide());
             }
             return false;
         }
-        Utils.setButton(bt_sum,true);
+        if (TextUtils.isEmpty(item_phone.getTextCenter())) {
+            if (show) {
+                ToastUtils.getInstance().show("请填写" + item_phone.getTextCenterHide());
+            }
+            return false;
+        }
+        Utils.setButton(bt_sum, true);
 
         return true;
     }
@@ -220,8 +223,8 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
             @Override
             public void onChanged() {
                 refresh.setVisibility(adapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
-                if (ll_bottom!=null)
-                ll_bottom.setVisibility(adapter.getItemCount() != 0 ? View.GONE : View.VISIBLE);
+                if (ll_bottom != null)
+                    ll_bottom.setVisibility(adapter.getItemCount() != 0 ? View.GONE : View.VISIBLE);
             }
         });
         return xAdapter;
@@ -318,7 +321,6 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
     public void onCenterChange(String msg) {
         check(false);
     }
-
 
 
 }

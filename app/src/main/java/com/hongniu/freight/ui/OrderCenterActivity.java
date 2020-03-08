@@ -28,7 +28,7 @@ import io.reactivex.Observable;
  * @Description 我要接单
  */
 @Route(path = ArouterParamApp.activity_order_center)
-public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> {
+public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> implements XOrderButtonClick.NextStepListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +69,13 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> {
                         ;
             }
         };
+    }
+
+    /**
+     * 再进行取消等操作完成之后,刷新界面
+     */
+    @Override
+    public void doUpdate() {
+        queryData(true);
     }
 }

@@ -1,15 +1,20 @@
 package com.hongniu.freight.ui.holder.order;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.MutableContextWrapper;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Poi;
 import com.amap.api.navi.AmapNaviPage;
 import com.amap.api.navi.AmapNaviParams;
 import com.amap.api.navi.AmapNaviType;
+import com.autonavi.rtbt.IFrameForRTBT;
 import com.fy.androidlibrary.net.listener.TaskControl;
+import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
@@ -24,6 +29,8 @@ import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.map.inter.OnLocationListener;
 import com.hongniu.thirdlibrary.map.utils.MapConverUtils;
 
+import io.reactivex.Observable;
+
 /**
  * 作者：  on 2020/2/8.
  */
@@ -33,14 +40,13 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     private NextStepListener nextStepListener;
 
 
-
     public XOrderButtonClick(Context mContext) {
         this.mContext = mContext;
-        if (mContext instanceof TaskControl.OnTaskListener){
-            listener= (TaskControl.OnTaskListener) mContext;
+        if (mContext instanceof TaskControl.OnTaskListener) {
+            listener = (TaskControl.OnTaskListener) mContext;
         }
-        if (mContext instanceof NextStepListener){
-            nextStepListener= (NextStepListener) mContext;
+        if (mContext instanceof NextStepListener) {
+            nextStepListener = (NextStepListener) mContext;
         }
     }
 
@@ -61,7 +67,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onPayClick(OrderInfoBean bean) {
         ArouterUtils.getInstance()
                 .builder(ArouterParamApp.activity_pay)
-                .withString(Param.TRAN,bean.getId())
+                .withString(Param.TRAN, bean.getId())
                 .navigation(mContext);
     }
 
@@ -74,11 +80,11 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onOrderCancleClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("取消订单");
         HttpAppFactory.orderCancel(bean.getId())
-                .subscribe(new NetObserver<Object>(listener){
+                .subscribe(new NetObserver<Object>(listener) {
                     @Override
                     public void doOnSuccess(Object o) {
                         super.doOnSuccess(o);
-                        if (nextStepListener!=null){
+                        if (nextStepListener != null) {
                             nextStepListener.doUpdate();
                         }
                     }
@@ -125,7 +131,10 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onCheckTrackClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("查看轨迹");
+//        ToastUtils.getInstance().show("查看轨迹");
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_map_check_path)
+                .withParcelable(Param.TRAN,bean)
+                .navigation((Activity) mContext,1);
 //TODO 查看轨迹
     }
 
@@ -136,9 +145,18 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onEntryReceiveClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("确认收货");
+//        ToastUtils.getInstance().show("确认收货");
         //TODO 确认收货
-
+        HttpAppFactory.orderEntryReceive(bean.getId())
+                .subscribe(new NetObserver<Object>(listener) {
+                    @Override
+                    public void doOnSuccess(Object o) {
+                        super.doOnSuccess(o);
+                        if (nextStepListener != null) {
+                            nextStepListener.doUpdate();
+                        }
+                    }
+                });
     }
 
     /**
@@ -150,11 +168,11 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onEntryReceiveOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("确认接单");
         HttpAppFactory.orderReceivePlatform(bean.getId())
-                .subscribe(new NetObserver<Object>(listener){
+                .subscribe(new NetObserver<Object>(listener) {
                     @Override
                     public void doOnSuccess(Object o) {
                         super.doOnSuccess(o);
-                        if (nextStepListener!=null){
+                        if (nextStepListener != null) {
                             nextStepListener.doUpdate();
                         }
                     }
@@ -181,7 +199,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onSendOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("立即派单");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
-                .withString(Param.TRAN,bean.getId())
+                .withString(Param.TRAN, bean.getId())
                 .navigation(mContext);
     }
 
@@ -195,7 +213,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
 //        ToastUtils.getInstance().show("发布找车");
         ArouterUtils.getInstance()
                 .builder(ArouterParamApp.activity_order_find_car)
-                .withString(Param.TRAN,bean.getId())
+                .withString(Param.TRAN, bean.getId())
                 .navigation(mContext);
 
     }
@@ -208,9 +226,8 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onReSendOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("重新派单");
-        //TODO 尚未确认
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
-                .withString(Param.TRAN,bean.getId())
+                .withString(Param.TRAN, bean.getId())
                 .navigation(mContext);
     }
 
@@ -236,50 +253,50 @@ public class XOrderButtonClick implements OrderButtonClickListener {
 //        ToastUtils.getInstance().show("开始发车");
 
         SingleLocation location = new SingleLocation(mContext);
-        location .setListener(new OnLocationListener() {
-                    @Override
-                    public void onStartLocation() {
-                        if (listener!=null){
-                            listener.onTaskStart(null);
-                        }
-                    }
+        location.setListener(new OnLocationListener() {
+            @Override
+            public void onStartLocation() {
+                if (listener != null) {
+                    listener.onTaskStart(null);
+                }
+            }
 
-                    @Override
-                    public void onSuccessLocation(double longitude, double latitude) {
-                        if (listener!=null){
-                            listener.onTaskSuccess();
-                        }
-                        float distance = MapConverUtils.caculeDis(bean.getStartPlaceLat(), bean.getStartPlaceLon()
-                                , latitude, longitude
-                        );
-                        if (distance>Param.ENTRY_MIN){
-                            ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离发货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法开始发车");
-                        }else {
-                            //开始发车
-                            HttpAppFactory.orderStart(bean.getId())
-                                .subscribe(new NetObserver<Object>(listener){
-                                    @Override
-                                    public void doOnSuccess(Object o) {
-                                        super.doOnSuccess(o);
-                                        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
-                                        if (nextStepListener!= null){
-                                            nextStepListener.doUpdate();
-                                        }
+            @Override
+            public void onSuccessLocation(double longitude, double latitude) {
+                if (listener != null) {
+                    listener.onTaskSuccess();
+                }
+                float distance = MapConverUtils.caculeDis(bean.getStartPlaceLat(), bean.getStartPlaceLon()
+                        , latitude, longitude
+                );
+                if (distance > Param.ENTRY_MIN) {
+                    ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离发货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法开始发车");
+                } else {
+                    //开始发车
+                    HttpAppFactory.orderStart(bean.getId())
+                            .subscribe(new NetObserver<Object>(listener) {
+                                @Override
+                                public void doOnSuccess(Object o) {
+                                    super.doOnSuccess(o);
+                                    ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
+                                    if (nextStepListener != null) {
+                                        nextStepListener.doUpdate();
                                     }
-                                })
-                            ;
-                        }
+                                }
+                            })
+                    ;
+                }
 
-                    }
+            }
 
-                    @Override
-                    public void onFailLocation(int errorCode, String errorInfo) {
-                        if (listener!=null){
-                            listener.onTaskFail(new Exception(),errorCode,errorInfo);
-                        }
-                    }
-                });
-        location .startLoaction();
+            @Override
+            public void onFailLocation(int errorCode, String errorInfo) {
+                if (listener != null) {
+                    listener.onTaskFail(new Exception(), errorCode, errorInfo);
+                }
+            }
+        });
+        location.startLoaction();
 
 
     }
@@ -294,33 +311,33 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onEntryArriveClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("确认到达");
         SingleLocation location = new SingleLocation(mContext);
-        location .setListener(new OnLocationListener() {
+        location.setListener(new OnLocationListener() {
             @Override
             public void onStartLocation() {
-                if (listener!=null){
+                if (listener != null) {
                     listener.onTaskStart(null);
                 }
             }
 
             @Override
             public void onSuccessLocation(double longitude, double latitude) {
-                if (listener!=null){
+                if (listener != null) {
                     listener.onTaskSuccess();
                 }
                 float distance = MapConverUtils.caculeDis(bean.getDestinationLat(), bean.getDestinationLon()
                         , latitude, longitude
                 );
-                if (distance>Param.ENTRY_MIN){
+                if (distance > Param.ENTRY_MIN) {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离收货货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法确认到达");
-                }else {
+                } else {
                     //开始发车
                     HttpAppFactory.orderEnd(bean.getId())
-                            .subscribe(new NetObserver<Object>(listener){
+                            .subscribe(new NetObserver<Object>(listener) {
                                 @Override
                                 public void doOnSuccess(Object o) {
                                     super.doOnSuccess(o);
                                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
-                                    if (nextStepListener!= null){
+                                    if (nextStepListener != null) {
                                         nextStepListener.doUpdate();
                                     }
                                 }
@@ -332,12 +349,12 @@ public class XOrderButtonClick implements OrderButtonClickListener {
 
             @Override
             public void onFailLocation(int errorCode, String errorInfo) {
-                if (listener!=null){
-                    listener.onTaskFail(new Exception(),errorCode,errorInfo);
+                if (listener != null) {
+                    listener.onTaskFail(new Exception(), errorCode, errorInfo);
                 }
             }
         });
-        location .startLoaction();
+        location.startLoaction();
 
     }
 
@@ -360,7 +377,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
 
     }
 
-    public interface NextStepListener{
+    public interface NextStepListener {
         /**
          * 再进行取消等操作完成之后,刷新界面
          */

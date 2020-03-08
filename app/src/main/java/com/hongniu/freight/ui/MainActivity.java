@@ -132,6 +132,9 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     }
 
     private void switchFragment(CompanyBaseFragment fragment) {
+        if (currentFragment==fragment){
+            return;
+        }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (currentFragment!=null){
             transaction.hide(currentFragment);
