@@ -14,6 +14,7 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
 import com.hongniu.freight.ui.holder.order.helper.OrderUtils;
@@ -27,13 +28,17 @@ import java.util.Map;
 public class OrderBaseHolder extends BaseHolder<OrderInfoBean> {
 
     private OrderButtonClickListener orderButtonClickListener;
-
+    RoleOrder role=  RoleOrder.SHIPPER;
     public OrderBaseHolder(Context context, ViewGroup parent, int layoutID ) {
         super(context, parent, layoutID);
     }
 
     public void setOrderButtonClickListener(OrderButtonClickListener orderButtonClickListener) {
         this.orderButtonClickListener = orderButtonClickListener;
+    }
+
+    public void setRole(RoleOrder role) {
+        this.role = role;
     }
 
     @Override
@@ -44,6 +49,7 @@ public class OrderBaseHolder extends BaseHolder<OrderInfoBean> {
             public void onClick(View v) {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_detail)
                         .withParcelable(Param.TRAN,data)
+                        .withSerializable(Param.TYPE,role)
                         .navigation(mContext);
             }
         });

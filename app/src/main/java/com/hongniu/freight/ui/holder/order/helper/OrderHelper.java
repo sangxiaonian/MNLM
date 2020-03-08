@@ -1,6 +1,6 @@
 package com.hongniu.freight.ui.holder.order.helper;
 
-import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.ui.holder.order.helper.control.HelperControl;
 import com.hongniu.freight.utils.Utils;
 
@@ -11,15 +11,16 @@ import java.util.Map;
  */
 public class OrderHelper implements HelperControl {
     HelperControl helper;
-   Role role;
-    public OrderHelper(Role role) {
-        this.role=role;
-        if (role==Role.SHIPPER_COMPANY){
-            helper=new TYRHelper(Utils.getShipperType());
-        }else if (role==Role.CARRIER_COMPANY){
-            helper=new CYRHelper();
-        }else if (role==Role.DRIVER){
-            helper=new DriverHelper();
+    RoleOrder role;
+
+    public OrderHelper(RoleOrder role) {
+        this.role = role;
+        if (role == RoleOrder.SHIPPER) {
+            helper = new TYRHelper(Utils.getShipperType());
+        } else if (role == RoleOrder.CARRIER) {
+            helper = new CYRHelper();
+        } else if (role == RoleOrder.DRIVER) {
+            helper = new DriverHelper();
         }
     }
 

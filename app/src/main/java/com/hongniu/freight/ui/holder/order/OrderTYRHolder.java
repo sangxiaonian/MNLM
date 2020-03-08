@@ -21,6 +21,8 @@ import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
  */
   class OrderTYRHolder extends OrderBaseHolder {
 
+
+
     public OrderTYRHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_tyr_order);
     }
@@ -36,12 +38,12 @@ import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
         ViewGroup ll_bt = itemView.findViewById(R.id.ll_bt);
         Group bottom_group = itemView.findViewById(R.id.bottom_group);
 
-        OrderHelper helper = new OrderHelper(Role.SHIPPER_COMPANY);
+        OrderHelper helper = new OrderHelper(role);
 
         CommonUtils.setText(tv_time,data.getCreateTime());
         CommonUtils.setText(tv_start_address,data.getStartPlaceInfo());
         CommonUtils.setText(tv_end_address,data.getDestinationInfo());
-        tv_tag.setText(RoleOrder.SHIPPER.getName());
+        tv_tag.setText(role.getName());
         tvTitle.setText(helper.getStatus(data.getStatus()));
 
         //控制底部button

@@ -69,7 +69,7 @@
             android:id="@+id/img_time"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:src="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/icon_time_999999"
             android:layout_marginRight="8dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_time"
             app:layout_constraintEnd_toStartOf="@id/tv_time"
@@ -124,7 +124,7 @@
         <com.fy.androidlibrary.widget.CircularImageView
             android:layout_width="6dp"
             android:layout_height="6dp"
-            android:src="#21222C"
+            android:src="@color/color_of_e50000"
             app:layout_constraintBottom_toBottomOf="@id/tv_end_address"
             app:layout_constraintStart_toStartOf="@id/line_left"
             app:layout_constraintTop_toTopOf="@id/tv_end_address"
