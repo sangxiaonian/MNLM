@@ -23,9 +23,12 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.OrderDetailControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.OrderDetailPresenter;
+import com.hongniu.freight.ui.holder.order.CustomOrderButtonClick;
+import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
 
 /**
  * @data 2020/2/8
@@ -33,7 +36,7 @@ import com.hongniu.freight.presenter.OrderDetailPresenter;
  * @Description 订单详情页
  */
 @Route(path = ArouterParamApp.activity_order_detail)
-public class OrderDetailActivity extends CompanyBaseActivity implements OrderDetailControl.IOrderDetailView, View.OnClickListener {
+public class OrderDetailActivity extends CompanyBaseActivity implements OrderDetailControl.IOrderDetailView, View.OnClickListener, XOrderButtonClick.NextStepListener {
 
     private TextView tv_statute;//订单状态
     private TextView tv_order;//订单编号
@@ -51,6 +54,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
 
 
     OrderDetailControl.IOrderDetailPresenter presenter;
+    private CustomOrderButtonClick customOrderButtonClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         initListener();
         presenter = new OrderDetailPresenter(this);
         OrderInfoBean infoBean = getIntent().getParcelableExtra(Param.TRAN);
-        presenter.initInfo(infoBean);
+        RoleOrder roler = (RoleOrder) getIntent().getSerializableExtra(Param.TYPE);
+        presenter.initInfo(infoBean, roler);
         presenter.queryDetail(this);
     }
 
@@ -91,6 +96,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         img_end_chat.setOnClickListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
+        customOrderButtonClick = new CustomOrderButtonClick(new XOrderButtonClick(this));
     }
 
     protected void setWhitToolBar(String title) {
@@ -141,9 +147,10 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      * 初始化司机信息
      *
      * @param infoBean
+     * @param showDriverInfo
      */
     @Override
-    public void initDriverInfo(OrderInfoBean infoBean) {
+    public void initDriverInfo(OrderInfoBean infoBean, boolean showDriverInfo) {
         tv_driver_contact.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
         int titleColor = getResources().getColor(R.color.color_of_666666);
@@ -152,6 +159,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         append(titleColor, "司机姓名", color, infoBean.getDriverName(), builder);
         append(titleColor, builder, "司机手机");
         builder.append(gap);
+
         append(color, builder, infoBean.getDriverMobile());
         appendLine(builder);
         appendClick(builder, "联系司机", new XClickableSpan() {
@@ -163,6 +171,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         }
                 .setColor(contactColor));
         tv_driver_contact.setText(builder);
+        tv_driver_contact.setVisibility(showDriverInfo?View.VISIBLE:View.GONE);
     }
 
     //添加一个点击事件
@@ -172,7 +181,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         }
         builder.append(content);
 
-        builder.setSpan(clickableSpan, builder.length() - 4, builder.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        builder.setSpan(clickableSpan, builder.length() - content.length(), builder.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
     }
 
@@ -190,7 +199,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         append(titleColor, "实际运费", color, "1600元", builder);
         append(titleColor, "货物保费", color, "1600元", builder);
         append(titleColor, "货物运费", color, "1500元", builder);
-        append(titleColor, "下单时间", color, ConvertUtils.formatTime(infoBean.getCreateTime(),"yyyy-MM-dd HH:mm:ss"), builder);
+        append(titleColor, "下单时间", color, ConvertUtils.formatTime(infoBean.getCreateTime(), "yyyy-MM-dd HH:mm:ss"), builder);
         append(titleColor, "发货时间", color, TextUtils.isEmpty(infoBean.getDepartureTime()) ? "立即发货" : infoBean.getDepartureTime(), builder);
         append(titleColor, "货物名称", color, infoBean.getGoodName(), builder);
 
@@ -221,9 +230,10 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      * 显示车辆信息
      *
      * @param infoBean
+     * @param showCarInfo
      */
     @Override
-    public void showCarInfo(OrderInfoBean infoBean) {
+    public void showCarInfo(OrderInfoBean infoBean, boolean showCarInfo) {
         tv_car_detail.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
         int titleColor = getResources().getColor(R.color.color_of_666666);
@@ -245,6 +255,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
                 }
                         .setColor(contactColor));
         tv_car_detail.setText(builder);
+        tv_car_detail.setVisibility(showCarInfo?View.VISIBLE:View.GONE);
     }
 
     /**
@@ -258,6 +269,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         bt_right.setVisibility(TextUtils.isEmpty(infoBean[1]) ? View.GONE : View.VISIBLE);
         bt_left.setText(TextUtils.isEmpty(infoBean[0]) ? "" : infoBean[0]);
         bt_right.setText(TextUtils.isEmpty(infoBean[1]) ? "" : infoBean[1]);
+
     }
 
     /**
@@ -268,6 +280,17 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     @Override
     public void statCall(String mobile) {
         CommonUtils.call(mContext, mobile);
+    }
+
+    /**
+     * 当按钮被点击
+     *
+     * @param s
+     * @param orderInfo
+     */
+    @Override
+    public void clickButton(String s, OrderInfoBean orderInfo) {
+        customOrderButtonClick.performClick(s, orderInfo);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {
@@ -303,12 +326,25 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
             presenter.contactEnd();
 
         } else if (v.getId() == R.id.bt_left) {
-            ToastUtils.getInstance().show("左侧按钮");
-
+            presenter.clickButton(0);
         } else if (v.getId() == R.id.bt_right) {
-            ToastUtils.getInstance().show("右侧按钮");
+            presenter.clickButton(1);
 
         }
 
+    }
+
+    /**
+     * 再进行取消等操作完成之后,刷新界面
+     */
+    @Override
+    public void doUpdate() {
+        presenter.queryDetail(this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        presenter.queryDetail(this);
     }
 }

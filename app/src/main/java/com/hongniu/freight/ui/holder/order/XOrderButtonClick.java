@@ -1,7 +1,9 @@
 package com.hongniu.freight.ui.holder.order;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Poi;
@@ -15,17 +17,25 @@ import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
+import com.hongniu.freight.entity.BuyInsuranceParams;
+import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
+import com.hongniu.freight.widget.DialogComment;
+import com.hongniu.freight.widget.dialog.InsuranceBuyDialog;
+import com.hongniu.freight.widget.dialog.InsuranceDialog;
+import com.hongniu.freight.widget.dialog.inter.DialogControl;
 import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.map.inter.OnLocationListener;
 import com.hongniu.thirdlibrary.map.utils.MapConverUtils;
 
+import java.util.List;
+
 /**
  * 作者：  on 2020/2/8.
  */
-public class XOrderButtonClick implements OrderButtonClickListener {
+public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuyDialog.OnInsuranceBuyListener {
     private Context mContext;
     private TaskControl.OnTaskListener listener;
     private NextStepListener nextStepListener;
@@ -101,8 +111,13 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onPayInsuranceClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("购买保险");
-
 //TODO 购买保险
+        InsuranceBuyDialog buyDialog=new InsuranceBuyDialog(mContext);
+        buyDialog.setOrderInfo(bean);
+        buyDialog.setOnInsuranceBuyListener(this);
+        buyDialog.show();
+
+
     }
 
     /**
@@ -157,16 +172,39 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onEntryReceiveOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("确认接单");
-        HttpAppFactory.orderReceivePlatform(bean.getId())
-                .subscribe(new NetObserver<Object>(listener) {
+        new DialogComment.Builder()
+                .setBtLeft("不需要")
+                .setBtRight("填写补款")
+                .setDialogTitle("是否需要补运费？")
+                .setDialogContent(String.format("当前支付运费 %s元", ConvertUtils.changeFloat(bean.getMoney(), 2)))
+                .setLeftClickListener(new DialogComment.OnButtonLeftClickListener() {
                     @Override
-                    public void doOnSuccess(Object o) {
-                        super.doOnSuccess(o);
-                        if (nextStepListener != null) {
-                            nextStepListener.doUpdate();
-                        }
+                    public void onLeftClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        HttpAppFactory.orderReceivePlatform(bean.getId())
+                                .subscribe(new NetObserver<Object>(listener) {
+                                    @Override
+                                    public void doOnSuccess(Object o) {
+                                        super.doOnSuccess(o);
+                                        if (nextStepListener != null) {
+                                            nextStepListener.doUpdate();
+                                        }
+                                    }
+                                });
                     }
-                });
+                })
+                .setRightClickListener(new DialogComment.OnButtonRightClickListener() {
+                    @Override
+                    public void onRightClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        ToastUtils.getInstance().show("设置差额");
+                        //TODO 设置差额
+
+                    }
+                })
+                .creatDialog(mContext)
+                .show();
+
     }
 
     /**
@@ -228,8 +266,8 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onReceiveOrderClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("我要接单");
-        //TODO 我要接单
+//        ToastUtils.getInstance().show("我要接单");
+        onEntryReceiveOrderClick(bean);
 
     }
 
@@ -241,7 +279,6 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onStartCarClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("开始发车");
-
         SingleLocation location = new SingleLocation(mContext);
         location.setListener(new OnLocationListener() {
             @Override
@@ -299,7 +336,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
      */
     @Override
     public void onEntryArriveClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("确认到达");
+//        ToastUtils.getInstance().show("确认到达");
         SingleLocation location = new SingleLocation(mContext);
         location.setListener(new OnLocationListener() {
             @Override
@@ -364,6 +401,97 @@ public class XOrderButtonClick implements OrderButtonClickListener {
 
         AmapNaviPage.getInstance().showRouteActivity(mContext.getApplicationContext(),
                 amapNaviParams, null);
+
+    }
+
+    /**
+     * 选择被保险人
+     *
+     * @param insuranceBuyDialog
+     */
+    @Override
+    public void onChoiceInsurance(InsuranceBuyDialog insuranceBuyDialog) {
+        HttpAppFactory.queryInsuranceList()
+                .subscribe(new NetObserver<List<InsuranceInfoBean>>(listener){
+                    @Override
+                    public void doOnSuccess(List<InsuranceInfoBean> insuranceInfoBeans) {
+                        super.doOnSuccess(insuranceInfoBeans);
+                        InsuranceDialog insuranceDialog=new InsuranceDialog(mContext);
+                        insuranceDialog.setItemClickListener(new InsuranceDialog.OnInsuranceDialogListener() {
+                            /**
+                             * 编辑被保险人
+                             *
+                             * @param dialog
+                             * @param position
+                             * @param def
+                             */
+                            @Override
+                            public void onClickEdite(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
+                                dialog.dismiss();
+                                ArouterUtils.getInstance()
+                                        .builder(ArouterParamApp.activity_insured_info)
+                                        .withInt(Param.TYPE, 1)
+                                        .withParcelable(Param.TRAN, def)
+                                        .navigation((Activity) mContext, 100);
+                            }
+
+                            /**
+                             * 点击添加新的被保险人
+                             *
+                             * @param dialog
+                             */
+                            @Override
+                            public void onClickAdd(DialogControl.IDialog dialog) {
+                                dialog.dismiss();
+                                ArouterUtils.getInstance()
+                                        .builder(ArouterParamApp.activity_insured_info)
+                                        .withInt(Param.TYPE, 0)
+                                        .navigation((Activity) mContext, 100);
+
+                            }
+
+                            @Override
+                            public void onChoice(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
+                                dialog.dismiss();
+                                insuranceBuyDialog.setInsuranceInfo(def);
+                            }
+                        });
+                        insuranceDialog.setData(insuranceInfoBeans);
+                        insuranceDialog.show();
+                    }
+                });
+    }
+
+    /**
+     * 点击购买保险确认按钮
+     * @param insuranceBuyDialog
+     * @param price
+     * @param orderInfo
+     * @param insuranceInfo
+     */
+    @Override
+    public void onEntryClick(InsuranceBuyDialog insuranceBuyDialog, String price, OrderInfoBean orderInfo, InsuranceInfoBean insuranceInfo) {
+        insuranceBuyDialog.dismiss();
+        BuyInsuranceParams params=new BuyInsuranceParams();
+        params.setGoodPrice(price);
+        params.setId( orderInfo.getId());
+        params.setInsuranceUserId(insuranceInfo.getId());
+        HttpAppFactory.buyInsurance(params)
+            .subscribe(new NetObserver<Object>(listener){
+                @Override
+                public void doOnSuccess(Object o) {
+                    super.doOnSuccess(o);
+                    if (nextStepListener!=null){
+                        nextStepListener.doUpdate();
+                    }
+                    ArouterUtils.getInstance()
+                            .builder(ArouterParamApp.activity_pay)
+                            .withString(Param.TRAN, orderInfo.getId())
+                            .navigation(mContext);
+                }
+            });
+        ;
+
 
     }
 

@@ -94,6 +94,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         tv_unread.setVisibility(View.GONE);
 
         demo.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
+        demo.setVisibility(View.GONE);
 
 
     }

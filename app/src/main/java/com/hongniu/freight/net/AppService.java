@@ -7,6 +7,7 @@ import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
+import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -230,6 +231,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/receive")
     Observable<CommonBean<Object>> orderEntryReceive(@Body JsonObject params);
+ /**
+     * .确认收货
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/buyInsurance")
+    Observable<CommonBean<Object>> buyInsurance(@Body BuyInsuranceParams params);
 
     /**
      * 更加货物金额查询保费

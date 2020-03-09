@@ -15,6 +15,7 @@ import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
+import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -443,6 +444,19 @@ public class HttpAppFactory {
     }
 
     /**
+     * 确认购买保险
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> buyInsurance(BuyInsuranceParams params) {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .buyInsurance(params)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
      * 根据货物价格查询保费
      *
      * @return
@@ -544,14 +558,15 @@ public class HttpAppFactory {
                 .createCar(infoBean)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
-   /**
+
+    /**
      * @data 2020/3/3
      * @Author PING
      * @Description 新增修改车辆
      */
     public static Observable<CommonBean<Object>> deletedCar(String id) {
-        JsonObject object=new JsonObject();
-        object.addProperty("id",id);
+        JsonObject object = new JsonObject();
+        object.addProperty("id", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .deletedCar(object)
                 .compose(RxUtils.getSchedulersObservableTransformer());
@@ -649,6 +664,7 @@ public class HttpAppFactory {
                 .deletedInsuredInfor(bean)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
+
     /**
      * 创建被保险人信息
      */

@@ -1,125 +1,170 @@
 package com.hongniu.freight.widget.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 
-import com.fy.androidlibrary.utils.CommonUtils;
-import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
-import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
-import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
+import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.DeviceUtils;
+import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
+import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.widget.dialog.inter.DialogControl;
-
-import java.util.List;
 
 
 /**
  * 作者： ${桑小年} on 2018/12/1.
  * 购买保险
  */
-public class InsuranceBuyDialog extends AccountDialog<InsuranceInfoBean> {
+public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickListener, SearchTextWatcher.SearchTextChangeListener {
+    private View imgCancel;
+    private View btSum;
+    private Dialog dialog;
+    ItemTextView item_cargo_price;
+    ItemTextView item_insurance_name;
+
+    OnInsuranceBuyListener onInsuranceBuyListener;
+    private OrderInfoBean orderInfo;
+    private InsuranceInfoBean insuranceInfo;
+
+
     public InsuranceBuyDialog(@NonNull Context context) {
-        super(context);
+
+        View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_insurance_buy, null);
+        imgCancel = inflate.findViewById(R.id.img_cancel);
+        item_cargo_price = inflate.findViewById(R.id.item_cargo_price);
+        item_insurance_name = inflate.findViewById(R.id.item_insurance_name);
+        btSum = inflate.findViewById(R.id.bt_sum);
+        initListener();
+        dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(inflate);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, DeviceUtils.dip2px(context, 360));
+        dialog.getWindow().setWindowAnimations(R.style.dialog_ani);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));
     }
 
-    public InsuranceBuyDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
+    private void initListener() {
+        item_cargo_price.getEtCenter().addTextChangedListener(new SearchTextWatcher(this));
+        imgCancel.setOnClickListener(this);
+        item_insurance_name.setOnClickListener(this);
+        btSum.setOnClickListener(this);
+
     }
 
-    @Override
-    protected void initData(Context context) {
-        super.initData(context);
-        setTitle("选择被保险人");
-        adapter.addFoot(new PeakHolder(context, rv, R.layout.item_order_insuranc_foot) {
-            @Override
-            public void initView(View itemView, int position) {
-                super.initView(itemView, position);
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (itemClickListener != null) {
-                            itemClickListener.onClickAdd(InsuranceBuyDialog.this);
-                        }
-                    }
-                });
-            }
-        });
+    public void setOnInsuranceBuyListener(OnInsuranceBuyListener onInsuranceBuyListener) {
+        this.onInsuranceBuyListener = onInsuranceBuyListener;
     }
-
-    OnInsuranceDialogListener itemClickListener;
-
 
     /**
-     * 点击编辑监听
+     * Called when a view has been clicked.
      *
-     * @param itemClickListener
+     * @param v The view that was clicked.
      */
-    public void setItemClickListener(OnInsuranceDialogListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.img_cancel) {
+            dialog.dismiss();
+        } else if (v.getId() == R.id.item_insurance_name) {
+            if (onInsuranceBuyListener != null) {
+                onInsuranceBuyListener.onChoiceInsurance(this);
+            }
+
+        } else if (v.getId() == R.id.bt_sum) {
+            if (TextUtils.isEmpty(item_cargo_price.getTextCenter())) {
+                ToastUtils.getInstance().show("请输入货物价值");
+                return;
+            }
+            if (TextUtils.isEmpty(item_insurance_name.getTextCenter())||insuranceInfo==null) {
+                ToastUtils.getInstance().show("请选择被保险人");
+                return;
+            }
+            if (onInsuranceBuyListener != null) {
+                onInsuranceBuyListener.onEntryClick(this, item_cargo_price.getTextCenter(),orderInfo, insuranceInfo);
+            }
+
+        }
     }
 
     @Override
-    protected XAdapter<InsuranceInfoBean> getAdapter(Context context, List<InsuranceInfoBean> inforBeans) {
-        return new XAdapter<InsuranceInfoBean>(context, InsuranceBuyDialog.this.inforBeans) {
-            @Override
-            public BaseHolder<InsuranceInfoBean> initHolder(ViewGroup parent, int viewType) {
-                return new BaseHolder<InsuranceInfoBean>(context, parent, R.layout.item_order_insuranc) {
-                    @Override
-                    public void initView(View itemView, final int position, final InsuranceInfoBean def) {
-                        super.initView(itemView, position, def);
-                        TextView tvPayWay = itemView.findViewById(R.id.tv_pay_way);
-                        TextView tvPayAccount = itemView.findViewById(R.id.tv_pay_account);
-                        TextView tvEdit = itemView.findViewById(R.id.tv_edit);
-                        String cardID = def.getInsuredType() == 2 ? def.getCompanyCreditCode() : def.getIdnumber();
-                        CommonUtils.setText(tvPayWay,def.getInsuredType()==2?def.getCompanyName():def.getUsername());
-                        CommonUtils.setText(tvPayAccount,"身份证  "+ cardID);
-
-
-                        itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (itemClickListener != null) {
-                                    itemClickListener.onChoice(InsuranceBuyDialog.this, position, def);
-                                }
-                            }
-                        });
-
-
-                        tvEdit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (itemClickListener != null) {
-                                    itemClickListener.onClickEdite(InsuranceBuyDialog.this, position, def);
-                                }
-                            }
-                        });
-
-
-                    }
-                };
-            }
-        };
+    public void setCancelable(boolean cancelable) {
+        dialog.setCancelable(cancelable);
     }
 
-    public interface OnInsuranceDialogListener {
+    @Override
+    public void setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        dialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
+    }
+
+    @Override
+    public void show() {
+        dialog.show();
+    }
+
+    @Override
+    public boolean isShowing() {
+        return dialog.isShowing();
+    }
+
+    @Override
+    public void dismiss() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onSearchTextChange(String msg) {
+        //价格发生改变
+        float price = 0;
+        try {
+            price = Float.parseFloat(msg) * Param.INSURANCE;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        item_cargo_price.setTextRight(String.format("保费 %s元", ConvertUtils.changeFloat(price, 2)));
+    }
+
+    public void setInsuranceInfo(InsuranceInfoBean def) {
+        this.insuranceInfo = def;
+        if (insuranceInfo!=null){
+            item_insurance_name.setTextCenter(insuranceInfo.getUsername());
+        }
+
+    }
+
+    public void setOrderInfo(OrderInfoBean bean) {
+        this.orderInfo = bean;
+    }
+
+    public interface OnInsuranceBuyListener {
         /**
-         * 编辑被保险人
+         * 选择被保险人
          *
-         * @param position
-         * @param def
+         * @param insuranceBuyDialog
          */
-        void onClickEdite(DialogControl.IDialog dialog, int position, InsuranceInfoBean def);
+        void onChoiceInsurance(InsuranceBuyDialog insuranceBuyDialog);
 
         /**
-         * 点击添加新的被保险人
+         * 点击确认按钮
+         * @param insuranceBuyDialog
+         * @param price
+         * @param orderInfo
+         * @param insuranceInfo
          */
-        void onClickAdd(DialogControl.IDialog dialog);
+        void onEntryClick(InsuranceBuyDialog insuranceBuyDialog, String price, OrderInfoBean orderInfo, InsuranceInfoBean insuranceInfo);
 
-        void onChoice(DialogControl.IDialog dialog, int position, InsuranceInfoBean def);
     }
 }

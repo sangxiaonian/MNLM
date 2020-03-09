@@ -1,11 +1,17 @@
 package com.hongniu.freight.mode;
 
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.config.OrderButtonConfig;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.OrderDetailControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
+import com.hongniu.freight.ui.holder.order.helper.control.HelperControl;
+
+import java.util.Map;
 
 import io.reactivex.Observable;
 
@@ -14,15 +20,22 @@ import io.reactivex.Observable;
  */
 public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
     private OrderInfoBean infoBean;
+    private RoleOrder role;
 
     /**
      * 储存订单页面传入的数据
      *
      * @param infoBean
+     * @param roler
      */
     @Override
-    public void saveInfo(OrderInfoBean infoBean) {
+    public void saveInfo(OrderInfoBean infoBean, RoleOrder roler) {
         this.infoBean = infoBean;
+        if (roler==null){
+            roler=RoleOrder.SHIPPER;
+        }
+        this.role=roler;
+
     }
 
 
@@ -44,20 +57,22 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
      */
     @Override
     public String[] getButtonMsg() {
-        Status status = getStatus();
         String[] result = new String[2];
-        if (status == Status.WAITE_PAY ) {//待支付
-            result[0] = OrderButtonConfig.ORDER_CANCEL;//取消订单
-            result[1] = OrderButtonConfig.PAY;//继续支付
-        } else if (status == Status.WAITE_DEPART_NO_INSURANCE) {//待发车
-            result[1] = OrderButtonConfig.PAY_INSURANCE;//购买保险
-        }else if (status == Status.WAITE_RECEIVING_ORDER) {//待接单
-            result[0] = OrderButtonConfig.ORDER_CANCEL;//取消订单
-        } else if (status == Status.WAITE_PAY_BALANCE) {//待支付差额
-            result[1] = OrderButtonConfig.PAY_BALANCE;//待支付差额
-        } else if (status == Status.FIND_CAR) {//找车中
-        } else if (status == Status.IN_TRANSIT) {//运输中
-            result[1] = OrderButtonConfig.QUERY_TRACK;//查看轨迹
+        HelperControl helper=new OrderHelper(role)
+                .setInsurance(infoBean.getInsurance()==1)
+                .setStatus(getStatus().getStatus())
+                ;
+        Map<String, Integer> buttons = helper.getButtons(getStatus().getStatus());
+        if (!CollectionUtils.isEmpty(buttons)){
+            for (String s : buttons.keySet()) {
+                Integer integer = buttons.get(s);
+                if (integer !=null&&integer==0){
+                    result[0]=s;
+                }else {
+                    result[1]=s;
+
+                }
+            }
         }
         return result;
     }
@@ -79,6 +94,41 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
     @Override
     public OrderInfoBean getOrderInfo() {
         return infoBean;
+    }
+
+    @Override
+    public RoleOrder getRole() {
+        return role;
+    }
+
+    /**
+     * 设置是否显示司机信息
+     *
+     * @return true 显示
+     */
+    @Override
+    public boolean isShowDriverInfo() {
+
+        return
+                getStatus()==Status.WAITE_DEPART_NO_INSURANCE
+                || getStatus()==Status.IN_TRANSIT
+                || getStatus()==Status.ARRIVE
+                || getStatus()==Status.RECEIVING
+                ;
+    }
+
+    /**
+     * 设置是否显示车辆信息
+     *
+     * @return true 显示
+     */
+    @Override
+    public boolean isShowCarInfo() {
+      return   getStatus()==Status.WAITE_DEPART_NO_INSURANCE
+                || getStatus()==Status.IN_TRANSIT
+                || getStatus()==Status.ARRIVE
+                || getStatus()==Status.RECEIVING
+        ;
     }
 
 

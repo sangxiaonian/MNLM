@@ -2,6 +2,7 @@ package com.hongniu.freight.presenter;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.companylibrary.net.NetObserver;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.OrderDetailControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.mode.OrderDetailMode;
@@ -22,15 +23,16 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
      * 初始化所有的数据
      *
      * @param infoBean
+     * @param roler
      */
     @Override
-    public void initInfo(OrderInfoBean infoBean) {
-        mode.saveInfo(infoBean);
+    public void initInfo(OrderInfoBean infoBean, RoleOrder roler) {
+        mode.saveInfo(infoBean,roler);
         view.showOrderState(mode.getStatus().getName(),String.format("订单编号\t %s",infoBean.getOrderNum()));
         view.showOrderAddressInfo(infoBean);
-        view.initDriverInfo(infoBean);
+        view.initDriverInfo(infoBean,mode.isShowDriverInfo());
         view.showOrderDetail(infoBean);
-        view.showCarInfo(infoBean);
+        view.showCarInfo(infoBean,mode.isShowCarInfo());
         view.showButton(mode.getButtonMsg());
     }
 
@@ -45,7 +47,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
                 @Override
                 public void doOnSuccess(OrderInfoBean infoBean) {
                     super.doOnSuccess(infoBean);
-                    initInfo(infoBean);
+                    initInfo(infoBean, mode.getRole());
 
                 }
             })
@@ -74,5 +76,15 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
     @Override
     public void contactOwner() {
         view.statCall(mode.getOrderInfo().getOwnerMobile());
+    }
+
+    /**
+     * 点击按钮
+     * @param i
+     */
+    @Override
+    public void clickButton(int i) {
+        String[] buttonMsg = mode.getButtonMsg();
+        view.clickButton(buttonMsg[i],mode.getOrderInfo());
     }
 }
