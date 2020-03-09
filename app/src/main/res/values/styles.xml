@@ -42,6 +42,10 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="bt_white" parent="bt_red">
+        <item name="android:textColor">@color/color_of_040000</item>
+        <item name="android:background">@drawable/ovl_5_eeeeee</item>
+    </style>
 
 
     <style name="item_edit">

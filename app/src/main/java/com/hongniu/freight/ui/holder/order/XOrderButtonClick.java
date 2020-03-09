@@ -2,19 +2,13 @@ package com.hongniu.freight.ui.holder.order;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.MutableContextWrapper;
-import android.view.ViewGroup;
-
-import androidx.annotation.Nullable;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Poi;
 import com.amap.api.navi.AmapNaviPage;
 import com.amap.api.navi.AmapNaviParams;
 import com.amap.api.navi.AmapNaviType;
-import com.autonavi.rtbt.IFrameForRTBT;
 import com.fy.androidlibrary.net.listener.TaskControl;
-import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
@@ -24,12 +18,9 @@ import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
-import com.hongniu.thirdlibrary.map.MapUtils;
 import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.map.inter.OnLocationListener;
 import com.hongniu.thirdlibrary.map.utils.MapConverUtils;
-
-import io.reactivex.Observable;
 
 /**
  * 作者：  on 2020/2/8.
@@ -133,9 +124,8 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     public void onCheckTrackClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("查看轨迹");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_map_check_path)
-                .withParcelable(Param.TRAN,bean)
-                .navigation((Activity) mContext,1);
-//TODO 查看轨迹
+                .withParcelable(Param.TRAN, bean)
+                .navigation((Activity) mContext, 1);
     }
 
     /**
@@ -146,7 +136,6 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onEntryReceiveClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("确认收货");
-        //TODO 确认收货
         HttpAppFactory.orderEntryReceive(bean.getId())
                 .subscribe(new NetObserver<Object>(listener) {
                     @Override
@@ -187,7 +176,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onEvaluateClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("评价");
-        //TODO 未完成
+        //TODO 评价
     }
 
     /**
@@ -239,7 +228,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onReceiveOrderClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("我要接单");
-
+        //TODO 我要接单
 
     }
 

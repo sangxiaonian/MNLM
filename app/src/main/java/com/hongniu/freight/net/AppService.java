@@ -10,6 +10,7 @@ import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.LoginCreatInsuredBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderDispathCarParams;
@@ -126,7 +127,7 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/userinsured/list")
-    Observable<CommonBean<PageBean<InsuranceInfoBean>>> queryInsuranceList();
+    Observable<CommonBean<List<InsuranceInfoBean>>> queryInsuranceList();
 
     /**
      * 查询我的订单数量
@@ -201,6 +202,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/dispatch")
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
+
     /**
      * 开始发车 立即发车
      *
@@ -209,7 +211,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/start")
     Observable<CommonBean<Object>> orderStart(@Body JsonObject params);
-/**
+
+    /**
      * 确认到达
      *
      * @param params
@@ -217,7 +220,8 @@ public interface AppService {
      */
     @POST("wlhyapi//api/deliveryOrder/endSend")
     Observable<CommonBean<Object>> orderEnd(@Body JsonObject params);
-/**
+
+    /**
      * .确认收货
      *
      * @param params
@@ -225,6 +229,15 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/receive")
     Observable<CommonBean<Object>> orderEntryReceive(@Body JsonObject params);
+
+    /**
+     * 更加货物金额查询保费
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/premiumCalculate")
+    Observable<CommonBean<String>> queryInstancePrice(@Body JsonObject params);
 
     /**
      * 查询订单状态
@@ -324,5 +337,31 @@ public interface AppService {
     @POST("wlhyapi/api/position/list")
     Observable<CommonBean<PathBean>> getPath(@Body JsonObject infor);
 
+    /**
+     * 删除被保险人信息
+     *
+     * @param beans
+     * @return
+     */
+    @POST("wlhyapi/api/userinsured/delete")
+    Observable<CommonBean<String>> deletedInsuredInfor(@Body LoginCreatInsuredBean beans);
+    /**
+     * 新增被保险人信息
+     *
+     * @param beans
+     * @return
+     */
+    @POST("wlhyapi/api/userinsured/add")
+    Observable<CommonBean<LoginCreatInsuredBean>> creatInsuredInfor(@Body LoginCreatInsuredBean beans);
+
+
+    /**
+     * 修改被保险人信息
+     *
+     * @param beans
+     * @return
+     */
+    @POST("wlhyapi/api/userinsured/update")
+    Observable<CommonBean<LoginCreatInsuredBean>> upInsuredInfor(@Body LoginCreatInsuredBean beans);
 
 }

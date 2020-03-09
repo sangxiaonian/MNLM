@@ -20,6 +20,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.config.PayType;
 import com.hongniu.freight.control.PayControl;
 import com.hongniu.freight.entity.AccountDetailBean;
+import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.presenter.PayPresenter;
 import com.hongniu.freight.widget.DialogComment;
@@ -152,7 +153,7 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
                         dialog.dismiss();
                         ArouterUtils.getInstance().builder(ArouterParamApp.activity_forget_pass)
                                 .withInt(Param.TRAN, 0)
-                                .navigation((Activity) mContext,2);
+                                .navigation((Activity) mContext, 2);
                     }
                 })
                 .creatDialog(mContext)
@@ -160,6 +161,20 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         ;
 
 
+    }
+
+    /**
+     * 支付成功
+     *
+     * @param orderInfo
+     */
+    @Override
+    public void jump2Succes(OrderInfoBean orderInfo) {
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_pay_result)
+                .withParcelable(Param.TRAN, orderInfo)
+                .navigation(mContext);
+        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("支付成功");
+        finish();
     }
 
     /**
@@ -217,17 +232,17 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         dialog.dismiss();
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_forget_pass)
                 .withInt(Param.TRAN, 1)
-                .navigation(this,2);
+                .navigation(this, 2);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==1&&resultCode == Activity.RESULT_OK) {
-            ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("支付成功");
-            finish();
-        }else if (requestCode==2&&resultCode == Activity.RESULT_OK){
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            presenter.paySuccess();
+
+        } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
             presenter.queryInfo(this);
         }
     }

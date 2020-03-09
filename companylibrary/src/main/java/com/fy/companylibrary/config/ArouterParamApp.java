@@ -156,6 +156,10 @@ public class ArouterParamApp {
      */
     public static final String activity_pay = "/app/activity_pay";
     /**
+     * 支付成功
+     */
+    public static final String activity_pay_result = "/app/activity_pay_result";
+    /**
      * 更新设置支付密码
      */
     public static final String activity_forget_pass = "/app/activity_forget_pass";
@@ -164,6 +168,10 @@ public class ArouterParamApp {
      * 支付完成之后,查询支付结果
      */
     public static final String activity_waite_pay = "/app/activity_waite_pay";
+    /**
+     * 被保险人相关信息
+     */
+    public static final String activity_insured_info = "/app/activity_insured_info";
 
 
 }

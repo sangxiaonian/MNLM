@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
@@ -74,6 +75,10 @@ public class InsuranceDialog extends AccountDialog<InsuranceInfoBean> {
                         TextView tvPayWay = itemView.findViewById(R.id.tv_pay_way);
                         TextView tvPayAccount = itemView.findViewById(R.id.tv_pay_account);
                         TextView tvEdit = itemView.findViewById(R.id.tv_edit);
+                        String cardID = def.getInsuredType() == 2 ? def.getCompanyCreditCode() : def.getIdnumber();
+                        CommonUtils.setText(tvPayWay,def.getInsuredType()==2?def.getCompanyName():def.getUsername());
+                        CommonUtils.setText(tvPayAccount,"身份证  "+ cardID);
+
 
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -94,8 +99,6 @@ public class InsuranceDialog extends AccountDialog<InsuranceInfoBean> {
                             }
                         });
 
-                        tvPayWay.setText("保险人");
-                        tvPayAccount.setText("身份证 310109***********9283");
 
                     }
                 };

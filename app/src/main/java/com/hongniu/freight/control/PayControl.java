@@ -50,6 +50,11 @@ public class PayControl {
         void showSetPassWord();
 
 
+        /**
+         * 支付成功
+         * @param orderInfo
+         */
+        void jump2Succes(OrderInfoBean orderInfo);
     }
     public interface IPayPresenter{
         /**
@@ -81,6 +86,11 @@ public class PayControl {
          * @param listener
          */
         void balancePay(String passWord, TaskControl.OnTaskListener listener);
+
+        /**
+         * 支付成功
+         */
+        void paySuccess();
     }
     public interface IPayMode{
         /**
@@ -107,6 +117,7 @@ public class PayControl {
          * @param data
          */
         void saveOrderInfo(OrderInfoBean data);
+        OrderInfoBean getOrderInfo();
 
         /**
          * 储存账户信息
@@ -162,5 +173,6 @@ public class PayControl {
          * @return
          */
         QueryPayInfoParams getPayInfo();
+
     }
 }

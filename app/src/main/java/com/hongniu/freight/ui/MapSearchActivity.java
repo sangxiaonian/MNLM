@@ -147,7 +147,7 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
                 Intent intent = new Intent();
 
                 String phone = item_phone.getTextCenter().trim();
-                String address = TextUtils.isEmpty(item_address.getTextCenter()) ? null : item_address.getTextCenter();
+                String address = TextUtils.isEmpty(item_address.getTextCenter()) ? "" : item_address.getTextCenter();
                 bean.setAddressDetail(Utils.dealPioPlace(bean.getPoiItem()) + address);
                 bean.setAddress(address);
                 bean.setName(TextUtils.isEmpty(item_name.getTextCenter()) ? null : item_name.getTextCenter());

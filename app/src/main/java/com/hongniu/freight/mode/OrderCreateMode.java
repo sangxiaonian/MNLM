@@ -2,9 +2,9 @@ package com.hongniu.freight.mode;
 
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
-import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.control.OrderCreateControl;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderCrateParams;
@@ -200,28 +200,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
      */
     @Override
     public Observable<CommonBean<List<InsuranceInfoBean>>> getAllInsuranceInfos() {
-//        List<InsuranceInfoBean> inforBeans = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//            inforBeans.add(new InsuranceInfoBean());
-//        }
-//        final CommonBean<List<InsuranceInfoBean>> commonBean=new CommonBean<>();
-//        commonBean.setCode(Param.SUCCESS_FLAG);
-//        commonBean.setData(inforBeans);
-        //       return Observable.just(commonBean);
-
-        return HttpAppFactory.queryInsuranceList()
-                .map(new Function<CommonBean<PageBean<InsuranceInfoBean>>, CommonBean<List<InsuranceInfoBean>>>() {
-                    @Override
-                    public CommonBean<List<InsuranceInfoBean>> apply(CommonBean<PageBean<InsuranceInfoBean>> pageBeanCommonBean) throws Exception {
-                        CommonBean<List<InsuranceInfoBean>> commonBean = new CommonBean<>();
-                        commonBean.setCode(pageBeanCommonBean.getCode());
-                        commonBean.setMsg(pageBeanCommonBean.getMsg());
-                        if (commonBean.getCode() == Param.SUCCESS_FLAG) {
-                            commonBean.setData(pageBeanCommonBean.getData().getList());
-                        }
-                        return commonBean;
-                    }
-                });
+        return HttpAppFactory.queryInsuranceList();
     }
 
     /**
@@ -272,6 +251,24 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
         }
 
         return HttpAppFactory.createOrder(params);
+    }
+
+    /**
+     * 根据货物价格查询保费
+     *
+     * @param msg
+     * @return
+     */
+    @Override
+    public String queryInsurancePrice(String msg) {
+        float v=0;
+        try {
+              v = Float.parseFloat(msg);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return ConvertUtils.changeFloat(v* Param.INSURANCE,2);
+
     }
 
 

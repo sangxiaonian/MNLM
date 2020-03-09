@@ -16,6 +16,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -132,6 +133,14 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         item_pay_way.setOnCenterChangeListener(this);
         item_cargo_price.setOnCenterChangeListener(this);
         item_insurance_name.setOnCenterChangeListener(this);
+
+        item_cargo_price.getEtCenter().addTextChangedListener(new SearchTextWatcher(new SearchTextWatcher.SearchTextChangeListener() {
+            @Override
+            public void onSearchTextChange(String msg) {
+                //查询保费相关信息
+                presenter.searchInsruancePrice(msg);
+            }
+        }));
     }
 
     /**
@@ -330,7 +339,16 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void finishSuccess(OrderInfoBean o) {
         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("下单成功");
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_pay)
+                .withString(Param.TRAN,o.getId())
+                .navigation((Activity) mContext,1);
         finish();
+    }
+
+    @Override
+    public void showInsurancePrice(String insurancePrice) {
+        item_cargo_price.setTextRight(insurancePrice);
+
     }
 
     @Override
@@ -418,7 +436,12 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      */
     @Override
     public void onClickEdite(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
-        ToastUtils.getInstance().show("编辑被保险人信息");
+        dialog.dismiss();
+        ArouterUtils.getInstance()
+                .builder(ArouterParamApp.activity_insured_info)
+                .withInt(Param.TYPE, 1)
+                .withParcelable(Param.TRAN, def)
+                .navigation((Activity) mContext, 100);
     }
 
     /**
@@ -428,14 +451,18 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      */
     @Override
     public void onClickAdd(DialogControl.IDialog dialog) {
-        ToastUtils.getInstance().show("添加被保险人信息");
+        dialog.dismiss();
+        ArouterUtils.getInstance()
+                .builder(ArouterParamApp.activity_insured_info)
+                .withInt(Param.TYPE, 0)
+                .navigation((Activity) mContext, 100);
 
     }
 
     @Override
     public void onChoice(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
-//        ToastUtils.getInstance().show("选择被保险人信息");
+        dialog.dismiss();
         presenter.onChangeInsuranceInfo(position,def);
-
+        item_insurance_name.setTextCenter(def.getInsuredType()==2?def.getCompanyName():def.getUsername());
     }
 }

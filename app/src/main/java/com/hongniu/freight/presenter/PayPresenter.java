@@ -120,4 +120,13 @@ public class PayPresenter implements PayControl.IPayPresenter {
                     }
                 });
     }
+
+    /**
+     * 支付成功
+     */
+    @Override
+    public void paySuccess() {
+        view.jump2Succes(mode.getOrderInfo());
+
+    }
 }

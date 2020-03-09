@@ -157,4 +157,14 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
         ;
     }
 
+    /**
+     * 查询保费
+     *
+     * @param msg
+     */
+    @Override
+    public void searchInsruancePrice(String msg) {
+        view.showInsurancePrice(String.format("保费%s元",mode.queryInsurancePrice(msg)));
+    }
+
 }

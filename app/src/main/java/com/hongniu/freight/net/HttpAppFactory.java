@@ -18,6 +18,7 @@ import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.LoginCreatInsuredBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderDispathCarParams;
@@ -252,10 +253,10 @@ public class HttpAppFactory {
      *
      * @return
      */
-    public static Observable<CommonBean<PageBean<InsuranceInfoBean>>> queryInsuranceList() {
+    public static Observable<CommonBean<List<InsuranceInfoBean>>> queryInsuranceList() {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryInsuranceList()
-                .compose(RxUtils.<CommonBean<PageBean<InsuranceInfoBean>>>getSchedulersObservableTransformer());
+                .compose(RxUtils.<CommonBean<List<InsuranceInfoBean>>>getSchedulersObservableTransformer());
     }
 
     /**
@@ -441,6 +442,20 @@ public class HttpAppFactory {
                 ;
     }
 
+    /**
+     * 根据货物价格查询保费
+     *
+     * @return
+     */
+    public static Observable<CommonBean<String>> queryInstancePrice(String goodPrice) {
+        JsonObject json = new JsonObject();
+        json.addProperty("goodPrice", goodPrice);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryInstancePrice(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
 
     /**
      * 上传图片
@@ -600,14 +615,45 @@ public class HttpAppFactory {
 
     /**
      * 查看轨迹
+     *
      * @param id
      * @return
      */
-    public static   Observable<CommonBean<PathBean>> getPath(String id) {
+    public static Observable<CommonBean<PathBean>> getPath(String id) {
         JsonObject json = new JsonObject();
         json.addProperty("orderId", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .getPath(json)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
+
+    /**
+     * 删除被保险人信息
+     */
+    public static Observable<CommonBean<String>> deletedInsuredInfor(String id) {
+        LoginCreatInsuredBean bean = new LoginCreatInsuredBean();
+        bean.setId(id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .deletedInsuredInfor(bean)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+    /**
+     * 创建被保险人信息
+     */
+    public static Observable<CommonBean<LoginCreatInsuredBean>> creatInsuredInfor(LoginCreatInsuredBean bean) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .creatInsuredInfor(bean)
+                .compose(RxUtils.<CommonBean<LoginCreatInsuredBean>>getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 修改被保险人信息
+     */
+    public static Observable<CommonBean<LoginCreatInsuredBean>> upInsuredInfor(LoginCreatInsuredBean bean) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .upInsuredInfor(bean)
+                .compose(RxUtils.<CommonBean<LoginCreatInsuredBean>>getSchedulersObservableTransformer());
+    }
+
+
 }

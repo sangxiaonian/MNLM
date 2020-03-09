@@ -12,10 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.OrderFindCarActivity"></activity>
+        <activity android:name=".ui.PayResultActivity"></activity>
+        <activity android:name=".ui.OrderFindCarActivity" />
         <activity
             android:name=".ui.PayActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".ui.OrderMapCheckPathActivity" />
         <activity android:name=".ui.CarAddModifyActivity" />
         <activity android:name=".ui.WaitePayActivity" />
         <activity android:name=".ui.FaceBackActivity" />
@@ -26,7 +28,6 @@
         <activity android:name=".ui.OrderCreateActivity" />
         <activity android:name=".ui.SearchCarActivity" />
         <activity android:name=".ui.AssignOrderActivity" />
-        <activity android:name=".ui.FindCarActivity" />
         <activity android:name=".ui.BalancePendingActivity" />
         <activity android:name=".ui.BalanceActivity" />
         <activity android:name=".ui.BillSearchActivity" />
@@ -57,7 +58,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- 高德地图 -->
+        </activity>
+        <activity android:name=".ui.InsureanceInfodActivity" /> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="1457998aaed653947f53734c7bd5f47a" />

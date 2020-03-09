@@ -63,6 +63,8 @@ public class OrderCreateControl {
          * @param o
          */
         void finishSuccess(OrderInfoBean o);
+
+        void showInsurancePrice(String insurancePrice);
     }
 
     ;
@@ -128,6 +130,11 @@ public class OrderCreateControl {
         void createOrder(TaskControl.OnTaskListener listener);
 
 
+        /**
+         * 查询保费
+         * @param msg
+         */
+        void searchInsruancePrice(String msg);
     }
 
     ;
@@ -208,6 +215,12 @@ public class OrderCreateControl {
         Observable<CommonBean<OrderInfoBean>> createOrder();
 
 
+        /**
+         * 根据货物价格查询保费
+         * @param msg
+         * @return
+         */
+        String queryInsurancePrice(String msg);
     }
 
     ;

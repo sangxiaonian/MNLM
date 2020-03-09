@@ -61,6 +61,11 @@ public class PayMode implements PayControl.IPayMode {
         this.orderInfo = data;
     }
 
+    @Override
+    public OrderInfoBean getOrderInfo() {
+        return orderInfo;
+    }
+
     /**
      * 储存账户信息
      *
