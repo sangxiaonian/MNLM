@@ -24,6 +24,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
@@ -237,15 +238,16 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             ToastUtils.getInstance().show("了解更多");
         } else if (v.getId() == R.id.view_chengyunren) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN, Role.CARRIER_COMPANY)
+                    .withSerializable(Param.TRAN, RoleOrder.CARRIER )
                     .navigation(mContext);
         } else if (v.getId() == R.id.view_tuoyunren) {
+            //托运人
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN, Role.SHIPPER_COMPANY)
+                    .withSerializable(Param.TRAN, RoleOrder.SHIPPER )
                     .navigation(mContext);
         } else if (v.getId() == R.id.view_driver) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
-                    .withSerializable(Param.TRAN, Role.DRIVER)
+                    .withSerializable(Param.TRAN, RoleOrder.DRIVER)
                     .navigation(mContext);
         } else if (v.getId() == R.id.icon_eyes) {
             present.switchBalance();

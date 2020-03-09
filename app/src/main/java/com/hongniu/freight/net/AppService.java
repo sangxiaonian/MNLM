@@ -66,9 +66,10 @@ public interface AppService {
      * 查询个人资料
      *
      * @return
+     * @param o
      */
     @POST("wlhyapi/api/user/finduserinfo")
-    Observable<CommonBean<PersonInfor>> queryMyInfo();
+    Observable<CommonBean<PersonInfor>> queryMyInfo(@Body Object o);
 
     /**
      * 查询用户认证资料

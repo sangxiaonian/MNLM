@@ -1,131 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    android:orientation="vertical">
 
     <FrameLayout
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/content"
-        app:layout_constraintBottom_toTopOf="@+id/bottom"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="46dp"
+        />
 
     <LinearLayout
-        android:background="@color/color_of_ffffff"
-        android:orientation="horizontal"
-        android:id="@+id/bottom"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="83dp">
+        android:background="@mipmap/top_shadow"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="64dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab1"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/home"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:paddingTop="22dp">
 
             <ImageView
-                android:src="@mipmap/ic_launcher"
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:id="@+id/img1"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_home_unselected_46"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
+                android:id="@+id/tv1"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="首页"
-                android:textColor="#21222C"
                 android:textSize="11dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img1" />
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab2"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/order"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:paddingTop="22dp">
 
             <ImageView
-                android:src="@mipmap/ic_launcher"
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:id="@+id/img2"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_gz_unselected_46"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
+                android:id="@+id/tv2"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="订单"
-                android:textColor="#21222C"
                 android:textSize="11dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab3"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/add"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:paddingTop="10dp">
 
             <ImageView
-                android:src="@mipmap/ic_launcher"
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:id="@+id/img3"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_add_72"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
+                android:id="@+id/tv3"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="下单"
-                android:textColor="#21222C"
                 android:textSize="11dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab4"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/chat"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            >
+
+
 
             <ImageView
-                android:src="@mipmap/ic_launcher"
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:layout_marginTop="22dp"
+                android:id="@+id/img4"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_message_unselected_46"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
+                android:id="@+id/tv4"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="聊天"
-                android:textColor="#21222C"
                 android:textSize="11dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img4" />
+
+            <TextView
+                android:id="@+id/tv_unread"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@id/img4"
+                app:layout_constraintEnd_toEndOf="@id/img4"
+                app:layout_constraintBottom_toTopOf="@id/img4"
+                app:layout_constraintTop_toTopOf="@id/img4"
+                android:textColor="@color/color_of_ffffff"
+                android:textSize="13dp"
+                android:layout_width="wrap_content"
+                android:minWidth="18dp"
+                android:background="@drawable/ovl_9_e50000"
+                android:layout_height="18dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab5"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/my"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:paddingTop="22dp">
 
             <ImageView
-                android:src="@mipmap/ic_launcher"
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:id="@+id/img5"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_me_unselected_46"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
+                android:id="@+id/tv5"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="我的"
-                android:textColor="#21222C"
                 android:textSize="11dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img5" />
 
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/demo"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/gap_app"
+        android:background="@color/line_color"
+        android:text="DEOM"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

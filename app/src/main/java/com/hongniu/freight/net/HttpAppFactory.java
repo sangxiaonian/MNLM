@@ -108,7 +108,7 @@ public class HttpAppFactory {
      */
     public static Observable<CommonBean<PersonInfor>> queryMyInfo() {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryMyInfo()
+                .queryMyInfo(new Object())
                 .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
                     @Override
                     public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {
@@ -168,7 +168,7 @@ public class HttpAppFactory {
      */
     public static Observable<CommonBean<PersonInfor>> queryIdentityCert(int userType) {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryMyInfo()
+                .queryMyInfo(new Object())
                 .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
                     @Override
                     public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {

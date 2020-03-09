@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_of_ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/gap_app"
+    android:paddingTop="@dimen/gap_app">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:textColor="@color/color_of_040000"
+            android:text="选择收款方式"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:paddingRight="15dp"
+            android:id="@+id/img_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            android:layout_width="45dp"
+            android:src="@mipmap/close"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/line_color"
+        android:layout_margin="@dimen/gap_app"
+        android:layout_height="@dimen/line_height"/>
+
+    <com.fy.companylibrary.widget.ItemTextView
+        android:id="@+id/item_cargo_price"
+        style="@style/item_edit"
+        app:centerType="number"
+        app:colorRight="@color/color_of_e50000"
+        app:sizeright="15dp"
+        app:textcenterhide="请输入货物价值"
+        app:textleft="货物价值"
+        app:textright="保费 0 元" />
+
+    <com.fy.companylibrary.widget.ItemTextView
+        android:id="@+id/item_insurance_name"
+        style="@style/item_text"
+        app:sizeright="15dp"
+        app:textcenterhide="请选择被保险人"
+        app:textleft="被保险人" />
+
+    <LinearLayout
+        android:id="@+id/ll_insurance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ovl_5_ffffff"
+        android:orientation="horizontal"
+        android:padding="@dimen/gap_app">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下单即代表同意"
+            android:textColor="@color/color_of_999999"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_agreement_insurance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《泓牛(远恒)货运综合险》"
+            android:textColor="@color/color_of_3d5688"
+            android:textSize="12dp" />
+    </LinearLayout>
+    
+
+
+</LinearLayout>
