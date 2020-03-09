@@ -29,7 +29,7 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
     @Override
     public Status getStatus() {
         int status = infoBean == null ? 0 : infoBean.getStatus();
-        Status result = Status.UNKNOW;
+        Status result = Status.All;
         for (Status value : Status.values()) {
             if (value.getStatus()==status){
                 result=value;

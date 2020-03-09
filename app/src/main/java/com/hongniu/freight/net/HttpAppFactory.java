@@ -544,6 +544,18 @@ public class HttpAppFactory {
                 .createCar(infoBean)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
+   /**
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 新增修改车辆
+     */
+    public static Observable<CommonBean<Object>> deletedCar(String id) {
+        JsonObject object=new JsonObject();
+        object.addProperty("id",id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .deletedCar(object)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
 
     /**
      * @return

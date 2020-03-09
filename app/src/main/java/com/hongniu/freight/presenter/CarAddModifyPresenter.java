@@ -29,6 +29,20 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
     }
 
     /**
+     * 储存外部传入的信息
+     *
+     * @param infoBean
+     */
+    @Override
+    public void saveInfo(CarInfoBean infoBean) {
+        mode.saveInfo(infoBean);
+        view.initInfo(infoBean,mode.enable());
+        view.showMinus(mode.getMinusPic());
+        view.showPositive(mode.getPositivePic());
+        view.showTitle(infoBean==null);
+    }
+
+    /**
      * 点击修改车辆类型
      * @param listener
      */
@@ -158,6 +172,19 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
             .subscribe(new NetObserver<Object>(listener){
                 @Override
                 public void doOnSuccess(Object o) {
+                    view.finishWithSuccess();
+                }
+            })
+        ;
+    }
+
+    @Override
+    public void deleted(TaskControl.OnTaskListener listener) {
+        mode.deleted()
+            .subscribe(new NetObserver<Object>(listener){
+                @Override
+                public void doOnSuccess(Object o) {
+                    super.doOnSuccess(o);
                     view.finishWithSuccess();
                 }
             })

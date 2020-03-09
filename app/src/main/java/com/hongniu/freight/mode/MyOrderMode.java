@@ -5,13 +5,11 @@ import android.text.TextUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
-import com.hongniu.freight.App;
-import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.net.HttpAppFactory;
 
@@ -27,11 +25,11 @@ import io.reactivex.Observable;
 public class MyOrderMode implements MyOrderControl.IMyOrderMode {
 
     private RoleOrder role;
-    private List<String> titles;
-    private int statusIndex;
+    private List<Status> titles;
+    private Status statusOrder;
 
     public MyOrderMode() {
-        titles = new ArrayList<>();
+        titles = new ArrayList<>(Arrays.asList(Status.values()));
 
     }
 
@@ -41,8 +39,8 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
     }
 
     @Override
-    public void saveStatus(int position) {
-        this.statusIndex =position;
+    public void saveStatus(Status position) {
+        this.statusOrder =position;
     }
 
     /**
@@ -61,17 +59,8 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
      * @return
      */
     @Override
-    public List<String> getTitles() {
-        titles.clear();
-        String[] stringArray = {};
-        if (role == RoleOrder.SHIPPER ) {
-            stringArray = App.app.getResources().getStringArray(R.array.shipper_status);
-        } else if (role == RoleOrder.DRIVER) {
-            stringArray = App.app.getResources().getStringArray(R.array.driver_status);
-        } else if (role == RoleOrder.CARRIER ) {
-            stringArray = App.app.getResources().getStringArray(R.array.carrier_status);
-        }
-        titles.addAll(Arrays.asList(stringArray));
+    public List<Status> getTitles() {
+
         return titles;
     }
 
@@ -87,11 +76,8 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
         bean.setPageSize(Param.PAGE_SIZE);
         bean.setPageNum(currentPage);
         bean.setUserType(role.getType());
-        for (Status value : Status.values()) {
-            if (TextUtils.equals(value.getName(),titles.get(statusIndex))){
-                bean.setStatus(value.getStatus()+"");
-                break;
-            }
+        if (statusOrder!=null&& statusOrder!=Status.All){
+            bean.setStatus(statusOrder.getStatus()+"");
         }
        return HttpAppFactory.queryOrderList(bean);
     }

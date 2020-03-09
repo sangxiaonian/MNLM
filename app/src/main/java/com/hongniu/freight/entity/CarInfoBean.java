@@ -18,9 +18,27 @@ public class CarInfoBean implements Parcelable {
    private String  name;//	true	string	承运人姓名
    private String  mobile;//	true	string	承运人手机号
    private String  faceVImageUrl;//	true	string	正面行驶证照片url
+   private String  fullFaceVImageUrl;//	true	string	正面行驶证照片url
    private String  backVImageUrl;//	true	string	背面行驶证照片url
+   private String  fullBackVImageUrl;//	true	string	背面行驶证照片url
    private int  isIdentity;//	false	string	车辆是否认证 0否 1是
    private int  identityStatus;//	false	string	车辆当前认证状态  0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+
+    public String getFullFaceVImageUrl() {
+        return fullFaceVImageUrl;
+    }
+
+    public void setFullFaceVImageUrl(String fullFaceVImageUrl) {
+        this.fullFaceVImageUrl = fullFaceVImageUrl;
+    }
+
+    public String getFullBackVImageUrl() {
+        return fullBackVImageUrl;
+    }
+
+    public void setFullBackVImageUrl(String fullBackVImageUrl) {
+        this.fullBackVImageUrl = fullBackVImageUrl;
+    }
 
     public String getId() {
         return id;
@@ -141,7 +159,9 @@ public class CarInfoBean implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.mobile);
         dest.writeString(this.faceVImageUrl);
+        dest.writeString(this.fullFaceVImageUrl);
         dest.writeString(this.backVImageUrl);
+        dest.writeString(this.fullBackVImageUrl);
         dest.writeInt(this.isIdentity);
         dest.writeInt(this.identityStatus);
     }
@@ -156,7 +176,9 @@ public class CarInfoBean implements Parcelable {
         this.name = in.readString();
         this.mobile = in.readString();
         this.faceVImageUrl = in.readString();
+        this.fullFaceVImageUrl = in.readString();
         this.backVImageUrl = in.readString();
+        this.fullBackVImageUrl = in.readString();
         this.isIdentity = in.readInt();
         this.identityStatus = in.readInt();
     }

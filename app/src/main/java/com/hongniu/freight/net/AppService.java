@@ -281,12 +281,19 @@ public interface AppService {
     Observable<CommonBean<List<CarTypeBean>>> queryCarTypeList();
 
     /**
-     * 新增修改车辆
+     * 新增修改修改车辆
      *
      * @return
      */
     @POST("wlhyapi/api/car/savecar")
     Observable<CommonBean<Object>> createCar(@Body CarInfoBean infoBean);
+   /**
+     * 删除修改车辆
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/car/deletebyid")
+    Observable<CommonBean<Object>> deletedCar(@Body JsonObject infoBean);
 
     /**
      * 查询账户数据

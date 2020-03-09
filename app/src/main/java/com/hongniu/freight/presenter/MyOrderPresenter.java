@@ -3,6 +3,7 @@ package com.hongniu.freight.presenter;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.mode.MyOrderMode;
@@ -54,12 +55,11 @@ public class MyOrderPresenter implements MyOrderControl.IMyOrderPresenter {
 
     /**
      * 切换当前状态
-     *
-     * @param position
+     *  @param position
      * @param selected
      */
     @Override
-    public void switchStatus(int position, String selected) {
-        mode.saveStatus(position);
+    public void switchStatus(int position, Status selected) {
+        mode.saveStatus(selected);
     }
 }

@@ -101,6 +101,7 @@ public class XOrderButtonClick implements OrderButtonClickListener {
     @Override
     public void onPayInsuranceClick(OrderInfoBean bean) {
         ToastUtils.getInstance().show("购买保险");
+
 //TODO 购买保险
     }
 

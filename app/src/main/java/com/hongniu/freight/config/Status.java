@@ -6,7 +6,7 @@ package com.hongniu.freight.config;
  */
 public enum Status {
 //1:待支付 2:待接单 3:差额支付中 4:待派车 5:找车中 6:待发车 7:运输中 8:已到达 9:已收货
-    UNKNOW(-1,"未知"),
+    All(0,"全部"),
     WAITE_PAY(1,"待支付"),
     WAITE_RECEIVING_ORDER(2,"待接单"),
     WAITE_PAY_BALANCE(3,"差额支付中"),

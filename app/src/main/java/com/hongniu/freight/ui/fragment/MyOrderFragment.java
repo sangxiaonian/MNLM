@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.utils.DeviceUtils;
-import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.widget.recycle.adapter.SelectAdapter;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
@@ -27,6 +26,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushFragmet;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.MyOrderControl;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.MyOrderPresenter;
@@ -44,11 +44,11 @@ import io.reactivex.Observable;
  * @Description 我的订单页面
  */
 @Route(path = ArouterParamApp.fragment_my_order)
-public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XOrderButtonClick.NextStepListener,MyOrderControl.IMyOrderView, SelectAdapter.SingleSelectedListener<String> {
+public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XOrderButtonClick.NextStepListener,MyOrderControl.IMyOrderView, SelectAdapter.SingleSelectedListener<Status> {
 
     private RecyclerView rvTitle;
     MyOrderControl.IMyOrderPresenter presenter;
-    private SelectAdapter<String> selectAdapter;
+    private SelectAdapter<Status> selectAdapter;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -121,14 +121,14 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
      * @param titles
      */
     @Override
-    public void initTitles(List<String> titles) {
+    public void initTitles(List<Status> titles) {
         if (selectAdapter == null) {
-            selectAdapter = new SelectAdapter<String>(mContext, rvTitle) {
+            selectAdapter = new SelectAdapter<Status>(mContext, rvTitle) {
                 @Override
-                public void initView(View itemView, int position, String s, boolean select) {
+                public void initView(View itemView, int position, Status s, boolean select) {
                     TextView tvTitle = itemView.findViewById(R.id.tv_title);
                     View flag = itemView.findViewById(R.id.view_flag);
-                    tvTitle.setText(s);
+                    tvTitle.setText(s.getName());
                     tvTitle.setTextColor(getResources().getColor(select ? R.color.color_of_040000 : R.color.color_of_999999));
                     tvTitle.setTypeface(Typeface.defaultFromStyle(select ? Typeface.BOLD : Typeface.NORMAL));
                     flag.setBackgroundResource(select ? R.drawable.ovl_2_e50000 : 0);
@@ -158,7 +158,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
      * @param check
      */
     @Override
-    public void onSingleSelected(int position, String selected, boolean check) {
+    public void onSingleSelected(int position, Status selected, boolean check) {
         presenter.switchStatus(position, selected);
         queryData(true, true);
     }
@@ -169,6 +169,5 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
     @Override
     public void doUpdate() {
         queryData(true,true);
-        JLog.e("------------------此处开始刷新数据----------------");
     }
 }

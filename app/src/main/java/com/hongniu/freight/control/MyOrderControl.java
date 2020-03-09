@@ -3,6 +3,7 @@ package com.hongniu.freight.control;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.entity.OrderInfoBean;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class MyOrderControl {
          * 初始化标题
          * @param titles
          */
-        void initTitles(List<String> titles);
+        void initTitles(List<Status> titles);
     }
     public interface IMyOrderPresenter{
         /**
@@ -45,11 +46,11 @@ public class MyOrderControl {
          * @param position
          * @param selected
          */
-        void switchStatus(int position, String selected);
+        void switchStatus(int position, Status selected);
     }
     public interface IMyOrderMode{
         void saveRole(RoleOrder role);
-        void saveStatus(int position);
+        void saveStatus(Status position);
 
         /**
          * 获取当前角色类型
@@ -61,7 +62,7 @@ public class MyOrderControl {
          * 获取头部选择标题
          * @return
          */
-        List<String> getTitles();
+        List<Status> getTitles();
 
 
         /**

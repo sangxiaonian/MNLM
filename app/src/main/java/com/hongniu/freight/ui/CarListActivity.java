@@ -1,5 +1,6 @@
 package com.hongniu.freight.ui;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -17,6 +18,7 @@ import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.androidlibrary.widget.span.RoundedBackgroundSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
@@ -44,6 +46,12 @@ public class CarListActivity extends RefrushActivity<CarInfoBean> {
         initView();
         initData();
         initListener();
+        queryData(true);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         queryData(true);
     }
 
@@ -93,28 +101,45 @@ public class CarListActivity extends RefrushActivity<CarInfoBean> {
                         TextView tv_title = itemView.findViewById(R.id.tv_title);
                         TextView tv_car_type = itemView.findViewById(R.id.tv_car_type);
                         TextView tv_state = itemView.findViewById(R.id.tv_state);
-                        RoundedBackgroundSpan span = new RoundedBackgroundSpan(mContext);
-                        span.setBackgroundColor(context.getResources().getColor(R.color.color_of_14_ffffff));
-                        span.setCornerRadius(DeviceUtils.dip2px(context, 1));
-                        span.setTextSize(DeviceUtils.dip2px(context, 11));
-                        span.setTextColor(context.getResources().getColor(R.color.color_of_aaabaf));
-                        span.setPadding(DeviceUtils.dip2px(context, 4), 0, DeviceUtils.dip2px(context, 4), 0);
-                        span.setMargin(DeviceUtils.dip2px(context, 5), 0, 0, 0);
-                        span.setBordColor(Color.TRANSPARENT);
+
                         SpannableStringBuilder builder = new SpannableStringBuilder();
-                        builder.append("浙A37222");
+                        builder.append(data.getCarNumber());
                         int start = builder.length();
-                        builder.append("已认证");
+
+                        tv_state.setText("查看信息");
+                        tv_state.setTextColor(context.getResources().getColor(R.color.color_of_040000) );
+                        int status = data.getIdentityStatus();
+                        RoundedBackgroundSpan span;
+                        if (status == 4) {
+                            builder.append("已认证");
+                            span=getSpan(context
+                                    , context.getResources().getColor(R.color.color_of_aaabaf), context.getResources().getColor(R.color.color_of_14_ffffff));
+
+                        } else if (status == 5) {
+                            builder.append("审核不通过");
+                            span=  getSpan(context
+                                    , context.getResources().getColor(R.color.color_of_ffffff), context.getResources().getColor(R.color.color_of_fa8c16));
+                            tv_state.setText("重新认证");
+                            tv_state.setTextColor(context.getResources().getColor(R.color.color_of_e50000) );
+
+                        } else {
+                            builder.append("审核中");
+                            span=getSpan(context
+                                    , context.getResources().getColor(R.color.color_of_ffffff), context.getResources().getColor(R.color.color_of_e50000));
+                        }
                         int end = builder.length();
                         builder.setSpan(span, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                         tv_title.setText(builder);
-                        tv_car_type.setText("测试车辆类型");
-                        tv_state.setText("查看信息");
+                        tv_car_type.setText(data.getCarType());
 
                         tv_state.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ToastUtils.getInstance().show("测试信息");
+//                                ToastUtils.getInstance().show("测试信息");
+                                ArouterUtils.getInstance()
+                                        .builder(ArouterParamApp.activity_car_add_modify)
+                                        .withParcelable(Param.TRAN,data)
+                                        .navigation(mContext);
                             }
                         });
 
@@ -122,5 +147,17 @@ public class CarListActivity extends RefrushActivity<CarInfoBean> {
                 };
             }
         };
+    }
+
+    public RoundedBackgroundSpan getSpan(Context context, int color, int backColor) {
+        RoundedBackgroundSpan span = new RoundedBackgroundSpan(mContext);
+        span.setBackgroundColor(backColor);
+        span.setTextColor(color);
+        span.setCornerRadius(DeviceUtils.dip2px(context, 1));
+        span.setTextSize(DeviceUtils.dip2px(context, 11));
+        span.setPadding(DeviceUtils.dip2px(context, 4), 0, DeviceUtils.dip2px(context, 4), 0);
+        span.setMargin(DeviceUtils.dip2px(context, 5), 0, 0, 0);
+        span.setBordColor(Color.TRANSPARENT);
+        return span;
     }
 }

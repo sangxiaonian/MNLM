@@ -16,6 +16,18 @@ import io.reactivex.Observable;
  */
 public class CarAddModifyControl {
     public interface ICarAddModifyView {
+
+        /**
+         * 初始化信息
+         * @param infoBean
+         * @param enable
+         */
+        void initInfo(CarInfoBean infoBean, boolean enable);
+        /**
+         * 根据新增修改改变头部信息
+         * @param isADd
+         */
+        void showTitle(boolean isADd);
         /**
          * 显示选择车辆类型
          *
@@ -47,10 +59,16 @@ public class CarAddModifyControl {
          */
         void finishWithSuccess();
 
+
+
     }
 
     public interface ICarAddModifyPresenter {
-
+        /**
+         * 储存外部传入的信息
+         * @param infoBean
+         */
+        void saveInfo(CarInfoBean infoBean);
         /**
          * 点击修改车辆类型
          *
@@ -98,9 +116,13 @@ public class CarAddModifyControl {
          * @param listener
          */
         void createCar(CarInfoBean infoBean, TaskControl.OnTaskListener listener);
+
+
+        void deleted(TaskControl.OnTaskListener listener);
     }
 
     public interface ICarAddModifyMode {
+        void saveInfo(CarInfoBean infoBean);
 
         /**
          * 查询车辆类型
@@ -152,5 +174,12 @@ public class CarAddModifyControl {
          */
         Observable<CommonBean<Object>> createCar(CarInfoBean infoBean);
 
+        boolean enable();
+
+        /**
+         * 删除车辆
+         * @return
+         */
+        Observable<CommonBean<Object>> deleted();
     }
 }

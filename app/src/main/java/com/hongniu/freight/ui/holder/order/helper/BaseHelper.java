@@ -49,7 +49,7 @@ public class BaseHelper implements HelperControl {
      */
     @Override
     public Status getStatus() {
-        Status result=Status.UNKNOW;
+        Status result=Status.All;
         for (Status value : Status.values()) {
             if (value.getStatus()==status){
                 result=value;

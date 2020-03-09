@@ -1,6 +1,8 @@
 package com.hongniu.freight.ui;
 
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,7 +15,9 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
@@ -24,6 +28,7 @@ import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.presenter.CarAddModifyPresenter;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.DialogComment;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
@@ -52,16 +57,22 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     CarAddModifyControl.ICarAddModifyPresenter presenter;
     private OptionsPickerView<CarTypeBean> pickerView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_add_modify);
-        setWhitToolBar("填写车辆信息");
+        CarInfoBean infoBean = getIntent().getParcelableExtra(Param.TRAN);
+        if (infoBean == null) {
+            setWhitToolBar("填写车辆信息");
+        } else {
+            setWhitToolBar("车辆信息");
+
+        }
         initView();
         initData();
         initListener();
         presenter = new CarAddModifyPresenter(this);
+        presenter.saveInfo(infoBean);
     }
 
     @Override
@@ -80,6 +91,12 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     }
 
     @Override
+    protected void initData() {
+        super.initData();
+
+    }
+
+    @Override
     protected void initListener() {
         super.initListener();
         ll_positive.setOnClickListener(this);
@@ -93,95 +110,70 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_phone.setOnCenterChangeListener(this);
     }
 
+
     /**
-     * Called when a view has been clicked.
+     * 初始化信息
      *
-     * @param v The view that was clicked.
+     * @param infoBean
+     * @param enable
      */
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.ll_positive) {
-            ToastUtils.getInstance().show("行驶证正面");
-            new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
-                @Override
-                public void onResult(List<LocalMedia> result) {
-                    LocalMedia media = result.get(0);
-                    ImageLoader.getLoader().load(mContext, img_positive, Utils.getPath(media));
-                    presenter.upPositive(media, CarAddModifyActivity.this);
-                }
-            });
-        } else if (v.getId() == R.id.ll_minus) {
-            new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
-                @Override
-                public void onResult(List<LocalMedia> result) {
-                    LocalMedia media = result.get(0);
-                    ImageLoader.getLoader().load(mContext, img_minus, Utils.getPath(media));
-                    presenter.upMinus(media, CarAddModifyActivity.this);
-                }
-            });
-        } else if (v.getId() == R.id.item_car_type) {
-//            ToastUtils.getInstance().show("车辆类型");
-            presenter.queryCarTypes(this);
-        } else if (v.getId() == R.id.bt_sum) {
-//            ToastUtils.getInstance().show("车辆类型");
-            if (check(true)) {
+    public void initInfo(CarInfoBean infoBean, boolean enable) {
+        item_car_type.setEnabled(enable);
+        item_car_band.setEnabled(enable);
+        item_car_number.setEnabled(enable);
+        item_car_name.setEnabled(enable);
+        item_car_phone.setEnabled(enable);
+        btSum.setVisibility(enable ? View.VISIBLE : View.GONE);
 
-                CarInfoBean infoBean = new CarInfoBean();
-                infoBean.setCarNumber(item_car_number.getTextCenter());
-                infoBean.setVehicleModel(item_car_band.getTextCenter());
-                infoBean.setName(item_car_name.getTextCenter());
-                infoBean.setMobile(item_car_phone.getTextCenter());
-                presenter.createCar(infoBean, this);
-            }
-        }
+        item_car_type.setTextCenter(infoBean.getCarType());
+                item_car_band.setTextCenter(infoBean.getVehicleModel());
+        item_car_number.setTextCenter(infoBean.getCarNumber());
+                item_car_name.setTextCenter(infoBean.getName());
+        item_car_phone.setTextCenter(infoBean.getMobile());
+
     }
-    private boolean check(boolean showAlert) {
-        Utils.setButton(btSum, false);
-        if (!presenter.checkPositive()) {
-            if (showAlert) {
-                ToastUtils.getInstance().show("请上传行驶证主页信息");
-            }
-            return false;
-        }
-        if (!presenter.checkMinus()) {
-            if (showAlert) {
-                ToastUtils.getInstance().show("请上传行驶证副页信息");
-            }
-            return false;
-        }
 
-        if (TextUtils.isEmpty(item_car_type.getTextCenter())) {
-            if (showAlert) {
-                ToastUtils.getInstance().show(item_car_type.getTextCenterHide());
+    /**
+     * 根据新增修改改变头部信息
+     *
+     * @param isADd
+     */
+    @Override
+    public void showTitle(boolean isADd) {
+            if (isADd) {
+                setWhitToolBar("填写车辆信息");
+            } else {
+                setWhitToolBar("车辆信息");
+                setToolbarSrcRight(R.drawable.ic_delete);
+                setToolbarRightClick(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        showDeletedAlert();
+
+                    }
+                });
             }
-            return false;
-        }
-        if (TextUtils.isEmpty(item_car_band.getTextCenter())) {
-            if (showAlert) {
-                ToastUtils.getInstance().show(item_car_band.getTextCenterHide());
-            }
-            return false;
-        }
-        if (TextUtils.isEmpty(item_car_number.getTextCenter())) {
-            if (showAlert) {
-                ToastUtils.getInstance().show(item_car_number.getTextCenterHide());
-            }
-            return false;
-        }
-        if (TextUtils.isEmpty(item_car_name.getTextCenter())) {
-            if (showAlert) {
-                ToastUtils.getInstance().show(item_car_name.getTextCenterHide());
-            }
-            return false;
-        }
-        if (TextUtils.isEmpty(item_car_phone.getTextCenter())) {
-            if (showAlert) {
-                ToastUtils.getInstance().show(item_car_phone.getTextCenterHide());
-            }
-            return false;
-        }
-        Utils.setButton(btSum, true);
-        return true;
+    }
+
+    private void showDeletedAlert() {
+        new DialogComment.Builder()
+                .setBtLeft("取消")
+                .setBtRight("确定")
+                .setDialogTitle("确定要删除车辆？")
+                .hideContent()
+                .setRightClickListener(new DialogComment.OnButtonRightClickListener() {
+                    @Override
+                    public void onRightClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        presenter.deleted(CarAddModifyActivity.this);
+                    }
+                })
+                .creatDialog(mContext)
+                .show();
+        ;
+
     }
 
     /**
@@ -258,4 +250,99 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     public void onCenterChange(String msg) {
         check(false);
     }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ll_positive) {
+            ToastUtils.getInstance().show("行驶证正面");
+            new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
+                @Override
+                public void onResult(List<LocalMedia> result) {
+                    LocalMedia media = result.get(0);
+                    ImageLoader.getLoader().load(mContext, img_positive, Utils.getPath(media));
+                    presenter.upPositive(media, CarAddModifyActivity.this);
+                }
+            });
+        } else if (v.getId() == R.id.ll_minus) {
+            new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
+                @Override
+                public void onResult(List<LocalMedia> result) {
+                    LocalMedia media = result.get(0);
+                    ImageLoader.getLoader().load(mContext, img_minus, Utils.getPath(media));
+                    presenter.upMinus(media, CarAddModifyActivity.this);
+                }
+            });
+        } else if (v.getId() == R.id.item_car_type) {
+//            ToastUtils.getInstance().show("车辆类型");
+            presenter.queryCarTypes(this);
+        } else if (v.getId() == R.id.bt_sum) {
+//            ToastUtils.getInstance().show("车辆类型");
+            if (check(true)) {
+
+                CarInfoBean infoBean = new CarInfoBean();
+                infoBean.setCarNumber(item_car_number.getTextCenter());
+                infoBean.setVehicleModel(item_car_band.getTextCenter());
+                infoBean.setName(item_car_name.getTextCenter());
+                infoBean.setMobile(item_car_phone.getTextCenter());
+                presenter.createCar(infoBean, this);
+            }
+        }
+    }
+
+    private boolean check(boolean showAlert) {
+        Utils.setButton(btSum, false);
+        if (!presenter.checkPositive()) {
+            if (showAlert) {
+                ToastUtils.getInstance().show("请上传行驶证主页信息");
+            }
+            return false;
+        }
+        if (!presenter.checkMinus()) {
+            if (showAlert) {
+                ToastUtils.getInstance().show("请上传行驶证副页信息");
+            }
+            return false;
+        }
+
+        if (TextUtils.isEmpty(item_car_type.getTextCenter())) {
+            if (showAlert) {
+                ToastUtils.getInstance().show(item_car_type.getTextCenterHide());
+            }
+            return false;
+        }
+        if (TextUtils.isEmpty(item_car_band.getTextCenter())) {
+            if (showAlert) {
+                ToastUtils.getInstance().show(item_car_band.getTextCenterHide());
+            }
+            return false;
+        }
+        if (TextUtils.isEmpty(item_car_number.getTextCenter())) {
+            if (showAlert) {
+                ToastUtils.getInstance().show(item_car_number.getTextCenterHide());
+            }
+            return false;
+        }
+        if (TextUtils.isEmpty(item_car_name.getTextCenter())) {
+            if (showAlert) {
+                ToastUtils.getInstance().show(item_car_name.getTextCenterHide());
+            }
+            return false;
+        }
+        if (TextUtils.isEmpty(item_car_phone.getTextCenter())) {
+            if (showAlert) {
+                ToastUtils.getInstance().show(item_car_phone.getTextCenterHide());
+            }
+            return false;
+        }
+        Utils.setButton(btSum, true);
+        return true;
+    }
+
+
+
 }

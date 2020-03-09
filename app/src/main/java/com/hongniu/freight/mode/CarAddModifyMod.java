@@ -23,9 +23,23 @@ public class CarAddModifyMod implements CarAddModifyControl.ICarAddModifyMode {
     private int carTypeIndex = -1;
     private UpImgData positivePic;
     private UpImgData minusPic;
+    private CarInfoBean infoBean;//外部传入的信息
 
     public CarAddModifyMod() {
         this.carTypeBeans = new ArrayList<>();
+    }
+
+    @Override
+    public void saveInfo(CarInfoBean infoBean) {
+        this.infoBean=infoBean;
+        if (infoBean!=null){
+            minusPic=new UpImgData();
+            positivePic=new UpImgData();
+            minusPic.setAbsolutePath(infoBean.getFullBackVImageUrl());
+            minusPic.setPath(infoBean.getBackVImageUrl());
+            positivePic.setAbsolutePath(infoBean.getFullFaceVImageUrl());
+            positivePic.setPath(infoBean.getFaceVImageUrl());
+        }
     }
 
     /**
@@ -127,7 +141,24 @@ public class CarAddModifyMod implements CarAddModifyControl.ICarAddModifyMode {
         if (minusPic!=null){
             infoBean.setBackVImageUrl(minusPic.getPath());
         }
+        if (this.infoBean!=null){
+            infoBean.setId(this.infoBean.getId());
+        }
        return HttpAppFactory.createCar(infoBean);
 
+    }
+
+    @Override
+    public boolean enable() {
+        return infoBean == null || infoBean.getIdentityStatus() == 5;
+    }
+
+    /**
+     * 删除车辆
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<Object>> deleted() {
+     return  HttpAppFactory.deletedCar(infoBean==null?"":infoBean.getId());
     }
 }
