@@ -47,7 +47,7 @@ public class BillHeadHolder extends PeakHolder {
 
         vist.setDatas(datas);
 
-        if (type == 2) {
+        if (type == 0) {
             des.setVisibility(  View.GONE );
             tvDes.setText("收入明细");
         }else if (type==1){

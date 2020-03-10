@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.autoline.AutoLineLayout;
@@ -22,10 +21,12 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.ui.adapter.AutoTagSingleAdapter;
 import com.hongniu.freight.utils.PickerDialogUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
     private TextView tv_time;
     private TimePickerView timePicker;
     private CompanyBaseFragment currentFragment, expendFragment, incomeFragment;
+    BillInfoSearchParams params = new BillInfoSearchParams();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
             public void onClick(View v) {
                 ArouterUtils.getInstance()
                         .builder(ArouterParamApp.activity_bill_search)
+                        .withParcelable(Param.TRAN,params)
                         .navigation();
             }
         });
@@ -63,6 +66,7 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
         initListener();
         switchFragment(0);
     }
+
     @Override
     protected void initView() {
         super.initView();
@@ -71,7 +75,7 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
         tv_time = findViewById(R.id.tv_time);
 
         boolean[] type = new boolean[]{true, true, false, false, false, false};
-         timePicker = PickerDialogUtils.initTimePicker(mContext, this, type);
+        timePicker = PickerDialogUtils.initTimePicker(mContext, this, type);
     }
 
 
@@ -91,7 +95,8 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
         helper.sethGap(DeviceUtils.dip2px(mContext, 25));
         autoLineLayout.setLayoutHelper(helper);
         autoLineLayout.setAdapter(tagAdapter);
-        tv_time.setText(ConvertUtils.formatTime(new Date(),"yyyy年MM月"));
+        onTimeSelect(new Date(), null);
+        tv_time.setText(ConvertUtils.formatTime(new Date(), "yyyy年MM月"));
     }
 
     @Override
@@ -104,35 +109,38 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
     public void onAutoSingleSelected(int position, String s, boolean check) {
         switchFragment(position);
     }
+
     private void switchFragment(int position) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (currentFragment !=null){
+        if (currentFragment != null) {
             transaction.hide(currentFragment);
         }
-        if (position==0){
-            if (expendFragment ==null) {
+        if (position == 0) {
+            if (expendFragment == null) {
+                params.setFeeType(1);
                 expendFragment = (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month_expend).navigation();
-                transaction.add(R.id.content, expendFragment);
-                Bundle bundle=new Bundle();
-                bundle.putInt(Param.TYPE,position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Param.TRAN, params);
                 expendFragment.setBundle(bundle);
-            }else {
+                transaction.add(R.id.content, expendFragment);
+            } else {
                 transaction.show(expendFragment);
             }
 
-            currentFragment= expendFragment;
-        }else {
-            if (incomeFragment ==null) {
+            currentFragment = expendFragment;
+        } else {
+            if (incomeFragment == null) {
+                params.setFeeType(2);
                 incomeFragment = (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month_income).navigation();
-                transaction.add(R.id.content, incomeFragment);
-                Bundle bundle=new Bundle();
-                bundle.putInt(Param.TYPE,position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Param.TRAN, params);
                 incomeFragment.setBundle(bundle);
-            }else {
+                transaction.add(R.id.content, incomeFragment);
+
+            } else {
                 transaction.show(incomeFragment);
             }
-
-            currentFragment= incomeFragment;
+            currentFragment = incomeFragment;
         }
         transaction.commit();
     }
@@ -142,6 +150,24 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
     public void onTimeSelect(Date date, View v) {
         String time = ConvertUtils.formatTime(date, "yyyy年MM月");
         tv_time.setText(time);
+        Calendar calendar = Calendar.getInstance();//日历对象
+        calendar.setTime(date);//设置当前日期
+        params.setYear(calendar.get(Calendar.YEAR) + "");
+        params.setMonth((calendar.get(Calendar.MONTH) + 1) + "");
+        //更新数据
+        upDate();
+    }
+
+    private void upDate() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Param.TRAN, params);
+        if (incomeFragment != null) {
+            incomeFragment.setBundle(bundle);
+        }
+        if (expendFragment != null) {
+            expendFragment.setBundle(bundle);
+        }
+
     }
 
     /**
@@ -151,7 +177,7 @@ public class BillMonthActivity extends CompanyBaseActivity implements AutoSingle
      */
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.ll_time){
+        if (v.getId() == R.id.ll_time) {
             timePicker.show();
         }
     }

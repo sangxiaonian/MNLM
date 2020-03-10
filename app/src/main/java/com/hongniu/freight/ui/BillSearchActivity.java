@@ -1,6 +1,7 @@
 package com.hongniu.freight.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,10 +12,12 @@ import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 
 /**
@@ -36,12 +40,13 @@ import io.reactivex.Observable;
 public class BillSearchActivity extends RefrushActivity<BillInfoListBean> implements View.OnClickListener, SearchTitleView.OnSearchClickListener {
     private SearchTitleView searchTitleView;
     private TextView tv_cancel;
-
+    BillInfoSearchParams params = new BillInfoSearchParams();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_search);
         setWhitToolBar("");
+        params=getIntent() .getParcelableExtra(Param.TRAN);
         initView();
         initData();
         initListener();
@@ -76,11 +81,25 @@ public class BillSearchActivity extends RefrushActivity<BillInfoListBean> implem
 
     @Override
     protected Observable<CommonBean<PageBean<BillInfoListBean>>> getListDatas() {
+        params.setPageNum(currentPage);
+        params.setCarNo(TextUtils.isEmpty(searchTitleView.getTitle())?null:searchTitleView.getTitle());
+        return  HttpAppFactory.searchAccountList(params)
+                    .map(new Function<CommonBean<BillInfoBean>, CommonBean<PageBean<BillInfoListBean>>>() {
+                        @Override
+                        public CommonBean<PageBean<BillInfoListBean>> apply(CommonBean<BillInfoBean> billInfoBeanCommonBean) throws Exception {
+                            CommonBean<PageBean<BillInfoListBean>> commonBean=new CommonBean<>();
+                            commonBean.setCode(billInfoBeanCommonBean.getCode());
+                            commonBean.setMsg(billInfoBeanCommonBean.getMsg());
+                            if (commonBean.getCode()==Param.SUCCESS_FLAG) {
+                                PageBean<BillInfoListBean> bean = new PageBean<>();
+                                bean.setList(billInfoBeanCommonBean.getData().getList());
+                                commonBean.setData(bean);
+                            }
 
-        BillInfoSearchParams params=new BillInfoSearchParams();
-        params.setCarNo(searchTitleView.getTitle());
-
-        return  HttpAppFactory.searchAccountList(params);
+                            return commonBean;
+                        }
+                    })
+                ;
     }
 
     @Override
@@ -113,7 +132,7 @@ public class BillSearchActivity extends RefrushActivity<BillInfoListBean> implem
 
     @Override
     public void onSearch(String msg) {
-        queryData(true);
+        queryData(true,true);
 
     }
 }

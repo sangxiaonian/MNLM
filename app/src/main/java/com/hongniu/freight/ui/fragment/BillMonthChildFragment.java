@@ -1,5 +1,6 @@
 package com.hongniu.freight.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
@@ -18,16 +22,25 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushFragmet;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
+import com.hongniu.freight.entity.BillInfoSearchParams;
+import com.hongniu.freight.entity.QueryExpendResultBean;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.BillHeadHolder;
 import com.hongniu.freight.ui.holder.BillHolder;
 import com.hongniu.freight.ui.holder.EmptyHolder;
 import com.hongniu.freight.widget.VistogramView;
 
+import java.lang.annotation.ElementType;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /**
  * 作者：  on 2020/2/12.
@@ -37,20 +50,31 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
 
     private int type;
     private BillHeadHolder billHeadHolder;
-
+    BillInfoSearchParams params;
+    private String year, month;
+    OnBillListener billListener;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        upData();
         super.onActivityCreated(savedInstanceState);
-        queryData(true);
+        upData();
     }
 
     private void upData() {
         if (getBundle() != null) {
-            type = getBundle().getInt(Param.TYPE, 0);
+            type = getBundle().getInt(Param.TYPE,0);
+            params = getBundle().getParcelable(Param.TRAN);
+            if (refresh != null && params != null) {
+                if (!CommonUtils.equals(params.getYear(), year) || !(CommonUtils.equals(params.getMonth(), month))) {
+                    year = params.getYear();
+                    month = params.getMonth();
+                    queryData(true, true);
+                }
+
+            }
         }
     }
+
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -64,21 +88,6 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
         super.initData();
         billHeadHolder = new BillHeadHolder(mContext, rv);
         billHeadHolder.setType(type);
-        List<List<VistogramView.VistogramBean>> datas=new ArrayList<>();
-        int colorBlue=getResources().getColor(R.color.color_of_1890ff);
-        int colorRed=getResources().getColor(R.color.color_of_e50000);
-        for (int i = 0; i < 12; i++) {
-            List<VistogramView.VistogramBean> childs=new ArrayList<>();
-            VistogramView.VistogramBean vistogramBean=new VistogramView.VistogramBean(colorRed, ConvertUtils.getRandom(0,5000),"2020-"+i);
-            childs.add(vistogramBean);
-            if (type==0){
-                VistogramView.VistogramBean vistogramBean1=new VistogramView.VistogramBean(colorBlue, ConvertUtils.getRandom(0,5000),"2020-"+i);
-                childs.add(vistogramBean1);
-            }
-            datas.add(childs);
-        }
-
-        billHeadHolder.setDatas(datas);
         adapter.addHeard(billHeadHolder);
     }
 
@@ -103,17 +112,125 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
 
     @Override
     protected Observable<CommonBean<PageBean<BillInfoListBean>>> getListDatas() {
-        CommonBean<PageBean<BillInfoListBean>> common = new CommonBean<>();
-        common.setCode(200);
-        PageBean<BillInfoListBean> pageBean = new PageBean<>();
-        common.setData(pageBean);
-        List<BillInfoListBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            BillInfoListBean orderInfoBean = new BillInfoListBean();
-            list.add(orderInfoBean);
+        params.setPageNum(currentPage);
+
+        Observable<CommonBean<List<QueryExpendResultBean>>> observable=HttpAppFactory
+                        .queryInComeVistogram(params);;
+        switch (type) {
+            case 0://仅仅是收入
+                observable = HttpAppFactory
+                        .queryInComeVistogram(params);
+                break;
+            case 1://运费
+
+                observable = HttpAppFactory
+                        .queryExpendVistogramTran(params);
+                break;
+            case 2://保费
+
+                observable = HttpAppFactory
+                        .queryExpendVistogramInsurance(params);
+                break;
         }
-        pageBean.setList(list);
-        return Observable.just(common);
+
+        if (currentPage==1){
+           return Observable.zip(observable
+                   .filter(new Predicate<CommonBean<List<QueryExpendResultBean>>>() {
+                       @Override
+                       public boolean test(CommonBean<List<QueryExpendResultBean>> listCommonBean) throws Exception {
+                           return listCommonBean.getCode()!=Param.SUCCESS_FLAG;
+                       }
+                   })
+                   .map(new Function<CommonBean<List<QueryExpendResultBean>>, CommonBean<List<QueryExpendResultBean>>>() {
+                       @Override
+                       public CommonBean<List<QueryExpendResultBean>> apply(CommonBean<List<QueryExpendResultBean>> listCommonBean) throws Exception {
+                           List<QueryExpendResultBean> data = listCommonBean.getData();
+                           List<List<VistogramView.VistogramBean>> current = new ArrayList<>();
+                           if (!CollectionUtils.isEmpty(data)) {
+                               for (QueryExpendResultBean datum : data) {
+                                   List<VistogramView.VistogramBean> list = new ArrayList<>();
+                                   for (int i = 0; i < datum.getCosts().size(); i++) {
+                                       if (i % 2 == 0) {
+                                           //线上支付
+                                           list.add(new VistogramView.VistogramBean(Color.parseColor("#F06F28"), datum.getCosts().get(0).getMoney(), datum.getCostDate()));
+
+                                       } else {
+                                           //线下支付
+                                           list.add(new VistogramView.VistogramBean(Color.parseColor("#007AFF"), datum.getCosts().get(1).getMoney(), datum.getCostDate()));
+
+                                       }
+                                   }
+
+                                   current.add(list);
+                               }
+                           }
+                           billHeadHolder.setDatas(current);
+                           if (current.size() > 0) {
+                               String s = String.format("%s-%s",year,month);
+                               for (List<VistogramView.VistogramBean> debugData : current) {
+                                   if (debugData != null && debugData.size() > 0) {
+                                       if (debugData.get(0).xMark.equals(s)) {
+                                           billHeadHolder.setCurrentX(current.indexOf(debugData));
+                                       }
+                                   }
+                               }
+                           }
+                           return listCommonBean;
+                       }
+                   })
+                   ,
+                   HttpAppFactory.searchAccountList(params)
+                           .map(new Function<CommonBean<BillInfoBean>, CommonBean<PageBean<BillInfoListBean>>>() {
+                               @Override
+                               public CommonBean<PageBean<BillInfoListBean>> apply(CommonBean<BillInfoBean> billInfoBeanCommonBean) throws Exception {
+                                   CommonBean<PageBean<BillInfoListBean>> commonBean = new CommonBean<>();
+                                   commonBean.setCode(billInfoBeanCommonBean.getCode());
+                                   commonBean.setMsg(billInfoBeanCommonBean.getMsg());
+                                   if (commonBean.getCode() == Param.SUCCESS_FLAG) {
+                                       BillInfoBean data = billInfoBeanCommonBean.getData();
+                                       if (billListener != null) {
+                                           billListener.showInfo(data.getTotalMoney(), data.getTotal());
+                                       }
+                                       PageBean<BillInfoListBean> bean = new PageBean<>();
+                                       bean.setList(data.getList());
+                                       commonBean.setData(bean);
+                                   }
+
+                                   return commonBean;
+                               }
+                           })
+                   ,
+                   new BiFunction<CommonBean<List<QueryExpendResultBean>>, CommonBean<PageBean<BillInfoListBean>>, CommonBean<PageBean<BillInfoListBean>>>() {
+                       @Override
+                       public CommonBean<PageBean<BillInfoListBean>> apply(CommonBean<List<QueryExpendResultBean>> listCommonBean, CommonBean<PageBean<BillInfoListBean>> pageBeanCommonBean) throws Exception {
+                           return pageBeanCommonBean;
+                       }
+                   }
+           );
+        }else {
+
+            return HttpAppFactory.searchAccountList(params)
+                    .map(new Function<CommonBean<BillInfoBean>, CommonBean<PageBean<BillInfoListBean>>>() {
+                        @Override
+                        public CommonBean<PageBean<BillInfoListBean>> apply(CommonBean<BillInfoBean> billInfoBeanCommonBean) throws Exception {
+                            CommonBean<PageBean<BillInfoListBean>> commonBean = new CommonBean<>();
+                            commonBean.setCode(billInfoBeanCommonBean.getCode());
+                            commonBean.setMsg(billInfoBeanCommonBean.getMsg());
+                            if (commonBean.getCode() == Param.SUCCESS_FLAG) {
+                                BillInfoBean data = billInfoBeanCommonBean.getData();
+                                if (billListener != null) {
+                                    billListener.showInfo(data.getTotalMoney(), data.getTotal());
+                                }
+                                PageBean<BillInfoListBean> bean = new PageBean<>();
+                                bean.setList(data.getList());
+                                commonBean.setData(bean);
+                            }
+
+                            return commonBean;
+                        }
+                    });
+        }
+
     }
 
     @Override
@@ -124,5 +241,13 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
                 return new BillHolder(mContext, parent);
             }
         };
+    }
+
+    public void setBillListener(OnBillListener billListener) {
+        this.billListener = billListener;
+    }
+
+    public static interface OnBillListener{
+        void showInfo(double totle,int count);
     }
 }

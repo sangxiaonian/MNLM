@@ -11,29 +11,25 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.toast.ToastUtils;
-import com.fy.androidlibrary.utils.DeviceUtils;
-import com.fy.androidlibrary.widget.autoline.AutoLineLayout;
-import com.fy.androidlibrary.widget.autoline.helper.AutoLayoutHelper;
-import com.fy.androidlibrary.widget.autoline.inter.AutoSingleSelectListener;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
-import com.hongniu.freight.ui.adapter.AutoTagSingleAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.hongniu.freight.entity.BillInfoSearchParams;
 
 /**
  * 作者：  on 2020/2/12.
  * 月账单收入数据
  */
 @Route(path = ArouterParamApp.fragment_bill_month_income)
-public class BillMonthIncomeFragment extends CompanyBaseFragment {
+public class BillMonthIncomeFragment extends CompanyBaseFragment implements BillMonthChildFragment.OnBillListener {
     private TextView tvExpendNumber;
     private TextView tvCount;
+
+    BillInfoSearchParams params;
+    private BillMonthChildFragment trackFragment;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -47,17 +43,40 @@ public class BillMonthIncomeFragment extends CompanyBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        tvCount.setText("1000");
-        tvExpendNumber.setText(getNumberSpan("10"));
+        tvCount.setText("0");
+        tvExpendNumber.setText(getNumberSpan("0"));
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-
-        CompanyBaseFragment trackFragment = (CompanyBaseFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month_child).navigation();
+        trackFragment = (BillMonthChildFragment) ArouterUtils.getInstance().builder(ArouterParamApp.fragment_bill_month_child).navigation();
         transaction.add(R.id.content, trackFragment);
-        Bundle bundle = new Bundle();
-        bundle.putInt(Param.TYPE, 2);
-        trackFragment.setBundle(bundle);
         transaction.commit();
+        upDate();
+    }
 
+    @Override
+    protected void initListener() {
+        super.initListener();
+        trackFragment.setBillListener(this);
+    }
+
+    @Override
+    public void setBundle(Bundle bundle) {
+        super.setBundle(bundle);
+
+        upDate();
+    }
+
+   private void upDate(){
+       Bundle bundle = getBundle();
+       if (bundle != null) {
+           params = bundle.getParcelable(Param.TRAN);
+           if (params != null) {
+               params.setFeeType(0);
+               params.setFinanceType(2);
+           }
+           if (trackFragment!=null) {
+               trackFragment.setBundle(bundle);
+           }
+       }
     }
 
 
@@ -73,4 +92,9 @@ public class BillMonthIncomeFragment extends CompanyBaseFragment {
     }
 
 
+    @Override
+    public void showInfo(double totle, int count) {
+        tvCount.setText(ConvertUtils.changeFloat(totle,2));
+        tvExpendNumber.setText(getNumberSpan(count+""));
+    }
 }

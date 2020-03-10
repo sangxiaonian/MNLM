@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.BillInfoListBean;
@@ -26,11 +27,31 @@ public class BillHolder extends BaseHolder<BillInfoListBean> {
         TextView tvStatus = itemView.findViewById(R.id.tv_statute);
         TextView tv_des = itemView.findViewById(R.id.tv_des);
         TextView tv_time = itemView.findViewById(R.id.tv_time);
-        tvStatus.setText("订单运费收入");
-        tvCount.setText("20000");
-        tv_des.setText("订单号 HN292928383322012");
-        tv_time.setText("收款时间 2019-02-02 10:11:23");
-
-
+        int financeType = data.getFinanceType();
+        StringBuffer buffer = new StringBuffer();
+        String time="";
+        String title="";
+        String des="";
+        String ordernumber = data.getOrderNum();
+        if (financeType == 1) {//支出
+            CommonUtils.setText(tvStatus,data.getTitle());
+            time="付款时间：" +( data.getPayTime()==null?"--":data.getPayTime());
+            des="车牌号码：" + (data.getCarNum() == null ? "" : data.getCarNum());
+            title="订单号：" + (ordernumber == null ? "" : ordernumber);
+        } else if (financeType == 2) {//收入
+            title="订单运费收入" ;
+            buffer.append("+");
+            des="订单号：" + (ordernumber == null ? "" : ordernumber);
+            time="收款时间：" +( data.getPayTime()==null?"--":data.getPayTime());
+        } else {//所有情况
+            title="账单" ;
+            des="订单号：" + (ordernumber == null ? "" : ordernumber);
+            time="时间"+ ( data.getPayTime()==null?"--":data.getPayTime());
+        }
+        buffer.append(data.getMoney()+"");
+        CommonUtils.setText(tv_time,time);
+        CommonUtils.setText(tvStatus,title);
+        CommonUtils.setText(tv_des,des);
+        CommonUtils.setText(tvCount,buffer.toString().trim());
     }
 }

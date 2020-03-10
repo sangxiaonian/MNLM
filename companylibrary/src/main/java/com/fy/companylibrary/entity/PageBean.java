@@ -7,9 +7,9 @@ import java.util.List;
  */
 public class PageBean<T> {
 
-    private int dataCount;
-    private int currentPage;
-    private List<T> list;
+    protected int dataCount;
+    protected int currentPage;
+    protected List<T> list;
 
 
     public int getDataCount() {

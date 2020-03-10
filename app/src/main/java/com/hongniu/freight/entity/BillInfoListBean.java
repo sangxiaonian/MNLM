@@ -7,6 +7,7 @@ package com.hongniu.freight.entity;
 public class BillInfoListBean {
   private String id;//	false	int	流水id
   private String accountCode;//	fasle	string	会员代码
+  private String orderNum;//	fasle	string	会员代码
   private String userName;//	fasle	string	会员名称
   private double amount;//	false	double	流水发生金额
   private int fundtype;//	false	int	流水来源，1支付2提现3转账4退款5充值
@@ -30,6 +31,50 @@ public class BillInfoListBean {
   private String isMe;//	true	string	是否可以显示订单 1是 2否 3不可点击
   private String reviewTime;//	true	string	审核时间
   private String successTime;//	true	string	到账时间
+  private String carNum;//	true	string	车牌号
+  private String payTime;//	true	string	支付时间
+  private String money;//	true	string	支付时间
+  private int financeType;//	true	string	支付时间
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public int getFinanceType() {
+        return financeType;
+    }
+
+    public void setFinanceType(int financeType) {
+        this.financeType = financeType;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(String payTime) {
+        this.payTime = payTime;
+    }
+
+    public String getCarNum() {
+        return carNum;
+    }
+
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
+    }
 
     public String getId() {
         return id;

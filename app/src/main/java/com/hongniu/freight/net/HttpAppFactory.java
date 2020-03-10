@@ -13,6 +13,7 @@ import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
@@ -31,6 +32,7 @@ import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryExpendResultBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
@@ -591,7 +593,7 @@ public class HttpAppFactory {
      * @Author PING
      * @Description 查询账户详情数据
      */
-    public static Observable<CommonBean<PageBean<BillInfoListBean>>> searchAccountList(BillInfoSearchParams params) {
+    public static Observable<CommonBean<BillInfoBean>> searchAccountList(BillInfoSearchParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .searchAccountList(params)
                 .compose(RxUtils.getSchedulersObservableTransformer());
@@ -608,6 +610,40 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryAccountFlows(params)
                 .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+    /**
+     * 运费支出图表数据
+     *
+     * @return
+     */
+    public static Observable<CommonBean<List<QueryExpendResultBean>>> queryExpendVistogramTran(BillInfoSearchParams params) {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryExpendVistogramTran(params)
+                .compose(RxUtils.<CommonBean<List<QueryExpendResultBean>>>getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 运费支出图表数据
+     *
+     * @return
+     */
+    public static Observable<CommonBean<List<QueryExpendResultBean>>> queryExpendVistogramInsurance(BillInfoSearchParams params) {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryExpendVistogramInsurance(params)
+                .compose(RxUtils.<CommonBean<List<QueryExpendResultBean>>>getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 财务收入图表数据
+     *
+     * @return
+     */
+    public static Observable<CommonBean<List<QueryExpendResultBean>>> queryInComeVistogram(BillInfoSearchParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryInComeVistogram( params )
+                .compose(RxUtils.<CommonBean<List<QueryExpendResultBean>>>getSchedulersObservableTransformer());
     }
 
     /**

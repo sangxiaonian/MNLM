@@ -23,6 +23,7 @@ import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.holder.BillHolder;
 import com.hongniu.freight.ui.holder.EmptyHolder;
 
 import java.util.ArrayList;

@@ -5,6 +5,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
@@ -23,6 +24,7 @@ import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryExpendResultBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
@@ -320,7 +322,32 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/finance/search")
-    Observable<CommonBean<PageBean<BillInfoListBean>>> searchAccountList(@Body BillInfoSearchParams params);
+    Observable<CommonBean<BillInfoBean>> searchAccountList(@Body BillInfoSearchParams params);
+
+    /**
+     * 查询运费支出图表数据
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/finance/getExpressCost")
+    Observable<CommonBean<List<QueryExpendResultBean>>> queryExpendVistogramTran(@Body BillInfoSearchParams infor);
+
+    /**
+     * 查询保费支出图表数据
+     *
+     * @return
+     */
+    @POST("wlhyapi//api/finance/getInsuranceCost")
+    Observable<CommonBean<List<QueryExpendResultBean>>> queryExpendVistogramInsurance(@Body BillInfoSearchParams infor);
+
+    /**
+     * 查询财务收入图表数据
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/finance/getExpressIncome")
+    Observable<CommonBean<List<QueryExpendResultBean>>> queryInComeVistogram(@Body BillInfoSearchParams infor);
+
 
     /**
      * 查询账户数据流水信息,待入账和余额明细
