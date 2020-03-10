@@ -55,13 +55,19 @@ public class PayControl {
          * @param orderInfo
          */
         void jump2Succes(OrderInfoBean orderInfo);
+
+        /**
+         * 支付成功
+         */
+        void finishWithSuccess();
     }
     public interface IPayPresenter{
         /**
          * 储存订单id
          * @param id
+         * @param type
          */
-        void saveInfo(String id);
+        void saveInfo(String id, int type);
 
         /**
          * 查询订单和账户信息
@@ -96,8 +102,9 @@ public class PayControl {
         /**
          * 储存订单id
          * @param id
+         * @param type
          */
-        void saveInfo(String id);
+        void saveInfo(String id, int type);
 
 
         /**
@@ -174,5 +181,10 @@ public class PayControl {
          */
         QueryPayInfoParams getPayInfo();
 
+        /**
+         * 获取支付类型
+         * @return
+         */
+        int getType();
     }
 }

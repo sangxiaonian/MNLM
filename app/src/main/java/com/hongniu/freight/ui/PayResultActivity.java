@@ -26,6 +26,7 @@ public class PayResultActivity extends CompanyBaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setWhitToolBar("");
         setContentView(R.layout.activity_pay_result);
         bean=getIntent().getParcelableExtra(Param.TRAN);
         initView();

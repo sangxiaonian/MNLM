@@ -164,7 +164,16 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
      */
     @Override
     public void searchInsruancePrice(String msg) {
-        view.showInsurancePrice(String.format("保费%s元",mode.queryInsurancePrice(msg)));
+        mode.queryInsurancePrice(msg)
+                .subscribe(new NetObserver<String>(null){
+                    @Override
+                    public void doOnSuccess(String s) {
+                        super.doOnSuccess(s);
+                        view.showInsurancePrice(String.format("保费%s元",s));
+
+                    }
+                });
+
     }
 
 }

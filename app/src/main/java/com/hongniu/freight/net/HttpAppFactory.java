@@ -40,6 +40,7 @@ import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
@@ -460,12 +461,11 @@ public class HttpAppFactory {
      * 根据货物价格查询保费
      *
      * @return
+     * @param params
      */
-    public static Observable<CommonBean<String>> queryInstancePrice(String goodPrice) {
-        JsonObject json = new JsonObject();
-        json.addProperty("goodPrice", goodPrice);
+    public static Observable<CommonBean<String>> queryInstancePrice(QueryInsurancePriceParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryInstancePrice(json)
+                .queryInstancePrice(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }

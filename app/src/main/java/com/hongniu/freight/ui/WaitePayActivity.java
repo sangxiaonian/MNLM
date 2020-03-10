@@ -41,6 +41,7 @@ public class WaitePayActivity extends CompanyBaseActivity {
     private Subscription sub;
     QueryPayInfoParams payInfoParams;//支付信息
     private PayType payType;//当前支付类型
+    private int type;//付款类型  	支付业务类型(1订单支付2补款运费支付3补购保险支付)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class WaitePayActivity extends CompanyBaseActivity {
             finish();
             return;
         }
+        type=payInfoParams.getPaybusiness();
 
         for (PayType value : PayType.values()) {
             if (value.getPayType() == payInfoParams.getPayType()) {
@@ -214,15 +216,27 @@ public class WaitePayActivity extends CompanyBaseActivity {
 
                     @Override
                     public void doOnSuccess(OrderStatusBean data) {
-                        if (data.getFreightStatus() == 1) {
+                        boolean success=false;
+                        if (type==1){
+                            //运费支付
+                          success=data.getFreightStatus() == 1;
+                        }else if (type==2){
+                            //补差额
+                            //TODO 差额支付成功字段
+
+                        }else if (type==3){
+                            success=data.getPayPolicyState()==1;
+
+                        }
+                        if (success){
                             //订单支付成功
                             // 设置结果，并进行传送
                             setResult(Activity.RESULT_OK);
                             finish();
-                        } else {
+                        }else {
                             sub.request(1);
-
                         }
+
                     }
 
                     @Override

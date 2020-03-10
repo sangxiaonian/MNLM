@@ -31,6 +31,7 @@ import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import java.util.List;
@@ -247,7 +248,7 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/deliveryOrder/premiumCalculate")
-    Observable<CommonBean<String>> queryInstancePrice(@Body JsonObject params);
+    Observable<CommonBean<String>> queryInstancePrice(@Body QueryInsurancePriceParams params);
 
     /**
      * 查询订单状态

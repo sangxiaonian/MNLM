@@ -20,15 +20,18 @@ public class PayMode implements PayControl.IPayMode {
     private OrderInfoBean orderInfo;
     private AccountDetailBean accountInfo;
     private PayType payType  ;//切换支付方式
+    private int type;//付款类型 支付业务类型(1订单支付2补款运费支付3补购保险支付)
 
     /**
      * 储存订单id
      *
      * @param id
+     * @param type
      */
     @Override
-    public void saveInfo(String id) {
+    public void saveInfo(String id, int type) {
         this.id = id;
+        this.type=type;
     }
 
     /**
@@ -85,11 +88,17 @@ public class PayMode implements PayControl.IPayMode {
     public float getOrderPrice() {
         float pay = 0;
         if (orderInfo != null) {
-            if (orderInfo.getInsurance() == 1) {
-                pay = (float) (orderInfo.getPolicyMoney() + orderInfo.getMoney());
-            } else {
-                pay = (float) orderInfo.getMoney();
-            }
+                if (type==1){//运费支付
+                    if (orderInfo.getInsurance() == 1) {
+                        pay = (float) (orderInfo.getPolicyMoney() + orderInfo.getMoney());
+                    } else {
+                        pay = (float) orderInfo.getMoney();
+                    }
+                }else if (type==2){//补运费支付
+                    pay = (float) orderInfo.getBalanceMoney();
+                }else if (type==3){//补购保险
+                    pay = (float) orderInfo.getPolicyMoney();
+                }
         }
         return pay;
     }
@@ -101,7 +110,7 @@ public class PayMode implements PayControl.IPayMode {
      */
     @Override
     public String getOrderPriceInfo() {
-        return ConvertUtils.changeFloat(getOrderPrice(), 2);
+        return "￥"+ConvertUtils.changeFloat(getOrderPrice(), 2);
     }
 
     /**
@@ -109,15 +118,23 @@ public class PayMode implements PayControl.IPayMode {
      */
     @Override
     public String getPriceDetail() {
+        String des="";
         if (orderInfo != null) {
-            if (orderInfo.getInsurance() == 1) {
-                return String.format("运费：%s\t保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
 
-            } else {
-                return String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));
+            if (type==1){//运费支付
+                if (orderInfo.getInsurance() == 1) {
+                    des=String.format("运费：%s\t\t保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
+                } else {
+                    des= String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));
+                }
+            }else if (type==2){//补运费支付
+                des= String.format("运费差额：%s", ConvertUtils.changeFloat(orderInfo.getBalanceMoney(), 2));
+            }else if (type==3){//补购保险
+                des= String.format("保费：%s", ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
+
             }
         }
-        return "";
+        return des;
     }
 
     /**
@@ -173,10 +190,21 @@ public class PayMode implements PayControl.IPayMode {
     @Override
     public QueryPayInfoParams getPayInfo() {
         QueryPayInfoParams payInfoParams = new QueryPayInfoParams();
-        payInfoParams.setPaybusiness(1);
+        payInfoParams.setPaybusiness(type);
         payInfoParams.setOrderId(id);
         payInfoParams.setPayType(payType.getPayType());
         payInfoParams.setOrderNum(orderInfo!=null?orderInfo.getOrderNum():"");
+
         return payInfoParams;
+    }
+
+    /**
+     * 获取支付类型
+     *
+     * @return
+     */
+    @Override
+    public int getType() {
+        return type;
     }
 }

@@ -17,10 +17,13 @@ import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
 import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.widget.dialog.inter.DialogControl;
 
 
@@ -39,9 +42,10 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
     private OrderInfoBean orderInfo;
     private InsuranceInfoBean insuranceInfo;
 
+    QueryInsurancePriceParams params;
 
     public InsuranceBuyDialog(@NonNull Context context) {
-
+        params = new QueryInsurancePriceParams();
         View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_insurance_buy, null);
         imgCancel = inflate.findViewById(R.id.img_cancel);
         item_cargo_price = inflate.findViewById(R.id.item_cargo_price);
@@ -89,12 +93,12 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
                 ToastUtils.getInstance().show("请输入货物价值");
                 return;
             }
-            if (TextUtils.isEmpty(item_insurance_name.getTextCenter())||insuranceInfo==null) {
+            if (TextUtils.isEmpty(item_insurance_name.getTextCenter()) || insuranceInfo == null) {
                 ToastUtils.getInstance().show("请选择被保险人");
                 return;
             }
             if (onInsuranceBuyListener != null) {
-                onInsuranceBuyListener.onEntryClick(this, item_cargo_price.getTextCenter(),orderInfo, insuranceInfo);
+                onInsuranceBuyListener.onEntryClick(this, item_cargo_price.getTextCenter(), orderInfo, insuranceInfo);
             }
 
         }
@@ -134,12 +138,24 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+        params.setGoodPrice(msg);
+
+        HttpAppFactory.queryInstancePrice(params)
+                .subscribe(new NetObserver<String>(null) {
+                    @Override
+                    public void doOnSuccess(String s) {
+                        super.doOnSuccess(s);
+                        item_cargo_price.setTextRight(String.format("保费 %s元", s));
+
+                    }
+                });
+
         item_cargo_price.setTextRight(String.format("保费 %s元", ConvertUtils.changeFloat(price, 2)));
     }
 
     public void setInsuranceInfo(InsuranceInfoBean def) {
         this.insuranceInfo = def;
-        if (insuranceInfo!=null){
+        if (insuranceInfo != null) {
             item_insurance_name.setTextCenter(insuranceInfo.getUsername());
         }
 
@@ -147,6 +163,12 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
 
     public void setOrderInfo(OrderInfoBean bean) {
         this.orderInfo = bean;
+        if (orderInfo != null) {
+            params.setDestinationLat(orderInfo.getDestinationLat());
+            params.setDestinationLon(orderInfo.getDestinationLon());
+            params.setStartPlaceLat(orderInfo.getDestinationLat());
+            params.setStartPlaceLon(orderInfo.getStartPlaceLon());
+        }
     }
 
     public interface OnInsuranceBuyListener {
@@ -159,6 +181,7 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
 
         /**
          * 点击确认按钮
+         *
          * @param insuranceBuyDialog
          * @param price
          * @param orderInfo

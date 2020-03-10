@@ -30,10 +30,11 @@ public class PayPresenter implements PayControl.IPayPresenter {
      * 储存订单id
      *
      * @param id
+     * @param type
      */
     @Override
-    public void saveInfo(String id) {
-        mode.saveInfo(id);
+    public void saveInfo(String id, int type) {
+        mode.saveInfo(id,type);
     }
 
     /**
@@ -126,7 +127,13 @@ public class PayPresenter implements PayControl.IPayPresenter {
      */
     @Override
     public void paySuccess() {
-        view.jump2Succes(mode.getOrderInfo());
-
+        int type = mode.getType();
+        if (type==1){
+            view.jump2Succes(mode.getOrderInfo());
+        }else if (type==2){
+            view.finishWithSuccess();
+        }else if (type==3){
+            view.finishWithSuccess();
+        }
     }
 }

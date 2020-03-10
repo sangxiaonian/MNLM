@@ -220,7 +220,7 @@ public class OrderCreateControl {
          * @param msg
          * @return
          */
-        String queryInsurancePrice(String msg);
+        Observable<CommonBean<String>> queryInsurancePrice(String msg);
     }
 
     ;

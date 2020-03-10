@@ -69,6 +69,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
         ArouterUtils.getInstance()
                 .builder(ArouterParamApp.activity_pay)
                 .withString(Param.TRAN, bean.getId())
+                .withInt(Param.TYPE,1)
                 .navigation(mContext);
     }
 
@@ -110,8 +111,8 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onPayInsuranceClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("购买保险");
-//TODO 购买保险
+//        ToastUtils.getInstance().show("购买保险");
+////TODO 购买保险
         InsuranceBuyDialog buyDialog=new InsuranceBuyDialog(mContext);
         buyDialog.setOrderInfo(bean);
         buyDialog.setOnInsuranceBuyListener(this);
@@ -487,6 +488,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                     ArouterUtils.getInstance()
                             .builder(ArouterParamApp.activity_pay)
                             .withString(Param.TRAN, orderInfo.getId())
+                            .withInt(Param.TYPE,3)
                             .navigation(mContext);
                 }
             });

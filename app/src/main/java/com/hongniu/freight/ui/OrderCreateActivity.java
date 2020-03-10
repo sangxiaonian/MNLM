@@ -341,6 +341,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("下单成功");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_pay)
                 .withString(Param.TRAN,o.getId())
+                .withInt(Param.TYPE,1)
                 .navigation((Activity) mContext,1);
         finish();
     }

@@ -31,6 +31,7 @@ import com.hongniu.thirdlibrary.pay.person.PasswordDialog;
  * @data 2020/3/5
  * @Author PING
  * @Description 支付页面
+ * 支付业务类型(1订单支付2补款运费支付3补购保险支付)
  */
 @Route(path = ArouterParamApp.activity_pay)
 public class PayActivity extends CompanyBaseActivity implements PayControl.IPayView, View.OnClickListener, PayWayView.PayWayChangeListener, PasswordDialog.OnPasswordDialogListener {
@@ -46,9 +47,10 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
         String id = getIntent().getStringExtra(Param.TRAN);
+        int type = getIntent().getIntExtra(Param.TYPE,1);
         setWhitToolBar("订单支付");
         presenter = new PayPresenter(this);
-        presenter.saveInfo(id);
+        presenter.saveInfo(id,type);
         initView();
         initData();
         initListener();
@@ -173,6 +175,14 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_pay_result)
                 .withParcelable(Param.TRAN, orderInfo)
                 .navigation(mContext);
+       finishWithSuccess();
+    }
+
+    /**
+     * 支付成功
+     */
+    @Override
+    public void finishWithSuccess() {
         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("支付成功");
         finish();
     }

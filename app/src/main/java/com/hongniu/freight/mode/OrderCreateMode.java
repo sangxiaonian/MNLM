@@ -1,9 +1,8 @@
 package com.hongniu.freight.mode;
 
+import com.amap.api.services.core.LatLonPoint;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
-import com.fy.androidlibrary.utils.ConvertUtils;
-import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.control.OrderCreateControl;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -11,6 +10,7 @@ import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.QueryInsurancePriceParams;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -260,14 +260,23 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
      * @return
      */
     @Override
-    public String queryInsurancePrice(String msg) {
-        float v=0;
-        try {
-              v = Float.parseFloat(msg);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public Observable<CommonBean<String>> queryInsurancePrice(String msg) {
+
+        QueryInsurancePriceParams params=new QueryInsurancePriceParams();
+        if (startInfor != null) {
+            LatLonPoint latLonPoint = startInfor.getPoiItem().getLatLonPoint();
+            params.setDestinationLat(latLonPoint.getLatitude() );
+            params.setDestinationLon(latLonPoint.getLongitude());
+
         }
-        return ConvertUtils.changeFloat(v* Param.INSURANCE,2);
+        if (endInfor!=null){
+            LatLonPoint latLonPoint = endInfor.getPoiItem().getLatLonPoint();
+            params.setDestinationLat(latLonPoint.getLatitude() );
+            params.setDestinationLon(latLonPoint.getLongitude());
+        }
+        params.setGoodPrice(msg);
+
+        return   HttpAppFactory.queryInstancePrice(params);
 
     }
 
