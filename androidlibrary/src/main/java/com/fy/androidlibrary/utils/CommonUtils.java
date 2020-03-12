@@ -178,4 +178,20 @@ public class CommonUtils {
         }
     }
 
+    /**
+     * 复制内容到剪贴板
+     *
+     * @param mContext
+     * @param msg
+     */
+    public static void copyToPlate(Context mContext, String msg) {
+        if (mContext != null && !TextUtils.isEmpty(msg)) {
+            //获取剪贴板管理器：
+            ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+// 创建普通字符型ClipData
+            ClipData mClipData = ClipData.newPlainText("Label", msg);
+// 将ClipData内容放到系统剪贴板里。
+            cm.setPrimaryClip(mClipData);
+        }
+    }
 }

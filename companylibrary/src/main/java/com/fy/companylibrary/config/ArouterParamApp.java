@@ -172,6 +172,10 @@ public class ArouterParamApp {
      * 被保险人相关信息
      */
     public static final String activity_insured_info = "/app/activity_insured_info";
+    /**
+     * 绑定银行卡
+     */
+    public static final String activity_bind_blank_card = "/app/activity_bind_blank_card";
 
 
 }

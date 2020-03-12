@@ -5,9 +5,11 @@ import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.BalanceWithDrawBean;
 import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
+import com.hongniu.freight.entity.BindBlankParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
@@ -23,11 +25,15 @@ import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
+import com.hongniu.freight.entity.PayInforBeans;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryBindHuaInforsBean;
+import com.hongniu.freight.entity.QueryBlankInforsBean;
 import com.hongniu.freight.entity.QueryExpendResultBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
+import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
@@ -69,8 +75,8 @@ public interface AppService {
     /**
      * 查询个人资料
      *
-     * @return
      * @param o
+     * @return
      */
     @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<PersonInfor>> queryMyInfo(@Body Object o);
@@ -234,7 +240,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/receive")
     Observable<CommonBean<Object>> orderEntryReceive(@Body JsonObject params);
- /**
+
+    /**
      * .确认收货
      *
      * @param params
@@ -300,7 +307,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/car/savecar")
     Observable<CommonBean<Object>> createCar(@Body CarInfoBean infoBean);
-   /**
+
+    /**
      * 删除修改车辆
      *
      * @return
@@ -315,6 +323,55 @@ public interface AppService {
      */
     @POST("wlhyapi/api/account/accountdetails")
     Observable<CommonBean<AccountDetailBean>> queryAccountDetails();
+
+    /**
+     * 查询充值账户信息
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/hxbaccount/rechargeInfo")
+    Observable<CommonBean<QueryBindHuaInforsBean>> queryRechargeInfo();
+
+    /**
+     * 查看是否已经开通华夏银行子账号
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/hxbaccount/querySubAcc")
+    Observable<CommonBean<QueryVeriBean>> querySubAcc();
+
+    /**
+     * 查询绑定银行卡时候支持的银行卡列表
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/refund/bankList")
+    Observable<CommonBean<List<QueryBlankInforsBean>>> queryBlanks();
+    /**
+     * 绑定银行卡
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/refund/add")
+    Observable<CommonBean<String>> bindBlank(@Body BindBlankParams params);
+
+    /**
+     * 获取我的付款方式
+     *
+     * @return
+     * @param o
+     */
+    @POST("wlhyapi/api/refund/queryMyCards")
+    Observable<CommonBean<List<PayInforBeans>>> queryMyCards(@Body Object o);
+    /**
+     * 解绑支付方式
+     *
+     * @return
+     * @param blankID
+     */
+    @POST("hongniu/api/refund/remove")
+    Observable<CommonBean<Object>> deleadCard(@Body JsonObject blankID);
+
 
     /**
      * 搜索账单
@@ -357,6 +414,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/account/accountflows")
     Observable<CommonBean<PageBean<BillInfoListBean>>> queryAccountFlows(@Body AccountFlowParams params);
+    /**
+     * 提现
+     *
+     * @param bean
+     * @return
+     */
+    @POST("wlhyapi//api/account/withdraw")
+    Observable<CommonBean<String>> withdraw(@Body BalanceWithDrawBean bean);
 
     /**
      * 查询支付需要的数据
@@ -390,6 +455,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/userinsured/delete")
     Observable<CommonBean<String>> deletedInsuredInfor(@Body LoginCreatInsuredBean beans);
+
     /**
      * 新增被保险人信息
      *

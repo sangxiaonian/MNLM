@@ -47,6 +47,7 @@ public class H5Activity extends CompanyBaseActivity implements XWebView.OnReceiv
     protected void initListener() {
         super.initListener();
         webView.setOnReceivedTitleListener(this);
+
     }
 
     @Override

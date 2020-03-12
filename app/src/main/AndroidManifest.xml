@@ -28,7 +28,9 @@
         <activity android:name=".ui.OrderCreateActivity" />
         <activity android:name=".ui.SearchCarActivity" />
         <activity android:name=".ui.AssignOrderActivity" />
-        <activity android:name=".ui.BalancePendingActivity" />
+        <activity
+            android:name=".ui.BalancePendingActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".ui.BalanceActivity" />
         <activity android:name=".ui.BillSearchActivity" />
         <activity android:name=".ui.BillMonthActivity" />
@@ -59,7 +61,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.InsureanceInfodActivity" /> <!-- 高德地图 -->
+        <activity android:name=".ui.InsureanceInfodActivity" />
+        <activity android:name=".ui.BindBlankCardActivity" /> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="1457998aaed653947f53734c7bd5f47a" />

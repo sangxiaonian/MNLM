@@ -13,9 +13,11 @@ import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.BalanceWithDrawBean;
 import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
 import com.hongniu.freight.entity.BillInfoSearchParams;
+import com.hongniu.freight.entity.BindBlankParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
@@ -31,11 +33,15 @@ import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
+import com.hongniu.freight.entity.PayInforBeans;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryBindHuaInforsBean;
+import com.hongniu.freight.entity.QueryBlankInforsBean;
 import com.hongniu.freight.entity.QueryExpendResultBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
+import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
 import com.hongniu.freight.entity.VerifyCarrierPersonParams;
@@ -462,8 +468,8 @@ public class HttpAppFactory {
     /**
      * 根据货物价格查询保费
      *
-     * @return
      * @param params
+     * @return
      */
     public static Observable<CommonBean<String>> queryInstancePrice(QueryInsurancePriceParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
@@ -587,6 +593,83 @@ public class HttpAppFactory {
     }
 
     /**
+     * @return
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查询账户开户行信息
+     */
+    public static Observable<CommonBean<QueryBindHuaInforsBean>> queryRechargeInfo() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryRechargeInfo()
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * @return
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查看是否已经开通华夏银行子账号
+     */
+    public static Observable<CommonBean<QueryVeriBean>> querySubAcc() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .querySubAcc()
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 查询绑定银行卡时候，支持的银行列表
+     *
+     * @return
+     */
+    public static Observable<CommonBean<List<QueryBlankInforsBean>>> queryBlanks() {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryBlanks()
+                .compose(RxUtils.<CommonBean<List<QueryBlankInforsBean>>>getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
+     * 绑定银行卡
+     *
+     * @return
+     */
+    public static Observable<CommonBean<String>> bindBlanks(BindBlankParams params) {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .bindBlank(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
+     * 查询收款方式列表
+     *
+     * @return
+     */
+    public static Observable<CommonBean<List<PayInforBeans>>> queryMyCards() {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryMyCards(new Object())
+                .compose(RxUtils.getSchedulersObservableTransformer());
+
+    }
+
+    /**
+     * 解绑支付方式
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> deleadCard(String id) {
+        JsonObject object = new JsonObject();
+        object.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .deleadCard(object)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+
+    }
+
+    /**
      * @param params
      * @return
      * @data 2020/3/3
@@ -610,6 +693,22 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryAccountFlows(params)
                 .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 余额提现
+     *
+     * @param amount      提现金额
+     * @param payPassword 密码
+     * @param refundId    提现方式的ID
+     * @return
+     */
+    public static Observable<CommonBean<String>> withdraw(String amount, String payPassword, String refundId) {
+        BalanceWithDrawBean bean = new BalanceWithDrawBean(amount, ConvertUtils.MD5(payPassword), refundId);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .withdraw(bean)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer())
+                ;
     }
     /**
      * 运费支出图表数据
@@ -642,7 +741,7 @@ public class HttpAppFactory {
      */
     public static Observable<CommonBean<List<QueryExpendResultBean>>> queryInComeVistogram(BillInfoSearchParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryInComeVistogram( params )
+                .queryInComeVistogram(params)
                 .compose(RxUtils.<CommonBean<List<QueryExpendResultBean>>>getSchedulersObservableTransformer());
     }
 
