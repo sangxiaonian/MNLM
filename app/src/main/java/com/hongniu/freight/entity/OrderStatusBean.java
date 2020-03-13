@@ -11,8 +11,18 @@ public class OrderStatusBean {
    private String downloadUrl;//	false	string	保单下载地址
    private String policyUrl;//	false	string	保单查询链接
    private int payPolicyState;//	true	string	保费 0未支付1支付成功
-   private String errormsg;//	false	string	投保失败返回结果
+   private int balanceFreightStatus;//	差额运费支付状态: 0待支付 1支付成功
+
+    private String errormsg;//	false	string	投保失败返回结果
    private int freightStatus;//	true	number	运费支付状态: 0待支付 1支付成功
+
+    public int getBalanceFreightStatus() {
+        return balanceFreightStatus;
+    }
+
+    public void setBalanceFreightStatus(int balanceFreightStatus) {
+        this.balanceFreightStatus = balanceFreightStatus;
+    }
 
     public int getOrderState() {
         return orderState;

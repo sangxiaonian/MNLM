@@ -222,11 +222,9 @@ public class WaitePayActivity extends CompanyBaseActivity {
                           success=data.getFreightStatus() == 1;
                         }else if (type==2){
                             //补差额
-                            //TODO 差额支付成功字段
-
+                            success=data.getBalanceFreightStatus()==1;
                         }else if (type==3){
                             success=data.getPayPolicyState()==1;
-
                         }
                         if (success){
                             //订单支付成功
