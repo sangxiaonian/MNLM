@@ -232,6 +232,15 @@ public interface AppService {
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
 
     /**
+     * 平台运功修改订单补款金额
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/updateFare")
+    Observable<CommonBean<Object>> updateFare(@Body JsonObject params);
+
+    /**
      * 开始发车 立即发车
      *
      * @param params

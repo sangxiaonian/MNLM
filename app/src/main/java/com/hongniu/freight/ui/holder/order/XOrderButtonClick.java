@@ -29,6 +29,7 @@ import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
 import com.hongniu.freight.widget.DialogComment;
+import com.hongniu.freight.widget.dialog.BalancePayDialog;
 import com.hongniu.freight.widget.dialog.InsuranceBuyDialog;
 import com.hongniu.freight.widget.dialog.InsuranceDialog;
 import com.hongniu.freight.widget.dialog.inter.DialogControl;
@@ -107,8 +108,13 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onPayBalanceClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("差额支付");
-//TODO 差额支付
+//        ToastUtils.getInstance().show("差额支付");
+//  差额支付
+        ArouterUtils.getInstance()
+                .builder(ArouterParamApp.activity_pay)
+                .withString(Param.TRAN, bean.getId())
+                .withInt(Param.TYPE,2)
+                .navigation(mContext);
     }
 
     /**
@@ -207,9 +213,27 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                     @Override
                     public void onRightClick(View view, Dialog dialog) {
                         dialog.dismiss();
-                        ToastUtils.getInstance().show("设置差额");
-                        //TODO 设置差额
+//                        ToastUtils.getInstance().show("设置差额");
+                        BalancePayDialog balancePayDialog=new BalancePayDialog(mContext);
+                        balancePayDialog.setPrice(ConvertUtils.changeFloat(bean.getMoney(),2));
+                        balancePayDialog.setOnBalancePayListener(new BalancePayDialog.OnBalancePayListener() {
+                            @Override
+                            public void onEntryClick(BalancePayDialog insuranceBuyDialog, String price) {
+                                        insuranceBuyDialog.dismiss();
+                                        HttpAppFactory.updateFare(bean.getId(),price)
+                                                .subscribe(new NetObserver<Object>(listener){
+                                                    @Override
+                                                    public void doOnSuccess(Object o) {
+                                                        super.doOnSuccess(o);
+                                                        if (nextStepListener!=null){
+                                                            nextStepListener.doUpdate();
+                                                        }
+                                                    }
+                                                });
 
+                            }
+                        });
+                        balancePayDialog.show();
                     }
                 })
                 .creatDialog(mContext)
@@ -224,8 +248,6 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onEvaluateClick(OrderInfoBean bean) {
-//        ToastUtils.getInstance().show("评价");
-        //TODO 评价
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_appraise)
                 .withString(Param.TRAN,bean.getId())
                 .withSerializable(Param.TYPE, type)

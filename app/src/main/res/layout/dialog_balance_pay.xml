@@ -43,48 +43,24 @@
         android:layout_margin="@dimen/gap_app"
         android:background="@color/line_color" />
 
-    <com.fy.companylibrary.widget.ItemTextView
-        android:id="@+id/item_cargo_price"
-        style="@style/item_edit"
-        app:centerType="number"
-        app:colorRight="@color/color_of_e50000"
-        app:sizeright="15dp"
-        app:textcenterhide="请输入货物价值"
-        app:textleft="货物价值"
-        app:textright="保费 0 元" />
-
-    <com.fy.companylibrary.widget.ItemTextView
-        android:id="@+id/item_insurance_name"
-        style="@style/item_text"
-        app:sizeright="15dp"
-        app:textcenterhide="请选择被保险人"
-        app:textleft="被保险人" />
-
-    <LinearLayout
-        android:id="@+id/ll_insurance"
+    <TextView
+        android:id="@+id/tv_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/ovl_5_ffffff"
-        android:orientation="horizontal"
-        android:padding="@dimen/gap_app">
+        android:paddingLeft="@dimen/gap_app"
+        android:paddingRight="@dimen/gap_app"
+        android:text="当前订单已支付运费：0元"
+        android:textSize="15dp"
+        android:textColor="@color/color_of_040000"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+         />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下单即代表同意"
-            android:textColor="@color/color_of_999999"
-            android:textSize="12dp" />
-
-        <TextView
-            android:id="@+id/tv_agreement_insurance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="《泓牛(远恒)货运综合险》"
-            android:textColor="@color/color_of_3d5688"
-            android:textSize="12dp" />
-    </LinearLayout>
+    <com.fy.companylibrary.widget.ItemTextView
+        android:id="@+id/item_balance_pay"
+        style="@style/item_edit"
+        app:textcenterhide="请输入需要补款的金额"
+        app:textleft="需补款金额(元)" />
 
     <View
         android:layout_width="wrap_content"
@@ -93,7 +69,7 @@
 
     <TextView
         android:id="@+id/bt_sum"
-        android:text="确定购买"
+        android:text="确定提交"
         style="@style/bt_red" />
 
 </LinearLayout>

@@ -434,6 +434,20 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
+   /**
+     * 平台运功修改订单补款金额
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> updateFare(String id,String price) {
+        JsonObject object=new JsonObject();
+        object.addProperty("id",id);
+        object.addProperty("balanceMoney",price);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .updateFare(object)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
 
     /**
      * 立即发车 开始发车
