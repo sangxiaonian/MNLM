@@ -1,9 +1,15 @@
 package com.hongniu.freight.presenter;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
+import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.OrderDetailControl;
+import com.hongniu.freight.entity.AppInsuranceInfo;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.mode.OrderDetailMode;
 
@@ -75,8 +81,16 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
      * 联系承运人
      */
     @Override
-    public void contactOwner() {
+    public void contactCarrier() {
         view.statCall(mode.getOrderInfo().getOwnerMobile());
+    }
+
+    /**
+     * 联系司机
+     */
+    @Override
+    public void contactDriver() {
+        view.statCall(mode.getOrderInfo().getDriverMobile());
     }
 
     /**
@@ -88,4 +102,20 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
         String[] buttonMsg = mode.getButtonMsg();
         view.clickButton(buttonMsg[i],mode.getOrderInfo());
     }
+
+    /**
+     * 查看保单
+     */
+    @Override
+    public void checkInsurance() {
+        AppInsuranceInfo insurance = mode.getInsurance();
+        if (insurance!=null) {
+            view.checkInsurance(insurance);
+
+        }else {
+            view.showError("保单信息异常,请稍后再试");
+        }
+    }
+
+
 }

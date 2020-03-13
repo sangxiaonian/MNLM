@@ -4,6 +4,7 @@ import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
+import com.hongniu.freight.entity.AppInsuranceInfo;
 import com.hongniu.freight.entity.OrderInfoBean;
 
 import io.reactivex.Observable;
@@ -67,6 +68,18 @@ public class OrderDetailControl {
         void clickButton(String s, OrderInfoBean orderInfo);
 
         void initClick(RoleOrder roler);
+
+        /**
+         * 展示错误提现
+         * @param errorInfo
+         */
+        void showError(String errorInfo);
+
+        /**
+         * 查看保单信息
+         * @param insurance
+         */
+        void checkInsurance(AppInsuranceInfo insurance);
     }
     public interface IOrderDetailPresenter{
         /**
@@ -95,13 +108,25 @@ public class OrderDetailControl {
         /**
          * 联系承运人
          */
-        void contactOwner();
-
+        void contactCarrier();
+        /**
+         * 联系司机
+         */
+        void contactDriver();
         /**
          * 点击按钮
          * @param i
          */
         void clickButton(int i);
+
+        /**
+         * 查看保单
+         */
+        void checkInsurance();
+
+
+
+
     }
     public interface IOrderDetailMode{
         /**
@@ -145,5 +170,11 @@ public class OrderDetailControl {
          * @return true 显示
          */
         boolean isShowCarInfo();
+
+        /**
+         * 获取保单信息
+         * @return
+         */
+        AppInsuranceInfo getInsurance();
     }
 }

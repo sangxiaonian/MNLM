@@ -67,7 +67,7 @@ public class OrderInfoBean implements Parcelable {
     private double destinationLon;//": 121.401128,
     private double destinationLat;//": 31.310851,
     private String remark;//": null,
-    private String totalMoney;//": 1,
+    private double totalMoney;//": 1,
     private String payTime;//": null,
     private String payWay;//": null,
     private String isRefundRecord;//": null,
@@ -154,11 +154,11 @@ public class OrderInfoBean implements Parcelable {
         this.balanceMoney = balanceMoney;
     }
 
-    public String getTotalMoney() {
+    public double getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(String totalMoney) {
+    public void setTotalMoney(double totalMoney) {
         this.totalMoney = totalMoney;
     }
 
@@ -596,13 +596,16 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.ownerName);
         dest.writeString(this.ownerMobile);
         dest.writeDouble(this.balanceMoney);
+        dest.writeString(this.policyNum);
+        dest.writeString(this.companyName);
+        dest.writeString(this.policyInfo);
         dest.writeString(this.userId);
         dest.writeDouble(this.startPlaceLon);
         dest.writeDouble(this.startPlaceLat);
         dest.writeDouble(this.destinationLon);
         dest.writeDouble(this.destinationLat);
         dest.writeString(this.remark);
-        dest.writeString(this.totalMoney);
+        dest.writeDouble(this.totalMoney);
         dest.writeString(this.payTime);
         dest.writeString(this.payWay);
         dest.writeString(this.isRefundRecord);
@@ -657,13 +660,16 @@ public class OrderInfoBean implements Parcelable {
         this.ownerName = in.readString();
         this.ownerMobile = in.readString();
         this.balanceMoney = in.readDouble();
+        this.policyNum = in.readString();
+        this.companyName = in.readString();
+        this.policyInfo = in.readString();
         this.userId = in.readString();
         this.startPlaceLon = in.readDouble();
         this.startPlaceLat = in.readDouble();
         this.destinationLon = in.readDouble();
         this.destinationLat = in.readDouble();
         this.remark = in.readString();
-        this.totalMoney = in.readString();
+        this.totalMoney = in.readDouble();
         this.payTime = in.readString();
         this.payWay = in.readString();
         this.isRefundRecord = in.readString();

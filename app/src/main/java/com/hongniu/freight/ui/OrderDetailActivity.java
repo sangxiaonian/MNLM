@@ -19,12 +19,15 @@ import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.OrderDetailControl;
+import com.hongniu.freight.entity.AppInsuranceInfo;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.OrderDetailPresenter;
 import com.hongniu.freight.ui.holder.order.CustomOrderButtonClick;
@@ -165,7 +168,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         appendClick(builder, "联系司机", new XClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                ToastUtils.getInstance().show("联系司机");
+                presenter.contactDriver();
             }
 
         }
@@ -195,21 +198,45 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         tv_detail.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
         int titleColor = getResources().getColor(R.color.color_of_666666);
+        int contactColor = getResources().getColor(R.color.color_of_3d5688);
+
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor, "实际运费", color, "1600元", builder);
-        append(titleColor, "货物保费", color, "1600元", builder);
-        append(titleColor, "货物运费", color, "1500元", builder);
+        append(titleColor, "实际运费", color, String.format("%s元",ConvertUtils.changeFloat(infoBean.getTotalMoney(),2)), builder);
+
+        if (infoBean.getInsurance()==1) {
+
+            append(titleColor, builder, "货物保费");
+            builder.append(gap);
+            append(color, builder, String.format("%s元",ConvertUtils.changeFloat(infoBean.getPolicyMoney(),2)));
+            appendLine(builder);
+            appendClick(builder, "查看保单"
+                    , new XClickableSpan() {
+                        @Override
+                        public void onClick(@NonNull View widget) {
+                            presenter.checkInsurance();
+//                            ToastUtils.getInstance().show("查看保单");
+                        }
+
+                    }
+                            .setColor(contactColor));
+
+            builder.append("\n");
+
+
+            append(titleColor, "被保险人", color, String.format("%s %s",infoBean.getInsureUsername(),infoBean.getInsureIdnumber()), builder);
+        }
+        append(titleColor, "货物运费", color,  String.format("%s元",ConvertUtils.changeFloat(infoBean.getMoney(),2)), builder);
         append(titleColor, "下单时间", color, ConvertUtils.formatTime(infoBean.getCreateTime(), "yyyy-MM-dd HH:mm:ss"), builder);
         append(titleColor, "发货时间", color, TextUtils.isEmpty(infoBean.getDepartureTime()) ? "立即发货" : infoBean.getDepartureTime(), builder);
         append(titleColor, "货物名称", color, infoBean.getGoodName(), builder);
 
         append(titleColor, builder, "货物信息");
         builder.append(gap);
-        append(color, builder, infoBean.getGoodWeight());
+        append(color, builder, String.format("%skg",infoBean.getGoodWeight()));
         appendLine(builder);
-        append(color, builder, infoBean.getGoodVolume());
+        append(color, builder, String.format("%sm³",infoBean.getGoodVolume()));
         appendLine(builder);
-        append(color, builder, infoBean.getGoodPrice());
+        append(color, builder,  String.format("%s元",infoBean.getGoodPrice()));
 
         tv_detail.setText(builder);
     }
@@ -249,6 +276,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
                 , new XClickableSpan() {
                     @Override
                     public void onClick(@NonNull View widget) {
+                        presenter.contactCarrier();
                         ToastUtils.getInstance().show("联系承运人");
                     }
 
@@ -299,6 +327,30 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         xOrderButtonClick.setType(roler);
         xOrderButtonClick.setNextStepListener(this);
         customOrderButtonClick = new CustomOrderButtonClick(xOrderButtonClick);
+    }
+
+    /**
+     * 展示错误提现
+     *
+     * @param errorInfo
+     */
+    @Override
+    public void showError(String errorInfo) {
+        ToastUtils.getInstance().show(errorInfo);
+
+    }
+
+    /**
+     * 查看保单信息
+     *
+     * @param insurance
+     */
+    @Override
+    public void checkInsurance(AppInsuranceInfo insurance) {
+        H5Config h5Config = new H5Config("查看保单", insurance.getDownloadUrl(), false);
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
+                .withSerializable(Param.TRAN, h5Config)
+                .navigation(mContext);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {
@@ -353,6 +405,6 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     @Override
     protected void onRestart() {
         super.onRestart();
-        presenter.queryDetail(this);
+        presenter.queryDetail(null);
     }
 }

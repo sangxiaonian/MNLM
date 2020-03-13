@@ -1,11 +1,18 @@
 package com.hongniu.freight.mode;
 
+import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
-import com.hongniu.freight.config.OrderButtonConfig;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.OrderDetailControl;
+import com.hongniu.freight.entity.AppInsuranceInfo;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
@@ -129,6 +136,22 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
                 || getStatus()==Status.ARRIVE
                 || getStatus()==Status.RECEIVING
         ;
+    }
+
+    /**
+     * 获取保单信息
+     * @return
+     */
+    @Override
+    public AppInsuranceInfo getInsurance() {
+        AppInsuranceInfo orderCreatBean = null;
+        try {
+            orderCreatBean = new Gson().fromJson(infoBean.getPolicyInfo(), AppInsuranceInfo.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return orderCreatBean;
     }
 
 
