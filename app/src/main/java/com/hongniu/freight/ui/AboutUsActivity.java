@@ -58,13 +58,12 @@ public class AboutUsActivity extends CompanyBaseActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.tv_privacy){
-            //TODO 隐私政策地址
-            H5Config h5Config = new H5Config(tv_privacy.getText().toString(), Param.ABOUT_US, true);
+            H5Config h5Config = new H5Config(tv_privacy.getText().toString(), Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         }else  if (v.getId()==R.id.tv_agreement) {
             //TODO 协议地址
-            H5Config h5Config = new H5Config(tv_agreement.getText().toString(), Param.ABOUT_US, true);
+            H5Config h5Config = new H5Config(tv_agreement.getText().toString(), Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         }

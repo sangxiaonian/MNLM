@@ -19,6 +19,7 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.AppInsuranceInfo;
@@ -140,11 +141,20 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onCheckInsuranceClick(OrderInfoBean bean) {
-        AppInsuranceInfo orderCreatBean = new Gson().fromJson(bean.getPolicyInfo(), AppInsuranceInfo.class);
-        H5Config h5Config = new H5Config("查看保单", orderCreatBean.getDownloadUrl(), false);
-        ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
-                .withSerializable(Param.TRAN, h5Config)
-                .navigation(mContext);
+        AppInsuranceInfo orderCreatBean = null;
+            try {
+                orderCreatBean = new Gson().fromJson(bean.getPolicyInfo(), AppInsuranceInfo.class);
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            }
+        if (orderCreatBean!=null) {
+            H5Config h5Config = new H5Config("查看保单", orderCreatBean.getDownloadUrl(), false);
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
+                    .withSerializable(Param.TRAN, h5Config)
+                    .navigation(mContext);
+        }else {
+            ToastUtils.getInstance().show("保单信息异常,请稍后再试");
+        }
     }
 
     /**

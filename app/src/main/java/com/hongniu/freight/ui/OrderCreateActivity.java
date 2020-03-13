@@ -24,6 +24,7 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -189,9 +190,14 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 //            ToastUtils.getInstance().show("是否购买保险");
             presenter.onSwitchIsInsurance();
         } else if (R.id.tv_agreement_insurance == v.getId()) {
-            ToastUtils.getInstance().show("泓牛供应链保险协议");
+            H5Config h5Config = new H5Config("泓牛(远恒)货运综合险", Param.insurance_notify, true);
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
+
         } else if (R.id.tv_agreement == v.getId()) {
-            ToastUtils.getInstance().show("泓牛供应链协议");
+            //TODO 泓牛供应链合同协议
+            H5Config h5Config = new H5Config("泓牛供应链合同协议", Param.hongniu_agreement, true);
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
+
         } else if (R.id.item_insurance_name == v.getId()) {
 //            ToastUtils.getInstance().show("选择被保险人");
             presenter.showInsuranceInfo(this);

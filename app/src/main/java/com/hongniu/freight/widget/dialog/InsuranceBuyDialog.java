@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -16,10 +17,13 @@ import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -32,6 +36,7 @@ import com.hongniu.freight.widget.dialog.inter.DialogControl;
  * 购买保险
  */
 public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickListener, SearchTextWatcher.SearchTextChangeListener {
+    private   TextView tv_agreement_insurance;
     private View imgCancel;
     private View btSum;
     private Dialog dialog;
@@ -50,6 +55,7 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
         imgCancel = inflate.findViewById(R.id.img_cancel);
         item_cargo_price = inflate.findViewById(R.id.item_cargo_price);
         item_insurance_name = inflate.findViewById(R.id.item_insurance_name);
+        tv_agreement_insurance = inflate.findViewById(R.id.tv_agreement_insurance);
         btSum = inflate.findViewById(R.id.bt_sum);
         initListener();
         dialog = new Dialog(context);
@@ -66,6 +72,7 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
         item_cargo_price.getEtCenter().addTextChangedListener(new SearchTextWatcher(this));
         imgCancel.setOnClickListener(this);
         item_insurance_name.setOnClickListener(this);
+        tv_agreement_insurance.setOnClickListener(this);
         btSum.setOnClickListener(this);
 
     }
@@ -88,6 +95,9 @@ public class InsuranceBuyDialog implements DialogControl.IDialog, View.OnClickLi
                 onInsuranceBuyListener.onChoiceInsurance(this);
             }
 
+        }else if (v.getId() == R.id.tv_agreement_insurance) {
+            H5Config h5Config = new H5Config("泓牛(远恒)货运综合险", Param.insurance_notify, true);
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation();
         } else if (v.getId() == R.id.bt_sum) {
             if (TextUtils.isEmpty(item_cargo_price.getTextCenter())) {
                 ToastUtils.getInstance().show("请输入货物价值");
