@@ -1,5 +1,6 @@
 package com.hongniu.freight;
 
+import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.net.OkHttp;
 import com.fy.baselibrary.BaseApp;
 import com.fy.companylibrary.config.Param;
@@ -21,8 +22,11 @@ public class App extends BaseApp {
             Param.baseUrl = Param.debugUrl;
         } else {
             Param.baseUrl = Param.releaseUrl;
-
         }
+
+        ImageLoader.getLoader().headErrorImg(R.mipmap.icon_default_avatar_100);
+        ImageLoader.getLoader().headPlaceholder(R.mipmap.icon_default_avatar_100);
+
         CompanyClient.getInstance()
                 .addInterceptor(new HeardInterceptor(this))
                 .addInterceptor(new LoginOutRespondInterceptor(this))

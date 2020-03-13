@@ -61,10 +61,13 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> implemen
         return new XAdapter<OrderInfoBean>(mContext, datas) {
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
+                XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(mContext);
+                xOrderButtonClick.setNextStepListener(OrderCenterActivity.this::doUpdate);
+                xOrderButtonClick.setType(RoleOrder.CARRIER);
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)
                         .setType(RoleOrder.CARRIER)
-                        .setOrderButtonClickListener(new XOrderButtonClick(mContext))
+                        .setOrderButtonClickListener(xOrderButtonClick)
                         .build()
                         ;
             }

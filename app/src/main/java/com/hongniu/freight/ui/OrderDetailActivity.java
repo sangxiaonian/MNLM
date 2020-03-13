@@ -96,7 +96,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         img_end_chat.setOnClickListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
-        customOrderButtonClick = new CustomOrderButtonClick(new XOrderButtonClick(this));
+
     }
 
     protected void setWhitToolBar(String title) {
@@ -291,6 +291,14 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     @Override
     public void clickButton(String s, OrderInfoBean orderInfo) {
         customOrderButtonClick.performClick(s, orderInfo);
+    }
+
+    @Override
+    public void initClick(RoleOrder roler) {
+        XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(this);
+        xOrderButtonClick.setType(roler);
+        xOrderButtonClick.setNextStepListener(this);
+        customOrderButtonClick = new CustomOrderButtonClick(xOrderButtonClick);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {

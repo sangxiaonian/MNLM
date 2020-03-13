@@ -77,6 +77,10 @@ public class ArouterParamApp {
      * 立即派单
      */
     public static final String activity_assign_order = "/app/activity_assign_order";
+     /**
+     * 评价
+     */
+    public static final String activity_appraise = "/app/activity_appraise";
     /**
      * 立刻派单搜索除车辆
      */
@@ -176,6 +180,11 @@ public class ArouterParamApp {
      * 绑定银行卡
      */
     public static final String activity_bind_blank_card = "/app/activity_bind_blank_card";
+
+   /**
+     * 查看保单
+     */
+    public static final String activity_pdf = "/app/activity_pdf";
 
 
 }

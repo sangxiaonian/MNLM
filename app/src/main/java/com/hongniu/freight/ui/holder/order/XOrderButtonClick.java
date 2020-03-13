@@ -3,6 +3,7 @@ package com.hongniu.freight.ui.holder.order;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.amap.api.maps.model.LatLng;
@@ -17,7 +18,12 @@ import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
+import com.google.gson.Gson;
+import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.entity.AppInsuranceInfo;
 import com.hongniu.freight.entity.BuyInsuranceParams;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -39,6 +45,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     private Context mContext;
     private TaskControl.OnTaskListener listener;
     private NextStepListener nextStepListener;
+    private RoleOrder type;
 
 
     public XOrderButtonClick(Context mContext) {
@@ -112,7 +119,6 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onPayInsuranceClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("购买保险");
-////TODO 购买保险
         InsuranceBuyDialog buyDialog=new InsuranceBuyDialog(mContext);
         buyDialog.setOrderInfo(bean);
         buyDialog.setOnInsuranceBuyListener(this);
@@ -128,8 +134,11 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onCheckInsuranceClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("查看保单");
-//TODO 查看保单
+        AppInsuranceInfo orderCreatBean = new Gson().fromJson(bean.getPolicyInfo(), AppInsuranceInfo.class);
+        H5Config h5Config = new H5Config("查看保单", orderCreatBean.getDownloadUrl(), false);
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
+                .withSerializable(Param.TRAN, h5Config)
+                .navigation(mContext);
     }
 
     /**
@@ -215,8 +224,12 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onEvaluateClick(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("评价");
+//        ToastUtils.getInstance().show("评价");
         //TODO 评价
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_appraise)
+                .withString(Param.TRAN,bean.getId())
+                .withSerializable(Param.TYPE, type)
+                .navigation((Activity) mContext,1);
     }
 
     /**
@@ -495,6 +508,10 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
         ;
 
 
+    }
+
+    public void setType(RoleOrder type) {
+        this.type=type;
     }
 
     public interface NextStepListener {

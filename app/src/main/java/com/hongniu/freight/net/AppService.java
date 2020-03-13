@@ -5,6 +5,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.AppraiseParams;
 import com.hongniu.freight.entity.BalanceWithDrawBean;
 import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
@@ -27,6 +28,7 @@ import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PayInforBeans;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryAppraiseInfo;
 import com.hongniu.freight.entity.QueryBindHuaInforsBean;
 import com.hongniu.freight.entity.QueryBlankInforsBean;
 import com.hongniu.freight.entity.QueryExpendResultBean;
@@ -179,6 +181,21 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/detail")
     Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
+
+    /**
+     * 查询评价数据
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/searchOrderUserInfo")
+    Observable<CommonBean<QueryAppraiseInfo>> queryAppraise(@Body JsonObject params);
+ /**
+     * 评价员工
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/evaluate")
+    Observable<CommonBean<Object>> appraise(@Body AppraiseParams params);
 
     /**
      * 取消订单

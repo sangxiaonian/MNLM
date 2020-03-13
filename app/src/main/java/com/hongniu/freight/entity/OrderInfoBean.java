@@ -33,7 +33,33 @@ public class OrderInfoBean implements Parcelable {
     private String ownerName;//	false	stringstring	承运人姓名
     private String ownerMobile;//	false		承运人手机
     private double balanceMoney;//	false		运费差额
+   private String policyNum;//	false	string	保单号
+   private String companyName;//	false	string	保险公司简称
+   private String policyInfo;//	false	string	保单信息
 
+    public String getPolicyNum() {
+        return policyNum;
+    }
+
+    public void setPolicyNum(String policyNum) {
+        this.policyNum = policyNum;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPolicyInfo() {
+        return policyInfo;
+    }
+
+    public void setPolicyInfo(String policyInfo) {
+        this.policyInfo = policyInfo;
+    }
 
     private String userId;//": 268,
     private double startPlaceLon;//": 121.40225,

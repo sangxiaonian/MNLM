@@ -11,8 +11,9 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
-        tools:replace="android:allowBackup">
-        <activity android:name=".ui.PayResultActivity"></activity>
+        tools:replace="android:allowBackup,android:theme">
+        <activity android:name=".ui.AppraiseActivity"></activity>
+        <activity android:name=".ui.PayResultActivity" />
         <activity android:name=".ui.OrderFindCarActivity" />
         <activity
             android:name=".ui.PayActivity"
@@ -62,7 +63,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.InsureanceInfodActivity" />
-        <activity android:name=".ui.BindBlankCardActivity" /> <!-- 高德地图 -->
+        <activity android:name=".ui.BindBlankCardActivity" />
+        <activity android:name=".ui.PDFActivity" /> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="1457998aaed653947f53734c7bd5f47a" />

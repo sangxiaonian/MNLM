@@ -104,6 +104,7 @@ public class MyOrderFragment extends RefrushFragmet<OrderInfoBean> implements XO
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
                 XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(mContext);
+                xOrderButtonClick.setType(presenter.getType());
                 xOrderButtonClick.setNextStepListener(MyOrderFragment.this);
                 return new OrderHolderBuider(mContext)
                         .setParent(parent)

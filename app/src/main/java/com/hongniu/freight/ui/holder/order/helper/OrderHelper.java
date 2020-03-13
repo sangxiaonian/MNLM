@@ -13,7 +13,7 @@ import java.util.Map;
 public class OrderHelper implements HelperControl {
     HelperControl helper;
     RoleOrder role;
-    boolean insurance;//是否购买保险,默认未购买
+
 
     public OrderHelper(RoleOrder role) {
         this.role = role;
@@ -42,7 +42,7 @@ public class OrderHelper implements HelperControl {
      */
     @Override
     public HelperControl setInsurance(boolean isInsurance) {
-        helper.setInsurance(insurance);
+        helper.setInsurance(isInsurance);
         return this;
     }
 

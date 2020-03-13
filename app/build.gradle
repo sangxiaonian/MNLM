@@ -86,6 +86,9 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation "androidx.dynamicanimation:dynamicanimation:1.0.0"
     implementation project(path: ':ThirdLibrary')
-
+    //https://github.com/barteksc/AndroidPdfViewer pdf
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    //星等级评价
+    api 'com.hedgehog.ratingbar:app:1.1.2'
 
 }

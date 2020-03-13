@@ -13,6 +13,7 @@ import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.AppraiseParams;
 import com.hongniu.freight.entity.BalanceWithDrawBean;
 import com.hongniu.freight.entity.BillInfoBean;
 import com.hongniu.freight.entity.BillInfoListBean;
@@ -35,6 +36,7 @@ import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PayInforBeans;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryAppraiseInfo;
 import com.hongniu.freight.entity.QueryBindHuaInforsBean;
 import com.hongniu.freight.entity.QueryBlankInforsBean;
 import com.hongniu.freight.entity.QueryExpendResultBean;
@@ -326,6 +328,29 @@ public class HttpAppFactory {
         json.addProperty("id", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderDetail(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    } /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    public static Observable<CommonBean<QueryAppraiseInfo>> queryAppraise(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryAppraise(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    } /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> appraise(AppraiseParams params) {
+
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .appraise(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }

@@ -65,6 +65,8 @@ public class OrderDetailControl {
          * @param orderInfo
          */
         void clickButton(String s, OrderInfoBean orderInfo);
+
+        void initClick(RoleOrder roler);
     }
     public interface IOrderDetailPresenter{
         /**
