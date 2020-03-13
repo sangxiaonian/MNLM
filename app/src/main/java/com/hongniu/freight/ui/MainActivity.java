@@ -9,8 +9,10 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -20,12 +22,19 @@ import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.google.gson.Gson;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.fragment.ChactListFragment;
 import com.hongniu.freight.ui.fragment.HomeFragment;
+import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.thirdlibrary.chact.ChactHelper;
+import com.hongniu.thirdlibrary.chact.control.ChactControl;
 import com.hongniu.thirdlibrary.map.LoactionUtils;
 
+import io.rong.imkit.RongIM;
+
 @Route(path = ArouterParamApp.activity_main)
-public class MainActivity extends CompanyBaseActivity implements View.OnClickListener {
+public class MainActivity extends CompanyBaseActivity implements View.OnClickListener, ChactControl.OnConnectListener {
 
     private TextView demo;
 
@@ -94,7 +103,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         tv_unread.setVisibility(View.GONE);
 
         demo.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
-        demo.setVisibility(View.GONE);
+//        demo.setVisibility(View.GONE);
 
 
     }
@@ -109,13 +118,24 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         demo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                JLog.i(InfoUtils.getLoginInfo().getId());
+ChactHelper.getHelper().startPriver(mContext,"277","测试名称");
 //                ArouterUtils.getInstance().builder(ArouterParamsMatch.activity_match_estimate_order)
 //                        .navigation(mContext);
             }
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (ChactHelper.getHelper().disConnectState()){
+
+            ChactHelper.getHelper().connect(mContext,InfoUtils.getLoginInfo().getRongToken(),this);
+        }
+    }
+
     /**
      * Called when a view has been clicked.
      *
@@ -181,7 +201,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             case R.id.tab4:
 
                 if (messageFragment == null) {
-                    messageFragment = new CompanyBaseFragment();
+                    messageFragment = new ChactListFragment();
                     fragmentTransaction.add(R.id.content, messageFragment);
                 } else {
                     fragmentTransaction.show(messageFragment);
@@ -210,5 +230,27 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     }
 
 
+    /**
+     * 连接成功
+     *
+     * @param userID
+     */
+    @Override
+    public void onConnectSuccess(String userID) {
+        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        BusFactory.getBus().post(new Event.UpChactFragment());
+    }
 
+    /**
+     * 连接错误
+     *
+     * @param errorCode
+     * @param errorMsg
+     */
+    @Override
+    public void onConnectError(int errorCode, String errorMsg) {
+        if (errorCode == 31010) {//不是异地登录
+            ToastUtils.getInstance().show("异地登录");
+        }
+    }
 }

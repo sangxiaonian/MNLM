@@ -82,7 +82,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
      */
     @Override
     public void contactCarrier() {
-        view.statCall(mode.getOrderInfo().getOwnerMobile());
+        view.startChat(mode.getOrderInfo().getOwnerId(),mode.getOrderInfo().getOwnerName());
     }
 
     /**
@@ -90,7 +90,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
      */
     @Override
     public void contactDriver() {
-        view.statCall(mode.getOrderInfo().getDriverMobile());
+        view.startChat(mode.getOrderInfo().getDriverId(),mode.getOrderInfo().getDriverName());
     }
 
     /**
@@ -115,6 +115,15 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
         }else {
             view.showError("保单信息异常,请稍后再试");
         }
+    }
+
+    /**
+     * 和发货人聊天
+     */
+    @Override
+    public void chatStart() {
+        //TODO 聊天,缺少ID
+
     }
 
 

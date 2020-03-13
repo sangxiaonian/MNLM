@@ -32,6 +32,7 @@ import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.OrderDetailPresenter;
 import com.hongniu.freight.ui.holder.order.CustomOrderButtonClick;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
+import com.hongniu.thirdlibrary.chact.ChactHelper;
 
 /**
  * @data 2020/2/8
@@ -351,6 +352,17 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
                 .withSerializable(Param.TRAN, h5Config)
                 .navigation(mContext);
+    }
+
+    /**
+     * 聊天联系
+     *
+     * @param id
+     * @param name
+     */
+    @Override
+    public void startChat(String id, String name) {
+        ChactHelper.getHelper().startPriver(mContext,id,name);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {

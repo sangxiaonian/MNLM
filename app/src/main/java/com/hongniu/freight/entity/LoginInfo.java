@@ -6,7 +6,7 @@ package com.hongniu.freight.entity;
 public class LoginInfo {
 
     private boolean isStaff;//true	平台员工身份 1:是 0:否
-    private long id;//true	用户id
+    private String id;//true	用户id
     private String mobile;//true	用户手机号
     private String openid;//false	微信的openid
     private String token;//false	本次登录的token，有有效期。
@@ -136,11 +136,11 @@ public class LoginInfo {
         this.isCompanyCarrierStatus = isCompanyCarrierStatus;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

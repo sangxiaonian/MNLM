@@ -42,6 +42,7 @@ import com.hongniu.freight.entity.VerifyCarrierPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
+import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import java.util.List;
@@ -500,5 +501,10 @@ public interface AppService {
      */
     @POST("wlhyapi/api/userinsured/update")
     Observable<CommonBean<LoginCreatInsuredBean>> upInsuredInfor(@Body LoginCreatInsuredBean beans);
+    /**
+     * 跟进userID 获取融云指定用户信息
+     */
+    @POST("wlhyapi/api/user/finduserinfo")
+    Observable<CommonBean<UserInfor>> queryRongInfor(@Body JsonObject params);
 
 }

@@ -7,6 +7,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.CompanyClient;
 import com.hongniu.freight.net.interceptor.HeardInterceptor;
 import com.hongniu.freight.net.interceptor.LoginOutRespondInterceptor;
+import com.hongniu.thirdlibrary.chact.ChactHelper;
 import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.verify.VerifyClient;
 
@@ -35,5 +36,8 @@ public class App extends BaseApp {
 
         // 初始化实人认证 SDK
         VerifyClient.getInstance().initClient(this);
+
+        //融云
+        ChactHelper.getHelper().initHelper(this);
     }
 }

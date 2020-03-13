@@ -80,6 +80,13 @@ public class OrderDetailControl {
          * @param insurance
          */
         void checkInsurance(AppInsuranceInfo insurance);
+
+        /**
+         * 聊天联系
+         * @param id
+         * @param name
+         */
+        void startChat(String id, String name);
     }
     public interface IOrderDetailPresenter{
         /**
@@ -125,8 +132,10 @@ public class OrderDetailControl {
         void checkInsurance();
 
 
-
-
+        /**
+         * 和发货人聊天
+         */
+        void chatStart();
     }
     public interface IOrderDetailMode{
         /**

@@ -52,6 +52,7 @@ import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import java.io.File;
@@ -858,4 +859,16 @@ public class HttpAppFactory {
     }
 
 
+    /**
+     * 根据userID查询用户数据
+     */
+    public static Observable<CommonBean<UserInfor>> queryRongInfor(String userId) {
+
+        JsonObject bean = new JsonObject();
+        bean.addProperty("userId",userId);
+        return  CompanyClient.getInstance().creatService(AppService.class)
+                .queryRongInfor(bean)
+                .compose(RxUtils.<CommonBean<UserInfor>>getSchedulersObservableTransformer())
+                ;
+    }
 }
