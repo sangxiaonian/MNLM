@@ -8,10 +8,18 @@ public class VerifyInfoBean {
    private String userId;//	true	string	用户id
    private VerifyIdNumIdentityBean idnumIdentity;//	false	json对象	身份证认证信息(为空则无数据)
    private VerifyRtpIdentityBean rtpIdentity;//	false	json对象	道路运输许可证认证信息(为空则无数据)
-   private VerifyRtpIdentityBean blIdentity;//	false	json对象	公司营业执照认证信息(为空则无数据)
+   private VerifyCompanyParams bLIdentity;//	false	json对象	公司营业执照认证信息(为空则无数据)
    private VerifyRtpIdentityBean aaIdentity;//	false	json对象	个人承运人挂靠协议认证信息(为空则无数据)
-   private VerifyRtpIdentityBean qcIdentity;//	false	json对象	司机从业资格证认证信息(为空则无数据)
-   private VerifyIdNumIdentityBean dlIdentity;//	false	json对象	驾驶证认证信息(为空则无数据)
+   private VerifyPersonParams qcIdentity;//	false	json对象	司机从业资格证认证信息(为空则无数据)
+   private VerifyPersonParams dlIdentity;//	false	json对象	驾驶证认证信息(为空则无数据)
+
+    public VerifyCompanyParams getbLIdentity() {
+        return bLIdentity;
+    }
+
+    public void setbLIdentity(VerifyCompanyParams bLIdentity) {
+        this.bLIdentity = bLIdentity;
+    }
 
     public String getUserId() {
         return userId;
@@ -37,14 +45,6 @@ public class VerifyInfoBean {
         this.rtpIdentity = rtpIdentity;
     }
 
-    public VerifyRtpIdentityBean getBlIdentity() {
-        return blIdentity;
-    }
-
-    public void setBlIdentity(VerifyRtpIdentityBean blIdentity) {
-        this.blIdentity = blIdentity;
-    }
-
     public VerifyRtpIdentityBean getAaIdentity() {
         return aaIdentity;
     }
@@ -53,19 +53,20 @@ public class VerifyInfoBean {
         this.aaIdentity = aaIdentity;
     }
 
-    public VerifyRtpIdentityBean getQcIdentity() {
+    public VerifyPersonParams getQcIdentity() {
         return qcIdentity;
     }
 
-    public void setQcIdentity(VerifyRtpIdentityBean qcIdentity) {
+    public void setQcIdentity(VerifyPersonParams qcIdentity) {
         this.qcIdentity = qcIdentity;
     }
 
-    public VerifyIdNumIdentityBean getDlIdentity() {
+    public VerifyPersonParams getDlIdentity() {
         return dlIdentity;
     }
 
-    public void setDlIdentity(VerifyIdNumIdentityBean dlIdentity) {
+    public void setDlIdentity(VerifyPersonParams dlIdentity) {
         this.dlIdentity = dlIdentity;
     }
+
 }

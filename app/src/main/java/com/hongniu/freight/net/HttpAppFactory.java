@@ -45,8 +45,8 @@ import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
-import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
-import com.hongniu.freight.entity.VerifyCarrierPersonParams;
+import com.hongniu.freight.entity.VerifyCompanyParams;
+import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
@@ -229,7 +229,7 @@ public class HttpAppFactory {
      * @Author PING
      * @Description 个人托运人身份认证
      */
-    public static Observable<CommonBean<String>> verifyCarrierPerson(VerifyCarrierPersonParams params) {
+    public static Observable<CommonBean<String>> verifyCarrierPerson(VerifyPersonParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyCarrierPerson(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
@@ -240,11 +240,33 @@ public class HttpAppFactory {
      * @return
      * @data 2020/3/1
      * @Author PING
-     * @Description 个人托运人身份认证
+     * @Description 公司托运人身份认证
      */
-    public static Observable<CommonBean<String>> verifyCarrierCompany(VerifyCarrierCompanyParams params) {
+    public static Observable<CommonBean<String>> verifyCarrierCompany(VerifyCompanyParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyCarrierCompany(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+    }    /**
+     * @param params
+     * @return
+     * @data 2020/3/1
+     * @Author PING
+     * @Description 个人托运人身份认证
+     */
+    public static Observable<CommonBean<String>> verifyShipperCompany(VerifyCompanyParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .verifyShipperCompany(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+    }   /**
+     * @param params
+     * @return
+     * @data 2020/3/1
+     * @Author PING
+     * @Description 个人托运人身份认证
+     */
+    public static Observable<CommonBean<String>> verifyDriver(VerifyPersonParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .verifyDriver(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
     }
 

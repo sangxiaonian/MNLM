@@ -1,5 +1,6 @@
 package com.hongniu.freight.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -252,5 +253,17 @@ ChactHelper.getHelper().startPriver(mContext,"277","测试名称");
         if (errorCode == 31010) {//不是异地登录
             ToastUtils.getInstance().show("异地登录");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        i.addCategory(Intent.CATEGORY_HOME);
+        startActivity(i);
+    }
+
+    @Override
+    public void finish() {
+
     }
 }

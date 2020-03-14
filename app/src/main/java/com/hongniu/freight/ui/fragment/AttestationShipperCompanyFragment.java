@@ -11,13 +11,17 @@ import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.companylibrary.utils.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.UpImgData;
+import com.hongniu.freight.entity.VerifyCompanyParams;
+import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.thirdlibrary.picture.PictureClient;
@@ -44,7 +48,6 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     private ItemTextView item_email;//邮箱
     private View ll_business_license;//挂靠协议
     private ImageView img_business_license;//营业执照
-    private TextView bt_sum;//邮箱
     private int isqualification;
     private UpImgData qualificationInfo;
 
@@ -67,6 +70,29 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     protected void initData() {
         super.initData();
         check(false);
+    }
+
+    @Override
+    protected void initInfo(VerifyInfoBean verifyInfoBean) {
+        VerifyCompanyParams identity = verifyInfoBean.getbLIdentity();
+        //身份认证信息
+        if (identity != null) {
+            item_company_address.setTextCenter(identity.getCompanyAddress());
+            item_company_name.setTextCenter(identity.getCompanyName());
+            item_email.setTextCenter(identity.getContactEmail());
+            item_name.setTextCenter(identity.getCompanyName());
+            item_phone.setTextCenter(identity.getContactMobile());
+            ImageLoader.getLoader().load(mContext, img_business_license, identity.getBusinessLicenseImageUrl());
+
+            if (!TextUtils.isEmpty(identity.getBusinessLicenseImageUrl())) {
+                qualificationInfo = new UpImgData();
+                qualificationInfo.setPath(identity.getBusinessLicenseImageUrl());
+                qualificationInfo.setAbsolutePath(identity.getBusinessLicenseImageUrl());
+                ll_business_license.setVisibility(View.GONE);
+                isqualification=2;
+            }
+        }
+
     }
 
     @Override
@@ -134,7 +160,26 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-                ToastUtils.getInstance().show("下一步");
+
+                VerifyCompanyParams params = new VerifyCompanyParams();
+                params.setCompanyAddress(item_company_address.getTextCenter());
+                params.setCompanyName(item_company_name.getTextCenter());
+                params.setContactName(item_name.getTextCenter());
+                params.setContactEmail(item_email.getTextCenter());
+                params.setContactMobile(item_phone.getTextCenter());
+                params.setBusinessLicenseImageUrl(qualificationInfo.getPath());
+                params.setContactMobile(item_phone.getTextCenter());
+
+                HttpAppFactory.verifyShipperCompany(params)
+                        .subscribe(new NetObserver<String>(this) {
+                            @Override
+                            public void doOnSuccess(String s) {
+                                super.doOnSuccess(s);
+                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                                        .navigation(getContext());
+                            }
+                        });
+
             }
         } else  if (v.getId() == R.id.ll_business_license) {
 //            ToastUtils.getInstance().show("营业执照");
@@ -146,7 +191,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
                         ll_business_license.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
                         ImageLoader.getLoader().load(mContext, img_business_license, path);
-                        HttpAppFactory.upImage(14,
+                        HttpAppFactory.upImage(7,
                                 path
                                 , null
                         )
@@ -162,6 +207,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
                                         super.onNext(result);
                                         qualificationInfo = result;
                                         isqualification = 2;
+                                        check(false);
                                     }
 
                                     @Override

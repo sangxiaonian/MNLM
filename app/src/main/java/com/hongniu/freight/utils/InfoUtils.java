@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.thirdlibrary.chact.ChactHelper;
 
 /**
  * 作者：  on 2020/2/23.
@@ -71,6 +72,7 @@ public class InfoUtils {
      */
     public static void loginOut() {
         SharedPreferencesUtils.getInstance().clear();
+        ChactHelper.getHelper().disConnect();
     }
 
 

@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.imgload.ImageLoader;
@@ -12,17 +11,15 @@ import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
-import com.fy.companylibrary.net.NetObserver;
-import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
 import com.fy.companylibrary.utils.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.UpImgData;
+import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyRtpIdentityBean;
 import com.hongniu.freight.net.HttpAppFactory;
-import com.hongniu.freight.ui.AttestationFaceActivity;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
@@ -48,7 +45,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
     private View ll_qualification;//挂靠协议
     private ImageView img_driver;//道路运输许可证
     private ImageView img_qualification;//挂靠协议
-    private TextView bt_sum;//邮箱
+
     private UpImgData driverInfo;//道路运输许可证
     private UpImgData qualificationInfo;//挂靠协议
     private int isDriver;//道路运输许可证是否上传完成
@@ -77,7 +74,6 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        super.initInfo(verifyInfoBean);
         VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
@@ -89,12 +85,16 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         if (rtpIdentity!=null){
             ll_driver.setVisibility(View.GONE);
             ImageLoader.getLoader().load(mContext,img_driver,rtpIdentity.getRoadTransportPermitImageUrl());
+            driverInfo=new UpImgData();
+            driverInfo.setAbsolutePath(rtpIdentity.getRoadTransportPermitImageUrl());
         }
         //挂靠协议
         VerifyRtpIdentityBean aaIdentity = verifyInfoBean.getAaIdentity();
         if (rtpIdentity!=null){
             ll_qualification.setVisibility(View.GONE);
             ImageLoader.getLoader().load(mContext,img_qualification,aaIdentity.getRoadTransportPermitImageUrl());
+            qualificationInfo=new UpImgData();
+            qualificationInfo.setAbsolutePath(rtpIdentity.getAffiliationAgreementImageUrl());
         }
     }
 
@@ -178,6 +178,15 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
+
+                VerifyPersonParams params=new VerifyPersonParams();
+                params.setName(item_name.getTextCenter());
+                params.setIdnumber(item_id_card.getTextCenter());
+                params.setEmail(item_email.getTextCenter());
+                params.setAffiliationAgreementImageUrl(driverInfo.getAbsolutePath());
+                params.setRoadTransportPermitImageUrl(qualificationInfo.getAbsolutePath());
+
+
                 ToastUtils.getInstance().show("下一步");
             }
         } else if (v.getId() == R.id.img_driver) {

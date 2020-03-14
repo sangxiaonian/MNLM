@@ -37,8 +37,8 @@ import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
-import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
-import com.hongniu.freight.entity.VerifyCarrierPersonParams;
+import com.hongniu.freight.entity.VerifyCompanyParams;
+import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
@@ -116,7 +116,7 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/identityAuthen/personShipperAuth")
-    Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyCarrierPersonParams params);
+    Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyPersonParams params);
 
     /**
      * 公司承运人身份认证
@@ -125,7 +125,23 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/identityAuthen/companyCarrierAuth")
-    Observable<CommonBean<String>> verifyCarrierCompany(@Body VerifyCarrierCompanyParams params);
+    Observable<CommonBean<String>> verifyCarrierCompany(@Body VerifyCompanyParams params);
+ /**
+     * 公司托运人身份认证
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/identityAuthen/companyShipperAuth")
+    Observable<CommonBean<String>> verifyShipperCompany(@Body VerifyCompanyParams params);
+/**
+     * 司机身份认证
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/identityAuthen/driverAuth")
+    Observable<CommonBean<String>> verifyDriver(@Body VerifyPersonParams params);
 
     /**
      * 个人托运人身份认证信息

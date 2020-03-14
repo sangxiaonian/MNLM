@@ -189,7 +189,8 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), personInfo.getContact()));
             if (InfoUtils.getState(personInfo) < 4) {//审核中
                 dialogComment.setTitle("认证审核中");
-                dialogComment.show();
+                //TODO 数据更改
+//                dialogComment.show();
             } else if (InfoUtils.getState(personInfo) == 5) {
                 dialogComment.setTitle("认证驳回");
                 dialogComment.show();
@@ -268,7 +269,6 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     @Override
     public void onRightClick(View view, Dialog dialog) {
-        ToastUtils.getInstance().show("查看详情");
         present.checkStateInfo();
     }
 }

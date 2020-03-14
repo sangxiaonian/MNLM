@@ -37,7 +37,7 @@
             <com.fy.companylibrary.widget.ItemTextView
                 style="@style/item_edit"
                 android:id="@+id/item_phone"
-                app:centerType="normal"
+                app:centerType="phone"
                 app:textcenterhide="请输入联系人手机"
                 app:textleft="联系人手机" />
             <com.fy.companylibrary.widget.ItemTextView

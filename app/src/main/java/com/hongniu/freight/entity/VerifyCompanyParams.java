@@ -4,7 +4,7 @@ package com.hongniu.freight.entity;
  * 作者：  on 2020/3/1.
  * 公司承运人数据
  */
-public class VerifyCarrierCompanyParams {
+public class VerifyCompanyParams {
    private String companyName;//	false	string	企业名称
    private String companyAddress;//	false	string	企业地址
    private String contactName;//	false	string	联系人姓名

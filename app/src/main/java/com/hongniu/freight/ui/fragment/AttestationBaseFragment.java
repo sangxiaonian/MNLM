@@ -13,7 +13,7 @@ import com.hongniu.freight.net.HttpAppFactory;
 /**
  * 作者：  on 2020/3/4.
  */
-public class AttestationBaseFragment extends CompanyBaseFragment {
+public abstract class AttestationBaseFragment extends CompanyBaseFragment {
 
     protected boolean canNext = true;
     protected TextView bt_sum;
@@ -45,6 +45,5 @@ public class AttestationBaseFragment extends CompanyBaseFragment {
     }
 
     //初始化数据
-    protected void initInfo(VerifyInfoBean verifyInfoBean) {
-    }
+    protected abstract void initInfo(VerifyInfoBean verifyInfoBean) ;
 }

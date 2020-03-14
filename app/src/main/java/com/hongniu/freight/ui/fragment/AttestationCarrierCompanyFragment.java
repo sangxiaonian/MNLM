@@ -18,8 +18,7 @@ import com.fy.companylibrary.utils.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.UpImgData;
-import com.hongniu.freight.entity.VerifyCarrierCompanyParams;
-import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
+import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
@@ -37,7 +36,7 @@ import io.reactivex.disposables.Disposable;
  * 公司承运人身份认证第二部
  */
 @Route(path = ArouterParamApp.fragment_attestation_carrier_company)
-public class AttestationCarrierCompanyFragment extends AttestationBaseFragment implements View.OnClickListener {
+public class AttestationCarrierCompanyFragment extends AttestationBaseFragment implements View.OnClickListener, ItemTextView.OnCenterChangeListener {
 
     private ItemTextView item_company_name;//姓名
     private ItemTextView item_company_address;//姓名
@@ -81,13 +80,38 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         img_driver.setOnClickListener(this);
         img_business_license.setOnClickListener(this);
         bt_sum.setOnClickListener(this);
-
+        item_company_name.setOnCenterChangeListener(this);
+                item_company_address.setOnCenterChangeListener(this);
+        item_name.setOnCenterChangeListener(this);
+                item_phone.setOnCenterChangeListener(this);
+        item_email.setOnCenterChangeListener(this);
     }
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        super.initInfo(verifyInfoBean);
-
+        VerifyCompanyParams identity = verifyInfoBean.getbLIdentity();
+        //身份认证信息
+        if (identity != null) {
+            item_company_address.setTextCenter(identity.getCompanyAddress());
+            item_company_name.setTextCenter(identity.getCompanyName());
+            item_email.setTextCenter(identity.getContactEmail());
+            item_name.setTextCenter(identity.getCompanyName());
+            item_phone.setTextCenter(identity.getContactMobile());
+            ImageLoader.getLoader().load(mContext, img_business_license, identity.getBusinessLicenseImageUrl());
+            ImageLoader.getLoader().load(mContext, img_driver, identity.getRoadTransportPermitImageUrl());
+            if (!TextUtils.isEmpty(identity.getRoadTransportPermitImageUrl())) {
+                ll_driver.setVisibility(View.GONE);
+                driverInfo = new UpImgData();
+                driverInfo.setAbsolutePath(identity.getRoadTransportPermitImageUrl());
+                driverInfo.setPath(identity.getRoadTransportPermitImageUrl());
+            }
+            if (!TextUtils.isEmpty(identity.getBusinessLicenseImageUrl())) {
+                qualificationInfo = new UpImgData();
+                qualificationInfo.setPath(identity.getBusinessLicenseImageUrl());
+                qualificationInfo.setAbsolutePath(identity.getBusinessLicenseImageUrl());
+                ll_business_license.setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -123,6 +147,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                                     public void onNext(UpImgData result) {
                                         super.onNext(result);
                                         isDriver = 2;
+                                        check(false);
                                         driverInfo = result;
                                     }
 
@@ -163,6 +188,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                                         super.onNext(result);
                                         qualificationInfo = result;
                                         isqualification = 2;
+                                        check(false);
                                     }
 
                                     @Override
@@ -177,8 +203,8 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 }
             });
         } else if (v.getId() == R.id.bt_sum) {
-            if (check(true)){
-                VerifyCarrierCompanyParams params=new VerifyCarrierCompanyParams();
+            if (check(true)) {
+                VerifyCompanyParams params = new VerifyCompanyParams();
                 params.setCompanyAddress(item_company_address.getTextCenter());
                 params.setCompanyName(item_company_name.getTextCenter());
                 params.setContactName(item_name.getTextCenter());
@@ -189,13 +215,12 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 params.setContactMobile(item_phone.getTextCenter());
 
                 HttpAppFactory.verifyCarrierCompany(params)
-                        .subscribe(new NetObserver<String>(this){
+                        .subscribe(new NetObserver<String>(this) {
                             @Override
                             public void doOnSuccess(String s) {
                                 super.doOnSuccess(s);
-                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
                                         .navigation(getContext());
-                                getActivity().finish();
                             }
                         });
 
@@ -280,4 +305,8 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         return true;
     }
 
+    @Override
+    public void onCenterChange(String msg) {
+        check(false);
+    }
 }

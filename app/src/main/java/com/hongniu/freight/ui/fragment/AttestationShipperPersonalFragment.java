@@ -3,18 +3,15 @@ package com.hongniu.freight.ui.fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.net.NetObserver;
-import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.VerifyCarrierPersonParams;
+import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -54,7 +51,6 @@ public class AttestationShipperPersonalFragment  extends AttestationBaseFragment
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        super.initInfo(verifyInfoBean);
         VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
@@ -107,7 +103,7 @@ public class AttestationShipperPersonalFragment  extends AttestationBaseFragment
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-                VerifyCarrierPersonParams params = new VerifyCarrierPersonParams();
+                VerifyPersonParams params = new VerifyPersonParams();
                 params.setEmail(item_email.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setName(item_name.getTextCenter());
