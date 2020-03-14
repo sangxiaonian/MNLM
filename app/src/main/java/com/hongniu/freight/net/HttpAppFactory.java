@@ -23,6 +23,7 @@ import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.LocationBean;
 import com.hongniu.freight.entity.LoginCreatInsuredBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
@@ -926,6 +927,18 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryRongInfor(bean)
                 .compose(RxUtils.<CommonBean<UserInfor>>getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
+     * 上传位置信息
+     * @param datas
+     * @return
+     */
+    public static   Observable<CommonBean<String>> upLoaction(List<LocationBean> datas) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .upLoaction(datas)
+                .compose(RxUtils. getSchedulersObservableTransformer())
                 ;
     }
 }

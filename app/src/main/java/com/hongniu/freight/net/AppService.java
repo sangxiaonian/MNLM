@@ -15,6 +15,7 @@ import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.LocationBean;
 import com.hongniu.freight.entity.LoginCreatInsuredBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
@@ -537,5 +538,10 @@ public interface AppService {
      */
     @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<UserInfor>> queryRongInfor(@Body JsonObject params);
+    /**
+     * 上传所有位置信息
+     */
+    @POST("wlhyapi/api/position/save")
+    Observable<CommonBean<String>> upLoaction(@Body List<LocationBean> locationBeans);
 
 }

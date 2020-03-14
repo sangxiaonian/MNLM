@@ -55,6 +55,13 @@ public class HomeControl {
         void jump2CheckState(Role role, PersonInfor personInfo);
 
         void clickMore(RoleOrder roleOrder);
+
+        /**
+         * 查询到有正在运输中的订单,开始定位i上传位置
+         * @param orderInfoBean
+         */
+        void startLoaction(OrderInfoBean orderInfoBean);
+
     }
     public interface IHomeFragmentPresent {
         /**
@@ -86,11 +93,6 @@ public class HomeControl {
         void clickMore();
     }
     public interface IHomeFragmentMode {
-        /**
-         * 查询首页数据
-         * @return
-         */
-        Observable<HomeInfoBean> queryHomeInfo();
 
         /**
          *
@@ -117,10 +119,6 @@ public class HomeControl {
         void savePersonInfo(PersonInfor data);
 
 
-        /**
-         * 查询订单信息
-         */
-        void queryOrderInfo();
 
         PersonInfor getPersonInfo();
 

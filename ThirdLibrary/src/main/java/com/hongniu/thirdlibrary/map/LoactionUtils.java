@@ -15,6 +15,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.fy.androidlibrary.utils.DeviceUtils;
 import com.hongniu.thirdlibrary.R;
 
 /**
@@ -30,24 +31,25 @@ public class LoactionUtils {
 
     private boolean loactioning;//是否正在定位
     private int icon;
-    public AMapLocationClient mLocationClient = null;
+    private AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+    private AMapLocationListener mLocationListener = new AMapLocationListener() {
 
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
 
 
-            if (listener != null) {
-                listener.onLocationChanged(aMapLocation);
-            }
 
             //可在其中解析amapLocation获取相应内容。
             if (aMapLocation.getErrorCode() == 0) {//定位成功
                 if (aMapLocation.getErrorCode() != errorCode) {
+                    showFront(DeviceUtils.isBackGround(context));
                     changeNotify();
-
                 }
+                if (listener != null) {
+                    listener.onLocationChanged(aMapLocation);
+                }
+
             } else {
                 //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:"
@@ -184,7 +186,7 @@ public class LoactionUtils {
     private NotificationManager notificationManager = null;
     boolean isCreateChannel = false;
 
-    public Notification buildNotification(Context context, String loactionError ) {
+    private Notification buildNotification(Context context, String loactionError ) {
 
         Notification.Builder builder = null;
         Notification notification = null;

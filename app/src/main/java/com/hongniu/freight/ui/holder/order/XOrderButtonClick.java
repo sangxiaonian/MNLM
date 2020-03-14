@@ -3,7 +3,6 @@ package com.hongniu.freight.ui.holder.order;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.amap.api.maps.model.LatLng;
@@ -11,6 +10,7 @@ import com.amap.api.maps.model.Poi;
 import com.amap.api.navi.AmapNaviPage;
 import com.amap.api.navi.AmapNaviParams;
 import com.amap.api.navi.AmapNaviType;
+import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
@@ -20,10 +20,10 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.AppInsuranceInfo;
 import com.hongniu.freight.entity.BuyInsuranceParams;
+import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -356,6 +356,29 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                     if (nextStepListener != null) {
                                         nextStepListener.doUpdate();
                                     }
+
+                                    if (mContext instanceof Activity) {
+                                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                            }
+                                        });
+                                    }
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+                                    super.onComplete();
+                                    Event.UpLoactionEvent upLoactionEvent = new Event.UpLoactionEvent();
+                                    upLoactionEvent.start = true;
+                                    upLoactionEvent.orderID = bean.getId();
+                                    upLoactionEvent.cardID = bean.getCarId();
+                                    upLoactionEvent.destinationLatitude = bean.getDestinationLat();
+                                    upLoactionEvent.destinationLongitude = bean.getDestinationLon();
+                                    BusFactory.getBus().post(upLoactionEvent);
+
                                 }
                             })
                     ;
@@ -370,7 +393,8 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                 }
             }
         });
-        location.startLoaction();
+
+        location.startLoaction((Activity) mContext);
 
 
     }
@@ -404,7 +428,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                 if (distance > Param.ENTRY_MIN) {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离收货货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法确认到达");
                 } else {
-                    //开始发车
+                    //确认到达
                     HttpAppFactory.orderEnd(bean.getId())
                             .subscribe(new NetObserver<Object>(listener) {
                                 @Override
@@ -414,6 +438,20 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                     if (nextStepListener != null) {
                                         nextStepListener.doUpdate();
                                     }
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+                                    super.onComplete();
+                                    Event.UpLoactionEvent upLoactionEvent = new Event.UpLoactionEvent();
+                                    upLoactionEvent.start = false;
+                                    upLoactionEvent.orderID = bean.getId();
+                                    upLoactionEvent.cardID = bean.getCarId();
+                                    upLoactionEvent.destinationLatitude = bean.getDestinationLat();
+                                    upLoactionEvent.destinationLongitude = bean.getDestinationLon();
+                                    BusFactory.getBus().post(upLoactionEvent);
+
                                 }
                             })
                     ;
@@ -428,7 +466,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                 }
             }
         });
-        location.startLoaction();
+        location.startLoaction((Activity) mContext);
 
     }
 

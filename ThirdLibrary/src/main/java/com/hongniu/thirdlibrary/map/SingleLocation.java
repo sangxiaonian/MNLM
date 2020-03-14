@@ -1,21 +1,14 @@
 package com.hongniu.thirdlibrary.map;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.hongniu.thirdlibrary.R;
+import com.fy.companylibrary.utils.PermissionUtils;
 import com.hongniu.thirdlibrary.map.inter.OnLocationListener;
 
 /**
@@ -86,21 +79,34 @@ public class SingleLocation {
     public void setListener(OnLocationListener listener) {
         this.onLocationChanged = listener;
     }
-    public void startLoaction() {
-        /**
-         * 设置定位场景，目前支持三种场景（签到、出行、运动，默认无场景）
-         */
-        if (null != mLocationClient) {
+    public void startLoaction(Activity activity) {
 
-            if (onLocationChanged!=null){
-                onLocationChanged.onStartLocation();
+        PermissionUtils.applyMap(activity, new PermissionUtils.onApplyPermission() {
+            @Override
+            public void hasPermission() {
+                /**
+                 * 设置定位场景，目前支持三种场景（签到、出行、运动，默认无场景）
+                 */
+                if (null != mLocationClient) {
+
+                    if (onLocationChanged!=null){
+                        onLocationChanged.onStartLocation();
+                    }
+
+                    mLocationClient.setLocationOption(mLocationOption);
+                    //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
+                    mLocationClient.stopLocation();
+                    mLocationClient.startLocation();
+                }
             }
 
-            mLocationClient.setLocationOption(mLocationOption);
-            //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
-            mLocationClient.stopLocation();
-            mLocationClient.startLocation();
-        }
+            @Override
+            public void noPermission() {
+
+            }
+        });
+
+
     }
 
 

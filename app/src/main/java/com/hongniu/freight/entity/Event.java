@@ -25,5 +25,17 @@ public class Event {
         public UpChactFragment( ) {
         }
     }
+    /**
+     * 开始或者停止用户信息上传的数据
+     */
+    public static class UpLoactionEvent implements IBus.IEvent {
+        public String cardID;
+        public String orderID;
+        public double destinationLatitude;
+        public double destinationLongitude;
+
+        public boolean start;//true 开始，false 停止
+
+    }
 
 }

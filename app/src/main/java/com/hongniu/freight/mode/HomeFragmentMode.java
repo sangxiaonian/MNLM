@@ -3,6 +3,7 @@ package com.hongniu.freight.mode;
 import android.text.TextUtils;
 
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.Role;
@@ -12,6 +13,7 @@ import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.InfoUtils;
 
@@ -23,7 +25,7 @@ import io.reactivex.Observable;
 /**
  * 作者：  on 2020/2/6.
  */
-public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
+public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
 
     private   Role role=Role.SHIPPER_COMPANY;
     private RoleOrder roleOrder;
@@ -31,22 +33,30 @@ public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
     private boolean isShowBalance;
     private List<OrderInfoBean> list;
 
-    public HomeFramentMode() {
-        personInfo = InfoUtils.getMyInfo();
-        roleOrder=RoleOrder.CARRIER;
+    public HomeFragmentMode() {
         list=new ArrayList<>();
+        personInfo = InfoUtils.getMyInfo();
+        if (personInfo!=null){
+            role=InfoUtils.getRole(personInfo);
+        }else {
+            role=InfoUtils.getRole(InfoUtils.getLoginInfo());
+        }
+        chagetRoleOrder();
     }
 
-    /**
-     * 查询首页数据
-     *
-     * @return
-     */
-    @Override
-    public Observable<HomeInfoBean> queryHomeInfo() {
-        return Observable.just(new HomeInfoBean());
-
+    private void chagetRoleOrder() {
+        if (role == Role.SHIPPER_PERSONAL || role == Role.SHIPPER_COMPANY) {
+            roleOrder = RoleOrder.SHIPPER;
+        } else if (role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) {
+            roleOrder = RoleOrder.CARRIER;
+        } else if (role == Role.DRIVER) {
+            roleOrder = RoleOrder.DRIVER;
+        } else {
+            roleOrder = RoleOrder.DRIVER;
+        }
     }
+
+
 
     /**
      * @return 获取当前类型
@@ -88,24 +98,10 @@ public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
     public void savePersonInfo(PersonInfor data) {
         this.personInfo = data==null?InfoUtils.getMyInfo():data;
         role=InfoUtils.getRole(personInfo);
-        if (role==Role.SHIPPER_PERSONAL||role==Role.SHIPPER_COMPANY){
-            roleOrder =RoleOrder.SHIPPER;
-        }else   if (role==Role.CARRIER_COMPANY||role==Role.CARRIER_PERSONAL){
-            roleOrder =RoleOrder.CARRIER;
-        }else   if (role==Role.DRIVER){
-            roleOrder =RoleOrder.DRIVER;
-        }else {
-            roleOrder =RoleOrder.DRIVER;
-        }
+        chagetRoleOrder();
     }
 
-    /**
-     * 查询订单信息
-     */
-    @Override
-    public void queryOrderInfo() {
-//        HttpAppFactory.queryOrderList();
-    }
+
 
     @Override
     public PersonInfor getPersonInfo() {
@@ -149,8 +145,17 @@ public class HomeFramentMode implements HomeControl.IHomeFragmentMode {
      */
     @Override
     public Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList() {
-      return  HttpAppFactory
-              .queryOwnerOrderList(1,3);
+        if (getRoleOrder()==RoleOrder.CARRIER) {
+            return HttpAppFactory
+                    .queryOwnerOrderList(1, 3);
+        }else {
+            QueryOrderListBean bean=new QueryOrderListBean();
+            bean.setPageSize(3);
+            bean.setPageNum(1);
+            bean.setUserType(roleOrder.getType());
+            return HttpAppFactory
+                    .queryOrderList(bean);
+        }
     }
 
     @Override

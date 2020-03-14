@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
@@ -25,6 +26,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.HomeControl;
+import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
@@ -44,6 +46,7 @@ import java.util.List;
 @Route(path = ArouterParamApp.fragment_home)
 public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHomeFragmentView, View.OnClickListener, DialogComment.OnButtonLeftClickListener, DialogComment.OnButtonRightClickListener, XOrderButtonClick.NextStepListener {
     private TextView tv_title;//标题
+    private TextView tv_role_title;//标题
     private View search;//搜索
     private ImageView icon_eyes;//查看余额
     private TextView tv_count;//余额
@@ -67,6 +70,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     protected View initView(LayoutInflater inflater) {
         View inflate = inflater.inflate(R.layout.fragment_home, null);
         tv_title = inflate.findViewById(R.id.tv_title);
+        tv_role_title = inflate.findViewById(R.id.tv_role_title);
         ll_content = inflate.findViewById(R.id.ll_content);
         content = inflate.findViewById(R.id.content);
         search = inflate.findViewById(R.id.search);
@@ -138,13 +142,13 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     @Override
     public void showOrderInfo(List<OrderInfoBean> infoBeans, RoleOrder type) {
         content.setVisibility(CollectionUtils.isEmpty(infoBeans) ? View.GONE : View.VISIBLE);
-        if (tv_title != null) {
+        if (tv_role_title != null) {
             if (type == RoleOrder.PLATFORM || type == RoleOrder.SHIPPER) {
-                tv_title.setText("我的发货");
+                tv_role_title.setText("我的发货");
             } else if (type == RoleOrder.CARRIER) {
-                tv_title.setText("我要接单");
+                tv_role_title.setText("我要接单");
             } else {
-                tv_title.setText("我的送货");
+                tv_role_title.setText("我的送货");
             }
         }
 
@@ -162,6 +166,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                     xOrderButtonClick.setNextStepListener(this);
                     holder = new OrderHolderBuider(mContext)
                             .setParent(ll_content)
+                            .setType(type)
                             .setOrderButtonClickListener(xOrderButtonClick)
                             .build()
                     ;
@@ -188,7 +193,6 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             tv_count_cyr.setText(getSpanner(data.getOwnerOrderNum() + "单"));
             tv_count_driver.setText(getSpanner(data.getDriverOrderNum() + "单"));
         }
-
     }
 
     /**
@@ -251,6 +255,22 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                     .withSerializable(Param.TRAN, roleOrder)
                     .navigation(mContext);
         }
+    }
+
+    /**
+     * 查询到有正在运输中的订单,开始定位i上传位置
+     *
+     * @param bean
+     */
+    @Override
+    public void startLoaction(OrderInfoBean bean) {
+        Event.UpLoactionEvent upLoactionEvent = new Event.UpLoactionEvent();
+        upLoactionEvent.start = true;
+        upLoactionEvent.orderID = bean.getId();
+        upLoactionEvent.cardID = bean.getCarId();
+        upLoactionEvent.destinationLatitude = bean.getDestinationLat();
+        upLoactionEvent.destinationLongitude = bean.getDestinationLon();
+        BusFactory.getBus().post(upLoactionEvent);
     }
 
     /**

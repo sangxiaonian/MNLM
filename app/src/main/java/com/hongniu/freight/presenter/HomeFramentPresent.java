@@ -3,18 +3,16 @@ package com.hongniu.freight.presenter;
 import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
-import com.fy.companylibrary.config.Param;
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
-import com.hongniu.freight.mode.HomeFramentMode;
+import com.hongniu.freight.mode.HomeFragmentMode;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.BiFunction;
 
 /**
  * 作者：  on 2020/2/6.
@@ -26,7 +24,7 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
 
     public HomeFramentPresent(HomeControl.IHomeFragmentView view) {
         this.view = view;
-        mode=new HomeFramentMode();
+        mode=new HomeFragmentMode();
     }
 
     /**
@@ -57,6 +55,14 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                                 //订单数量数据
                                 mode.saveOrderList( ((PageBean) data).getList());
                                 view.showOrderInfo( mode.getOrderList(),mode.getRoleOrder());
+                            }else if (data instanceof OrderNumberInfoBean){
+                                //订单数量数据
+                                view.showOrderNum((OrderNumberInfoBean) data);
+                                if (!CollectionUtils.isEmpty(((OrderNumberInfoBean) data).getDriverTransOrderList())) {
+                                    //有正在运输中的订单
+                                    view.startLoaction(((OrderNumberInfoBean) data).getDriverTransOrderList().get(0));
+
+                                }
                             }
                         }
                     }
