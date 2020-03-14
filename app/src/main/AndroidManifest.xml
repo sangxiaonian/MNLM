@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup,android:theme">
-        <activity android:name=".ui.AppraiseActivity"/>
+        <activity android:name=".ui.OrderReceiveActivity"></activity>
+        <activity android:name=".ui.AppraiseActivity" />
         <activity android:name=".ui.PayResultActivity" />
         <activity android:name=".ui.OrderFindCarActivity" />
         <activity
@@ -63,13 +64,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.InsureanceInfodActivity" />
-        <activity android:name=".ui.BindBlankCardActivity" />
-        <!--聊天-->
+        <activity android:name=".ui.BindBlankCardActivity" /> <!-- 聊天 -->
         <activity
             android:name=".ui.ChatConversationActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             tools:ignore="DuplicateActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -80,9 +79,7 @@
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
-        </activity>
-
-        <!-- 高德地图 -->
+        </activity> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="1457998aaed653947f53734c7bd5f47a" />
@@ -99,8 +96,8 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            tools:replace="android:value"
-            android:value="e0x9wycfe4enq" />
+            android:value="e0x9wycfe4enq"
+            tools:replace="android:value" />
     </application>
 
 </manifest>

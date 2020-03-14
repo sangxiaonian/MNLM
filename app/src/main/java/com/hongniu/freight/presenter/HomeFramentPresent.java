@@ -1,7 +1,11 @@
 package com.hongniu.freight.presenter;
 
+import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.listener.TaskControl;
+import com.fy.androidlibrary.net.rx.BaseObserver;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
+import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
@@ -30,29 +34,61 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
      * @param listener
      */
     @Override
-    public void initDate(TaskControl.OnTaskListener listener) {
-        Observable.zip(mode.queryMyInfo()
-                , mode.queryOrderNum()
-                , new BiFunction<CommonBean<PersonInfor>, CommonBean<OrderNumberInfoBean>, CommonBean<PersonInfor>>() {
-                    @Override
-                    public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> personInforCommonBean, CommonBean<OrderNumberInfoBean> orderNumberInfoBeanCommonBean) throws Exception {
-                        mode.savePersonInfo(personInforCommonBean.getData());
-                        view.showPersonInfo(mode.getPersonInfo());
-                        view.showOrderNum(orderNumberInfoBeanCommonBean.getData());
-                        return personInforCommonBean;
-                    }
-                }
+    public void queryInfo(TaskControl.OnTaskListener listener) {
 
+        Observable.concat(
+                mode.queryMyInfo(),
+                mode.queryOrderNum(),
+                mode.queryOrderList()
         )
-                .doFinally(new Action() {
+                .subscribe(new BaseObserver<CommonBean<? extends Object>>(listener) {
                     @Override
-                    public void run() throws Exception {
-                        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle());
-                        //查询订单数据
+                    public void onNext(CommonBean<?> result) {
+                        super.onNext(result);
+                        if (result.getCode() != 200) {
+                            onError(new NetException(result.getCode(), result.getMsg()));
+                        } else {
+                            Object data = result.getData();
+                            if (data instanceof PersonInfor){
+                                //个人数据
+                                mode.savePersonInfo((PersonInfor) data);
+                                view.showPersonInfo(mode.getPersonInfo());
+                            }else if (data instanceof PageBean){
+                                //订单数量数据
+                                mode.saveOrderList( ((PageBean) data).getList());
+                                view.showOrderInfo( mode.getOrderList(),mode.getRoleOrder());
+                            }
+                        }
                     }
-                })
-            .subscribe(new NetObserver<PersonInfor>(listener))
-        ;
+                });
+
+
+
+
+//        mode.queryOrderList();
+//
+//        Observable.zip(mode.queryMyInfo()
+//                , mode.queryOrderNum()
+//                , new BiFunction<CommonBean<PersonInfor>, CommonBean<OrderNumberInfoBean>, CommonBean<PersonInfor>>() {
+//                    @Override
+//                    public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> personInforCommonBean, CommonBean<OrderNumberInfoBean> orderNumberInfoBeanCommonBean) throws Exception {
+//                        mode.savePersonInfo(personInforCommonBean.getData());
+//                        view.showPersonInfo(mode.getPersonInfo());
+//                        view.showOrderNum(orderNumberInfoBeanCommonBean.getData());
+//                        return personInforCommonBean;
+//                    }
+//                }
+//
+//        )
+//                .doFinally(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle());
+//                        //查询订单数据
+//                    }
+//                })
+//            .subscribe(new NetObserver<PersonInfor>(listener))
+//        ;
 
 
     }
@@ -91,5 +127,13 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
         //跳转到查看信息
         view.jump2CheckState(mode.getRole(),mode.getPersonInfo());
 
+    }
+
+    /**
+     * 点击更多
+     */
+    @Override
+    public void clickMore() {
+        view.clickMore(mode.getRoleOrder());
     }
 }

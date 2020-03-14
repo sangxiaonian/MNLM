@@ -46,9 +46,9 @@ import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
-import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
+import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;
@@ -246,7 +246,9 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyCarrierCompany(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
-    }    /**
+    }
+
+    /**
      * @param params
      * @return
      * @data 2020/3/1
@@ -257,7 +259,9 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyShipperCompany(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
-    }   /**
+    }
+
+    /**
      * @param params
      * @return
      * @data 2020/3/1
@@ -353,7 +357,24 @@ public class HttpAppFactory {
                 .queryOrderDetail(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    } /**
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    public static Observable<CommonBean<PageBean<OrderInfoBean>>> queryOwnerOrderList(int currentPage, int pageSize) {
+        PageParams json = new PageParams();
+        json.setPageNum(currentPage);
+        json.setPageSize(pageSize);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOwnerOrderList(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
      * 查询订单详情
      *
      * @return
@@ -365,7 +386,9 @@ public class HttpAppFactory {
                 .queryAppraise(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    } /**
+    }
+
+    /**
      * 查询订单详情
      *
      * @return
@@ -456,16 +479,27 @@ public class HttpAppFactory {
                 .orderDispathCar(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
+    }   /**
+     * 实际承运人接单
+     *
+     * @return
+     */
+    public static Observable<CommonBean<Object>> orderReceive(OrderDispathCarParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .orderReceive(params)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
     }
-   /**
+
+    /**
      * 平台运功修改订单补款金额
      *
      * @return
      */
-    public static Observable<CommonBean<Object>> updateFare(String id,String price) {
-        JsonObject object=new JsonObject();
-        object.addProperty("id",id);
-        object.addProperty("balanceMoney",price);
+    public static Observable<CommonBean<Object>> updateFare(String id, String price) {
+        JsonObject object = new JsonObject();
+        object.addProperty("id", id);
+        object.addProperty("balanceMoney", price);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .updateFare(object)
                 .compose(RxUtils.getSchedulersObservableTransformer())
@@ -772,6 +806,7 @@ public class HttpAppFactory {
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer())
                 ;
     }
+
     /**
      * 运费支出图表数据
      *
@@ -887,8 +922,8 @@ public class HttpAppFactory {
     public static Observable<CommonBean<UserInfor>> queryRongInfor(String userId) {
 
         JsonObject bean = new JsonObject();
-        bean.addProperty("userId",userId);
-        return  CompanyClient.getInstance().creatService(AppService.class)
+        bean.addProperty("userId", userId);
+        return CompanyClient.getInstance().creatService(AppService.class)
                 .queryRongInfor(bean)
                 .compose(RxUtils.<CommonBean<UserInfor>>getSchedulersObservableTransformer())
                 ;

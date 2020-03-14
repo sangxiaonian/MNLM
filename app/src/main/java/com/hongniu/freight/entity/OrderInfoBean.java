@@ -33,33 +33,11 @@ public class OrderInfoBean implements Parcelable {
     private String ownerName;//	false	stringstring	承运人姓名
     private String ownerMobile;//	false		承运人手机
     private double balanceMoney;//	false		运费差额
-   private String policyNum;//	false	string	保单号
-   private String companyName;//	false	string	保险公司简称
-   private String policyInfo;//	false	string	保单信息
+    private String policyNum;//	false	string	保单号
+    private String companyName;//	false	string	保险公司简称
+    private String policyInfo;//	false	string	保单信息
+    private String cartype;//	false	string	车辆类型
 
-    public String getPolicyNum() {
-        return policyNum;
-    }
-
-    public void setPolicyNum(String policyNum) {
-        this.policyNum = policyNum;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getPolicyInfo() {
-        return policyInfo;
-    }
-
-    public void setPolicyInfo(String policyInfo) {
-        this.policyInfo = policyInfo;
-    }
 
     private String userId;//": 268,
     private double startPlaceLon;//": 121.40225,
@@ -97,6 +75,37 @@ public class OrderInfoBean implements Parcelable {
     private String owenrEvaluateState;//": 0,
     private String driverEvaluateState;//": 0
 
+    public String getPolicyNum() {
+        return policyNum;
+    }
+
+    public void setPolicyNum(String policyNum) {
+        this.policyNum = policyNum;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPolicyInfo() {
+        return policyInfo;
+    }
+
+    public void setPolicyInfo(String policyInfo) {
+        this.policyInfo = policyInfo;
+    }
+
+    public String getCartype() {
+        return cartype;
+    }
+
+    public void setCartype(String cartype) {
+        this.cartype = cartype;
+    }
 
     public String getUserId() {
         return userId;
@@ -599,6 +608,7 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.policyNum);
         dest.writeString(this.companyName);
         dest.writeString(this.policyInfo);
+        dest.writeString(this.cartype);
         dest.writeString(this.userId);
         dest.writeDouble(this.startPlaceLon);
         dest.writeDouble(this.startPlaceLat);
@@ -663,6 +673,7 @@ public class OrderInfoBean implements Parcelable {
         this.policyNum = in.readString();
         this.companyName = in.readString();
         this.policyInfo = in.readString();
+        this.cartype = in.readString();
         this.userId = in.readString();
         this.startPlaceLon = in.readDouble();
         this.startPlaceLat = in.readDouble();

@@ -8,12 +8,15 @@ import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.holder.ReceiveOrderHolder;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
 import com.hongniu.freight.utils.Utils;
@@ -38,6 +41,13 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> implemen
         initView();
         initData();
         initListener();
+        queryData(true);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        queryData(true);
     }
 
     /**
@@ -53,7 +63,8 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> implemen
 
     @Override
     protected Observable<CommonBean<PageBean<OrderInfoBean>>> getListDatas() {
-        return Utils.createDemoOrderInfo();
+
+        return HttpAppFactory.queryOwnerOrderList(currentPage, Param.PAGE_SIZE);
     }
 
     @Override
@@ -61,15 +72,7 @@ public class OrderCenterActivity extends RefrushActivity<OrderInfoBean> implemen
         return new XAdapter<OrderInfoBean>(mContext, datas) {
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
-                XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(mContext);
-                xOrderButtonClick.setNextStepListener(OrderCenterActivity.this::doUpdate);
-                xOrderButtonClick.setType(RoleOrder.CARRIER);
-                return new OrderHolderBuider(mContext)
-                        .setParent(parent)
-                        .setType(RoleOrder.CARRIER)
-                        .setOrderButtonClickListener(xOrderButtonClick)
-                        .build()
-                        ;
+                return new ReceiveOrderHolder(mContext,parent,RoleOrder.CARRIER);
             }
         };
     }

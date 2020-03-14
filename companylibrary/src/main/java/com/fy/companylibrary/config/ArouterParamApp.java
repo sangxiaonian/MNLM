@@ -81,6 +81,10 @@ public class ArouterParamApp {
      * 评价
      */
     public static final String activity_appraise = "/app/activity_appraise";
+      /**
+     * 实际承运人我要接单
+     */
+    public static final String activity_order_receive = "/app/activity_order_receive";
     /**
      * 立刻派单搜索除车辆
      */

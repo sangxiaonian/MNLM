@@ -46,10 +46,10 @@
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_marginLeft="11dp"
-                app:srcCompat="@drawable/icon_search_999999"
                 app:layout_constraintBottom_toBottomOf="@id/search"
                 app:layout_constraintStart_toStartOf="@id/search"
-                app:layout_constraintTop_toTopOf="@id/search" />
+                app:layout_constraintTop_toTopOf="@id/search"
+                app:srcCompat="@drawable/icon_search_999999" />
 
             <TextView
                 android:layout_width="0dp"
@@ -68,10 +68,10 @@
                 android:layout_height="17dp"
                 android:layout_marginLeft="11dp"
                 android:layout_marginEnd="14dp"
-                app:srcCompat="@drawable/icon_scan_999999"
                 app:layout_constraintBottom_toBottomOf="@id/search"
                 app:layout_constraintEnd_toEndOf="@id/search"
-                app:layout_constraintTop_toTopOf="@id/search" />
+                app:layout_constraintTop_toTopOf="@id/search"
+                app:srcCompat="@drawable/icon_scan_999999" />
 
             <com.fy.androidlibrary.widget.shadow.ShadowLayout
                 android:id="@+id/shadow"
@@ -258,13 +258,65 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_count_driver_des" />
 
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_tuoyunren" />
+                app:layout_constraintTop_toBottomOf="@id/view_tuoyunren">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="@dimen/gap_app"
+                    android:paddingRight="@dimen/gap_app">
+
+                    <TextView
+                        android:id="@+id/tv_role_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="我的送货"
+                        android:textColor="@color/color_of_040000"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="更多"
+                            android:textColor="@color/color_of_999999" />
+
+                        <ImageView
+                            android:layout_width="9dp"
+                            android:layout_height="9dp"
+                            android:layout_marginLeft="8dp"
+                            app:srcCompat="@drawable/icon_go_999999" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/ll_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/img_more"

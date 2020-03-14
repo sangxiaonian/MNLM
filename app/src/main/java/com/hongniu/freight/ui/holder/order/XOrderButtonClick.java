@@ -313,8 +313,9 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onReceiveOrderClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("我要接单");
-        onEntryReceiveOrderClick(bean);
-
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_receive)
+                .withString(Param.TRAN, bean.getId())
+                .navigation(mContext);
     }
 
     /**

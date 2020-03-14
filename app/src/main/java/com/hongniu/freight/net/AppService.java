@@ -198,6 +198,13 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/detail")
     Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
+ /**
+     * 承运人查询我要接单列表
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/ownerOrderList")
+    Observable<CommonBean<PageBean<OrderInfoBean>>> queryOwnerOrderList(@Body PageParams params);
 
     /**
      * 查询评价数据
@@ -247,6 +254,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/dispatch")
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
+    /**
+     *  实际承运人接单
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/ownerOrders")
+    Observable<CommonBean<Object>> orderReceive(@Body OrderDispathCarParams params);
 
     /**
      * 平台运功修改订单补款金额

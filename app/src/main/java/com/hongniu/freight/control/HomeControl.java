@@ -2,7 +2,9 @@ package com.hongniu.freight.control;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.companylibrary.entity.CommonBean;
+import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
@@ -24,7 +26,7 @@ public class HomeControl {
          * @param infoBeans
          * @param type
          */
-        void showOrderInfo(List<OrderInfoBean> infoBeans, Role type);
+        void showOrderInfo(List<OrderInfoBean> infoBeans, RoleOrder type);
 
         /**
          * 储存订单数量
@@ -51,6 +53,8 @@ public class HomeControl {
          * @param personInfo
          */
         void jump2CheckState(Role role, PersonInfor personInfo);
+
+        void clickMore(RoleOrder roleOrder);
     }
     public interface IHomeFragmentPresent {
         /**
@@ -58,7 +62,7 @@ public class HomeControl {
          * 初始化数据
          * @param listener
          */
-        void initDate(TaskControl.OnTaskListener listener);
+        void queryInfo(TaskControl.OnTaskListener listener);
 
         /**
          * 切换是否隐藏数据
@@ -75,6 +79,11 @@ public class HomeControl {
          * 查看认证信息
          */
         void checkStateInfo();
+
+        /**
+         * 点击更多
+         */
+        void clickMore();
     }
     public interface IHomeFragmentMode {
         /**
@@ -132,6 +141,18 @@ public class HomeControl {
          * @return
          */
         String getBalanceTotle();
+
+        /**
+         * 查询订单数量
+         * @return
+         */
+        Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList();
+
+
+        RoleOrder getRoleOrder();
+
+        void saveOrderList(List list);
+        List<OrderInfoBean> getOrderList( );
     }
 
 }

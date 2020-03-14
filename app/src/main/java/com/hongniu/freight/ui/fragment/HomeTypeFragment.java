@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +18,10 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.ui.holder.ReceiveOrderHolder;
 import com.hongniu.freight.ui.holder.order.OrderHolderBuider;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
 
@@ -40,6 +43,7 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
     private List<OrderInfoBean> beans;
     private RecyclerView rv;
     private View ll_more;
+    private TextView tv_title;
     private XAdapter<OrderInfoBean> adapter;
 
     @Override
@@ -47,6 +51,7 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
         View inflate = inflater.inflate(R.layout.fragment_home_type, null);
         rv = inflate.findViewById(R.id.rv);
         ll_more = inflate.findViewById(R.id.ll_more);
+        tv_title = inflate.findViewById(R.id.tv_title);
         return inflate;
     }
 
@@ -65,11 +70,19 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
         adapter = new XAdapter<OrderInfoBean>(getContext(), beans) {
             @Override
             public BaseHolder<OrderInfoBean> initHolder(ViewGroup parent, int viewType) {
-                return new OrderHolderBuider(mContext).setParent(parent)
-                        .setOrderButtonClickListener(new XOrderButtonClick(mContext))
-                        .setType(type)
-                        .build();
+                if (viewType==0){
+                    return new ReceiveOrderHolder(mContext,parent,type);
+                }else {
+                    return new OrderHolderBuider(mContext).setParent(parent)
+                            .setOrderButtonClickListener(new XOrderButtonClick(mContext))
+                            .setType(type)
+                            .build();
+                }
+            }
 
+            @Override
+            public int getItemViewType(int position) {
+                return type== RoleOrder.CARRIER?0:1;
             }
         };
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
@@ -90,7 +103,7 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
             return;
         }
         ArrayList<OrderInfoBean> list = getBundle().getParcelableArrayList(Param.TRAN);
-        type= (RoleOrder) getBundle().getSerializable(Param.TYPE);
+        type = (RoleOrder) getBundle().getSerializable(Param.TYPE);
 
         if (!CollectionUtils.isEmpty(list)) {
             if (beans != null) {
@@ -101,6 +114,17 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+
+        if (tv_title!=null) {
+            if (type == RoleOrder.PLATFORM || type == RoleOrder.SHIPPER) {
+                tv_title.setText("我的发货");
+            } else if (type == RoleOrder.CARRIER) {
+                tv_title.setText("我要接单");
+            } else {
+                tv_title.setText("我的送货");
+            }
+        }
+
     }
 
     /**
@@ -110,11 +134,17 @@ public class HomeTypeFragment extends CompanyBaseFragment implements View.OnClic
      */
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.ll_more){
+        if (v.getId() == R.id.ll_more) {
+            if (type == RoleOrder.CARRIER) {
+                ArouterUtils.getInstance()
+                        .builder(ArouterParamApp.activity_order_center)
+                        .navigation(mContext);
+            } else {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
+                        .withSerializable(Param.TRAN, type)
+                        .navigation(mContext);
+            }
 
-            ArouterUtils.getInstance()
-                    .builder(ArouterParamApp.activity_order_receiving)
-                    .navigation(mContext);
         }
     }
 }
