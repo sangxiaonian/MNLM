@@ -35,8 +35,9 @@ public class PayControl {
         /**
          * 开始支付
          * @param payWay 支付方式
+         * @param payInfoBean
          */
-        void startPay(QueryPayInfoParams payWay);
+        void startPay(QueryPayInfoParams payWay, PayInfoBean payInfoBean);
 
         /**
          * 余额支付时弹出密码弹窗

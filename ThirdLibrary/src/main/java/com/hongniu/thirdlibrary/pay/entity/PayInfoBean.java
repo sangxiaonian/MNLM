@@ -1,12 +1,15 @@
 package com.hongniu.thirdlibrary.pay.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * 作者：  on 2020/3/7.
  * 支付相关的信息
  */
-public class PayInfoBean {
+public class PayInfoBean implements Parcelable {
 
     //------------------------微信支付相关数据---------------------------//
     private String timeStamp;//	true	string	时间
@@ -74,4 +77,55 @@ public class PayInfoBean {
     public String getFlowid() {
         return flowid;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.timeStamp);
+        dest.writeString(this.nonceStr);
+        dest.writeString(this.prepay_id);
+        dest.writeString(this.signType);
+        dest.writeString(this.paySign);
+        dest.writeString(this.prePayId);
+        dest.writeString(this.partnerId);
+        dest.writeString(this.code);
+        dest.writeString(this.msg);
+        dest.writeString(this.orderInfo);
+        dest.writeString(this.orderNum);
+        dest.writeString(this.flowid);
+    }
+
+    public PayInfoBean() {
+    }
+
+    protected PayInfoBean(Parcel in) {
+        this.timeStamp = in.readString();
+        this.nonceStr = in.readString();
+        this.prepay_id = in.readString();
+        this.signType = in.readString();
+        this.paySign = in.readString();
+        this.prePayId = in.readString();
+        this.partnerId = in.readString();
+        this.code = in.readString();
+        this.msg = in.readString();
+        this.orderInfo = in.readString();
+        this.orderNum = in.readString();
+        this.flowid = in.readString();
+    }
+
+    public static final Parcelable.Creator<PayInfoBean> CREATOR = new Parcelable.Creator<PayInfoBean>() {
+        @Override
+        public PayInfoBean createFromParcel(Parcel source) {
+            return new PayInfoBean(source);
+        }
+
+        @Override
+        public PayInfoBean[] newArray(int size) {
+            return new PayInfoBean[size];
+        }
+    };
 }

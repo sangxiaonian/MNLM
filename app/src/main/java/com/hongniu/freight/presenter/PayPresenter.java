@@ -97,7 +97,7 @@ public class PayPresenter implements PayControl.IPayPresenter {
                         @Override
                         public void doOnSuccess(PayInfoBean payInfoBean) {
                             super.doOnSuccess(payInfoBean);
-                            view.startPay(mode.getPayInfo());
+                            view.startPay(mode.getPayInfo(), payInfoBean);
                         }
                     })
             ;
@@ -117,7 +117,7 @@ public class PayPresenter implements PayControl.IPayPresenter {
                     @Override
                     public void doOnSuccess(PayInfoBean payInfoBean) {
                         super.doOnSuccess(payInfoBean);
-                        view.startPay(mode.getPayInfo());
+                        view.startPay(mode.getPayInfo(),payInfoBean);
                     }
                 });
     }

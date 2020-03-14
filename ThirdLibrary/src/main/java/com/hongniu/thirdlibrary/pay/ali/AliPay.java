@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.alipay.sdk.app.PayTask;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.JLog;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import java.util.Map;
@@ -39,12 +40,14 @@ public class AliPay {
 
                     @Override
                     public void onNext(Map<String, String> stringStringMap) {
-
+                        String resultStatus = stringStringMap.get("resultStatus");
+                        String result = stringStringMap.get("result");
                         // 判断resultStatus 为9000则代表支付成功
-                        if (stringStringMap != null && "9000".equals(stringStringMap.get("resultStatus"))) {
+                        if (  "9000".equals(resultStatus)) {
                             // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                             ToastUtils.getInstance().show("支付成功");
                         } else {
+                            JLog.e(stringStringMap+">>>>"+result);
                             ToastUtils.getInstance().show("支付失败");
                         }
 

@@ -45,14 +45,12 @@ public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
     }
 
     private void chagetRoleOrder() {
-        if (role == Role.SHIPPER_PERSONAL || role == Role.SHIPPER_COMPANY) {
-            roleOrder = RoleOrder.SHIPPER;
-        } else if (role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) {
+        if (role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) {
             roleOrder = RoleOrder.CARRIER;
         } else if (role == Role.DRIVER) {
             roleOrder = RoleOrder.DRIVER;
         } else {
-            roleOrder = RoleOrder.DRIVER;
+            roleOrder = RoleOrder.SHIPPER;
         }
     }
 

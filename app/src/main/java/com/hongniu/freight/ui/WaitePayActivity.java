@@ -2,6 +2,7 @@ package com.hongniu.freight.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.widget.ImageView;
 
@@ -19,6 +20,9 @@ import com.hongniu.freight.config.PayType;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.thirdlibrary.pay.PayClient;
+import com.hongniu.thirdlibrary.pay.ali.AliPay;
+import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -42,6 +46,7 @@ public class WaitePayActivity extends CompanyBaseActivity {
     QueryPayInfoParams payInfoParams;//支付信息
     private PayType payType;//当前支付类型
     private int type;//付款类型  	支付业务类型(1订单支付2补款运费支付3补购保险支付)
+    private PayInfoBean payInfoBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,7 @@ public class WaitePayActivity extends CompanyBaseActivity {
         super.initData();
 
         payInfoParams = getIntent().getParcelableExtra(Param.TRAN);
+         payInfoBean = getIntent().getParcelableExtra(Param.TYPE);
         if (payInfoParams == null) {
             ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("未获取到支付信息");
             finish();
@@ -93,7 +99,8 @@ public class WaitePayActivity extends CompanyBaseActivity {
                 ToastUtils.getInstance().show("银联支付");
                 break;
             case ALIPAY://支付宝支付
-                ToastUtils.getInstance().show("支付包支付");
+                new AliPay().pay(WaitePayActivity.this,payInfoBean);
+
                 break;
 
             case BALANCE://余额支付
@@ -102,38 +109,6 @@ public class WaitePayActivity extends CompanyBaseActivity {
             default:
         }
     }
-
-
-//    //此处为接收回调的结果,由于改为查询，因此此处仅仅接受支付失败或者取消的情况
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(PayResult event) {
-//        if (event.code != PayResult.SUCCESS) {
-//            Intent mIntent = new Intent();
-//            mIntent.putExtra("payResult", event.code);
-//            mIntent.putExtra("payResultDes", event.ms);
-//            // 设置结果，并进行传送
-//            setResult(Activity.RESULT_OK, mIntent);
-//            finish();
-//        }
-//
-//    }
-//
-//    //此处为接收成功的情况
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(PaySucess event) {
-//        img.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent mIntent = new Intent();
-//                mIntent.putExtra("payResult", PayResult.SUCCESS);
-//                mIntent.putExtra("payResultDes", "");
-//                // 设置结果，并进行传送
-//                setResult(Activity.RESULT_OK, mIntent);
-//                finish();
-//            }
-//        }, 3000);
-//
-//    }
 
 
     @Override
