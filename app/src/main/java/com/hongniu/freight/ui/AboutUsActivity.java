@@ -58,7 +58,7 @@ public class AboutUsActivity extends CompanyBaseActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.tv_privacy){
-            H5Config h5Config = new H5Config(tv_privacy.getText().toString(), Param.hongniu_agreement, true);
+            H5Config h5Config = new H5Config(tv_privacy.getText().toString(), Param.ABOUT_US, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         }else  if (v.getId()==R.id.tv_agreement) {

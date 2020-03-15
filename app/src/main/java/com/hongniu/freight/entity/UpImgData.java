@@ -44,4 +44,5 @@ public class UpImgData {
     public void setAbsolutePath(String absolutePath) {
         this.absolutePath = absolutePath;
     }
+
 }

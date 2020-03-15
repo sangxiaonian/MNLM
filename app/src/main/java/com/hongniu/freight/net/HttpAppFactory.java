@@ -22,6 +22,7 @@ import com.hongniu.freight.entity.BindBlankParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.FaceBackParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LocationBean;
 import com.hongniu.freight.entity.LoginCreatInsuredBean;
@@ -853,6 +854,17 @@ public class HttpAppFactory {
     public static Observable<CommonBean<PayInfoBean>> queryPayInfo(QueryPayInfoParams payInfoParams) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryPayInfo(payInfoParams)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }  /**
+     * @param payInfoParams
+     * @return
+     * @data 2020/3/3
+     * @Author PING
+     * @Description 查询账户详情数据
+     */
+    public static Observable<CommonBean<Object>> faceBack(FaceBackParams payInfoParams) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .faceBack(payInfoParams)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 

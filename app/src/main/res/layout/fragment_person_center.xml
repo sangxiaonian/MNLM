@@ -172,7 +172,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/icon_id_card" />
 
                     <TextView
                         style="@style/person_center_text"
@@ -190,7 +190,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/icon_id_card" />
 
                     <TextView
                         style="@style/person_center_text"
@@ -209,7 +209,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/icon_car" />
 
                     <TextView
                         style="@style/person_center_text"
@@ -228,7 +228,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/comment_fill" />
 
                     <TextView
                         style="@style/person_center_text"
@@ -247,7 +247,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/icon_service" />
 
                     <TextView
                         style="@style/person_center_text"
@@ -266,7 +266,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/icon_about_us" />
 
                     <TextView
                         style="@style/person_center_text"
@@ -285,7 +285,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/icon_quite" />
 
                     <TextView
                         style="@style/person_center_text"

@@ -30,9 +30,12 @@ public class Param {
     public static final String TRAN = "TRAN";
     public static final String TYPE = "TYPE";
     public static final String ABOUT_US ="https://api.hongniudai.cn/static/html/service.html" ;
-   public static final String  hongniu_agreement = "https://api.hongniudai.cn/" + "static/html/service.html";
-   public static final String  insurance_notify = "https://api.hongniudai.cn/" + "static/html/notice.html";
-   public static final String  insurance_polic = "https://api.hongniudai.cn/" + "static/html/insurance_2009.html";
+    //合同
+   public static final String  hongniu_agreement = "https://api.hongniudai.cn/static/wlhycontract.html";
+   //保险
+   public static final String  insurance_notify = "https://api.hongniudai.cn/static/wlhypolicy.html";
+   //网络货运介绍
+   public static final String  insurance_polic = "https://api.hongniudai.cn/static/wlhyservice.html";
    public static final String  hongniu_user_guide =   "https://api.hongniudai.cn/static/html/usermanual.html";
 
     /**

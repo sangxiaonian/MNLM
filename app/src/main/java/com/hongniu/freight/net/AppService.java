@@ -14,6 +14,7 @@ import com.hongniu.freight.entity.BindBlankParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.FaceBackParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LocationBean;
 import com.hongniu.freight.entity.LoginCreatInsuredBean;
@@ -42,6 +43,7 @@ import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.freight.ui.FaceBackActivity;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
@@ -490,6 +492,14 @@ public interface AppService {
      */
     @POST("wlhyapi//api/account/pay")
     Observable<CommonBean<PayInfoBean>> queryPayInfo(@Body QueryPayInfoParams payInfoParams);
+    /**
+     * 意见反馈
+     *
+     * @param payInfoParams
+     * @return
+     */
+    @POST("wlhyapi/api/user/insertFeedback")
+    Observable<CommonBean<Object>> faceBack(@Body FaceBackParams payInfoParams);
 
     /**
      * 更新支付提现密码
