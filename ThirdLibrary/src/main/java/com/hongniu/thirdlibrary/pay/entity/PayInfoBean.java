@@ -29,6 +29,7 @@ public class PayInfoBean implements Parcelable {
 
     //------------------------密码支付---------------------------//
     private String flowid;//	true	string	流水号flowid
+    private String tn;
 
     public String getTimeStamp() {
         return timeStamp;
@@ -77,7 +78,13 @@ public class PayInfoBean implements Parcelable {
     public String getFlowid() {
         return flowid;
     }
+    public String getTn() {
+        return tn;
+    }
 
+    public void setTn(String tn) {
+        this.tn = tn;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -117,7 +124,7 @@ public class PayInfoBean implements Parcelable {
         this.flowid = in.readString();
     }
 
-    public static final Parcelable.Creator<PayInfoBean> CREATOR = new Parcelable.Creator<PayInfoBean>() {
+    public static final Creator<PayInfoBean> CREATOR = new Creator<PayInfoBean>() {
         @Override
         public PayInfoBean createFromParcel(Parcel source) {
             return new PayInfoBean(source);
@@ -128,4 +135,6 @@ public class PayInfoBean implements Parcelable {
             return new PayInfoBean[size];
         }
     };
+
+
 }

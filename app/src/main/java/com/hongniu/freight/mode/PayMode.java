@@ -1,6 +1,7 @@
 package com.hongniu.freight.mode;
 
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.config.PayType;
 import com.hongniu.freight.control.PayControl;
@@ -8,6 +9,7 @@ import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.thirdlibrary.pay.config.PayConfig;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import io.reactivex.Observable;
@@ -19,7 +21,7 @@ public class PayMode implements PayControl.IPayMode {
     private String id;
     private OrderInfoBean orderInfo;
     private AccountDetailBean accountInfo;
-    private PayType payType  ;//切换支付方式
+    private PayType payType;//切换支付方式
     private int type;//付款类型 支付业务类型(1订单支付2补款运费支付3补购保险支付)
 
     /**
@@ -31,7 +33,7 @@ public class PayMode implements PayControl.IPayMode {
     @Override
     public void saveInfo(String id, int type) {
         this.id = id;
-        this.type=type;
+        this.type = type;
     }
 
     /**
@@ -88,17 +90,17 @@ public class PayMode implements PayControl.IPayMode {
     public float getOrderPrice() {
         float pay = 0;
         if (orderInfo != null) {
-                if (type==1){//运费支付
-                    if (orderInfo.getInsurance() == 1) {
-                        pay = (float) (orderInfo.getPolicyMoney() + orderInfo.getMoney());
-                    } else {
-                        pay = (float) orderInfo.getMoney();
-                    }
-                }else if (type==2){//补运费支付
-                    pay = (float) orderInfo.getBalanceMoney();
-                }else if (type==3){//补购保险
-                    pay = (float) orderInfo.getPolicyMoney();
+            if (type == 1) {//运费支付
+                if (orderInfo.getInsurance() == 1) {
+                    pay = (float) (orderInfo.getPolicyMoney() + orderInfo.getMoney());
+                } else {
+                    pay = (float) orderInfo.getMoney();
                 }
+            } else if (type == 2) {//补运费支付
+                pay = (float) orderInfo.getBalanceMoney();
+            } else if (type == 3) {//补购保险
+                pay = (float) orderInfo.getPolicyMoney();
+            }
         }
         return pay;
     }
@@ -110,7 +112,7 @@ public class PayMode implements PayControl.IPayMode {
      */
     @Override
     public String getOrderPriceInfo() {
-        return "￥"+ConvertUtils.changeFloat(getOrderPrice(), 2);
+        return "￥" + ConvertUtils.changeFloat(getOrderPrice(), 2);
     }
 
     /**
@@ -118,19 +120,19 @@ public class PayMode implements PayControl.IPayMode {
      */
     @Override
     public String getPriceDetail() {
-        String des="";
+        String des = "";
         if (orderInfo != null) {
 
-            if (type==1){//运费支付
+            if (type == 1) {//运费支付
                 if (orderInfo.getInsurance() == 1) {
-                    des=String.format("运费：%s\t\t保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
+                    des = String.format("运费：%s\t\t保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
                 } else {
-                    des= String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));
+                    des = String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));
                 }
-            }else if (type==2){//补运费支付
-                des= String.format("运费差额：%s", ConvertUtils.changeFloat(orderInfo.getBalanceMoney(), 2));
-            }else if (type==3){//补购保险
-                des= String.format("保费：%s", ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
+            } else if (type == 2) {//补运费支付
+                des = String.format("运费差额：%s", ConvertUtils.changeFloat(orderInfo.getBalanceMoney(), 2));
+            } else if (type == 3) {//补购保险
+                des = String.format("保费：%s", ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
 
             }
         }
@@ -164,20 +166,20 @@ public class PayMode implements PayControl.IPayMode {
      */
     @Override
     public boolean isSetPassWord() {
-        return accountInfo!=null&&!accountInfo.isSetPassWord();
+        return accountInfo != null && !accountInfo.isSetPassWord();
     }
 
     /**
      * 查找支付信息
      *
-     * @return
      * @param passWord
+     * @return
      */
     @Override
     public Observable<CommonBean<PayInfoBean>> queryPayInfo(String passWord) {
         QueryPayInfoParams payInfoParams = getPayInfo();
 
-        if (passWord!=null) {
+        if (passWord != null) {
             payInfoParams.setPayPassword(ConvertUtils.MD5(passWord));
         }
         return HttpAppFactory.queryPayInfo(payInfoParams);
@@ -185,6 +187,7 @@ public class PayMode implements PayControl.IPayMode {
 
     /**
      * 获取需要的支付数据
+     *
      * @return
      */
     @Override
@@ -193,8 +196,8 @@ public class PayMode implements PayControl.IPayMode {
         payInfoParams.setPaybusiness(type);
         payInfoParams.setOrderId(id);
         payInfoParams.setPayType(payType.getPayType());
-        payInfoParams.setOrderNum(orderInfo!=null?orderInfo.getOrderNum():"");
-
+        payInfoParams.setOrderNum(orderInfo != null ? orderInfo.getOrderNum() : "");
+        payInfoParams.setAppid(PayConfig.weChatAppid);
         return payInfoParams;
     }
 

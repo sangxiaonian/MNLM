@@ -19,27 +19,34 @@ import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.entity.CommonBean;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.companylibrary.utils.PermissionUtils;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.Event;
+import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.fragment.ChactListFragment;
 import com.hongniu.freight.ui.fragment.HomeFragment;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.LoactionUpUtils;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
+import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.chact.control.ChactControl;
+import com.hongniu.thirdlibrary.chact.control.OnGetUserInforListener;
 import com.hongniu.thirdlibrary.map.LoactionUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 import io.rong.imkit.RongIM;
 
 @Route(path = ArouterParamApp.activity_main)
-public class MainActivity extends CompanyBaseActivity implements View.OnClickListener, ChactControl.OnConnectListener, AMapLocationListener {
+public class MainActivity extends CompanyBaseActivity implements View.OnClickListener, ChactControl.OnConnectListener, AMapLocationListener, ChactControl.OnReceiveUnReadCountListener {
 
     private TextView demo;
 
@@ -138,6 +145,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         if (ChactHelper.getHelper().disConnectState()) {
 
             ChactHelper.getHelper().connect(mContext, InfoUtils.getLoginInfo().getRongToken(), this);
+            ChactHelper.getHelper().setUnReadCountListener(this);
         }
     }
 
@@ -244,6 +252,28 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
      */
     @Override
     public void onConnectSuccess(String userID) {
+        ChactHelper.getHelper().setUseInfor(new OnGetUserInforListener() {
+            @Override
+            public Observable<UserInfor> onGetUserInfor(String usrID) {
+                return HttpAppFactory.queryRongInfor(usrID)
+                        .map(new Function<CommonBean<UserInfor>, UserInfor>() {
+                            @Override
+                            public UserInfor apply(CommonBean<UserInfor> userInforCommonBean) throws Exception {
+                                return userInforCommonBean.getData();
+                            }
+                        })
+                        ;
+            }
+        });
+        HttpAppFactory.queryRongInfor(userID)
+                .subscribe(new NetObserver<UserInfor>(null) {
+                    @Override
+                    public void doOnSuccess(UserInfor data) {
+
+                        ChactHelper.getHelper().refreshUserInfoCache(userID, data);
+                    }
+                });
+
         RongIM.getInstance().setMessageAttachedUserInfo(true);
         BusFactory.getBus().post(new Event.UpChactFragment());
     }
@@ -332,5 +362,22 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
 
             }
         }
+    }
+
+    /**
+     * 有未读消息时候
+     *
+     * @param count 未读消息
+     */
+    @Override
+    public void onReceiveUnRead(int count) {
+            String msg = "";
+            if (count > 99) {
+                msg = "99+";
+            } else if (count > 0) {
+                msg = count + "";
+            }
+            tv_unread.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
+            tv_unread.setText(msg);
     }
 }

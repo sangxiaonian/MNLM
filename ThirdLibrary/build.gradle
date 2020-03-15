@@ -68,4 +68,6 @@ dependencies {
     api 'cn.rongcloud.sdk:im_kit:2.9.18'
     // im_kit 必须依赖 im_lib ，所以需要加入对应依赖
     api 'cn.rongcloud.sdk:im_lib:2.9.18'
+    implementation files('libs\\UPPayAssistEx.jar')
+    implementation files('libs\\UPPayPluginExPro.jar')
 }

@@ -8,6 +8,7 @@ import com.fy.companylibrary.net.CompanyClient;
 import com.hongniu.freight.net.interceptor.HeardInterceptor;
 import com.hongniu.freight.net.interceptor.LoginOutRespondInterceptor;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
+import com.hongniu.thirdlibrary.chact.control.ChactControl;
 import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.verify.VerifyClient;
 
@@ -38,6 +39,8 @@ public class App extends BaseApp {
         VerifyClient.getInstance().initClient(this);
 
         //融云
-        ChactHelper.getHelper().initHelper(this);
+        ChactHelper.getHelper().initHelper(this)
+
+        ;
     }
 }
