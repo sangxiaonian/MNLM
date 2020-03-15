@@ -91,7 +91,7 @@ public class PayMode implements PayControl.IPayMode {
         float pay = 0;
         if (orderInfo != null) {
             if (type == 1) {//运费支付
-                if (orderInfo.getInsurance() == 1) {
+                if (orderInfo.getInsurance() == 1&&orderInfo.getPayPolicyState()==0) {
                     pay = (float) (orderInfo.getPolicyMoney() + orderInfo.getMoney());
                 } else {
                     pay = (float) orderInfo.getMoney();
@@ -124,7 +124,7 @@ public class PayMode implements PayControl.IPayMode {
         if (orderInfo != null) {
 
             if (type == 1) {//运费支付
-                if (orderInfo.getInsurance() == 1) {
+                if (orderInfo.getInsurance() == 1&&orderInfo.getPayPolicyState()==0) {
                     des = String.format("运费：%s\t\t保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
                 } else {
                     des = String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));

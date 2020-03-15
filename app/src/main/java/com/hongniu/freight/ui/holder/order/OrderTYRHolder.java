@@ -38,7 +38,7 @@ class OrderTYRHolder extends OrderBaseHolder {
         Group bottom_group = itemView.findViewById(R.id.bottom_group);
 
         HelperControl helper = new OrderHelper(role)
-                .setInsurance(data.getInsurance() == 1)
+                .setInsurance(data.getPayPolicyState() == 1)
                 .setStatus(data.getStatus());
 
         CommonUtils.setText(tv_time, ConvertUtils.formatTime(data.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));

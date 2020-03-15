@@ -66,7 +66,7 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
     public String[] getButtonMsg() {
         String[] result = new String[2];
         HelperControl helper=new OrderHelper(role)
-                .setInsurance(infoBean.getInsurance()==1)
+                .setInsurance(infoBean.getPayPolicyState()==1)
                 .setStatus(getStatus().getStatus())
                 ;
         Map<String, Integer> buttons = helper.getButtons(getStatus().getStatus());

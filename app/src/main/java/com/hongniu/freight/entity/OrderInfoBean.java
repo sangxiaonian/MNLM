@@ -26,6 +26,7 @@ public class OrderInfoBean implements Parcelable {
     private String goodWeight;//	true	number	货物重量(千克)
     private double money;//	true	number	运费
     private int insurance;//	true	number	是否购买保险 1表示是 0表示否
+    private int payPolicyState;//	 	string	保费 0未支付1支付成功
     private double policyMoney;//	false	number	保险支付金额
     private String insureUsername;//	false	string	被保险人
     private String insureIdnumber;//	false	string	被保险人证件号码
@@ -74,6 +75,14 @@ public class OrderInfoBean implements Parcelable {
     private String userEvaluateState;//": 0,
     private String owenrEvaluateState;//": 0,
     private String driverEvaluateState;//": 0
+
+    public int getPayPolicyState() {
+        return payPolicyState;
+    }
+
+    public void setPayPolicyState(int payPolicyState) {
+        this.payPolicyState = payPolicyState;
+    }
 
     public String getPolicyNum() {
         return policyNum;
