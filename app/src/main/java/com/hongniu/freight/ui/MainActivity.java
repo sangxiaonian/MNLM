@@ -165,8 +165,13 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
                 changeTabeState(v.getId());
                 break;
             case R.id.tab3:
-                ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_create)
-                        .navigation();
+                if (InfoUtils.getState(InfoUtils.getMyInfo()) == 4) {
+                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_create)
+                            .navigation();
+                } else {
+                    ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER)
+                            .show("身份认证暂未成功，请联系客服");
+                }
                 break;
         }
     }
@@ -312,7 +317,9 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     protected boolean isUseEventBus() {
         return true;
     }
+
     private LoactionUpUtils upLoactionUtils;//上传位置信息
+
     //开始或停止记录用户位置信息
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStartLoactionMessage(final Event.UpLoactionEvent event) {
@@ -371,13 +378,13 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
      */
     @Override
     public void onReceiveUnRead(int count) {
-            String msg = "";
-            if (count > 99) {
-                msg = "99+";
-            } else if (count > 0) {
-                msg = count + "";
-            }
-            tv_unread.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
-            tv_unread.setText(msg);
+        String msg = "";
+        if (count > 99) {
+            msg = "99+";
+        } else if (count > 0) {
+            msg = count + "";
+        }
+        tv_unread.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
+        tv_unread.setText(msg);
     }
 }

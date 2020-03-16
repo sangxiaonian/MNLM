@@ -52,6 +52,7 @@ import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.freight.entity.WayBillBean;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.thirdlibrary.chact.UserInfor;
@@ -951,6 +952,21 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .upLoaction(datas)
                 .compose(RxUtils. getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
+     * 根据运单号查询运单信息
+     *
+     * @param wayBillNumber
+     * @return
+     */
+    public static Observable<CommonBean<List<WayBillBean>>> queryWaybill(String wayBillNumber) {
+        JsonObject array = new JsonObject();
+        array.addProperty(  "waybillNum",wayBillNumber);
+        return  CompanyClient.getInstance().creatService(AppService.class)
+                .queryWaybill(array)
+                .compose(RxUtils.<CommonBean<List<WayBillBean>>>getSchedulersObservableTransformer())
                 ;
     }
 }

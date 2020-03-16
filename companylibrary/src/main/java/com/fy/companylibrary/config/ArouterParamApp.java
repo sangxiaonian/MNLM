@@ -186,9 +186,10 @@ public class ArouterParamApp {
     public static final String activity_bind_blank_card = "/app/activity_bind_blank_card";
 
    /**
-     * 查看保单
+     * 二维码扫描
      */
-    public static final String activity_pdf = "/app/activity_pdf";
-
+    public static final String activity_qrcode = "/app/activity_qrcode";
+    public static final String activity_way_bill = "/app/activity_way_bill";
+    public static final String fragment_hand_input = "/app/fragment_hand_input";
 
 }

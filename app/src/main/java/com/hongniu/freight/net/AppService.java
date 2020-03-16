@@ -43,6 +43,7 @@ import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.freight.entity.WayBillBean;
 import com.hongniu.freight.ui.FaceBackActivity;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.thirdlibrary.chact.UserInfor;
@@ -553,5 +554,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/position/save")
     Observable<CommonBean<String>> upLoaction(@Body List<LocationBean> locationBeans);
+
+    /**
+     * 根据运单号查询运单信息
+     *
+     * @return
+     * @param eventParams
+     */
+    @POST("wlhyapi/api/waybill/show")
+    Observable<CommonBean<List<WayBillBean>>>queryWaybill(@Body JsonObject eventParams);
 
 }

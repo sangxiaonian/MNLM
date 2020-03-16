@@ -90,5 +90,6 @@ dependencies {
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     //星等级评价
     api 'com.hedgehog.ratingbar:app:1.1.2'
-
+    //二维码扫描
+    api 'cn.yipianfengye.android:zxing-library:2.2'
 }

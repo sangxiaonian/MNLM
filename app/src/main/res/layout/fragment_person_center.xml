@@ -172,7 +172,7 @@
 
                     <ImageView
                         style="@style/person_center_img_left"
-                        android:src="@mipmap/icon_id_card" />
+                        android:src="@mipmap/icon_order_center" />
 
                     <TextView
                         style="@style/person_center_text"

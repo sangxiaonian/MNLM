@@ -120,6 +120,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         shadow.setOnClickListener(this);
         icon_eyes.setOnClickListener(this);
         ll_more.setOnClickListener(this);
+        search.setOnClickListener(this);
 
 
     }
@@ -303,6 +304,11 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                     .navigation(mContext);
         } else if (v.getId() == R.id.ll_more) {
             present.clickMore();
+
+        }else if (v.getId() == R.id.search) {
+            ArouterUtils.getInstance()
+                    .builder(ArouterParamApp.activity_qrcode)
+                    .navigation(getContext());
 
         }
 
