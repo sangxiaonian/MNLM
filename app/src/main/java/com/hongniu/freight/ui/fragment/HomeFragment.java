@@ -205,7 +205,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     public void showPersonInfo(PersonInfor personInfo) {
         if (personInfo != null) {
             tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), personInfo.getContact()));
-            if (InfoUtils.getState(personInfo) < 4) {//审核中
+            if (InfoUtils.getState(personInfo) < 4&&InfoUtils.getState(personInfo) >0) {//审核中
                 dialogComment.setTitle("认证审核中");
                 dialogComment.show();
             } else if (InfoUtils.getState(personInfo) == 5) {
@@ -241,7 +241,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
                 .withSerializable(Param.TRAN, role)
-                .withBoolean(Param.TYPE, InfoUtils.getState(personInfo) == 5)
+                .withBoolean(Param.TYPE, InfoUtils.getState(personInfo) == 5||InfoUtils.getState(personInfo) == 0)
                 .navigation(mContext);
     }
 

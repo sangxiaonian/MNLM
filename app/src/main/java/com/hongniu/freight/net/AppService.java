@@ -130,7 +130,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/identityAuthen/companyCarrierAuth")
     Observable<CommonBean<String>> verifyCarrierCompany(@Body VerifyCompanyParams params);
- /**
+
+    /**
      * 公司托运人身份认证
      *
      * @param params
@@ -138,7 +139,16 @@ public interface AppService {
      */
     @POST("wlhyapi/api/identityAuthen/companyShipperAuth")
     Observable<CommonBean<String>> verifyShipperCompany(@Body VerifyCompanyParams params);
-/**
+ /**
+     * 公司托运人身份认证
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/identityAuthen/personCarrierAuth")
+    Observable<CommonBean<String>> verifyShipperPersonal(@Body VerifyPersonParams params);
+
+    /**
      * 司机身份认证
      *
      * @param params
@@ -202,7 +212,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/detail")
     Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
- /**
+
+    /**
      * 承运人查询我要接单列表
      *
      * @return
@@ -217,7 +228,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/searchOrderUserInfo")
     Observable<CommonBean<QueryAppraiseInfo>> queryAppraise(@Body JsonObject params);
- /**
+
+    /**
      * 评价员工
      *
      * @return
@@ -258,8 +270,9 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/dispatch")
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
+
     /**
-     *  实际承运人接单
+     * 实际承运人接单
      *
      * @param params
      * @return
@@ -409,6 +422,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/refund/bankList")
     Observable<CommonBean<List<QueryBlankInforsBean>>> queryBlanks();
+
     /**
      * 绑定银行卡
      *
@@ -420,16 +434,17 @@ public interface AppService {
     /**
      * 获取我的付款方式
      *
-     * @return
      * @param o
+     * @return
      */
     @POST("wlhyapi/api/refund/queryMyCards")
     Observable<CommonBean<List<PayInforBeans>>> queryMyCards(@Body Object o);
+
     /**
      * 解绑支付方式
      *
-     * @return
      * @param blankID
+     * @return
      */
     @POST("hongniu/api/refund/remove")
     Observable<CommonBean<Object>> deleadCard(@Body JsonObject blankID);
@@ -476,6 +491,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/account/accountflows")
     Observable<CommonBean<PageBean<BillInfoListBean>>> queryAccountFlows(@Body AccountFlowParams params);
+
     /**
      * 提现
      *
@@ -493,6 +509,7 @@ public interface AppService {
      */
     @POST("wlhyapi//api/account/pay")
     Observable<CommonBean<PayInfoBean>> queryPayInfo(@Body QueryPayInfoParams payInfoParams);
+
     /**
      * 意见反馈
      *
@@ -544,11 +561,13 @@ public interface AppService {
      */
     @POST("wlhyapi/api/userinsured/update")
     Observable<CommonBean<LoginCreatInsuredBean>> upInsuredInfor(@Body LoginCreatInsuredBean beans);
+
     /**
      * 跟进userID 获取融云指定用户信息
      */
     @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<UserInfor>> queryRongInfor(@Body JsonObject params);
+
     /**
      * 上传所有位置信息
      */
@@ -558,10 +577,10 @@ public interface AppService {
     /**
      * 根据运单号查询运单信息
      *
-     * @return
      * @param eventParams
+     * @return
      */
     @POST("wlhyapi/api/waybill/show")
-    Observable<CommonBean<List<WayBillBean>>>queryWaybill(@Body JsonObject eventParams);
+    Observable<CommonBean<List<WayBillBean>>> queryWaybill(@Body JsonObject eventParams);
 
 }

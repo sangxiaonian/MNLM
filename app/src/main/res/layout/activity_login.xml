@@ -61,7 +61,7 @@
         android:background="@color/color_of_tran"
         android:digits="1234567890"
         android:inputType="phone"
-        android:hint="请输入手机号"
+        android:hint="请输入验证码"
         android:maxLength="6"
         android:maxLines="1"
         android:paddingTop="14dp"

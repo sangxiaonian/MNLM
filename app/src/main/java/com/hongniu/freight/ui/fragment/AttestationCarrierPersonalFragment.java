@@ -10,7 +10,9 @@ import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.utils.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
@@ -178,16 +180,21 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
-
                 VerifyPersonParams params=new VerifyPersonParams();
                 params.setName(item_name.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setEmail(item_email.getTextCenter());
                 params.setAffiliationAgreementImageUrl(driverInfo.getAbsolutePath());
                 params.setRoadTransportPermitImageUrl(qualificationInfo.getAbsolutePath());
-
-
-                ToastUtils.getInstance().show("下一步");
+                HttpAppFactory.verifyCarrierPerson(params)
+                        .subscribe(new NetObserver<String>(this) {
+                            @Override
+                            public void doOnSuccess(String s) {
+                                super.doOnSuccess(s);
+                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                                        .navigation(getContext());
+                            }
+                        });
             }
         } else if (v.getId() == R.id.img_driver) {
 //            道路运输许可证
