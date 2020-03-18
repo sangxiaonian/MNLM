@@ -30,7 +30,7 @@ import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.presenter.OrderCreatePresenter;
-import com.fy.companylibrary.utils.PermissionUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.dialog.InsuranceDialog;

@@ -9,7 +9,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
-import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
+import com.fy.baselibrary.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;

@@ -41,7 +41,6 @@ dependencies {
     api 'com.amap.api:search:latest.integration'
 //    定位
     api 'com.amap.api:location:latest.integration'
-    implementation project(path: ':companylibrary')
 
 
     //人脸识别
@@ -77,4 +76,5 @@ dependencies {
     api 'com.umeng.umsdk:utdid:1.1.5.3'
 //PushSDK
     api 'com.umeng.umsdk:push:6.0.1'
+    implementation project(path: ':BaseLibrary')
 }

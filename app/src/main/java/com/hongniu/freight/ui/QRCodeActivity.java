@@ -8,21 +8,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.utils.permission.RxPermissions;
 import com.fy.androidlibrary.widget.ColorImageView;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
-import com.fy.companylibrary.utils.PermissionUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.githang.statusbar.StatusBarCompat;
 
 import com.hongniu.freight.R;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
-
-import java.util.List;
 
 
 /**

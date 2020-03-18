@@ -1,0 +1,19 @@
+<resources>
+
+
+
+
+
+    <style name="dialog_pass" parent="android:Animation">  <!--name为调用这个style动画的名字，自己设置的-->
+        <!--<item name="android:windowExitAnimation">@anim/pop_exit</item>&lt;!&ndash; 退出动画&ndash;&gt;-->
+        <!--<item name="android:windowEnterAnimation">@anim/pop_in</item>-->
+        <item name="android:windowExitAnimation">@anim/sheet_dialog_out</item><!-- 退出动画-->
+        <item name="android:windowEnterAnimation">@anim/sheet_dialog_in</item>
+    </style>
+
+
+
+
+
+
+</resources>

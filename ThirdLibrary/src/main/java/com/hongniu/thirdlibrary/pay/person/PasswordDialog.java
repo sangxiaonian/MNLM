@@ -56,7 +56,7 @@ public class PasswordDialog extends Dialog implements View.OnClickListener, Veri
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(inflate);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setWindowAnimations(R.style.dialog_ani);
+        dialog.getWindow().setWindowAnimations(R.style.dialog_pass);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));
         dialog.setCancelable(false);

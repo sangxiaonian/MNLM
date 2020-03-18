@@ -1,15 +1,15 @@
-package com.hongniu.thirdlibrary.picture;
+package com.fy.companylibrary.ui;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.widget.dialog.CenterDialog;
 import com.fy.androidlibrary.widget.recycle.control.RecycleControl;
-import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
-import com.fy.companylibrary.ui.CompanyBaseActivity;
+import com.fy.baselibrary.interceptor.FileProgressRequestBody;
+import com.hongniu.thirdlibrary.picture.ImageInforBean;
+import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.adapter.ImageAdapter;
 import com.hongniu.thirdlibrary.picture.helper.ImageUpHelper;
 import com.hongniu.thirdlibrary.picture.holder.ImageAddHolder;

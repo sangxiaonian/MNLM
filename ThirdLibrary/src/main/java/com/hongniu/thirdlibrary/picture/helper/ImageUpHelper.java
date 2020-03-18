@@ -7,11 +7,8 @@ import android.text.TextUtils;
 
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
-import com.fy.androidlibrary.utils.JLog;
-import com.fy.baselibrary.utils.ImageUtils;
-import com.fy.baselibrary.utils.UriUtil;
-import com.fy.companylibrary.config.Param;
-import com.fy.companylibrary.net.interceptor.FileProgressRequestBody;
+
+import com.fy.baselibrary.interceptor.FileProgressRequestBody;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
 
 import org.greenrobot.eventbus.EventBus;

@@ -8,7 +8,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.fy.companylibrary.utils.PermissionUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.thirdlibrary.map.inter.OnLocationListener;
 
 /**

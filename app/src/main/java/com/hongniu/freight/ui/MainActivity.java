@@ -25,7 +25,7 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
-import com.fy.companylibrary.utils.PermissionUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.Event;

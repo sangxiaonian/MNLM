@@ -14,6 +14,7 @@ import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.baselibrary.ui.ModuleBaseActivity;
 import com.fy.companylibrary.R;
 import com.githang.statusbar.StatusBarCompat;
+import com.hongniu.thirdlibrary.push.client.PushClient;
 
 
 /**
@@ -179,6 +180,18 @@ public class CompanyBaseActivity extends ModuleBaseActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.tran_quit_in,R.anim.tran_quit_out);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PushClient.getClient().onAppStart(this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
 
     }
 }

@@ -1,4 +1,4 @@
-package com.fy.companylibrary.utils;
+package com.fy.androidlibrary.utils.permission;
 
 import android.Manifest;
 import android.app.Activity;

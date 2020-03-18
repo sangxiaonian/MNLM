@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.fy.androidlibrary.widget.recycle.holder.PeakHolder;
-import com.fy.companylibrary.R;
-import com.fy.companylibrary.utils.PermissionUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
+import com.hongniu.thirdlibrary.R;
 
 
 /**

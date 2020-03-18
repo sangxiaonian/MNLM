@@ -14,7 +14,7 @@ public class PushClient implements IPush {
 
     IPush plush;
 
-    public static  PushClient client;
+    private static  PushClient client;
 
     public static  PushClient getClient() {
         if (client == null) {

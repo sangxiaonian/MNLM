@@ -6,13 +6,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.widget.RoundProgress;
 import com.fy.androidlibrary.widget.recycle.control.RecycleControl;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
-import com.fy.companylibrary.R;
+import com.hongniu.thirdlibrary.R;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
 import com.hongniu.thirdlibrary.picture.adapter.ImageAdapter;
 
