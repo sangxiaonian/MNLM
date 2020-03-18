@@ -30,6 +30,7 @@ import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.DialogComment;
 import com.hongniu.thirdlibrary.picture.PictureClient;
+import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 
@@ -264,7 +265,7 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
                 @Override
                 public void onResult(List<LocalMedia> result) {
                     LocalMedia media = result.get(0);
-                    ImageLoader.getLoader().load(mContext, img_positive, Utils.getPath(media));
+                    ImageLoader.getLoader().load(mContext, img_positive, PicUtils.getPath(media));
                     presenter.upPositive(media, CarAddModifyActivity.this);
                 }
             });
@@ -273,7 +274,7 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
                 @Override
                 public void onResult(List<LocalMedia> result) {
                     LocalMedia media = result.get(0);
-                    ImageLoader.getLoader().load(mContext, img_minus, Utils.getPath(media));
+                    ImageLoader.getLoader().load(mContext, img_minus, PicUtils.getPath(media));
                     presenter.upMinus(media, CarAddModifyActivity.this);
                 }
             });

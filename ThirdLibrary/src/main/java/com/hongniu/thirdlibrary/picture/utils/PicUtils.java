@@ -5,10 +5,12 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.fy.androidlibrary.utils.DeviceUtils;
+import com.fy.androidlibrary.utils.JLog;
 import com.hongniu.thirdlibrary.BuildConfig;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
 import com.luck.picture.lib.entity.LocalMedia;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +56,10 @@ public class PicUtils {
             if (!isRepeat) {
                 ImageInforBean bean = new ImageInforBean();
                 String path;
-                if (DeviceUtils.getSdkVersion()>28){
-                    path=pathList.get(key).getAndroidQToPath();
-                }else {
-                    path=key;
+                if (DeviceUtils.getSdkVersion() > 28) {
+                    path = pathList.get(key).getAndroidQToPath();
+                } else {
+                    path = key;
                 }
                 bean.setPathOriginal(key);//原始路径
                 bean.setPath(path);
@@ -67,12 +69,21 @@ public class PicUtils {
         }
 
     }
+
     public static String getPath(LocalMedia localMedia) {
         String path;
-        if (DeviceUtils.getSdkVersion()>28){
-            path=localMedia.getAndroidQToPath();
-        }else {
-            path=localMedia.getPath();
+        if (DeviceUtils.getSdkVersion() > 28) {
+            if (localMedia.isCompressed()) {
+                path = localMedia.getCompressPath();
+            } else {
+                path = localMedia.getPath();
+            }
+        } else {
+            if (localMedia.isCompressed()) {
+                path = localMedia.getCompressPath();
+            } else {
+                path = localMedia.getPath();
+            }
         }
         return path;
     }

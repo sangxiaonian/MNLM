@@ -95,7 +95,7 @@ public class PictureClient {
 //                .isWithVideoImage(false)// 图片和视频是否可以同选,只在ofAll模式下有效
                 .isUseCustomCamera(false)// 是否使用自定义相机，5.0以下请不要使用，可能会出现兼容性问题
 //                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)// 设置相册Activity方向，不设置默认使用系统
-                .isOriginalImageControl(true)// 是否显示原图控制按钮，如果用户勾选了 压缩、裁剪功能将会失效
+                .isOriginalImageControl(false)// 是否显示原图控制按钮，如果用户勾选了 压缩、裁剪功能将会失效
 //                .isWeChatStyle()// 是否开启微信图片选择风格，此开关开启了才可使用微信主题！！！
                 .isAndroidQTransform(true)// 是否需要处理Android Q 拷贝至应用沙盒的操作，只针对 compress(false); && enableCrop(false);有效
 //                .bindCustomPlayVideoCallback(callback)// 自定义播放回调控制，用户可以使用自己的视频播放界面

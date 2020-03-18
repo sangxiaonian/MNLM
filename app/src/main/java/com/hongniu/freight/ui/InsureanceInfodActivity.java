@@ -33,6 +33,7 @@ import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.thirdlibrary.picture.PictureClient;
+import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 
@@ -268,8 +269,8 @@ public class InsureanceInfodActivity extends CompanyBaseActivity implements View
                 public void onResult(List<LocalMedia> result) {
                     if (!CollectionUtils.isEmpty(result)) {
                         LocalMedia media = result.get(0);
-                        headPath = media.getCompressPath();
-                        ImageLoader.getLoader().skipMemoryCache().load(mContext, image, media.getPath());
+                        headPath = PicUtils.getPath(media);
+                        ImageLoader.getLoader().skipMemoryCache().load(mContext, image, headPath);
                     }
                 }
             });

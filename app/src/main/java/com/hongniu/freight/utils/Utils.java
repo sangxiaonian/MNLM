@@ -89,15 +89,7 @@ public class Utils {
     }
 
 
-    public static String getPath(LocalMedia localMedia) {
-        String path;
-        if (DeviceUtils.getSdkVersion()>28){
-            path=localMedia.getAndroidQToPath();
-        }else {
-            path=localMedia.getPath();
-        }
-        return path;
-    }
+
 
     public static String getTitleTime() {
         int time = ConvertUtils.getTime();

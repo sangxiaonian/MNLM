@@ -8,6 +8,7 @@ import com.hongniu.freight.entity.CarTypeBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class CarAddModifyMod implements CarAddModifyControl.ICarAddModifyMode {
      */
     @Override
     public Observable<UpImgData> upImage(LocalMedia localMedia) {
-        return HttpAppFactory.upImage(12, Utils.getPath(localMedia), new FileProgressRequestBody.ProgressListener() {
+        return HttpAppFactory.upImage(12, PicUtils.getPath(localMedia), new FileProgressRequestBody.ProgressListener() {
             @Override
             public void transferred(long current, long totle) {
 
