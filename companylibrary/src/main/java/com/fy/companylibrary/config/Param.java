@@ -11,6 +11,7 @@ public class Param {
     public static final String releaseUrl = "https://pmls.ehousechina.com/";
     public static final long IMAGESIZE = 1024 * 1024 * 5;
     public static final float INSURANCE = 0.00015f;//保费计算费率
+    public static final String UMENGTOKEN = "UMENGTOKEN";
 
     public static String baseUrl;
 

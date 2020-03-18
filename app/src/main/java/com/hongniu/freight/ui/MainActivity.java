@@ -17,8 +17,10 @@ import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
+import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
@@ -27,6 +29,7 @@ import com.fy.companylibrary.utils.PermissionUtils;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.Event;
+import com.hongniu.freight.entity.UmenToken;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.fragment.ChactListFragment;
 import com.hongniu.freight.ui.fragment.HomeFragment;
@@ -386,5 +389,22 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         }
         tv_unread.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
         tv_unread.setText(msg);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onCityChangeEvent(UmenToken umenToken) {
+        if (umenToken != null) {
+            String token = SharedPreferencesUtils.getInstance().getString(Param.UMENGTOKEN);
+            JLog.e("提交友盟token:" + token);
+            HttpAppFactory.upDateToken(token)
+                    .subscribe(new NetObserver<Object>(null) {
+                        @Override
+                        public void doOnSuccess(Object o) {
+                            super.doOnSuccess(o);
+                            JLog.d("上传友盟token成功");
+                        }
+                    });
+            BusFactory.getBus().removeStickyEvent(umenToken);
+        }
     }
 }

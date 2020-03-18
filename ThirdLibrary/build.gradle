@@ -70,4 +70,11 @@ dependencies {
     api 'cn.rongcloud.sdk:im_lib:2.9.18'
     implementation files('libs\\UPPayAssistEx.jar')
     implementation files('libs\\UPPayPluginExPro.jar')
+
+    //友盟推送
+    api 'com.umeng.umsdk:common:2.1.0'
+//PushSDK必须依赖utdid库，所以需要加入对应依赖
+    api 'com.umeng.umsdk:utdid:1.1.5.3'
+//PushSDK
+    api 'com.umeng.umsdk:push:6.0.1'
 }

@@ -582,5 +582,12 @@ public interface AppService {
      */
     @POST("wlhyapi/api/waybill/show")
     Observable<CommonBean<List<WayBillBean>>> queryWaybill(@Body JsonObject eventParams);
+   /**
+    * 修改用户设备号 上传友盟token
+    *
+    * @return
+    */
+   @POST("wlhyapi/api/user/updateDevice")
+   Observable<CommonBean<Object>> upDateToken(@Body JsonObject formVals);
 
 }

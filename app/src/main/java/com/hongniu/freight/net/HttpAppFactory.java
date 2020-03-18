@@ -979,5 +979,21 @@ public class HttpAppFactory {
                 .queryWaybill(array)
                 .compose(RxUtils.<CommonBean<List<WayBillBean>>>getSchedulersObservableTransformer())
                 ;
+    } /**
+     * 根据运单号查询运单信息
+     *
+     * @param token
+     * @return
+     */
+    public static Observable<CommonBean<Object>> upDateToken(String token) {
+
+        JsonObject json = new JsonObject();
+        json.addProperty("deviceType", "android");
+        json.addProperty("deviceTokens", token);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .upDateToken(json)
+                .compose(RxUtils.getSchedulersObservableTransformer());
     }
+
+
 }

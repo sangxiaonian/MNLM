@@ -17,9 +17,12 @@ import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.UmenToken;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.disposables.Disposable;
 
@@ -171,7 +174,7 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
                                             .navigation(mContext);
                                 }
-
+                                EventBus.getDefault().postSticky(new UmenToken());
                                 finish();
                             }
                         });

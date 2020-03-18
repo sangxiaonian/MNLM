@@ -76,7 +76,7 @@ public abstract class ListBaseDialog<T> {
         final View view = LayoutInflater.from(context).inflate(
                 R.layout.dialog_list, null);
 
-        rv = (RecyclerView) view.findViewById(R.id.rv);
+        rv = view.findViewById(R.id.rv);
         // 定义Dialog布局和参数
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
