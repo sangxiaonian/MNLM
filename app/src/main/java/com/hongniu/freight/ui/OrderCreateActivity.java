@@ -57,7 +57,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     private ItemTextView item_size;//货物体积
     private ItemTextView item_price;//运费
     private ItemTextView item_pay_way;//支付类型
-    private TextView tv_agreement;//鸿牛供应链协议
+    private TextView tv_agreement;//鸿牛协议
     private TextView tv_agreement_insurance;//保险链协议
     private ImageView img_insurance;//是否购买保险
     private TextView bt_sum;//确认按钮
@@ -190,12 +190,12 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 //            ToastUtils.getInstance().show("是否购买保险");
             presenter.onSwitchIsInsurance();
         } else if (R.id.tv_agreement_insurance == v.getId()) {
-            H5Config h5Config = new H5Config("泓牛(远恒)货运综合险", Param.insurance_notify, true);
+            H5Config h5Config = new H5Config("木牛流马(远恒)货运综合险", Param.insurance_notify, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         } else if (R.id.tv_agreement == v.getId()) {
-            //TODO 泓牛供应链合同协议
-            H5Config h5Config = new H5Config("泓牛供应链合同协议", Param.hongniu_agreement, true);
+            //TODO 木牛流马合同协议
+            H5Config h5Config = new H5Config("木牛流马合同协议", Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         } else if (R.id.item_insurance_name == v.getId()) {

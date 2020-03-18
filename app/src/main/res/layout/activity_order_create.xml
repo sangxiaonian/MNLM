@@ -263,7 +263,7 @@
                     android:id="@+id/tv_agreement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="《泓牛供应链合同协议》"
+                    android:text="《木牛流马合同协议》"
                     android:textColor="@color/color_of_3d5688"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -353,7 +353,7 @@
                         android:id="@+id/tv_agreement_insurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="《泓牛(远恒)货运综合险》"
+                        android:text="《木牛流马(远恒)货运综合险》"
                         android:textColor="@color/color_of_3d5688"
                         android:textSize="12dp" />
                 </LinearLayout>
