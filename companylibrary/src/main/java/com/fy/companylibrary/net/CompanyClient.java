@@ -25,7 +25,8 @@ public class CompanyClient {
 
     private CompanyClient() {
         httpClient = new HttpClient()
-                .setConnectTimeOut(30)
+                .setConnectTimeOut(60)
+
         ;
     }
 

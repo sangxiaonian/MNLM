@@ -38,8 +38,10 @@ public class OrderDetailControl {
         /**
          * 显示订单详情数据
          * @param infoBean
+         * @param showCargoPrice
+         * @param showRealePrice
          */
-        void showOrderDetail(OrderInfoBean infoBean);
+        void showOrderDetail(OrderInfoBean infoBean, boolean showCargoPrice, boolean showRealePrice);
 
         /**
          * 显示车辆信息
@@ -185,5 +187,16 @@ public class OrderDetailControl {
          * @return
          */
         AppInsuranceInfo getInsurance();
+
+        /**
+         * 是否显示实际运费
+         * @return true 显示
+         */
+        boolean isShowRealePrice();
+        /**
+         * 是否显示货物运费
+         * @return true 显示
+         */
+        boolean isShowCargoPrice();
     }
 }

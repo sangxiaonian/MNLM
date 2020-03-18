@@ -38,7 +38,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
         view.showOrderState(mode.getStatus().getName(),String.format("订单编号\t %s",infoBean.getOrderNum()));
         view.showOrderAddressInfo(infoBean);
         view.initDriverInfo(infoBean,mode.isShowDriverInfo());
-        view.showOrderDetail(infoBean);
+        view.showOrderDetail(infoBean,mode.isShowCargoPrice(),mode.isShowRealePrice());
         view.showCarInfo(infoBean,mode.isShowCarInfo());
         view.showButton(mode.getButtonMsg());
     }

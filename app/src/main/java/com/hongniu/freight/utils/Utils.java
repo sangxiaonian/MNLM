@@ -53,7 +53,7 @@ public class Utils {
      *
      * @return 0 个人 1平台
      */
-    public static int getShipperType() {
+    public static int isStaff() {
         return InfoUtils.getMyInfo()!=null?InfoUtils.getMyInfo().getIsStaff():0;
     }
 

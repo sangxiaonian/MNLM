@@ -38,7 +38,10 @@ public class OrderInfoBean implements Parcelable {
     private String companyName;//	false	string	保险公司简称
     private String policyInfo;//	false	string	保单信息
     private String cartype;//	false	string	车辆类型
-
+    private double realmoney;//": 实际运费
+    private String driverId;//": null,司机id
+    private String driverName;//": null,司机名
+    private String driverMobile;//": null,司机手机号
 
     private String userId;//": 268,
     private double startPlaceLon;//": 121.40225,
@@ -57,9 +60,7 @@ public class OrderInfoBean implements Parcelable {
     private String isDel;//": 0,
     private String companyAccountId;//": null,
     private String ownerId;//": null,
-    private String driverId;//": null,
-    private String driverName;//": null,
-    private String driverMobile;//": null,
+
     private String verifyUserId;//": null,
     private String verifyFailCause;//": null,
     private String orderTakingUserId;//": null,
@@ -75,6 +76,14 @@ public class OrderInfoBean implements Parcelable {
     private String userEvaluateState;//": 0,
     private String owenrEvaluateState;//": 0,
     private String driverEvaluateState;//": 0
+
+    public double getRealmoney() {
+        return realmoney;
+    }
+
+    public void setRealmoney(double realmoney) {
+        this.realmoney = realmoney;
+    }
 
     public int getPayPolicyState() {
         return payPolicyState;
@@ -607,6 +616,7 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.goodWeight);
         dest.writeDouble(this.money);
         dest.writeInt(this.insurance);
+        dest.writeInt(this.payPolicyState);
         dest.writeDouble(this.policyMoney);
         dest.writeString(this.insureUsername);
         dest.writeString(this.insureIdnumber);
@@ -618,6 +628,10 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.companyName);
         dest.writeString(this.policyInfo);
         dest.writeString(this.cartype);
+        dest.writeDouble(this.realmoney);
+        dest.writeString(this.driverId);
+        dest.writeString(this.driverName);
+        dest.writeString(this.driverMobile);
         dest.writeString(this.userId);
         dest.writeDouble(this.startPlaceLon);
         dest.writeDouble(this.startPlaceLat);
@@ -635,9 +649,6 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.isDel);
         dest.writeString(this.companyAccountId);
         dest.writeString(this.ownerId);
-        dest.writeString(this.driverId);
-        dest.writeString(this.driverName);
-        dest.writeString(this.driverMobile);
         dest.writeString(this.verifyUserId);
         dest.writeString(this.verifyFailCause);
         dest.writeString(this.orderTakingUserId);
@@ -672,6 +683,7 @@ public class OrderInfoBean implements Parcelable {
         this.goodWeight = in.readString();
         this.money = in.readDouble();
         this.insurance = in.readInt();
+        this.payPolicyState = in.readInt();
         this.policyMoney = in.readDouble();
         this.insureUsername = in.readString();
         this.insureIdnumber = in.readString();
@@ -683,6 +695,10 @@ public class OrderInfoBean implements Parcelable {
         this.companyName = in.readString();
         this.policyInfo = in.readString();
         this.cartype = in.readString();
+        this.realmoney = in.readDouble();
+        this.driverId = in.readString();
+        this.driverName = in.readString();
+        this.driverMobile = in.readString();
         this.userId = in.readString();
         this.startPlaceLon = in.readDouble();
         this.startPlaceLat = in.readDouble();
@@ -700,9 +716,6 @@ public class OrderInfoBean implements Parcelable {
         this.isDel = in.readString();
         this.companyAccountId = in.readString();
         this.ownerId = in.readString();
-        this.driverId = in.readString();
-        this.driverName = in.readString();
-        this.driverMobile = in.readString();
         this.verifyUserId = in.readString();
         this.verifyFailCause = in.readString();
         this.orderTakingUserId = in.readString();

@@ -18,7 +18,7 @@ public class OrderHelper implements HelperControl {
     public OrderHelper(RoleOrder role) {
         this.role = role;
         if (role == RoleOrder.SHIPPER) {
-            helper = new TYRHelper(Utils.getShipperType());
+            helper = new TYRHelper(Utils.isStaff());
         } else if (role == RoleOrder.CARRIER) {
             helper = new CYRHelper();
         } else if (role == RoleOrder.DRIVER) {

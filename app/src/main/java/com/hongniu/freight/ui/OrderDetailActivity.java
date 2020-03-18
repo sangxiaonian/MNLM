@@ -193,19 +193,22 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      * 显示订单详情数据
      *
      * @param infoBean
+     * @param showCargoPrice
+     * @param showRealePrice
      */
     @Override
-    public void showOrderDetail(OrderInfoBean infoBean) {
+    public void showOrderDetail(OrderInfoBean infoBean, boolean showCargoPrice, boolean showRealePrice) {
         tv_detail.setMovementMethod(LinkMovementMethod.getInstance());
         int color = getResources().getColor(R.color.color_of_040000);
         int titleColor = getResources().getColor(R.color.color_of_666666);
         int contactColor = getResources().getColor(R.color.color_of_3d5688);
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor, "实际运费", color, String.format("%s元",ConvertUtils.changeFloat(infoBean.getTotalMoney(),2)), builder);
+        if (showRealePrice) {
+            append(titleColor, "实际运费", color, String.format("%s元", ConvertUtils.changeFloat(infoBean.getRealmoney(), 2)), builder);
+        }
 
         if (infoBean.getInsurance()==1) {
-
             append(titleColor, builder, "货物保费");
             builder.append(gap);
             append(color, builder, String.format("%s元",ConvertUtils.changeFloat(infoBean.getPolicyMoney(),2)));
@@ -215,18 +218,16 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
                         @Override
                         public void onClick(@NonNull View widget) {
                             presenter.checkInsurance();
-//                            ToastUtils.getInstance().show("查看保单");
                         }
 
                     }
                             .setColor(contactColor));
-
             builder.append("\n");
-
-
             append(titleColor, "被保险人", color, String.format("%s %s",infoBean.getInsureUsername(),infoBean.getInsureIdnumber()), builder);
         }
-        append(titleColor, "货物运费", color,  String.format("%s元",ConvertUtils.changeFloat(infoBean.getMoney(),2)), builder);
+        if (showCargoPrice) {
+            append(titleColor, "货物运费", color, String.format("%s元", ConvertUtils.changeFloat(infoBean.getMoney(), 2)), builder);
+        }
         append(titleColor, "下单时间", color, ConvertUtils.formatTime(infoBean.getCreateTime(), "yyyy-MM-dd HH:mm:ss"), builder);
         append(titleColor, "发货时间", color, TextUtils.isEmpty(infoBean.getDepartureTime()) ? "立即发货" : infoBean.getDepartureTime(), builder);
         append(titleColor, "货物名称", color, infoBean.getGoodName(), builder);
