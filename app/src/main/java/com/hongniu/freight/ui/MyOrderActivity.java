@@ -160,7 +160,7 @@ public class MyOrderActivity extends CompanyBaseActivity implements OnOptionsSel
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.ll_filtrate){
-            pickerView.setSelectOptions(role.getType());
+//            pickerView.setSelectOptions(role.getType());
             pickerView.show();
         }
     }

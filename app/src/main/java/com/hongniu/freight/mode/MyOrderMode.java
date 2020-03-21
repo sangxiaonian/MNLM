@@ -30,12 +30,21 @@ public class MyOrderMode implements MyOrderControl.IMyOrderMode {
 
     public MyOrderMode() {
         titles = new ArrayList<>(Arrays.asList(Status.values()));
-
     }
 
     @Override
     public void saveRole(RoleOrder role) {
         this.role=role;
+        titles.clear();
+        if (role==RoleOrder.CARRIER||role==RoleOrder.DRIVER){
+            titles.add(Status.WAITE_DEPART_NO_INSURANCE);
+            titles.add(Status.IN_TRANSIT);
+            titles.add(Status.ARRIVE);
+            titles.add(Status.RECEIVING);
+        }else {
+            titles.addAll(Arrays.asList(Status.values()));
+
+        }
     }
 
     @Override

@@ -125,10 +125,15 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         if (v.getId() == R.id.icon_eyes) {
             switchBalance(!hideBalance);
         } else if (v.getId() == R.id.ll_identification) {
-            ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
-                    .withSerializable(Param.TRAN,InfoUtils.getRole(InfoUtils.getMyInfo()))
-                    .withBoolean(Param.TYPE,InfoUtils.getState(InfoUtils.getMyInfo())==5||InfoUtils.getState(InfoUtils.getMyInfo())==0)
-                    .navigation(mContext);
+            if ((InfoUtils.getMyInfo()!=null&&InfoUtils.getMyInfo().getIsRealname()==1)) {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
+                        .withSerializable(Param.TRAN,InfoUtils.getRole(InfoUtils.getMyInfo()))
+                        .withBoolean(Param.TYPE,InfoUtils.getState(InfoUtils.getMyInfo())==5||InfoUtils.getState(InfoUtils.getMyInfo())==0)
+                        .navigation(mContext);
+            }else {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                        .navigation(mContext);
+            }
         } else if (v.getId() == R.id.ll_car) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_car_list).navigation(mContext);
         } else if (v.getId() == R.id.ll_feedback) {

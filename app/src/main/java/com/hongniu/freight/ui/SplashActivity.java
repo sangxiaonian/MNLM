@@ -25,8 +25,7 @@ public class SplashActivity extends CompanyBaseActivity {
                 }else {
                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
                             .navigation(mContext);
-//                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
-//                            .navigation(mContext);
+
                 }
             } else {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_login)

@@ -230,7 +230,7 @@ public class HttpAppFactory {
      * @return
      * @data 2020/3/1
      * @Author PING
-     * @Description 个人托运人身份认证
+     * @Description 个人承运人身份认证
      */
     public static Observable<CommonBean<String>> verifyCarrierPerson(VerifyPersonParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)
@@ -256,7 +256,7 @@ public class HttpAppFactory {
      * @return
      * @data 2020/3/1
      * @Author PING
-     * @Description 公司托运人身份认证
+     * @Description 个人托运人身份认证
      */
     public static Observable<CommonBean<String>> verifyShipperPersonal(VerifyPersonParams params) {
         return CompanyClient.getInstance().creatService(AppService.class)

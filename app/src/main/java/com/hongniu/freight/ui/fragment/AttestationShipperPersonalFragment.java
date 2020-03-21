@@ -107,7 +107,7 @@ public class AttestationShipperPersonalFragment  extends AttestationBaseFragment
                 params.setEmail(item_email.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setName(item_name.getTextCenter());
-                HttpAppFactory.verifyCarrierPerson(params)
+                HttpAppFactory.verifyShipperPersonal(params)
                         .subscribe(new NetObserver<String>(this) {
                             @Override
                             public void doOnSuccess(String s) {
