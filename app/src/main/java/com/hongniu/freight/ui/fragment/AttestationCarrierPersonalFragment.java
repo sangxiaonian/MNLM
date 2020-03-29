@@ -23,6 +23,7 @@ import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyRtpIdentityBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.ImageInforView;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -42,10 +43,8 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱
-    private View ll_driver;//道路运输许可证
-    private View ll_qualification;//挂靠协议
-    private ImageView img_driver;//道路运输许可证
-    private ImageView img_qualification;//挂靠协议
+    private ImageInforView img_driver;//道路运输许可证
+    private ImageInforView img_qualification;//挂靠协议
 
     private UpImgData driverInfo;//道路运输许可证
     private UpImgData qualificationInfo;//挂靠协议
@@ -60,8 +59,6 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         item_id_card = inflate.findViewById(R.id.item_id_card);
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
-        ll_driver = inflate.findViewById(R.id.ll_driver);
-        ll_qualification = inflate.findViewById(R.id.ll_qualification);
         img_driver = inflate.findViewById(R.id.img_driver);
         img_qualification = inflate.findViewById(R.id.img_qualification);
         return inflate;
@@ -84,16 +81,14 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         //道路运输许可证
         VerifyRtpIdentityBean rtpIdentity = verifyInfoBean.getRtpIdentity();
         if (rtpIdentity!=null){
-            ll_driver.setVisibility(View.GONE);
-            ImageLoader.getLoader().load(mContext,img_driver,rtpIdentity.getRoadTransportPermitImageUrl());
+            img_driver.setImageInfo(rtpIdentity.getRoadTransportPermitImageUrl());
             driverInfo=new UpImgData();
             driverInfo.setAbsolutePath(rtpIdentity.getRoadTransportPermitImageUrl());
         }
         //挂靠协议
         VerifyRtpIdentityBean aaIdentity = verifyInfoBean.getAaIdentity();
         if (rtpIdentity!=null){
-            ll_qualification.setVisibility(View.GONE);
-            ImageLoader.getLoader().load(mContext,img_qualification,aaIdentity.getRoadTransportPermitImageUrl());
+            img_qualification.setImageInfo(aaIdentity.getAffiliationAgreementImageUrl());
             qualificationInfo=new UpImgData();
             qualificationInfo.setAbsolutePath(rtpIdentity.getAffiliationAgreementImageUrl());
         }
@@ -202,9 +197,8 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
                 public void onResult(List<LocalMedia> result) {
                     if (!CollectionUtils.isEmpty(result)){
                         check(false);
-                        ll_driver.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext,img_driver,path);
+                        img_driver.setImageInfo(path);
                         HttpAppFactory.upImage(13,
                                 path
                                 , null
@@ -242,9 +236,8 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
                 public void onResult(List<LocalMedia> result) {
                     check(false);
                     if (!CollectionUtils.isEmpty(result)){
-                        ll_qualification.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext,img_qualification, path);
+                        img_qualification.setImageInfo(path);
                         HttpAppFactory.upImage(14,
                                 path
                                 , null

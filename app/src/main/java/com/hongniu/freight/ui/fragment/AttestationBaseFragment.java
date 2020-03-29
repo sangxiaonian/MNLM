@@ -12,6 +12,7 @@ import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.entity.VerifyIdNumIdentityBean;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.widget.ImageInforView;
 
 /**
  * 作者：  on 2020/3/4.
@@ -59,6 +60,8 @@ public abstract class AttestationBaseFragment extends CompanyBaseFragment {
     private void switchEnable(ViewGroup parent) {
         if (parent instanceof ItemTextView) {
             ((ItemTextView) parent).setEnabled(canNext);
+        }else if (parent instanceof ImageInforView) {
+            parent.setEnabled(canNext);
         } else {
             for (int i = 0; i < parent.getChildCount(); i++) {
                 View child = parent.getChildAt(i);
@@ -66,6 +69,8 @@ public abstract class AttestationBaseFragment extends CompanyBaseFragment {
                     ((ItemTextView) child).setEnabled(canNext);
                 }else if (child instanceof ImageView){
                     ( child).setEnabled(canNext);
+                }else if (child instanceof ImageInforView) {
+                    child.setEnabled(canNext);
                 }else if (child instanceof ViewGroup){
                     switchEnable((ViewGroup) child);
                 }

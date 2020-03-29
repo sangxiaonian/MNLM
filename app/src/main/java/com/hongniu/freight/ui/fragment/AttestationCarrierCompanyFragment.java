@@ -22,6 +22,7 @@ import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.ImageInforView;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -43,10 +44,8 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
     private ItemTextView item_name;//姓名
     private ItemTextView item_phone;//电话号码
     private ItemTextView item_email;//邮箱
-    private ImageView img_driver;//邮箱
-    private ViewGroup ll_driver;//邮箱
-    private ImageView img_business_license;//营业执照
-    private ViewGroup ll_business_license;//邮箱
+    private ImageInforView img_driver;//邮箱
+    private ImageInforView img_business_license;//营业执照
 
     private UpImgData driverInfo;//道路运输许可证
     private UpImgData qualificationInfo;//营业执照
@@ -63,9 +62,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
         img_driver = inflate.findViewById(R.id.img_driver);
-        ll_driver = inflate.findViewById(R.id.ll_driver);
         img_business_license = inflate.findViewById(R.id.img_business_license);
-        ll_business_license = inflate.findViewById(R.id.ll_business_license);
         root = inflate;
         return inflate;
     }
@@ -98,10 +95,9 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
             item_email.setTextCenter(identity.getContactEmail());
             item_name.setTextCenter(identity.getCompanyName());
             item_phone.setTextCenter(identity.getContactMobile());
-            ImageLoader.getLoader().load(mContext, img_business_license, identity.getBusinessLicenseImageUrl());
-            ImageLoader.getLoader().load(mContext, img_driver, identity.getRoadTransportPermitImageUrl());
+            img_business_license.setImageInfo(identity.getBusinessLicenseImageUrl());
+            img_driver.setImageInfo(identity.getRoadTransportPermitImageUrl());
             if (!TextUtils.isEmpty(identity.getRoadTransportPermitImageUrl())) {
-                ll_driver.setVisibility(View.GONE);
                 driverInfo = new UpImgData();
                 driverInfo.setAbsolutePath(identity.getRoadTransportPermitImageUrl());
                 driverInfo.setPath(identity.getRoadTransportPermitImageUrl());
@@ -110,7 +106,6 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 qualificationInfo = new UpImgData();
                 qualificationInfo.setPath(identity.getBusinessLicenseImageUrl());
                 qualificationInfo.setAbsolutePath(identity.getBusinessLicenseImageUrl());
-                ll_business_license.setVisibility(View.GONE);
             }
         }
     }
@@ -130,9 +125,8 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 public void onResult(List<LocalMedia> result) {
                     if (!CollectionUtils.isEmpty(result)) {
                         check(false);
-                        ll_driver.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext, img_driver, path);
+                        img_driver.setImageInfo(path);
                         HttpAppFactory.upImage(13,
                                 path
                                 , null
@@ -170,9 +164,8 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 public void onResult(List<LocalMedia> result) {
                     check(false);
                     if (!CollectionUtils.isEmpty(result)) {
-                        ll_business_license.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext, img_business_license, path);
+                        img_business_license.setImageInfo(path);
                         HttpAppFactory.upImage(7,
                                 path
                                 , null

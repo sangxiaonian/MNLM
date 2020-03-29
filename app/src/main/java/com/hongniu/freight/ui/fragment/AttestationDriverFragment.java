@@ -21,6 +21,7 @@ import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.ImageInforView;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -39,12 +40,9 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱
-    private View ll_driver;//道路运输许可证
-    private View ll_driver1;//道路运输许可证
-    private View ll_qualification;//从业资格证
-    private ImageView img_driver;//驾照
-    private ImageView img_driver1;//驾照
-    private ImageView img_qualification;//从业资格证
+    private ImageInforView img_driver;//驾照
+    private ImageInforView img_driver1;//驾照
+    private ImageInforView img_qualification;//从业资格证
 
     private UpImgData driverInfo;//驾照
     private UpImgData driverInfo1;//驾照附页
@@ -61,11 +59,8 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         item_id_card = inflate.findViewById(R.id.item_id_card);
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
-        ll_driver = inflate.findViewById(R.id.ll_driver);
-        ll_qualification = inflate.findViewById(R.id.ll_qualification);
         img_driver = inflate.findViewById(R.id.img_driver);
         img_qualification = inflate.findViewById(R.id.img_qualification);
-        ll_driver1 = inflate.findViewById(R.id.ll_driver1);
         root = inflate;
 
         return inflate;
@@ -85,15 +80,12 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
             item_name.setTextCenter(idnumIdentity.getName());
-            ImageLoader.getLoader().load(mContext, img_driver, idnumIdentity.getFaceDLImageUrl());
-            ImageLoader.getLoader().load(mContext, img_driver1, idnumIdentity.getBackDLImageUrl());
-            ll_driver.setVisibility(View.GONE);
-            ll_driver1.setVisibility(View.GONE);
+            img_driver.setImageInfo(idnumIdentity.getFaceDLImageUrl());
+            img_driver1.setImageInfo(idnumIdentity.getBackDLImageUrl());
 
         }
-        if (qcIdentity!=null){
-            ImageLoader.getLoader().load(mContext, img_qualification, qcIdentity.getQualificationCertificateImageUrl());
-            ll_qualification.setVisibility(View.GONE);
+        if (qcIdentity != null) {
+            img_qualification.setImageInfo(qcIdentity.getQualificationCertificateImageUrl());
         }
     }
 
@@ -220,9 +212,8 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                 public void onResult(List<LocalMedia> result) {
                     if (!CollectionUtils.isEmpty(result)) {
                         check(false);
-                        ll_driver.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext, img_driver, path);
+                        img_driver.setImageInfo(path);
                         HttpAppFactory.upImage(12,
                                 path
                                 , null
@@ -262,9 +253,8 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                 public void onResult(List<LocalMedia> result) {
                     if (!CollectionUtils.isEmpty(result)) {
                         check(false);
-                        ll_driver1.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext, img_driver1, path);
+                        img_driver1.setImageInfo(path);
                         HttpAppFactory.upImage(12,
                                 path
                                 , null
@@ -304,9 +294,8 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                 public void onResult(List<LocalMedia> result) {
                     check(false);
                     if (!CollectionUtils.isEmpty(result)) {
-                        ll_qualification.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext, img_qualification, path);
+                        img_qualification.setImageInfo(path);
                         HttpAppFactory.upImage(15,
                                 path
                                 , null

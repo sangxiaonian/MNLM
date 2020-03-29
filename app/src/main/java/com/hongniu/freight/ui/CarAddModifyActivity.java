@@ -27,6 +27,7 @@ import com.hongniu.freight.presenter.CarAddModifyPresenter;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.DialogComment;
+import com.hongniu.freight.widget.ImageInforView;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -43,12 +44,9 @@ import java.util.List;
 public class CarAddModifyActivity extends CompanyBaseActivity implements View.OnClickListener, CarAddModifyControl.ICarAddModifyView, OnOptionsSelectListener, ItemTextView.OnCenterChangeListener {
 
     private TextView btSum;
-    private ImageView img_positive;//驾驶证正面
-    private ImageView bt_img_positive;//驾驶证正面
-    private ImageView bt_img_minus;//驾驶证正面
-    private ImageView img_minus;//驾驶证副面
-    private View ll_positive;//驾驶证副面
-    private View ll_minus;//驾驶证副面
+    private ImageInforView img_positive;//驾驶证正面
+
+    private ImageInforView img_minus;//驾驶证副面
     private ItemTextView item_car_type;//车辆类型
     private ItemTextView item_car_band;//车辆品牌
     private ItemTextView item_car_number;//车牌号
@@ -81,15 +79,11 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         super.initView();
         img_positive = findViewById(R.id.img_positive);
         img_minus = findViewById(R.id.img_minus);
-        ll_positive = findViewById(R.id.ll_positive);
-        ll_minus = findViewById(R.id.ll_minus);
         item_car_type = findViewById(R.id.item_car_type);
         item_car_band = findViewById(R.id.item_car_band);
         item_car_number = findViewById(R.id.item_car_number);
         item_car_name = findViewById(R.id.item_car_name);
         item_car_phone = findViewById(R.id.item_car_phone);
-        bt_img_positive = findViewById(R.id.bt_img_positive);
-        bt_img_minus = findViewById(R.id.bt_img_minus);
         btSum = findViewById(R.id.bt_sum);
     }
 
@@ -102,8 +96,6 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     @Override
     protected void initListener() {
         super.initListener();
-        ll_positive.setOnClickListener(this);
-        ll_minus.setOnClickListener(this);
         item_car_type.setOnClickListener(this);
         btSum.setOnClickListener(this);
         item_car_type.setOnCenterChangeListener(this);
@@ -111,8 +103,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_number.setOnCenterChangeListener(this);
         item_car_name.setOnCenterChangeListener(this);
         item_car_phone.setOnCenterChangeListener(this);
-        bt_img_positive.setOnClickListener(this);
-        bt_img_minus.setOnClickListener(this);
+       img_positive.setOnClickListener(this);
+       img_minus.setOnClickListener(this);
     }
 
 
@@ -129,6 +121,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_number.setEnabled(enable);
         item_car_name.setEnabled(enable);
         item_car_phone.setEnabled(enable);
+        img_minus.setEnabled(enable);
+        img_positive.setEnabled(enable);
         btSum.setVisibility(enable ? View.VISIBLE : View.GONE);
 
         if (infoBean!=null) {
@@ -217,12 +211,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     @Override
     public void showMinus(UpImgData result, boolean enable) {
         check(false);
-        ll_minus.setVisibility(result == null ? View.VISIBLE : View.GONE);
-        bt_img_minus.setVisibility((result != null&&enable) ? View.VISIBLE : View.GONE);
-        if (result == null) {
-            img_minus.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.color_of_f6f5f8)));
-        } else {
-            ImageLoader.getLoader().load(mContext, img_minus, result.getAbsolutePath());
+        if (result != null) {
+            img_minus.setImageInfo(result.getAbsolutePath());
         }
     }
 
@@ -232,13 +222,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     @Override
     public void showPositive(UpImgData result, boolean enable) {
         check(false);
-
-        ll_positive.setVisibility(result == null ? View.VISIBLE : View.GONE);
-        bt_img_positive.setVisibility((result != null&&enable) ? View.VISIBLE : View.GONE);
-        if (result == null) {
-            img_positive.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.color_of_f6f5f8)));
-        } else {
-            ImageLoader.getLoader().load(mContext, img_positive, result.getAbsolutePath());
+        if (result != null) {
+            img_positive.setImageInfo(result.getAbsolutePath());
         }
     }
 
@@ -268,22 +253,22 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ll_positive||v.getId() == R.id.bt_img_positive) {
+        if (v.getId() == R.id.img_positive ) {
 //            ToastUtils.getInstance().show("行驶证正面");
             new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
                 @Override
                 public void onResult(List<LocalMedia> result) {
                     LocalMedia media = result.get(0);
-                    ImageLoader.getLoader().load(mContext, img_positive, PicUtils.getPath(media));
+                    img_positive.setImageInfo(PicUtils.getPath(media));
                     presenter.upPositive(media, CarAddModifyActivity.this);
                 }
             });
-        } else if (v.getId() == R.id.ll_minus||v.getId() == R.id.bt_img_minus) {
+        } else if (v.getId() == R.id.img_minus) {
             new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
                 @Override
                 public void onResult(List<LocalMedia> result) {
                     LocalMedia media = result.get(0);
-                    ImageLoader.getLoader().load(mContext, img_minus, PicUtils.getPath(media));
+                    img_minus.setImageInfo(PicUtils.getPath(media));
                     presenter.upMinus(media, CarAddModifyActivity.this);
                 }
             });

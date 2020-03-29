@@ -21,6 +21,7 @@ import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.ImageInforView;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -42,8 +43,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     private ItemTextView item_name;//姓名
     private ItemTextView item_phone;//联系人手机号
     private ItemTextView item_email;//邮箱
-    private View ll_business_license;//挂靠协议
-    private ImageView img_business_license;//营业执照
+    private ImageInforView img_business_license;//营业执照
     private int isqualification;
     private UpImgData qualificationInfo;
 
@@ -57,7 +57,6 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         item_phone = inflate.findViewById(R.id.item_phone);
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
-        ll_business_license = inflate.findViewById(R.id.ll_business_license);
         img_business_license = inflate.findViewById(R.id.img_business_license);
         return inflate;
     }
@@ -78,13 +77,12 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
             item_email.setTextCenter(identity.getContactEmail());
             item_name.setTextCenter(identity.getCompanyName());
             item_phone.setTextCenter(identity.getContactMobile());
-            ImageLoader.getLoader().load(mContext, img_business_license, identity.getBusinessLicenseImageUrl());
+             img_business_license.setImageInfo( identity.getBusinessLicenseImageUrl());
 
             if (!TextUtils.isEmpty(identity.getBusinessLicenseImageUrl())) {
                 qualificationInfo = new UpImgData();
                 qualificationInfo.setPath(identity.getBusinessLicenseImageUrl());
                 qualificationInfo.setAbsolutePath(identity.getBusinessLicenseImageUrl());
-                ll_business_license.setVisibility(View.GONE);
                 isqualification=2;
             }
         }
@@ -100,7 +98,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         item_phone.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
         bt_sum.setOnClickListener(this);
-        ll_business_license.setOnClickListener(this);
+        img_business_license.setOnClickListener(this);
     }
 
     private boolean check(boolean showAlert) {
@@ -177,16 +175,15 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
                         });
 
             }
-        } else  if (v.getId() == R.id.ll_business_license) {
+        } else  if (v.getId() == R.id.img_business_license) {
 //            ToastUtils.getInstance().show("营业执照");
             startPhoto(new OnResultCallbackListener() {
                 @Override
                 public void onResult(List<LocalMedia> result) {
                     check(false);
                     if (!CollectionUtils.isEmpty(result)) {
-                        ll_business_license.setVisibility(View.GONE);
                         String path = PicUtils.getPath(result.get(0));
-                        ImageLoader.getLoader().load(mContext, img_business_license, path);
+                         img_business_license.setImageInfo( path);
                         HttpAppFactory.upImage(7,
                                 path
                                 , null

@@ -57,44 +57,15 @@
                 android:textColor="@color/color_of_666666"
                 android:textSize="14dp" />
 
-            <FrameLayout
+            <com.hongniu.freight.widget.ImageInforView
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
+                android:id="@+id/img_business_license"
+
                 android:layout_marginLeft="@dimen/gap_app"
-                android:layout_marginRight="@dimen/gap_app">
+                android:layout_marginRight="@dimen/gap_app"/>
 
-                <com.fy.androidlibrary.widget.CircularImageView
-                    android:id="@+id/img_business_license"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ovl_5_f6f5f8"
-                    app:viewradius="5dp" />
 
-                <LinearLayout
-                    android:id="@+id/ll_business_license"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@mipmap/camera" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:text="上传营业执照"
-                        android:textColor="@color/color_of_cccccc"
-                        android:textSize="14dp" />
-                </LinearLayout>
-
-            </FrameLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
