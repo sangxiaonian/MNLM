@@ -81,6 +81,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         presenter = new OrderCreatePresenter(this);
         switchInsurance(false);
 
+        //版本暂时隐藏,仅支持先付
+        item_pay_way.setVisibility(View.GONE);
     }
 
     @Override
@@ -194,7 +196,6 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         } else if (R.id.tv_agreement == v.getId()) {
-            //TODO 木牛流马合同协议
             H5Config h5Config = new H5Config("木牛流马合同协议", Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 

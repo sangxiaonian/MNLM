@@ -19,6 +19,7 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.PersonInfor;
@@ -76,6 +77,8 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         super.initData();
         initInfo(InfoUtils.getMyInfo());
         switchBalance(hideBalance);
+
+
     }
 
     @Override
@@ -216,6 +219,11 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         }
         CommonUtils.setText(tv_role, roleName);
         switchBalance(hideBalance);
+
+        //非平台员工隐藏接单中心
+        Role role = InfoUtils.getRole(personInfor);
+        ll_order_center.setVisibility(role == Role.PLATFORM?View.VISIBLE:View.GONE);
+        ll_car.setVisibility((role == Role.PLATFORM||role==Role.CARRIER_COMPANY||role==Role.CARRIER_PERSONAL)?View.VISIBLE:View.GONE);
     }
 
     private void switchBalance(boolean hideBalance) {

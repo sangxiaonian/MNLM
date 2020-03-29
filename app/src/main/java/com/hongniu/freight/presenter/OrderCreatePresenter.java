@@ -169,8 +169,16 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
                     @Override
                     public void doOnSuccess(String s) {
                         super.doOnSuccess(s);
+                        if (s!=null&&s.startsWith(".")){
+                            s="0"+s;
+                        }
                         view.showInsurancePrice(String.format("保费%s元",s));
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.showInsurancePrice(String.format("保费%s元",0));
                     }
                 });
 

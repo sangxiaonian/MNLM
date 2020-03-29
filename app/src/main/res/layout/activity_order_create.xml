@@ -192,6 +192,7 @@
                 <com.fy.companylibrary.widget.ItemTextView
                     android:id="@+id/item_start_time"
                     style="@style/item_text"
+                    app:textcenter="立即发货"
                     app:textcenterhide="请选择发货时间"
                     app:textleft="发货时间" />
 
@@ -232,6 +233,7 @@
                     android:id="@+id/item_price"
                     style="@style/item_edit"
                     app:centerType="number"
+                    app:showline="false"
                     app:textcenterhide="请输入运费"
                     app:textleft="运费(元)" />
 

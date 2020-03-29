@@ -1,7 +1,6 @@
 package com.hongniu.freight.ui;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.toast.ToastUtils;
-import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
@@ -127,11 +125,13 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_phone.setEnabled(enable);
         btSum.setVisibility(enable ? View.VISIBLE : View.GONE);
 
-        item_car_type.setTextCenter(infoBean.getCarType());
-                item_car_band.setTextCenter(infoBean.getVehicleModel());
-        item_car_number.setTextCenter(infoBean.getCarNumber());
-                item_car_name.setTextCenter(infoBean.getName());
-        item_car_phone.setTextCenter(infoBean.getMobile());
+        if (infoBean!=null) {
+            item_car_type.setTextCenter(infoBean.getCarType());
+            item_car_band.setTextCenter(infoBean.getVehicleModel());
+            item_car_number.setTextCenter(infoBean.getCarNumber());
+            item_car_name.setTextCenter(infoBean.getName());
+            item_car_phone.setTextCenter(infoBean.getMobile());
+        }
 
     }
 
@@ -142,20 +142,20 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
      */
     @Override
     public void showTitle(boolean isADd) {
-            if (isADd) {
-                setWhitToolBar("填写车辆信息");
-            } else {
-                setWhitToolBar("车辆信息");
-                setToolbarSrcRight(R.drawable.ic_delete);
-                setToolbarRightClick(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        if (isADd) {
+            setWhitToolBar("填写车辆信息");
+        } else {
+            setWhitToolBar("车辆信息");
+            setToolbarSrcRight(R.drawable.ic_delete);
+            setToolbarRightClick(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                        showDeletedAlert();
+                    showDeletedAlert();
 
-                    }
-                });
-            }
+                }
+            });
+        }
     }
 
     private void showDeletedAlert() {
@@ -343,7 +343,6 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         Utils.setButton(btSum, true);
         return true;
     }
-
 
 
 }

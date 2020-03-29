@@ -46,6 +46,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
         payWays = new ArrayList<>();
         payWays.add("现付");
         payWays.add("到付");
+        payType=0;
     }
 
     /**
@@ -96,7 +97,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
                                     List<String> min = new ArrayList<>();
 
                                     if (i == 0 && j == 0) {
-                                        hour.add("立即取货");
+                                        hour.add("立即发货");
                                         ArrayList<String> strings = new ArrayList<>();
                                         minute.add(strings);
                                         for (int k = 0; k < 60; k++) {

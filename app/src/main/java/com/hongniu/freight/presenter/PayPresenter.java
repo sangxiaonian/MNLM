@@ -5,10 +5,12 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.config.PayType;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.PayControl;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.mode.PayMode;
+import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import io.reactivex.Observable;
@@ -128,8 +130,12 @@ public class PayPresenter implements PayControl.IPayPresenter {
     @Override
     public void paySuccess() {
         int type = mode.getType();
-        if (type==1){
-            view.jump2Succes(mode.getOrderInfo());
+        if (type==1 ){
+            if (InfoUtils.getRole(InfoUtils.getMyInfo())== Role.PLATFORM){
+                view.jump2Succes(mode.getOrderInfo());
+            }else {
+                view.finishWithSuccess();
+            }
         }else if (type==2){
             view.finishWithSuccess();
         }else if (type==3){
