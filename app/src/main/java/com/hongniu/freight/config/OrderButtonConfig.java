@@ -14,7 +14,7 @@ public class OrderButtonConfig {
     public static String ENTRY_RECEIVE="确认收货";
     public static String ENTRY_RECEIVE_ORDER="确认接单";
     public static String EVALUATE="评价";
-    public static String SEND_ORDER="立即派单";
+    public static String SEND_ORDER="立即派车";
     public static String FIND_CAR="发布找车";
     public static String RE_SEND_CARD="重新派单";
     public static String RECEIVE_ORDER="我要接单";

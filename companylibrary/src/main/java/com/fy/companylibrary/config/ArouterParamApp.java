@@ -74,7 +74,7 @@ public class ArouterParamApp {
      */
     public static final String activity_order_find_car = "/app/activity_order_find_car";
     /**
-     * 立即派单
+     * 立即派车
      */
     public static final String activity_assign_order = "/app/activity_assign_order";
      /**

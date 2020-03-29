@@ -61,12 +61,22 @@ android {
     }
     buildTypes {
         debug {
+
             buildConfigField "boolean", "IS_DEBUG", "true"
             versionNameSuffix "-debug"
+
+            //自定义一些清单文件数据，根据打包自动更改
+            manifestPlaceholders = [RONG_CLOUD_APP_KEY: "k51hidwqkvxmb"//融云聊天key
+
+            ]
+
             signingConfig signingConfigs.release
         }
         release {
             buildConfigField "boolean", "IS_DEBUG", "false"
+            manifestPlaceholders = [RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+
+            ]
             signingConfig signingConfigs.release
             // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -61,7 +61,7 @@ public class CustomOrderButtonClick implements OrderButtonClickListener {
             //评价
             onEvaluateClick(infoBean);
         } else if (TextUtils.equals(msg, OrderButtonConfig.SEND_ORDER)) {
-            //立即派单
+            //立即派车
             onSendOrderClick(infoBean);
         } else if (TextUtils.equals(msg, OrderButtonConfig.FIND_CAR)) {
             //发布找车
@@ -193,7 +193,7 @@ public class CustomOrderButtonClick implements OrderButtonClickListener {
     }
 
     /**
-     * 立即派单
+     * 立即派车
      *
      * @param bean
      */

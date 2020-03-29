@@ -26,7 +26,15 @@
                 android:text="请确认承运人信息，订单完成后，实际运费将会转入承运人手机对应账户"
                 android:textColor="@color/color_of_fa8c16"
                 android:textSize="14dp" />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/gap_app"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:text="行驶证主页"
+                android:textColor="@color/color_of_666666"
+                android:textSize="14dp" />
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -50,22 +58,24 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/icon_scan_040000" />
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        app:srcCompat="@mipmap/icon_carme" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="扫描上传行驶证副正面"
-                        android:textColor="@color/color_of_040000"
-                        android:textSize="14dp" />
+
                 </LinearLayout>
 
 
             </FrameLayout>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/gap_app"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:text="行驶证副页"
+                android:textColor="@color/color_of_666666"
+                android:textSize="14dp" />
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -90,17 +100,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/icon_scan_040000" />
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        app:srcCompat="@mipmap/icon_carme" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="扫描上传行驶证副页面"
-                        android:textColor="@color/color_of_040000"
-                        android:textSize="14dp" />
                 </LinearLayout>
 
 

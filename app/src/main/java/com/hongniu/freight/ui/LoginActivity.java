@@ -16,7 +16,9 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.InfoUtils;
@@ -161,16 +163,15 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                             @Override
                             public void doOnSuccess(LoginInfo loginInfo) {
                                 super.doOnSuccess(loginInfo);
-                                int role = InfoUtils.getState(loginInfo);
-                                if (role==0){
-                                    //尚未认证
+                                PersonInfor myInfo = InfoUtils.getMyInfo();
+                                if (InfoUtils.getRole(loginInfo) == Role.UNKNOW && InfoUtils.getRole(myInfo) == Role.UNKNOW) {
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
                                             .navigation(mContext);
-                                }else if (loginInfo.getIsRealname()==0){
+                                } else if (loginInfo.getIsRealname() != 1 && (myInfo != null && myInfo.getIsRealname() != 1)) {
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
                                             .navigation(mContext);
-                                }else {
-                                    //已有认证角色
+                                } else {
+
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
                                             .navigation(mContext);
                                 }

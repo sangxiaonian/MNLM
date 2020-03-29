@@ -53,7 +53,7 @@ public interface OrderButtonClickListener {
     void onEvaluateClick(OrderInfoBean bean);
 
     /**
-     * 立即派单
+     * 立即派车
      */
     void onSendOrderClick(OrderInfoBean bean);
 

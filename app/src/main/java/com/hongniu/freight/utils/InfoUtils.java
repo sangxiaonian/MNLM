@@ -85,7 +85,7 @@ public class InfoUtils {
         int status = 0;
         if (info.getIsStaff() == 1) {
             //平台员工
-            status = info.getIsStaffStatus();
+            status = 4;
         } else if (info.getIsDriver() == 1) {
             //如果是司机
             status = info.getIsDriverStatus();
@@ -114,7 +114,7 @@ public class InfoUtils {
         int status = 0;
         if (info.isStaff()) {
             //平台员工
-            status = info.getIsStaffStatus();
+            status = 4;
         } else if (info.getIsDriver() == 1) {
             //如果是司机
             status = info.getIsDriverStatus();

@@ -29,7 +29,7 @@ import com.hongniu.freight.utils.Utils;
 /**
  * @data 2020/2/13
  * @Author PING
- * @Description 立即派单
+ * @Description 立即派车
  */
 @Route(path = ArouterParamApp.activity_assign_order)
 public class AssignOrderActivity extends CompanyBaseActivity implements View.OnClickListener, ItemTextView.OnCenterChangeListener {

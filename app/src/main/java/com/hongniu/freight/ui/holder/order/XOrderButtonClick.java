@@ -265,13 +265,13 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     }
 
     /**
-     * 立即派单
+     * 立即派车
      *
      * @param bean
      */
     @Override
     public void onSendOrderClick(OrderInfoBean bean) {
-//        ToastUtils.getInstance().show("立即派单");
+//        ToastUtils.getInstance().show("立即派车");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
                 .withString(Param.TRAN, bean.getId())
                 .navigation(mContext);

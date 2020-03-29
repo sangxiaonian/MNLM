@@ -224,6 +224,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         Role role = InfoUtils.getRole(personInfor);
         ll_order_center.setVisibility(role == Role.PLATFORM?View.VISIBLE:View.GONE);
         ll_car.setVisibility((role == Role.PLATFORM||role==Role.CARRIER_COMPANY||role==Role.CARRIER_PERSONAL)?View.VISIBLE:View.GONE);
+        ll_identification.setVisibility((role == Role.PLATFORM?View.GONE:View.VISIBLE));
     }
 
     private void switchBalance(boolean hideBalance) {

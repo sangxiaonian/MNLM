@@ -33,10 +33,14 @@ public class Param {
     public static final String ABOUT_US ="https://api.hongniudai.cn/static/html/service.html" ;
     //合同
    public static final String  hongniu_agreement = "https://api.hongniudai.cn/static/wlhycontract.html";
+   //隐私协议
+   public static final String  hongniu_privacy = "https://api.hongniudai.cn/static/wlhyprotocol.html";
    //保险
    public static final String  insurance_notify = "https://api.hongniudai.cn/static/wlhypolicy.html";
    //网络货运介绍
    public static final String  insurance_polic = "https://api.hongniudai.cn/static/wlhyservice.html";
+   //许可协议
+   public static final String  agreement = "https://api.hongniudai.cn/static/wlhyagreement.html";
 
     /**
      * 确认到达时候，距离目的地的最小距离 单位 千米
