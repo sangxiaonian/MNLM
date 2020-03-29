@@ -58,12 +58,26 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
-                        app:srcCompat="@mipmap/icon_carme" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/icon_scan_040000" />
 
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="扫描上传行驶证副正面"
+                        android:textColor="@color/color_of_040000"
+                        android:textSize="14dp" />
                 </LinearLayout>
+                <ImageView
+                    android:id="@+id/bt_img_positive"
+                    android:layout_gravity="center"
+                    android:layout_width="46dp"
+                    android:visibility="gone"
+                    android:layout_height="46dp"
+                    android:src="@mipmap/icon_carme"
+                      />
 
 
             </FrameLayout>
@@ -100,13 +114,27 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
-                        app:srcCompat="@mipmap/icon_carme" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/icon_scan_040000" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="扫描上传行驶证副页面"
+                        android:textColor="@color/color_of_040000"
+                        android:textSize="14dp" />
                 </LinearLayout>
 
-
+                <ImageView
+                    android:id="@+id/bt_img_minus"
+                    android:layout_gravity="center"
+                    android:layout_width="46dp"
+                    android:visibility="gone"
+                    android:layout_height="46dp"
+                    android:src="@mipmap/icon_carme"
+                    />
             </FrameLayout>
 
             <com.fy.companylibrary.widget.ItemTextView

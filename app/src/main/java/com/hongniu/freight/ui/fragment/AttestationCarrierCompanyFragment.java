@@ -11,10 +11,10 @@ import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.net.NetObserver;
-import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.UpImgData;
@@ -82,9 +82,9 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         img_business_license.setOnClickListener(this);
         bt_sum.setOnClickListener(this);
         item_company_name.setOnCenterChangeListener(this);
-                item_company_address.setOnCenterChangeListener(this);
+        item_company_address.setOnCenterChangeListener(this);
         item_name.setOnCenterChangeListener(this);
-                item_phone.setOnCenterChangeListener(this);
+        item_phone.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
     }
 

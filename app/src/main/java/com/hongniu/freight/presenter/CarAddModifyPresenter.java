@@ -37,8 +37,8 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
     public void saveInfo(CarInfoBean infoBean) {
         mode.saveInfo(infoBean);
         view.initInfo(infoBean,mode.enable());
-        view.showMinus(mode.getMinusPic());
-        view.showPositive(mode.getPositivePic());
+        view.showMinus(mode.getMinusPic(),mode.enable());
+        view.showPositive(mode.getPositivePic(),mode.enable());
         view.showTitle(infoBean==null);
     }
 
@@ -92,7 +92,7 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
-                        view.showPositive(mode.getPositivePic());
+                        view.showPositive(mode.getPositivePic(), mode.enable());
 
                     }
                 })
@@ -123,7 +123,7 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
-                        view.showMinus(mode.getMinusPic());
+                        view.showMinus(mode.getMinusPic(), mode.enable());
 
                     }
                 })

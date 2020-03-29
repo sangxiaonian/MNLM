@@ -44,6 +44,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
 
     private TextView btSum;
     private ImageView img_positive;//驾驶证正面
+    private ImageView bt_img_positive;//驾驶证正面
+    private ImageView bt_img_minus;//驾驶证正面
     private ImageView img_minus;//驾驶证副面
     private View ll_positive;//驾驶证副面
     private View ll_minus;//驾驶证副面
@@ -86,6 +88,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_number = findViewById(R.id.item_car_number);
         item_car_name = findViewById(R.id.item_car_name);
         item_car_phone = findViewById(R.id.item_car_phone);
+        bt_img_positive = findViewById(R.id.bt_img_positive);
+        bt_img_minus = findViewById(R.id.bt_img_minus);
         btSum = findViewById(R.id.bt_sum);
     }
 
@@ -107,6 +111,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_number.setOnCenterChangeListener(this);
         item_car_name.setOnCenterChangeListener(this);
         item_car_phone.setOnCenterChangeListener(this);
+        bt_img_positive.setOnClickListener(this);
+        bt_img_minus.setOnClickListener(this);
     }
 
 
@@ -206,11 +212,13 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
      * 显示图片
      *
      * @param result
+     * @param enable
      */
     @Override
-    public void showMinus(UpImgData result) {
+    public void showMinus(UpImgData result, boolean enable) {
         check(false);
         ll_minus.setVisibility(result == null ? View.VISIBLE : View.GONE);
+        bt_img_minus.setVisibility((result != null&&enable) ? View.VISIBLE : View.GONE);
         if (result == null) {
             img_minus.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.color_of_f6f5f8)));
         } else {
@@ -222,10 +230,11 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
      * 显示图片
      */
     @Override
-    public void showPositive(UpImgData result) {
+    public void showPositive(UpImgData result, boolean enable) {
         check(false);
 
         ll_positive.setVisibility(result == null ? View.VISIBLE : View.GONE);
+        bt_img_positive.setVisibility((result != null&&enable) ? View.VISIBLE : View.GONE);
         if (result == null) {
             img_positive.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.color_of_f6f5f8)));
         } else {
@@ -259,8 +268,8 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ll_positive) {
-            ToastUtils.getInstance().show("行驶证正面");
+        if (v.getId() == R.id.ll_positive||v.getId() == R.id.bt_img_positive) {
+//            ToastUtils.getInstance().show("行驶证正面");
             new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
                 @Override
                 public void onResult(List<LocalMedia> result) {
@@ -269,7 +278,7 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
                     presenter.upPositive(media, CarAddModifyActivity.this);
                 }
             });
-        } else if (v.getId() == R.id.ll_minus) {
+        } else if (v.getId() == R.id.ll_minus||v.getId() == R.id.bt_img_minus) {
             new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
                 @Override
                 public void onResult(List<LocalMedia> result) {

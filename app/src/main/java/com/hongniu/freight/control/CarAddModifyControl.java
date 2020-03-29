@@ -45,14 +45,16 @@ public class CarAddModifyControl {
         /**
          * 显示图片
          * @param result
+         * @param enable
          */
-        void showMinus(UpImgData result);
+        void showMinus(UpImgData result, boolean enable);
 
         /**
          * 显示图片
          * @param positivePic
+         * @param enable
          */
-        void showPositive(UpImgData positivePic);
+        void showPositive(UpImgData positivePic, boolean enable);
 
         /**
          * 新增完成
