@@ -2,6 +2,7 @@ package com.hongniu.freight.ui.fragment;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fy.companylibrary.config.Param;
@@ -58,11 +59,13 @@ public abstract class AttestationBaseFragment extends CompanyBaseFragment {
     private void switchEnable(ViewGroup parent) {
         if (parent instanceof ItemTextView) {
             ((ItemTextView) parent).setEnabled(canNext);
-        } else{
+        } else {
             for (int i = 0; i < parent.getChildCount(); i++) {
                 View child = parent.getChildAt(i);
                 if (child instanceof ItemTextView){
                     ((ItemTextView) child).setEnabled(canNext);
+                }else if (child instanceof ImageView){
+                    ( child).setEnabled(canNext);
                 }else if (child instanceof ViewGroup){
                     switchEnable((ViewGroup) child);
                 }
