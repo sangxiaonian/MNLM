@@ -57,7 +57,7 @@ public class RecycleHeader extends LinearLayout implements RefreshHeader {
 //        Glide.with(getContext()).asBitmap().load(R.raw.loading).into(ivLoading);
 
 
-        addView(ivLoading, size, size);
+        addView(ivLoading, size/2, size/2);
         setMinimumHeight(size);
     }
 

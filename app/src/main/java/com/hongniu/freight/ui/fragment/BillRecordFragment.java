@@ -91,7 +91,7 @@ public class BillRecordFragment extends RefrushFragmet<BillInfoListBean> {
                         TextView tv_time = itemView.findViewById(R.id.tv_time);
                         CommonUtils.setText(tvStatus,data.getTitle());
                         CommonUtils.setText(tv_des,data.getSubtitle());
-                        CommonUtils.setText(tv_time,data.getSubheading());
+                        CommonUtils.setText(tv_time,"支付时间:"+data.getCreateTime());
                         CommonUtils.setText(tvCount,data.getAmtStr());
                     }
                 };

@@ -114,12 +114,12 @@ public interface AppService {
     Observable<CommonBean<Object>> uploadResult(@Body JsonObject json);
 
     /**
-     * 个人托运人身份认证
+     * 个人承运人身份认证
      *
      * @param params
      * @return
      */
-    @POST("wlhyapi/api/identityAuthen/personShipperAuth")
+    @POST("wlhyapi/api/identityAuthen/personCarrierAuth")
     Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyPersonParams params);
 
     /**
@@ -139,13 +139,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/identityAuthen/companyShipperAuth")
     Observable<CommonBean<String>> verifyShipperCompany(@Body VerifyCompanyParams params);
- /**
-     * 公司托运人身份认证
+
+    /**
+     * 个人托运人身份认证
      *
      * @param params
      * @return
      */
-    @POST("wlhyapi/api/identityAuthen/personCarrierAuth")
+    @POST("wlhyapi/api/identityAuthen/personShipperAuth")
     Observable<CommonBean<String>> verifyShipperPersonal(@Body VerifyPersonParams params);
 
     /**
@@ -582,12 +583,13 @@ public interface AppService {
      */
     @POST("wlhyapi/api/waybill/show")
     Observable<CommonBean<List<WayBillBean>>> queryWaybill(@Body JsonObject eventParams);
-   /**
-    * 修改用户设备号 上传友盟token
-    *
-    * @return
-    */
-   @POST("wlhyapi/api/user/updateDevice")
-   Observable<CommonBean<Object>> upDateToken(@Body JsonObject formVals);
+
+    /**
+     * 修改用户设备号 上传友盟token
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/user/updateDevice")
+    Observable<CommonBean<Object>> upDateToken(@Body JsonObject formVals);
 
 }
