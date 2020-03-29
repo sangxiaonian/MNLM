@@ -48,6 +48,7 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
     protected void initListener() {
         super.initListener();
         btSum.setOnClickListener(this);
+        HttpAppFactory.queryMyInfo().subscribe();
 
     }
 

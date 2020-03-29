@@ -119,6 +119,7 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                     @Override
                     public void doOnSuccess(PersonInfor personInfor) {
                         super.doOnSuccess(personInfor);
+                        mode.savePersonInfo(personInfor);
                         view.showPersonInfo(mode.getPersonInfo());
                         view.showBalance(mode.isShowBalance(), mode.getBalanceTotle());
                     }

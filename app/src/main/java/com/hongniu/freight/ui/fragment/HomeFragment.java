@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.HomeControl;
 import com.hongniu.freight.entity.Event;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
@@ -204,7 +206,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     @Override
     public void showPersonInfo(PersonInfor personInfo) {
         if (personInfo != null) {
-            tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), personInfo.getContact()));
+            tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), TextUtils.isEmpty(personInfo.getContact())?"":personInfo.getContact()));
             if (InfoUtils.getState(personInfo) < 4&&InfoUtils.getState(personInfo) >0) {//审核中
                 dialogComment.setTitle("认证审核中");
                 dialogComment.show();
@@ -282,7 +284,10 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bt_learn_more) {
-            ToastUtils.getInstance().show("了解更多");
+            H5Config h5Config = new H5Config("网络货运", Param.insurance_polic, true);
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
+                    .withSerializable(Param.TRAN, h5Config)
+                    .navigation(mContext);
         } else if (v.getId() == R.id.view_chengyunren) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_order)
                     .withSerializable(Param.TRAN, RoleOrder.CARRIER)
