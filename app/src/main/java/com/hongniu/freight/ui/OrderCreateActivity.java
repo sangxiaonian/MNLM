@@ -408,12 +408,12 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             }
             return false;
         }
-        if (TextUtils.isEmpty(item_pay_way.getTextCenter())) {
-            if (show) {
-                ToastUtils.getInstance().show(item_pay_way.getTextCenterHide());
-            }
-            return false;
-        }
+//        if (TextUtils.isEmpty(item_pay_way.getTextCenter())) {
+//            if (show) {
+//                ToastUtils.getInstance().show(item_pay_way.getTextCenterHide());
+//            }
+//            return false;
+//        }
         if (item_cargo_price.getVisibility() == View.VISIBLE && TextUtils.isEmpty(item_cargo_price.getTextCenter())) {
             if (show) {
                 ToastUtils.getInstance().show(item_cargo_price.getTextCenterHide());

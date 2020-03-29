@@ -20,7 +20,6 @@ import com.hongniu.freight.R;
 public class ImageInforView extends LinearLayout implements View.OnClickListener {
 
     private ImageView img;
-    private View ll_camera;
     private View bt_img;
     private OnClickListener listener;
 
@@ -40,10 +39,8 @@ public class ImageInforView extends LinearLayout implements View.OnClickListener
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
         View inflate = LayoutInflater.from(context).inflate(R.layout.item_image_camera, this, false);
         img = inflate.findViewById(R.id.img);
-        ll_camera = inflate.findViewById(R.id.ll_camera);
         bt_img = inflate.findViewById(R.id.bt_img);
         addView(inflate);
-        ll_camera.setOnClickListener(this);
         bt_img.setOnClickListener(this);
         bt_img.setVisibility(GONE);
         setImageInfo(null);
@@ -62,20 +59,16 @@ public class ImageInforView extends LinearLayout implements View.OnClickListener
     public void setImageInfo(Object image){
         if (image==null){
             ImageLoader.getLoader().load(getContext(), this.img, new ColorDrawable(getResources().getColor(R.color.color_of_f6f5f8)));
-            ll_camera.setVisibility(isEnabled()?VISIBLE:GONE);
-            bt_img.setVisibility(GONE);
         }else {
             ImageLoader.getLoader().load(getContext(), this.img, image);
-            ll_camera.setVisibility(GONE);
-            bt_img.setVisibility(isEnabled() ? VISIBLE : GONE);
         }
+        bt_img.setVisibility(isEnabled() ? VISIBLE : GONE);
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         if (!enabled) {
-            ll_camera.setVisibility(GONE);
             bt_img.setVisibility(GONE);
         }
     }

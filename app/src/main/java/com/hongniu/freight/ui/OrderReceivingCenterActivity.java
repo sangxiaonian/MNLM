@@ -91,8 +91,7 @@ public class OrderReceivingCenterActivity extends RefrushActivity<OrderInfoBean>
     protected void initData() {
         super.initData();
         titles = new ArrayList<>(Arrays.asList(Status.values()));
-        titles.remove(0);
-        titles.remove(0);
+        titles.remove(1);
         if (selectAdapter == null) {
             selectAdapter = new SelectAdapter<Status>(mContext, rvTitle) {
                 @Override

@@ -206,7 +206,9 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     @Override
     public void showPersonInfo(PersonInfor personInfo) {
         if (personInfo != null) {
-            tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), TextUtils.isEmpty(personInfo.getContact())?"":personInfo.getContact()));
+            String name = TextUtils.isEmpty(personInfo.getContact()) ? "" : personInfo.getContact();
+            name=TextUtils.isEmpty(name)?personInfo.getMobile():name;
+            tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), name));
             if (InfoUtils.getState(personInfo) < 4&&InfoUtils.getState(personInfo) >0) {//审核中
                 dialogComment.setTitle("认证审核中");
                 dialogComment.show();

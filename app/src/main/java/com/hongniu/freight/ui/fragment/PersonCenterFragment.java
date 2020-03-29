@@ -210,7 +210,9 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         }
         this.personInfor = personInfor;
         ImageLoader.getLoader().loadHeaed(mContext, img_heard, personInfor.getLogoPath());
-        CommonUtils.setText(tv_name, personInfor.getMobile());
+        String name = TextUtils.isEmpty(personInfor.getContact()) ? "" : personInfor.getContact();
+        name=TextUtils.isEmpty(name)?personInfor.getMobile():name;
+        CommonUtils.setText(tv_name, name);
         String roleName = InfoUtils.getRoleName(personInfor);
 
         String stateName = InfoUtils.getStateName(InfoUtils.getState(personInfor));
