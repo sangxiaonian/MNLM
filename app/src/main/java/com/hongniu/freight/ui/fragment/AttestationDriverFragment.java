@@ -66,6 +66,8 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         img_driver = inflate.findViewById(R.id.img_driver);
         img_qualification = inflate.findViewById(R.id.img_qualification);
         ll_driver1 = inflate.findViewById(R.id.ll_driver1);
+        root = inflate;
+
         return inflate;
     }
 

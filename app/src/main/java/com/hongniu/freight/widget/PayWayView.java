@@ -127,7 +127,7 @@ public class PayWayView extends LinearLayout {
         }
         payWayInfos.add(new PayWayInfo(PayType.WEICHAT, R.mipmap.icon_wx_40, "微信支付", "微信安全支付", false));
         payWayInfos.add(new PayWayInfo(PayType.ALIPAY, R.mipmap.icon_zfb_40, "支付宝", "不可使用花呗", false));
-        payWayInfos.add(new PayWayInfo(PayType.UNIONPAY, R.mipmap.icon_ylzf_40, "银联支付", "中国银联在线支付服务", false));
+//        payWayInfos.add(new PayWayInfo(PayType.UNIONPAY, R.mipmap.icon_ylzf_40, "银联支付", "中国银联在线支付服务", false));
         for (PayWayInfo payWayInfo : payWayInfos) {
             addView(payWayInfo);
         }

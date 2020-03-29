@@ -25,7 +25,6 @@ import com.hongniu.freight.utils.Utils;
 public class AttestationShipperPersonalFragment  extends AttestationBaseFragment implements View.OnClickListener, ItemTextView.OnCenterChangeListener {
 
 
-    private View root;
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱

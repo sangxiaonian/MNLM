@@ -66,6 +66,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         ll_driver = inflate.findViewById(R.id.ll_driver);
         img_business_license = inflate.findViewById(R.id.img_business_license);
         ll_business_license = inflate.findViewById(R.id.ll_business_license);
+        root = inflate;
         return inflate;
     }
 
@@ -309,4 +310,6 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
     public void onCenterChange(String msg) {
         check(false);
     }
+
+
 }

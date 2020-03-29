@@ -39,7 +39,6 @@ import io.reactivex.disposables.Disposable;
 @Route(path = ArouterParamApp.fragment_attestation_carrier_personal)
 public class AttestationCarrierPersonalFragment extends AttestationBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener {
 
-    private View root;
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱

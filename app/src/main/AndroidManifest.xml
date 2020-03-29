@@ -64,7 +64,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.InsureanceInfodActivity" />
-        <activity android:name=".ui.BindBlankCardActivity" /> <!-- 聊天 -->
+        <activity android:name=".ui.BindBlankCardActivity" />
+        <!-- 聊天 -->
         <activity
             android:name=".ui.ChatConversationActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
