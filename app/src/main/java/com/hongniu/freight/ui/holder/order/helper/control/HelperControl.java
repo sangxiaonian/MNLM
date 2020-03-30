@@ -1,6 +1,8 @@
 package com.hongniu.freight.ui.holder.order.helper.control;
 
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
+import com.hongniu.freight.entity.OrderInfoBean;
 
 import java.util.Map;
 
@@ -28,4 +30,6 @@ public interface HelperControl {
      * @return
      */
     Status getStatus();
+
+
 }

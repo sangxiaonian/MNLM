@@ -4,17 +4,18 @@ import android.content.Context;
 import android.view.View;
 
 import com.amap.api.services.core.PoiItem;
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
-import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hongniu.freight.config.OrderButtonConfig;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.AreaBean;
 import com.hongniu.freight.entity.Citys;
 import com.hongniu.freight.entity.NewAreaBean;
 import com.hongniu.freight.entity.OrderInfoBean;
-import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -54,7 +56,7 @@ public class Utils {
      * @return 0 个人 1平台
      */
     public static int isStaff() {
-        return InfoUtils.getMyInfo()!=null?InfoUtils.getMyInfo().getIsStaff():0;
+        return InfoUtils.getMyInfo() != null ? InfoUtils.getMyInfo().getIsStaff() : 0;
     }
 
     public static void setButton(View button, boolean enable) {
@@ -87,8 +89,6 @@ public class Utils {
         }
         return placeInfor;
     }
-
-
 
 
     public static String getTitleTime() {
@@ -205,6 +205,7 @@ public class Utils {
 
 
     }
+
     private static String readTextFromSDcard(InputStream fis) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         //获得assets资源管理器
@@ -221,5 +222,32 @@ public class Utils {
         }
         return stringBuilder.toString();
 
+    }
+
+    /**
+     * 过滤掉评价数据
+     *
+     * @param role
+     * @param data
+     * @param buttons
+     */
+    public static void fliter(RoleOrder role, OrderInfoBean data, Map<String, Integer> buttons) {
+        if (role == null || data == null || CollectionUtils.isEmpty(buttons)) {
+            return;
+        }
+        boolean fliter = false;
+        if (role == RoleOrder.DRIVER && data.getDriverEvaluateState() == 1) {
+            fliter = true;
+        }
+        data.setOwenrEvaluateState(1);
+        if (role == RoleOrder.CARRIER && data.getOwenrEvaluateState() == 1) {
+            fliter = true;
+        }
+        if (role == RoleOrder.SHIPPER && data.getUserEvaluateState() == 1) {
+            fliter = true;
+        }
+        if (fliter){
+            buttons.remove(OrderButtonConfig.EVALUATE);
+        }
     }
 }

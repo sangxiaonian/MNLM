@@ -124,7 +124,7 @@ public class TYRHelper extends BaseHelper {
             if (isInsurance){
                 map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
             }
-            map.put(OrderButtonConfig.EVALUATE, 1);
+//            map.put(OrderButtonConfig.EVALUATE, 1);
         } else {
 //            result = "未知状态";
         }

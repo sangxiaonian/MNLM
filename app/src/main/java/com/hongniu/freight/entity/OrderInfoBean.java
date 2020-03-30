@@ -73,9 +73,9 @@ public class OrderInfoBean implements Parcelable {
     private String realMoney;//": 0,
     private String longitude;//": null,
     private String latitude;//": null,
-    private String userEvaluateState;//": 0,
-    private String owenrEvaluateState;//": 0,
-    private String driverEvaluateState;//": 0
+    private int userEvaluateState;//": 0,
+    private int owenrEvaluateState;//": 0,
+    private int driverEvaluateState;//": 0
 
     public double getRealmoney() {
         return realmoney;
@@ -389,27 +389,27 @@ public class OrderInfoBean implements Parcelable {
         this.latitude = latitude;
     }
 
-    public String getUserEvaluateState() {
+    public int getUserEvaluateState() {
         return userEvaluateState;
     }
 
-    public void setUserEvaluateState(String userEvaluateState) {
+    public void setUserEvaluateState(int userEvaluateState) {
         this.userEvaluateState = userEvaluateState;
     }
 
-    public String getOwenrEvaluateState() {
+    public int getOwenrEvaluateState() {
         return owenrEvaluateState;
     }
 
-    public void setOwenrEvaluateState(String owenrEvaluateState) {
+    public void setOwenrEvaluateState(int owenrEvaluateState) {
         this.owenrEvaluateState = owenrEvaluateState;
     }
 
-    public String getDriverEvaluateState() {
+    public int getDriverEvaluateState() {
         return driverEvaluateState;
     }
 
-    public void setDriverEvaluateState(String driverEvaluateState) {
+    public void setDriverEvaluateState(int driverEvaluateState) {
         this.driverEvaluateState = driverEvaluateState;
     }
 
@@ -661,9 +661,9 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.realMoney);
         dest.writeString(this.longitude);
         dest.writeString(this.latitude);
-        dest.writeString(this.userEvaluateState);
-        dest.writeString(this.owenrEvaluateState);
-        dest.writeString(this.driverEvaluateState);
+        dest.writeInt(this.userEvaluateState);
+        dest.writeInt(this.owenrEvaluateState);
+        dest.writeInt(this.driverEvaluateState);
     }
 
     protected OrderInfoBean(Parcel in) {
@@ -728,9 +728,9 @@ public class OrderInfoBean implements Parcelable {
         this.realMoney = in.readString();
         this.longitude = in.readString();
         this.latitude = in.readString();
-        this.userEvaluateState = in.readString();
-        this.owenrEvaluateState = in.readString();
-        this.driverEvaluateState = in.readString();
+        this.userEvaluateState = in.readInt();
+        this.owenrEvaluateState = in.readInt();
+        this.driverEvaluateState = in.readInt();
     }
 
     public static final Creator<OrderInfoBean> CREATOR = new Creator<OrderInfoBean>() {

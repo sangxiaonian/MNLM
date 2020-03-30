@@ -237,8 +237,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         append(color, builder, String.format("%skg",infoBean.getGoodWeight()));
         appendLine(builder);
         append(color, builder, String.format("%sm³",infoBean.getGoodVolume()));
-        appendLine(builder);
-        append(color, builder,  String.format("%s元",infoBean.getGoodPrice()));
+
 
         tv_detail.setText(builder);
     }

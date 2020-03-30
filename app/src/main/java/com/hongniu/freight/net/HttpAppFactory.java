@@ -29,6 +29,7 @@ import com.hongniu.freight.entity.LoginCreatInsuredBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderDispathCarParams;
+import com.hongniu.freight.entity.OrderDriverPhoneBean;
 import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
@@ -262,7 +263,9 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyShipperPersonal(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
-    }  /**
+    }
+
+    /**
      * @param params
      * @return
      * @data 2020/3/1
@@ -493,7 +496,22 @@ public class HttpAppFactory {
                 .orderDispathCar(params)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
-    }   /**
+    }
+    /**
+     * 平台员工发布找车信息
+     *
+     * @return
+     */
+    public static Observable<CommonBean<List<OrderDriverPhoneBean>>> getDriverPhone(String name) {
+        OrderDriverPhoneBean bean = new OrderDriverPhoneBean();
+        bean.setDriverName(name);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .getDriverPhone(bean)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+
+    /**
      * 实际承运人接单
      *
      * @return
@@ -867,7 +885,9 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryPayInfo(payInfoParams)
                 .compose(RxUtils.getSchedulersObservableTransformer());
-    }  /**
+    }
+
+    /**
      * @param payInfoParams
      * @return
      * @data 2020/3/3
@@ -956,13 +976,14 @@ public class HttpAppFactory {
 
     /**
      * 上传位置信息
+     *
      * @param datas
      * @return
      */
-    public static   Observable<CommonBean<String>> upLoaction(List<LocationBean> datas) {
+    public static Observable<CommonBean<String>> upLoaction(List<LocationBean> datas) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .upLoaction(datas)
-                .compose(RxUtils. getSchedulersObservableTransformer())
+                .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
 
@@ -974,12 +995,14 @@ public class HttpAppFactory {
      */
     public static Observable<CommonBean<List<WayBillBean>>> queryWaybill(String wayBillNumber) {
         JsonObject array = new JsonObject();
-        array.addProperty(  "waybillNum",wayBillNumber);
-        return  CompanyClient.getInstance().creatService(AppService.class)
+        array.addProperty("waybillNum", wayBillNumber);
+        return CompanyClient.getInstance().creatService(AppService.class)
                 .queryWaybill(array)
                 .compose(RxUtils.<CommonBean<List<WayBillBean>>>getSchedulersObservableTransformer())
                 ;
-    } /**
+    }
+
+    /**
      * 根据运单号查询运单信息
      *
      * @param token

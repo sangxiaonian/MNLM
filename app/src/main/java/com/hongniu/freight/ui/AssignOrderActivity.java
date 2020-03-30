@@ -3,6 +3,8 @@ package com.hongniu.freight.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
 import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -23,8 +26,12 @@ import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.OrderDispathCarParams;
+import com.hongniu.freight.entity.OrderDriverPhoneBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.CarNumPop;
+
+import java.util.List;
 
 /**
  * @data 2020/2/13
@@ -32,7 +39,7 @@ import com.hongniu.freight.utils.Utils;
  * @Description 立即派车
  */
 @Route(path = ArouterParamApp.activity_assign_order)
-public class AssignOrderActivity extends CompanyBaseActivity implements View.OnClickListener, ItemTextView.OnCenterChangeListener {
+public class AssignOrderActivity extends CompanyBaseActivity implements View.OnClickListener, ItemTextView.OnCenterChangeListener, SearchTextWatcher.SearchTextChangeListener, CarNumPop.onItemClickListener<OrderDriverPhoneBean> {
     private TextView bt_sum;
     private ItemTextView item_price;
     private ItemTextView item_car_type;
@@ -41,12 +48,24 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
     private CarInfoBean carInfo;
     private String orderID;
 
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            queryDriverInfor(item_driver_name.getTextCenter());
+
+        }
+    };
+    private CarNumPop<OrderDriverPhoneBean> popDriver;
+
+
+    private boolean show;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_order);
-        orderID=getIntent().getStringExtra(Param.TRAN);
+        orderID = getIntent().getStringExtra(Param.TRAN);
         setWhitToolBar("");
         initView();
         initData();
@@ -62,6 +81,7 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
         item_car_type = findViewById(R.id.item_car_type);
         item_driver_phone = findViewById(R.id.item_driver_phone);
         item_driver_name = findViewById(R.id.item_driver_name);
+        popDriver = new CarNumPop<>(this);
     }
 
     @Override
@@ -73,6 +93,8 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
         item_car_type.setOnCenterChangeListener(this);
         item_driver_phone.setOnCenterChangeListener(this);
         item_driver_name.setOnCenterChangeListener(this);
+        item_driver_name.getEtCenter().addTextChangedListener(new SearchTextWatcher(this));
+        popDriver.setListener(this);
     }
 
     @Override
@@ -113,14 +135,14 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
         if (v.getId() == R.id.bt_sum) {
             if (check(true)) {
 
-                OrderDispathCarParams params=new OrderDispathCarParams();
+                OrderDispathCarParams params = new OrderDispathCarParams();
                 params.setCarId(carInfo.getId());
                 params.setDriverMobile(item_driver_phone.getTextCenter());
                 params.setDriverName(item_driver_name.getTextCenter());
                 params.setRealMoney(item_price.getTextCenter());
                 params.setOrderId(orderID);
                 HttpAppFactory.orderDispathCar(params)
-                        .subscribe(new NetObserver<Object>(this){
+                        .subscribe(new NetObserver<Object>(this) {
                             @Override
                             public void doOnSuccess(Object o) {
                                 super.doOnSuccess(o);
@@ -129,8 +151,6 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
                                 finish();
                             }
                         });
-
-
 
 
             }
@@ -178,4 +198,42 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
         check(false);
     }
 
+    @Override
+    public void onSearchTextChange(String msg) {
+        handler.removeMessages(1);
+        handler.removeMessages(0);
+        handler.removeMessages(2);
+        if (!TextUtils.isEmpty(msg) && show) {
+            handler.sendEmptyMessageDelayed(1, 300);
+        }
+        show = true;
+
+    }
+
+    private void queryDriverInfor(String textCenter) {
+        HttpAppFactory.getDriverPhone(textCenter)
+                .subscribe(new NetObserver<List<OrderDriverPhoneBean>>(null) {
+                    @Override
+                    public void doOnSuccess(List<OrderDriverPhoneBean> orderDriverPhoneBeans) {
+                        super.doOnSuccess(orderDriverPhoneBeans);
+                        popDriver.upData(item_driver_name.getTextCenter(), orderDriverPhoneBeans);
+                        popDriver.show(item_driver_name);
+                    }
+                });
+    }
+
+    @Override
+    public void onItemClick(View tragetView, int position, OrderDriverPhoneBean data) {
+        popDriver.dismiss();
+        show = false;
+        if (tragetView != null && data != null) {
+            item_driver_phone.setTextCenter(data.getMobile());
+            item_driver_name.setTextCenter(data.getContact());
+        }
+    }
+
+    @Override
+    public void onDissmiss() {
+
+    }
 }

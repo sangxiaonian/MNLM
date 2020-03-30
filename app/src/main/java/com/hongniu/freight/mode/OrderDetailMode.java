@@ -66,6 +66,8 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
                 .setStatus(getStatus().getStatus())
                 ;
         Map<String, Integer> buttons = helper.getButtons(getStatus().getStatus());
+        Utils.fliter(role,infoBean, buttons);
+
         if (!CollectionUtils.isEmpty(buttons)){
             for (String s : buttons.keySet()) {
                 Integer integer = buttons.get(s);

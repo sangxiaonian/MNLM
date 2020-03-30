@@ -21,6 +21,7 @@ import com.hongniu.freight.entity.LoginCreatInsuredBean;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderDispathCarParams;
+import com.hongniu.freight.entity.OrderDriverPhoneBean;
 import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
@@ -271,6 +272,17 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/dispatch")
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
+    /**
+     * 获取车牌号联想
+     * <p>
+     * 参数名称	是否必须	数据类型	描述
+     * userId	true	string	车主Id
+     * carNumber	true	string	车牌号
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/user/querydriver")
+    Observable<CommonBean<List<OrderDriverPhoneBean>>> getDriverPhone(@Body OrderDriverPhoneBean infor);
 
     /**
      * 实际承运人接单

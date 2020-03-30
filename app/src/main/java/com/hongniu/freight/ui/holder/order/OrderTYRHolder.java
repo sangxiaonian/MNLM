@@ -14,6 +14,9 @@ import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.ui.holder.order.helper.OrderHelper;
 import com.hongniu.freight.ui.holder.order.helper.control.HelperControl;
+import com.hongniu.freight.utils.Utils;
+
+import java.util.Map;
 
 /**
  * 作者：  on 2020/2/6.
@@ -48,10 +51,13 @@ class OrderTYRHolder extends OrderBaseHolder {
         tv_tag.setVisibility(role== RoleOrder.PLATFORM?View.GONE:View.VISIBLE);
         tvTitle.setText(helper.getStatus().getName());
 
-        //控制底部button
-        addButton(bottom_group, ll_bt, data, helper.getButtons(data.getStatus()));
+        Map<String, Integer> buttons = helper.getButtons(data.getStatus());
+        Utils.fliter(role,data, buttons);
 
+        //控制底部button
+        addButton(bottom_group, ll_bt, data, buttons);
     }
+
 
 
 }
