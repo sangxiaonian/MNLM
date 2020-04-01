@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hongniu.freight.App;
+import com.hongniu.freight.utils.InfoUtils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -61,6 +62,7 @@ public class LoginOutRespondInterceptor implements Interceptor {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         lastTime = currentTime;
+                        InfoUtils.loginOut();
                     }
                 }
 

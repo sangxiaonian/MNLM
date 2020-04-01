@@ -4,15 +4,22 @@ import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.NetObserver;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.HomeControl;
+import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.mode.HomeFragmentMode;
+import com.hongniu.freight.utils.InfoUtils;
 
 import io.reactivex.Observable;
+
+import static com.taobao.accs.init.Launcher_InitAccs.mContext;
 
 /**
  * 作者：  on 2020/2/6.
@@ -25,6 +32,22 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
     public HomeFramentPresent(HomeControl.IHomeFragmentView view) {
         this.view = view;
         mode=new HomeFragmentMode();
+    }
+
+    /**
+     * 储存是否是从登录页面跳转过来的
+     *
+     * @param isLogin
+     */
+    @Override
+    public void saveInfo(boolean isLogin) {
+        mode.saveInfo(isLogin);
+        if (isLogin){
+            //如果是登录
+            if (InfoUtils.getRole(InfoUtils.getLoginInfo()) == Role.UNKNOW) {
+                view.jump2SelectRole();
+            }
+        }
     }
 
     /**
@@ -49,8 +72,15 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                             Object data = result.getData();
                             if (data instanceof PersonInfor){
                                 //个人数据
+
                                 mode.savePersonInfo((PersonInfor) data);
-                                view.showPersonInfo(mode.getPersonInfo());
+                                PersonInfor myInfo = mode.getPersonInfo();
+                                view.showPersonInfo(myInfo);
+                                if (!mode.isLogin()&&(InfoUtils.getState(myInfo)!=4||myInfo.getIsRealname()!=1)) {
+                                    //跳转到实名认证
+                                    view.showAttestationAlert();
+
+                                }
                             }else if (data instanceof PageBean){
                                 //订单数量数据
                                 mode.saveOrderList( ((PageBean) data).getList());
@@ -61,10 +91,8 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                                 if (!CollectionUtils.isEmpty(((OrderNumberInfoBean) data).getDriverTransOrderList())) {
                                     //有正在运输中的订单
                                     view.startLoaction(((OrderNumberInfoBean) data).getDriverTransOrderList().get(0));
-
                                 }else {
                                     view.stopLocation(  );
-
                                 }
                             }
                         }
@@ -145,5 +173,24 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
     @Override
     public void clickMore() {
         view.clickMore(mode.getRoleOrder());
+    }
+
+    /**
+     * 点击跳转到实名认证
+     */
+    @Override
+    public void jump2Attestion() {
+        PersonInfor personInfo = mode.getPersonInfo();
+        if (personInfo==null){
+            return;
+        }
+        if (InfoUtils.getRole(personInfo)==Role.UNKNOW) {
+            //跳转到实名认证选角色
+            view.jump2SelectRole();
+
+        } else if ( personInfo.getIsRealname() != 1) {
+            view.jump2Face();
+
+        }
     }
 }

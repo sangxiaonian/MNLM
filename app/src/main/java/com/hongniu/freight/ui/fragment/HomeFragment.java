@@ -41,6 +41,8 @@ import com.hongniu.freight.widget.DialogComment;
 
 import java.util.List;
 
+import static com.taobao.accs.init.Launcher_InitAccs.mContext;
+
 /**
  * 作者：  on 2020/2/5.
  */
@@ -65,7 +67,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
 
     HomeControl.IHomeFragmentPresent present;
-    DialogComment dialogComment;
+    DialogComment dialogComment,dialogAttes;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -99,13 +101,17 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     protected void initData() {
         super.initData();
         content.setVisibility(View.GONE);
+        if (getBundle()!=null){
+            boolean isLogin = getBundle().getBoolean(Param.TRAN,false);
+            present.saveInfo(isLogin);
+        }
         present.queryInfo(this);
         dialogComment = new DialogComment.Builder()
                 .setBtLeft("刷新状态")
                 .setBtRight("查看详情")
                 .hideContent()
-                .setCancelable(false)
-                .setCanceledOnTouchOutside(false)
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true)
                 .setLeftClickListener(this)
                 .setRightClickListener(this)
                 .creatDialog(mContext);
@@ -286,6 +292,49 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         Event.UpLoactionEvent upLoactionEvent = new Event.UpLoactionEvent();
         upLoactionEvent.start = false;
         BusFactory.getBus().post(upLoactionEvent);
+    }
+
+    /**
+     * 跳转到选角色实名认证
+     */
+    @Override
+    public void jump2SelectRole() {
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
+                .navigation(mContext);
+    }
+
+    /**
+     * 弹出去实名认证的提示
+     */
+    @Override
+    public void showAttestationAlert() {
+        if (dialogAttes==null) {
+            dialogAttes = new DialogComment.Builder()
+                    .setBtLeft("否")
+                    .setDialogTitle("是否去实名认证?")
+                    .setBtRight("是")
+                    .hideContent()
+                    .setCancelable(false)
+                    .setCanceledOnTouchOutside(false)
+                    .setRightClickListener(new DialogComment.OnButtonRightClickListener() {
+                        @Override
+                        public void onRightClick(View view, Dialog dialog) {
+                            dialog.dismiss();
+                            present.jump2Attestion();
+                        }
+                    })
+                    .creatDialog(mContext);
+            dialogAttes.show();
+        }
+    }
+
+    /**
+     * 跳转到人脸识别
+     */
+    @Override
+    public void jump2Face() {
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                .navigation(mContext);
     }
 
     /**

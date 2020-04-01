@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
-import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -24,13 +23,10 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.LoginInfo;
-import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
 import com.hongniu.freight.net.HttpAppFactory;
-import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,10 +88,10 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
     @Override
     protected void initData() {
         super.initData();
-        SpannableStringBuilder builder=new SpannableStringBuilder("进入木牛流马代表你已同意");
+        SpannableStringBuilder builder = new SpannableStringBuilder("进入木牛流马代表你已同意");
         int start = builder.length();
         builder.append("《木牛流马许可协议》");
-        int end=builder.length();
+        int end = builder.length();
         XClickableSpan xClickableSpan = new XClickableSpan() {
             /**
              * Performs the click action associated with this span.
@@ -110,7 +106,7 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
             }
         };
         xClickableSpan.setColor(getResources().getColor(R.color.color_of_3d59ae));
-        builder.setSpan(xClickableSpan,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        builder.setSpan(xClickableSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_argument.setMovementMethod(LinkMovementMethod.getInstance());
         tv_argument.setText(builder);
     }
@@ -200,18 +196,10 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                             @Override
                             public void doOnSuccess(LoginInfo loginInfo) {
                                 super.doOnSuccess(loginInfo);
-                                PersonInfor myInfo = InfoUtils.getMyInfo();
-                                if (InfoUtils.getRole(loginInfo) == Role.UNKNOW && InfoUtils.getRole(myInfo) == Role.UNKNOW) {
-                                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
-                                            .navigation(mContext);
-                                } else if (loginInfo.getIsRealname() != 1 && (myInfo != null && myInfo.getIsRealname() != 1)) {
-                                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
-                                            .navigation(mContext);
-                                } else {
-
-                                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
-                                            .navigation(mContext);
-                                }
+                                ArouterUtils.getInstance()
+                                        .builder(ArouterParamApp.activity_main)
+                                        .withBoolean(Param.TRAN, true)
+                                        .navigation(mContext);
                                 EventBus.getDefault().postSticky(new UmenToken());
                                 finish();
                             }

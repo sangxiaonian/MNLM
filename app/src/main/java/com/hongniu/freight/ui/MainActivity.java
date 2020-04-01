@@ -77,12 +77,14 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     CompanyBaseFragment homeFragment, orderFragment, messageFragment, meFragment, currentFragment;
     private LoactionUtils loaction;
 
+    private boolean isLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setWhitToolBar("");
+        isLogin=getIntent().getBooleanExtra(Param.TRAN,false);
         initView();
         initData();
         initListener();
@@ -203,8 +205,10 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             case R.id.tab1:
 
                 if (homeFragment == null) {
-
                     homeFragment = new HomeFragment();
+                    Bundle bundle=new Bundle();
+                    bundle.putBoolean(Param.TRAN,isLogin);
+                    homeFragment.setBundle(bundle);
                     fragmentTransaction.add(R.id.content, homeFragment);
                 } else {
                     fragmentTransaction.show(homeFragment);

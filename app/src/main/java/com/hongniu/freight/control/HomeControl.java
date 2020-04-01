@@ -65,8 +65,28 @@ public class HomeControl {
          * 无正在运输中的订单,停止上传位置
          */
         void stopLocation();
+
+        /**
+         *跳转到选角色实名认证
+         */
+        void jump2SelectRole();
+
+        /**
+         * 弹出去实名认证的提示
+         */
+        void showAttestationAlert();
+
+        /**
+         * 跳转到人脸识别
+         */
+        void jump2Face();
     }
     public interface IHomeFragmentPresent {
+        /**
+         * 储存是否是从登录页面跳转过来的
+         * @param isLogin
+         */
+        void saveInfo(boolean isLogin);
         /**
          *
          * 初始化数据
@@ -94,9 +114,25 @@ public class HomeControl {
          * 点击更多
          */
         void clickMore();
+
+
+        /**
+         * 点击跳转到实名认证
+         */
+        void jump2Attestion();
     }
     public interface IHomeFragmentMode {
+        /**
+         * 储存是否是从登录页面跳转过来的
+         * @param isLogin
+         */
+        void saveInfo(boolean isLogin);
 
+        /**
+         *
+         * @return true 登录
+         */
+        boolean isLogin();
         /**
          *
          * @return 获取当前类型 0 1 2
@@ -154,6 +190,7 @@ public class HomeControl {
 
         void saveOrderList(List list);
         List<OrderInfoBean> getOrderList( );
+
     }
 
 }

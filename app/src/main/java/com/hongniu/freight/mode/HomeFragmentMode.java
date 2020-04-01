@@ -32,6 +32,7 @@ public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
     private PersonInfor personInfo;
     private boolean isShowBalance;
     private List<OrderInfoBean> list;
+    private boolean isLogin;
 
     public HomeFragmentMode() {
         list=new ArrayList<>();
@@ -55,6 +56,23 @@ public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
     }
 
 
+    /**
+     * 储存是否是从登录页面跳转过来的
+     *
+     * @param isLogin
+     */
+    @Override
+    public void saveInfo(boolean isLogin) {
+        this.isLogin=isLogin;
+    }
+
+    /**
+     * @return true 登录
+     */
+    @Override
+    public boolean isLogin() {
+        return isLogin;
+    }
 
     /**
      * @return 获取当前类型

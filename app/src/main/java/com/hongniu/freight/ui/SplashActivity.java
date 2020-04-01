@@ -24,17 +24,8 @@ public class SplashActivity extends CompanyBaseActivity {
             LoginInfo loginInfo = InfoUtils.getLoginInfo();
             PersonInfor myInfo = InfoUtils.getMyInfo();
             if (loginInfo != null) {
-                if (InfoUtils.getRole(loginInfo) == Role.UNKNOW && InfoUtils.getRole(myInfo) == Role.UNKNOW) {
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
-                            .navigation(mContext);
-                } else if (loginInfo.getIsRealname() != 1 &&(myInfo != null && myInfo.getIsRealname() != 1)) {
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
-                            .navigation(mContext);
-                } else {
-
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
-                            .navigation(mContext);
-                }
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                        .navigation(mContext);
             } else {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_login)
                         .navigation(mContext);
