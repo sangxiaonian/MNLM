@@ -53,6 +53,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     private TextView tv_driver_contact;//司机信息
     private TextView tv_detail;//订单详情
     private TextView tv_car_detail;//车辆信息
+    private TextView tv_shipper_detail;//托运人信息
     private TextView bt_left;//
     private TextView bt_right;//
 
@@ -87,6 +88,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         tv_end_contact = findViewById(R.id.tv_end_contact);
         img_end_chat = findViewById(R.id.img_end_chat);
         tv_driver_contact = findViewById(R.id.tv_driver_contact);
+        tv_shipper_detail = findViewById(R.id.tv_shipper_detail);
         tv_detail = findViewById(R.id.tv_detail);
         tv_car_detail = findViewById(R.id.tv_car_detail);
         bt_left = findViewById(R.id.bt_left);
@@ -240,6 +242,37 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
 
 
         tv_detail.setText(builder);
+    }
+
+    /**
+     * 托运人信息
+     *
+     * @param infoBean
+     * @param showCarInfo
+     */
+    @Override
+    public void showShipperInfo(OrderInfoBean infoBean, boolean showCarInfo) {
+        tv_shipper_detail.setMovementMethod(LinkMovementMethod.getInstance());
+        int color = getResources().getColor(R.color.color_of_040000);
+        int titleColor = getResources().getColor(R.color.color_of_666666);
+        int contactColor = getResources().getColor(R.color.color_of_3d5688);
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        append(titleColor, "托运人姓名", color, infoBean.getDriverName(), builder);
+        append(titleColor, builder, "托运人手机");
+        builder.append(gap);
+
+        append(color, builder, infoBean.getDriverMobile());
+        appendLine(builder);
+        appendClick(builder, "联系托运人", new XClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                presenter.contactShipper();
+            }
+
+        }
+                .setColor(contactColor));
+        tv_shipper_detail.setText(builder);
+        tv_shipper_detail.setVisibility(showCarInfo?View.VISIBLE:View.GONE);
     }
 
     //添加一条竖线

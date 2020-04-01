@@ -42,7 +42,12 @@ public class OrderDetailControl {
          * @param showRealePrice
          */
         void showOrderDetail(OrderInfoBean infoBean, boolean showCargoPrice, boolean showRealePrice);
-
+        /**
+         * 托运人信息
+         * @param infoBean
+         * @param showCarInfo
+         */
+        void showShipperInfo(OrderInfoBean infoBean, boolean showCarInfo);
         /**
          * 显示车辆信息
          * @param infoBean
@@ -89,6 +94,8 @@ public class OrderDetailControl {
          * @param name
          */
         void startChat(String id, String name);
+
+
     }
     public interface IOrderDetailPresenter{
         /**
@@ -132,12 +139,17 @@ public class OrderDetailControl {
          * 查看保单
          */
         void checkInsurance();
-
+        /**
+         * 联系托运人
+         */
+        void contactShipper();
 
         /**
          * 和发货人聊天
          */
         void chatStart();
+
+
     }
     public interface IOrderDetailMode{
         /**

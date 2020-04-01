@@ -43,6 +43,13 @@ public class OrderInfoBean implements Parcelable {
     private String driverName;//": null,司机名
     private String driverMobile;//": null,司机手机号
 
+   private String userrId;//	true	number	托运人id
+   private String userName;//	true	number	托运人姓名
+   private String userMobile;//	true	number	托运人手机号
+    private int userEvaluateState;//": 托运人评价状态 1:已评价 0:未评价
+    private int owenrEvaluateState;//": 承运人评价状态 1:已评价 0:未评价
+    private int driverEvaluateState;//":司机评价状态 1:已评价 0:未评价
+
     private String userId;//": 268,
     private double startPlaceLon;//": 121.40225,
     private double startPlaceLat;//": 31.311806,
@@ -73,9 +80,31 @@ public class OrderInfoBean implements Parcelable {
     private String realMoney;//": 0,
     private String longitude;//": null,
     private String latitude;//": null,
-    private int userEvaluateState;//": 0,
-    private int owenrEvaluateState;//": 0,
-    private int driverEvaluateState;//": 0
+
+
+    public String getUserrId() {
+        return userrId;
+    }
+
+    public void setUserrId(String userrId) {
+        this.userrId = userrId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserMobile() {
+        return userMobile;
+    }
+
+    public void setUserMobile(String userMobile) {
+        this.userMobile = userMobile;
+    }
 
     public double getRealmoney() {
         return realmoney;
@@ -632,6 +661,12 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.driverId);
         dest.writeString(this.driverName);
         dest.writeString(this.driverMobile);
+        dest.writeString(this.userrId);
+        dest.writeString(this.userName);
+        dest.writeString(this.userMobile);
+        dest.writeInt(this.userEvaluateState);
+        dest.writeInt(this.owenrEvaluateState);
+        dest.writeInt(this.driverEvaluateState);
         dest.writeString(this.userId);
         dest.writeDouble(this.startPlaceLon);
         dest.writeDouble(this.startPlaceLat);
@@ -661,9 +696,6 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.realMoney);
         dest.writeString(this.longitude);
         dest.writeString(this.latitude);
-        dest.writeInt(this.userEvaluateState);
-        dest.writeInt(this.owenrEvaluateState);
-        dest.writeInt(this.driverEvaluateState);
     }
 
     protected OrderInfoBean(Parcel in) {
@@ -699,6 +731,12 @@ public class OrderInfoBean implements Parcelable {
         this.driverId = in.readString();
         this.driverName = in.readString();
         this.driverMobile = in.readString();
+        this.userrId = in.readString();
+        this.userName = in.readString();
+        this.userMobile = in.readString();
+        this.userEvaluateState = in.readInt();
+        this.owenrEvaluateState = in.readInt();
+        this.driverEvaluateState = in.readInt();
         this.userId = in.readString();
         this.startPlaceLon = in.readDouble();
         this.startPlaceLat = in.readDouble();
@@ -728,9 +766,6 @@ public class OrderInfoBean implements Parcelable {
         this.realMoney = in.readString();
         this.longitude = in.readString();
         this.latitude = in.readString();
-        this.userEvaluateState = in.readInt();
-        this.owenrEvaluateState = in.readInt();
-        this.driverEvaluateState = in.readInt();
     }
 
     public static final Creator<OrderInfoBean> CREATOR = new Creator<OrderInfoBean>() {

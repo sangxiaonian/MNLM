@@ -39,6 +39,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
         view.showOrderAddressInfo(infoBean);
         view.initDriverInfo(infoBean,mode.isShowDriverInfo());
         view.showOrderDetail(infoBean,mode.isShowCargoPrice(),mode.isShowRealePrice());
+        view.showShipperInfo(infoBean,mode.isShowCarInfo());
         view.showCarInfo(infoBean,mode.isShowCarInfo());
         view.showButton(mode.getButtonMsg());
     }
@@ -92,7 +93,13 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
     public void contactDriver() {
         view.startChat(mode.getOrderInfo().getDriverId(),mode.getOrderInfo().getDriverName());
     }
-
+    /**
+     * 联系托运人
+     */
+    @Override
+    public void contactShipper() {
+        view.startChat(mode.getOrderInfo().getUserId(),mode.getOrderInfo().getUserName());
+    }
     /**
      * 点击按钮
      * @param i
@@ -116,6 +123,8 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
             view.showError("保单信息异常,请稍后再试");
         }
     }
+
+
 
     /**
      * 和发货人聊天

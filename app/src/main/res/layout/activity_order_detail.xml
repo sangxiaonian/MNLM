@@ -18,8 +18,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_height="500dp">
+            android:layout_height="500dp"
+            android:layout_marginBottom="10dp">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guide_left"
@@ -119,22 +119,22 @@
                 android:gravity="center"
                 android:text="收"
                 android:textColor="@color/color_of_ffffff"
-                app:layout_constraintStart_toStartOf="@id/tv_start_flag"
                 app:layout_constraintEnd_toEndOf="@id/tv_start_flag"
+                app:layout_constraintStart_toStartOf="@id/tv_start_flag"
                 app:layout_constraintTop_toTopOf="@id/tv_end" />
 
             <com.fy.androidlibrary.widget.DashedView
                 android:layout_width="2dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_start_flag"
-                app:layout_constraintBottom_toTopOf="@id/tv__end_flag"
-                app:layout_constraintStart_toStartOf="@id/tv_start_flag"
-                app:layout_constraintEnd_toEndOf="@id/tv_start_flag"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:dashedColor="@color/color_of_eeeeee"
                 app:dashedOritation="vertical"
                 app:dashedWidth="2dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_height="0dp"/>
+                app:layout_constraintBottom_toTopOf="@id/tv__end_flag"
+                app:layout_constraintEnd_toEndOf="@id/tv_start_flag"
+                app:layout_constraintStart_toStartOf="@id/tv_start_flag"
+                app:layout_constraintTop_toBottomOf="@id/tv_start_flag" />
 
             <TextView
                 android:id="@+id/tv_start"
@@ -248,6 +248,19 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_driver_contact" />
 
             <TextView
+                android:id="@+id/tv_shipper_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ovl_5_ffffff"
+                android:lineSpacingMultiplier="1.5"
+                android:padding="15dp"
+                app:layout_constraintEnd_toEndOf="@id/guide_right"
+                app:layout_constraintStart_toStartOf="@id/guide_left"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail"
+                tools:text="托运人信息" />
+
+            <TextView
                 android:id="@+id/tv_car_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -257,7 +270,8 @@
                 android:padding="15dp"
                 app:layout_constraintEnd_toEndOf="@id/guide_right"
                 app:layout_constraintStart_toStartOf="@id/guide_left"
-                app:layout_constraintTop_toBottomOf="@id/tv_detail" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_shipper_detail"
+                tools:text="承运人人信息" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -276,36 +290,36 @@
         <TextView
             android:id="@+id/bt_left"
             android:layout_width="0dp"
-            app:layout_constraintEnd_toStartOf="@id/bt_right"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/ovl_5_eeeeee"
             android:gravity="center"
             android:padding="12dp"
             android:text="取消钉钉"
             android:textStyle="bold"
-            android:layout_marginEnd="10dp"
-            app:layout_goneMarginEnd="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bt_right"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginEnd="0dp" />
 
         <TextView
             android:id="@+id/bt_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/ovl_5_e50000"
             android:gravity="center"
             android:padding="12dp"
             android:text="继续付款"
             android:textColor="@color/color_of_ffffff"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/bt_left"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bt_left"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
