@@ -35,7 +35,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
     public void initInfo(OrderInfoBean infoBean, RoleOrder roler) {
         mode.saveInfo(infoBean,roler);
         view.initClick(roler);
-        view.showOrderState(mode.getStatus().getName(),String.format("订单编号\t %s",infoBean.getOrderNum()));
+        view.showOrderState(mode.getStatusDes() ,String.format("订单编号\t %s",infoBean.getOrderNum()));
         view.showOrderAddressInfo(infoBean);
         view.initDriverInfo(infoBean,mode.isShowDriverInfo());
         view.showOrderDetail(infoBean,mode.isShowCargoPrice(),mode.isShowRealePrice());

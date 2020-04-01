@@ -3,12 +3,16 @@ package com.hongniu.freight.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -17,6 +21,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
+import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -113,6 +118,48 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     protected void initData() {
         super.initData();
+        SpannableStringBuilder builder=new SpannableStringBuilder("购买即代表同意");
+        int start = builder.length();
+        builder.append("《保险条款》、");
+        int end=builder.length();
+        XClickableSpan xClickableSpan = new XClickableSpan() {
+            /**
+             * Performs the click action associated with this span.
+             *
+             * @param widget
+             */
+            @Override
+            public void onClick(@NonNull View widget) {
+                //TODO 保险条款
+                H5Config h5Config = new H5Config("保险条款", Param.insurance_notify, true);
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
+
+            }
+        };
+        xClickableSpan.setColor(getResources().getColor(R.color.color_of_3d59ae));
+        builder.setSpan(xClickableSpan,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        start=builder.length();
+        builder.append("《投保须知》");
+        end=builder.length();
+        XClickableSpan xClickableSpan1 = new XClickableSpan() {
+            /**
+             * Performs the click action associated with this span.
+             *
+             * @param widget
+             */
+            @Override
+            public void onClick(@NonNull View widget) {
+                //TODO 投保须知
+                H5Config h5Config = new H5Config("投保须知", Param.insurance_notify, true);
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
+
+            }
+        };
+        xClickableSpan1.setColor(getResources().getColor(R.color.color_of_3d59ae));
+        builder.setSpan(xClickableSpan1,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_agreement_insurance.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_agreement_insurance.setText(builder);
+        ll_insurance.setVisibility(Utils.isShowInsurance()?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -275,7 +322,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         img_insurance.setImageResource(isInsurance ? R.mipmap.icon_xz_36 : R.mipmap.icon_wxz_36);
         item_cargo_price.setVisibility(isInsurance ? View.VISIBLE : View.GONE);
         item_insurance_name.setVisibility(isInsurance ? View.VISIBLE : View.GONE);
-        ll_insurance.setVisibility(isInsurance ? View.VISIBLE : View.GONE);
+        tv_agreement_insurance.setVisibility(isInsurance ? View.VISIBLE : View.GONE);
         check(false);
     }
 

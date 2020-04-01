@@ -1,6 +1,7 @@
 package com.hongniu.freight.mode;
 
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.companylibrary.entity.CommonBean;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -50,6 +51,25 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
             if (value.getStatus()==status){
                 result=value;
             }
+        }
+        return result;
+    }
+
+    /**
+     * 获取状态信息数据
+     *
+     * @return
+     */
+    @Override
+    public String getStatusDes() {
+        Status status = getStatus();
+        String result=status.getName();
+        if (status==Status.WAITE_PAY_BALANCE){
+            String s="0";
+            if (infoBean!=null) {
+                  s = ConvertUtils.changeFloat(infoBean.getBalanceMoney(), 2);
+            }
+            result+="(需支付差额:"+ s +"元)";
         }
         return result;
     }

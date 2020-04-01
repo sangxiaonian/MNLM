@@ -250,4 +250,12 @@ public class Utils {
             buttons.remove(OrderButtonConfig.EVALUATE);
         }
     }
+
+    /**
+     * 是否显示保险相关数据
+     * @return
+     */
+    public static boolean isShowInsurance() {
+        return true;
+    }
 }

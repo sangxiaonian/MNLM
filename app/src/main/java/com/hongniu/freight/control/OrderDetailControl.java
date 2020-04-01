@@ -150,7 +150,11 @@ public class OrderDetailControl {
          * @return 订单状态
          */
         Status getStatus();
-
+        /**
+         * 获取状态信息数据
+         * @return
+         */
+        String getStatusDes();
         /**
          * 获取底部按钮文案
          * @return
@@ -198,5 +202,7 @@ public class OrderDetailControl {
          * @return true 显示
          */
         boolean isShowCargoPrice();
+
+
     }
 }

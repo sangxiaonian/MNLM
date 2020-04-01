@@ -271,6 +271,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_insurance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -296,7 +297,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="货物保险"
+                            android:text="人保货物运输保险"
                             android:textColor="@color/color_of_666666"
                             android:textSize="15dp" />
 
@@ -336,29 +337,17 @@
                     app:textcenterhide="请选择被保险人"
                     app:textleft="被保险人" />
 
-                <LinearLayout
-                    android:id="@+id/ll_insurance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ovl_5_ffffff"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/gap_app">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="下单即代表同意"
-                        android:textColor="@color/color_of_999999"
-                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/tv_agreement_insurance"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/ovl_5_ffffff"
+                        android:padding="@dimen/gap_app"
                         android:layout_height="wrap_content"
-                        android:text="《木牛流马(远恒)货运综合险》"
-                        android:textColor="@color/color_of_3d5688"
+                        android:text="《保险条款》"
+                        android:textColor="@color/color_of_999999"
                         android:textSize="12dp" />
-                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
