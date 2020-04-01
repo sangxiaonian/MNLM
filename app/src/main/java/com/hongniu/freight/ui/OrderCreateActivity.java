@@ -120,7 +120,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         super.initData();
         SpannableStringBuilder builder=new SpannableStringBuilder("购买即代表同意");
         int start = builder.length();
-        builder.append("《保险条款》、");
+        builder.append("《保险条款》");
         int end=builder.length();
         XClickableSpan xClickableSpan = new XClickableSpan() {
             /**
@@ -131,13 +131,14 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             @Override
             public void onClick(@NonNull View widget) {
                 //TODO 保险条款
-                H5Config h5Config = new H5Config("保险条款", Param.insurance_notify, true);
+                H5Config h5Config = new H5Config("保险条款", Param.insurance_polic, true);
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
             }
         };
         xClickableSpan.setColor(getResources().getColor(R.color.color_of_3d59ae));
         builder.setSpan(xClickableSpan,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        builder.append("、");
         start=builder.length();
         builder.append("《投保须知》");
         end=builder.length();
@@ -238,11 +239,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         } else if (R.id.img_insurance == v.getId()) {
 //            ToastUtils.getInstance().show("是否购买保险");
             presenter.onSwitchIsInsurance();
-        } else if (R.id.tv_agreement_insurance == v.getId()) {
-            H5Config h5Config = new H5Config("木牛流马(远恒)货运综合险", Param.insurance_notify, true);
-            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
-
-        } else if (R.id.tv_agreement == v.getId()) {
+        }  else if (R.id.tv_agreement == v.getId()) {
             H5Config h5Config = new H5Config("木牛流马合同协议", Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 

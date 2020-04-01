@@ -30,7 +30,6 @@ public class Param {
     public static final int SUCCESS_FLAG = 200;//返回数据成功的标记
     public static final String TRAN = "TRAN";
     public static final String TYPE = "TYPE";
-    public static final String ABOUT_US ="https://api.hongniudai.cn/static/html/service.html" ;
     //合同
    public static final String  hongniu_agreement = "https://api.hongniudai.cn/static/wlhycontract.html";
    //隐私协议
@@ -41,6 +40,11 @@ public class Param {
    public static final String  insurance_polic = "https://api.hongniudai.cn/static/wlhyservice.html";
    //许可协议
    public static final String  agreement = "https://api.hongniudai.cn/static/wlhyagreement.html";
+
+    //保险条款
+//    public static String insurance_polic;
+//    //投保须知
+//    public static String insurance_notify;
 
     /**
      * 确认到达时候，距离目的地的最小距离 单位 千米
