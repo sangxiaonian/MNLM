@@ -137,6 +137,7 @@ public class OrderReceiveActivity extends CompanyBaseActivity implements View.On
             }
         } else if (v.getId() == R.id.item_car_type) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_search_car)
+                    .withInt(Param.TYPE,1)
                     .navigation((Activity) mContext, 1);
         }
 

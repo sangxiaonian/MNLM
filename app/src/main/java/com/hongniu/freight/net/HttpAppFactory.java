@@ -647,9 +647,7 @@ public class HttpAppFactory {
     /**
      * 查询我的车辆列表
      */
-    public static Observable<CommonBean<PageBean<CarInfoBean>>> queryCarList(int currentPage) {
-        PageParams param = new PageParams();
-        param.setPageNum(currentPage);
+    public static Observable<CommonBean<PageBean<CarInfoBean>>> queryCarList(PageSearchParams param) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryCarList(param)
                 .compose(RxUtils.getSchedulersObservableTransformer());

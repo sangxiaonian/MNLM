@@ -5,6 +5,15 @@ package com.hongniu.freight.entity;
  */
 public class PageSearchParams extends PageParams {
    private String searchText;
+   private String carStatus;
+
+    public String getCarStatus() {
+        return carStatus;
+    }
+
+    public void setCarStatus(String carStatus) {
+        this.carStatus = carStatus;
+    }
 
     public String getSearchText() {
         return searchText;

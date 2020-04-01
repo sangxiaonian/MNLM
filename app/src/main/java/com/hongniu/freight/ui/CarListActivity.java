@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
@@ -24,6 +23,7 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.net.HttpAppFactory;
 
 import java.util.List;
@@ -86,7 +86,9 @@ public class CarListActivity extends RefrushActivity<CarInfoBean> {
 
     @Override
     protected Observable<CommonBean<PageBean<CarInfoBean>>> getListDatas() {
-        return HttpAppFactory.queryCarList(currentPage);
+        PageSearchParams param = new PageSearchParams();
+        param.setPageNum(currentPage);
+        return HttpAppFactory.queryCarList(param);
     }
 
     @Override

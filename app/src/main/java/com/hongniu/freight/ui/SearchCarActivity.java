@@ -20,9 +20,9 @@ import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.ui.RefrushActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.CarInfoBean;
+import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.net.HttpAppFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -30,18 +30,20 @@ import io.reactivex.Observable;
 /**
  * @data 2020/2/13
  * @Author PING
- * @Description 搜索车辆信息
+ * @Description 搜索车辆信息 type=1 自己的车辆
  */
 @Route(path = ArouterParamApp.activity_search_car)
 public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements SearchTextWatcher.SearchTextChangeListener {
 
     private SearchTitleView searchTitleView;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_car);
         setWhitToolBar("选择派送车辆");
+          type = getIntent().getIntExtra(Param.TYPE, 0);
         initView();
         initData();
         initListener();
@@ -73,7 +75,16 @@ public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements S
 
     @Override
     protected Observable<CommonBean<PageBean<CarInfoBean>>> getListDatas() {
-        return HttpAppFactory.queryAllCarList(currentPage, searchTitleView.getTitle());
+        if (type==1){
+            PageSearchParams param = new PageSearchParams();
+            param.setPageNum(currentPage);
+            param.setSearchText(searchTitleView.getTitle());
+            param.setCarStatus("1");
+            return HttpAppFactory.queryCarList(param);
+        }else {
+            return HttpAppFactory.queryAllCarList(currentPage, searchTitleView.getTitle());
+        }
+
     }
 
     @Override

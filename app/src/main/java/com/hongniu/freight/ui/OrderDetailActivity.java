@@ -207,7 +207,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
         if (showRealePrice) {
-            append(titleColor, "实际运费", color, String.format("%s元", ConvertUtils.changeFloat(infoBean.getRealmoney(), 2)), builder);
+            append(titleColor, "实际运费", color, String.format("%s元", ConvertUtils.changeFloat(infoBean.getRealMoney(), 2)), builder);
         }
 
         if (infoBean.getInsurance()==1) {

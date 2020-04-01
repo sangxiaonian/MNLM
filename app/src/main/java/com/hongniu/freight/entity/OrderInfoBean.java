@@ -38,7 +38,7 @@ public class OrderInfoBean implements Parcelable {
     private String companyName;//	false	string	保险公司简称
     private String policyInfo;//	false	string	保单信息
     private String cartype;//	false	string	车辆类型
-    private double realmoney;//": 实际运费
+    private double realMoney;//": 实际运费
     private String driverId;//": null,司机id
     private String driverName;//": null,司机名
     private String driverMobile;//": null,司机手机号
@@ -77,7 +77,6 @@ public class OrderInfoBean implements Parcelable {
     private String departTime;//": null,
     private String arrivedTime;//": null,
     private String receiptTime;//": null,
-    private String realMoney;//": 0,
     private String longitude;//": null,
     private String latitude;//": null,
 
@@ -106,12 +105,10 @@ public class OrderInfoBean implements Parcelable {
         this.userMobile = userMobile;
     }
 
-    public double getRealmoney() {
-        return realmoney;
-    }
 
-    public void setRealmoney(double realmoney) {
-        this.realmoney = realmoney;
+
+    public void setRealMoney(double realMoney) {
+        this.realMoney = realMoney;
     }
 
     public int getPayPolicyState() {
@@ -394,13 +391,11 @@ public class OrderInfoBean implements Parcelable {
         this.receiptTime = receiptTime;
     }
 
-    public String getRealMoney() {
+    public double getRealMoney() {
         return realMoney;
     }
 
-    public void setRealMoney(String realMoney) {
-        this.realMoney = realMoney;
-    }
+
 
     public String getLongitude() {
         return longitude;
@@ -657,7 +652,7 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.companyName);
         dest.writeString(this.policyInfo);
         dest.writeString(this.cartype);
-        dest.writeDouble(this.realmoney);
+        dest.writeDouble(this.realMoney);
         dest.writeString(this.driverId);
         dest.writeString(this.driverName);
         dest.writeString(this.driverMobile);
@@ -693,7 +688,6 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(this.departTime);
         dest.writeString(this.arrivedTime);
         dest.writeString(this.receiptTime);
-        dest.writeString(this.realMoney);
         dest.writeString(this.longitude);
         dest.writeString(this.latitude);
     }
@@ -727,7 +721,7 @@ public class OrderInfoBean implements Parcelable {
         this.companyName = in.readString();
         this.policyInfo = in.readString();
         this.cartype = in.readString();
-        this.realmoney = in.readDouble();
+        this.realMoney = in.readDouble();
         this.driverId = in.readString();
         this.driverName = in.readString();
         this.driverMobile = in.readString();
@@ -763,7 +757,6 @@ public class OrderInfoBean implements Parcelable {
         this.departTime = in.readString();
         this.arrivedTime = in.readString();
         this.receiptTime = in.readString();
-        this.realMoney = in.readString();
         this.longitude = in.readString();
         this.latitude = in.readString();
     }
