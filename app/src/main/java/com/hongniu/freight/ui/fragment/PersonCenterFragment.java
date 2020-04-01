@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.imgload.ImageLoader;
+import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -23,11 +26,21 @@ import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.widget.DialogComment;
+import com.hongniu.thirdlibrary.picture.PictureClient;
+import com.hongniu.thirdlibrary.picture.utils.PicUtils;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+
+import java.nio.file.Path;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import io.rong.imlib.model.UserData;
+import okhttp3.ResponseBody;
 
 /**
  * 作者：  on 2020/2/10.
@@ -100,6 +113,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     protected void initListener() {
         super.initListener();
         icon_eyes.setOnClickListener(this);
+        img_heard.setOnClickListener(this);
         ll_identification.setOnClickListener(this);
         ll_car.setOnClickListener(this);
         ll_feedback.setOnClickListener(this);
@@ -139,6 +153,44 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
             }
         } else if (v.getId() == R.id.ll_car) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_car_list).navigation(mContext);
+        }  else if (v.getId() == R.id.img_heard) {
+            PermissionUtils.applyCamera(getActivity(), new PermissionUtils.onApplyPermission() {
+                @Override
+                public void hasPermission() {
+                    new PictureClient()
+                            .startPhoto(PersonCenterFragment.this, 1, null, new OnResultCallbackListener() {
+                                @Override
+                                public void onResult(List<LocalMedia> result) {
+                                    if (!CollectionUtils.isEmpty(result)) {
+                                        String path = PicUtils.getPath(result.get(0));
+                                        HttpAppFactory.upImage(4,path,null)
+                                                .subscribe(new BaseObserver<UpImgData>(PersonCenterFragment.this){
+                                                    @Override
+                                                    public void onNext(UpImgData result) {
+                                                        super.onNext(result);
+                                                        HttpAppFactory.upDateLogo(result.getPath())
+                                                                .subscribe(new BaseObserver<ResponseBody>(PersonCenterFragment.this){
+                                                                    @Override
+                                                                    public void onNext(ResponseBody result) {
+                                                                        super.onNext(result);
+                                                                        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
+                                                                        ImageLoader.getLoader().load(mContext,img_heard,path);
+
+                                                                    }
+
+                                                                });
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+                }
+
+                @Override
+                public void noPermission() {
+
+                }
+            });
         } else if (v.getId() == R.id.ll_feedback) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_face_back).navigation(mContext);
         } else if (v.getId() == R.id.ll_service) {
@@ -213,7 +265,9 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         String name = TextUtils.isEmpty(personInfor.getContact()) ? "" : personInfor.getContact();
         name=TextUtils.isEmpty(name)?personInfor.getMobile():name;
         CommonUtils.setText(tv_name, name);
-        String roleName = InfoUtils.getRoleName(personInfor);
+        Role role = InfoUtils.getRole(personInfor);
+
+        String roleName = role.getName();
 
         String stateName = InfoUtils.getStateName(InfoUtils.getState(personInfor));
         if (!TextUtils.isEmpty(stateName)) {
@@ -223,7 +277,6 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         switchBalance(hideBalance);
 
         //非平台员工隐藏接单中心
-        Role role = InfoUtils.getRole(personInfor);
         ll_order_center.setVisibility(role == Role.PLATFORM?View.VISIBLE:View.GONE);
         ll_car.setVisibility((role == Role.PLATFORM||role==Role.CARRIER_COMPANY||role==Role.CARRIER_PERSONAL)?View.VISIBLE:View.GONE);
         ll_identification.setVisibility((role == Role.PLATFORM?View.GONE:View.VISIBLE));

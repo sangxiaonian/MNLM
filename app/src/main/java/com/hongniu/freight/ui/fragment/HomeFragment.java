@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.event.BusFactory;
-import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.baselibrary.utils.ArouterUtils;
@@ -275,6 +274,17 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         upLoactionEvent.cardID = bean.getCarId();
         upLoactionEvent.destinationLatitude = bean.getDestinationLat();
         upLoactionEvent.destinationLongitude = bean.getDestinationLon();
+        BusFactory.getBus().post(upLoactionEvent);
+    }
+
+    /**
+     * 无正在运输中的订单,停止上传位置
+     *
+     */
+    @Override
+    public void stopLocation() {
+        Event.UpLoactionEvent upLoactionEvent = new Event.UpLoactionEvent();
+        upLoactionEvent.start = false;
         BusFactory.getBus().post(upLoactionEvent);
     }
 

@@ -74,19 +74,22 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        VerifyPersonParams qcIdentity = verifyInfoBean.getQcIdentity();
-        VerifyPersonParams idnumIdentity = verifyInfoBean.getDlIdentity();
+        VerifyPersonParams idnumIdentity = verifyInfoBean.getDriver();
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
             item_name.setTextCenter(idnumIdentity.getName());
             img_driver.setImageInfo(idnumIdentity.getFaceDLImageUrl());
             img_driver1.setImageInfo(idnumIdentity.getBackDLImageUrl());
+            img_qualification.setImageInfo(idnumIdentity.getQualificationCertificateImageUrl());
+            driverInfo = new UpImgData();
+            driverInfo.setPath(idnumIdentity.getFaceDLImageUrl());
+            driverInfo1 = new UpImgData();
+            driverInfo1.setPath(idnumIdentity.getBackDLImageUrl());
+            qualificationInfo = new UpImgData();
+            qualificationInfo.setPath(idnumIdentity.getQualificationCertificateImageUrl());
+        }
 
-        }
-        if (qcIdentity != null) {
-            img_qualification.setImageInfo(qcIdentity.getQualificationCertificateImageUrl());
-        }
     }
 
     @Override

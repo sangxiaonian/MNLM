@@ -146,8 +146,8 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     protected void onStart() {
         super.onStart();
         if (ChactHelper.getHelper().disConnectState()) {
-
-            ChactHelper.getHelper().connect(mContext, InfoUtils.getLoginInfo().getRongToken(), this);
+            String rongToken = InfoUtils.getMyInfo()==null?InfoUtils.getLoginInfo().getRongToken():InfoUtils.getMyInfo().getRongToken();
+            ChactHelper.getHelper().connect(mContext, rongToken, this);
             ChactHelper.getHelper().setUnReadCountListener(this);
         }
     }

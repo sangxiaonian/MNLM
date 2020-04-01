@@ -54,6 +54,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -88,6 +89,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<PersonInfor>> queryMyInfo(@Body Object o);
+ /**
+     * 修改头像
+     *
+     * @param o
+     * @return
+     */
+    @POST("wlhyapi/api/user/updateUserLogo")
+    Observable<ResponseBody> upDateLogo(@Body JsonObject o);
 
     /**
      * 查询用户认证资料
@@ -164,7 +173,7 @@ public interface AppService {
      *
      * @return
      */
-    @POST("wlhyapi/api/identityAuthen/queryIdentityCert")
+    @POST("wlhyapi/api/identityAuthen/identityDetail")
     Observable<CommonBean<VerifyInfoBean>> queryVerifyCarrierPerson();
 
     /**

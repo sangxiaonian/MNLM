@@ -69,7 +69,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        VerifyCompanyParams identity = verifyInfoBean.getbLIdentity();
+        VerifyCompanyParams identity = verifyInfoBean.getCompanyShipper();
         //身份认证信息
         if (identity != null) {
             item_company_address.setTextCenter(identity.getCompanyAddress());

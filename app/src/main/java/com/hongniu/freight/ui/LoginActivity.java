@@ -3,20 +3,29 @@ package com.hongniu.freight.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
+import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
+import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
@@ -55,6 +64,7 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
     private EditText et_sms;
     private TextView tv_sms;
     private TextView bt_sum;
+    private TextView tv_argument;
 
 
     @Override
@@ -76,6 +86,33 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
         et_sms = findViewById(R.id.et_sms);
         tv_sms = findViewById(R.id.tv_sms);
         bt_sum = findViewById(R.id.bt_sum);
+        tv_argument = findViewById(R.id.tv_argument);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        SpannableStringBuilder builder=new SpannableStringBuilder("进入木牛流马代表你已同意");
+        int start = builder.length();
+        builder.append("《木牛流马许可协议》");
+        int end=builder.length();
+        XClickableSpan xClickableSpan = new XClickableSpan() {
+            /**
+             * Performs the click action associated with this span.
+             *
+             * @param widget
+             */
+            @Override
+            public void onClick(@NonNull View widget) {
+                H5Config h5Config = new H5Config("许可协议", Param.agreement, true);
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
+
+            }
+        };
+        xClickableSpan.setColor(getResources().getColor(R.color.color_of_3d59ae));
+        builder.setSpan(xClickableSpan,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_argument.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_argument.setText(builder);
     }
 
     @Override

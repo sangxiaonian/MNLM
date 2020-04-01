@@ -62,6 +62,9 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                                     //有正在运输中的订单
                                     view.startLoaction(((OrderNumberInfoBean) data).getDriverTransOrderList().get(0));
 
+                                }else {
+                                    view.stopLocation(  );
+
                                 }
                             }
                         }

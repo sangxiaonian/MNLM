@@ -72,26 +72,19 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
+        VerifyPersonParams idnumIdentity = verifyInfoBean.getPersonCarrier();
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
             item_name.setTextCenter(idnumIdentity.getName());
-        }
-        //道路运输许可证
-        VerifyRtpIdentityBean rtpIdentity = verifyInfoBean.getRtpIdentity();
-        if (rtpIdentity!=null){
-            img_driver.setImageInfo(rtpIdentity.getRoadTransportPermitImageUrl());
+            img_driver.setImageInfo(idnumIdentity.getRoadTransportPermitImageUrl());
             driverInfo=new UpImgData();
-            driverInfo.setAbsolutePath(rtpIdentity.getRoadTransportPermitImageUrl());
-        }
-        //挂靠协议
-        VerifyRtpIdentityBean aaIdentity = verifyInfoBean.getAaIdentity();
-        if (rtpIdentity!=null){
-            img_qualification.setImageInfo(aaIdentity.getAffiliationAgreementImageUrl());
+            driverInfo.setAbsolutePath(idnumIdentity.getRoadTransportPermitImageUrl());
+            img_qualification.setImageInfo(idnumIdentity.getAffiliationAgreementImageUrl());
             qualificationInfo=new UpImgData();
-            qualificationInfo.setAbsolutePath(rtpIdentity.getAffiliationAgreementImageUrl());
+            qualificationInfo.setAbsolutePath(idnumIdentity.getAffiliationAgreementImageUrl());
         }
+
     }
 
     @Override

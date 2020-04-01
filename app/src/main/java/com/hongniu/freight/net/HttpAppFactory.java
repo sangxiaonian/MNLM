@@ -50,7 +50,6 @@ import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
-import com.hongniu.freight.entity.VerifyInfoParams;
 import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyTokenBeans;
 import com.hongniu.freight.entity.WayBillBean;
@@ -68,6 +67,7 @@ import io.reactivex.functions.Function;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * 作者： ${PING} on 2018/8/13.
@@ -137,6 +137,20 @@ public class HttpAppFactory {
                 })
                 .compose(RxUtils.<CommonBean<PersonInfor>>getSchedulersObservableTransformer());
 
+    }    /**
+     * 查询个人信息
+     *
+     * @return
+     */
+    public static Observable<ResponseBody> upDateLogo(String userLogo) {
+        List<String> result=new ArrayList<>();
+        result.add(userLogo);
+        JsonObject object=new JsonObject();
+        object.addProperty("userLogo",userLogo);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .upDateLogo(object)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+
     }
 
 
@@ -178,26 +192,7 @@ public class HttpAppFactory {
 
     }
 
-    /**
-     * 查询个人信息
-     *
-     * @return
-     */
-    public static Observable<CommonBean<PersonInfor>> queryIdentityCert(int userType) {
-        return CompanyClient.getInstance().creatService(AppService.class)
-                .queryMyInfo(new Object())
-                .map(new Function<CommonBean<PersonInfor>, CommonBean<PersonInfor>>() {
-                    @Override
-                    public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> loginInfoCommonBean) throws Exception {
-                        if (loginInfoCommonBean.getCode() == Param.SUCCESS_FLAG) {
-                            InfoUtils.saveMyInfo(loginInfoCommonBean.getData());
-                        }
-                        return loginInfoCommonBean;
-                    }
-                })
-                .compose(RxUtils.<CommonBean<PersonInfor>>getSchedulersObservableTransformer());
 
-    }
 
     /**
      * 获取实名认证token
@@ -298,7 +293,6 @@ public class HttpAppFactory {
      * @Description 个人承运人身份认证
      */
     public static Observable<CommonBean<VerifyInfoBean>> queryVerifyCarrierPerson() {
-        VerifyInfoParams params = new VerifyInfoParams();
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryVerifyCarrierPerson()
                 .compose(RxUtils.<CommonBean<VerifyInfoBean>>getSchedulersObservableTransformer());
@@ -613,6 +607,7 @@ public class HttpAppFactory {
      * @param type             文件分类：
      *                         1-货单
      *                         2-回单
+     *                         4-logo 头像
      *                         7-企业营业执照
      *                         8-身份证图片
      *                         12-驾驶证行驶证图片

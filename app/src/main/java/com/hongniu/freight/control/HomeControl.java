@@ -5,7 +5,6 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
-import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
@@ -62,6 +61,10 @@ public class HomeControl {
          */
         void startLoaction(OrderInfoBean orderInfoBean);
 
+        /**
+         * 无正在运输中的订单,停止上传位置
+         */
+        void stopLocation();
     }
     public interface IHomeFragmentPresent {
         /**

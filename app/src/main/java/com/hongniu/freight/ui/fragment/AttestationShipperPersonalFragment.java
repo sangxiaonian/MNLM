@@ -50,7 +50,7 @@ public class AttestationShipperPersonalFragment  extends AttestationBaseFragment
 
     @Override
     protected void initInfo(VerifyInfoBean verifyInfoBean) {
-        VerifyIdNumIdentityBean idnumIdentity = verifyInfoBean.getIdnumIdentity();
+        VerifyPersonParams idnumIdentity = verifyInfoBean.getPersonShipper();
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());

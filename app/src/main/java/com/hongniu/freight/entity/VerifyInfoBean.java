@@ -5,21 +5,13 @@ package com.hongniu.freight.entity;
  * 身份认证信息
  */
 public class VerifyInfoBean {
-   private String userId;//	true	string	用户id
-   private VerifyIdNumIdentityBean idnumIdentity;//	false	json对象	身份证认证信息(为空则无数据)
-   private VerifyRtpIdentityBean rtpIdentity;//	false	json对象	道路运输许可证认证信息(为空则无数据)
-   private VerifyCompanyParams bLIdentity;//	false	json对象	公司营业执照认证信息(为空则无数据)
-   private VerifyRtpIdentityBean aaIdentity;//	false	json对象	个人承运人挂靠协议认证信息(为空则无数据)
-   private VerifyPersonParams qcIdentity;//	false	json对象	司机从业资格证认证信息(为空则无数据)
-   private VerifyPersonParams dlIdentity;//	false	json对象	驾驶证认证信息(为空则无数据)
+    private String userId;//	true	string	用户id
+    private VerifyCompanyParams companyShipper;//	false	string	公司托运人认证信息(json对象-为空不显示)
+    private VerifyCompanyParams companyCarrier;//	false	string	公司承运人认证信息(json对象-为空不显示)
+    private VerifyPersonParams personShipper;//	false	string	个人托运人认证信息(json对象-为空不显示)
+    private VerifyPersonParams personCarrier;//	false	string	个人承运人认证信息(json对象-为空不显示)
+    private VerifyPersonParams driver;//	false	string	司机认证信息(json对象-为空不显示)
 
-    public VerifyCompanyParams getbLIdentity() {
-        return bLIdentity;
-    }
-
-    public void setbLIdentity(VerifyCompanyParams bLIdentity) {
-        this.bLIdentity = bLIdentity;
-    }
 
     public String getUserId() {
         return userId;
@@ -29,44 +21,43 @@ public class VerifyInfoBean {
         this.userId = userId;
     }
 
-    public VerifyIdNumIdentityBean getIdnumIdentity() {
-        return idnumIdentity;
+    public VerifyCompanyParams getCompanyShipper() {
+        return companyShipper;
     }
 
-    public void setIdnumIdentity(VerifyIdNumIdentityBean idnumIdentity) {
-        this.idnumIdentity = idnumIdentity;
+    public void setCompanyShipper(VerifyCompanyParams companyShipper) {
+        this.companyShipper = companyShipper;
     }
 
-    public VerifyRtpIdentityBean getRtpIdentity() {
-        return rtpIdentity;
+    public VerifyCompanyParams getCompanyCarrier() {
+        return companyCarrier;
     }
 
-    public void setRtpIdentity(VerifyRtpIdentityBean rtpIdentity) {
-        this.rtpIdentity = rtpIdentity;
+    public void setCompanyCarrier(VerifyCompanyParams companyCarrier) {
+        this.companyCarrier = companyCarrier;
     }
 
-    public VerifyRtpIdentityBean getAaIdentity() {
-        return aaIdentity;
+    public VerifyPersonParams getPersonShipper() {
+        return personShipper;
     }
 
-    public void setAaIdentity(VerifyRtpIdentityBean aaIdentity) {
-        this.aaIdentity = aaIdentity;
+    public void setPersonShipper(VerifyPersonParams personShipper) {
+        this.personShipper = personShipper;
     }
 
-    public VerifyPersonParams getQcIdentity() {
-        return qcIdentity;
+    public VerifyPersonParams getPersonCarrier() {
+        return personCarrier;
     }
 
-    public void setQcIdentity(VerifyPersonParams qcIdentity) {
-        this.qcIdentity = qcIdentity;
+    public void setPersonCarrier(VerifyPersonParams personCarrier) {
+        this.personCarrier = personCarrier;
     }
 
-    public VerifyPersonParams getDlIdentity() {
-        return dlIdentity;
+    public VerifyPersonParams getDriver() {
+        return driver;
     }
 
-    public void setDlIdentity(VerifyPersonParams dlIdentity) {
-        this.dlIdentity = dlIdentity;
+    public void setDriver(VerifyPersonParams driver) {
+        this.driver = driver;
     }
-
 }
