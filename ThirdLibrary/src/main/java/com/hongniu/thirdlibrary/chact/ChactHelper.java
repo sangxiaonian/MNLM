@@ -101,9 +101,7 @@ public class ChactHelper {
      * @param callback
      */
     public void connect(final Context context,String token,   final ChactControl.OnConnectListener callback) {
-
-        JLog.i(token);
-        token="3+Pq66VUWTVPuO/oWqx0WyQnPbxE0G8DcEDeVienvtLNT9cffugAklMxi4QqEEwMxLObQ2xKjLgvl/VehQF+sw==";
+        JLog.i("融云token: "+token);
         if (context.getApplicationInfo().packageName.equals(getCurProcessName(context.getApplicationContext()))) {
             ownerID = null;
             JLog.d("开始连接服务器");
