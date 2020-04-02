@@ -29,7 +29,6 @@ import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
@@ -194,7 +193,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
                     dialogAttes.show();
                 }else {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER)
-                            .show("身份认证暂未成功，请联系客服");
+                            .show("身份认证审核中");
                 }
                 break;
         }

@@ -245,13 +245,13 @@ public class InfoUtils {
         PersonInfor myInfo = InfoUtils.getMyInfo();
         if (myInfo!=null) {
             Role role = getRole(myInfo);
-            if (role == Role.UNKNOW || myInfo.getIsRealname() != 1) {
+            if (role == Role.UNKNOW || myInfo.getIsRealname() != 1||InfoUtils.getState(myInfo)==5) {
                 return true;
             }
         }else {
             LoginInfo loginInfo = InfoUtils.getLoginInfo();
             Role role = getRole(loginInfo);
-            if (role == Role.UNKNOW || loginInfo.getIsRealname() != 1) {
+            if (role == Role.UNKNOW || loginInfo.getIsRealname() != 1||InfoUtils.getState(loginInfo)==5) {
                 return true;
             }
         }

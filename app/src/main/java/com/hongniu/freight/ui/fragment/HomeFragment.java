@@ -41,13 +41,11 @@ import com.hongniu.freight.widget.DialogComment;
 
 import java.util.List;
 
-import static com.taobao.accs.init.Launcher_InitAccs.mContext;
-
 /**
  * 作者：  on 2020/2/5.
  */
 @Route(path = ArouterParamApp.fragment_home)
-public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHomeFragmentView, View.OnClickListener, DialogComment.OnButtonLeftClickListener, DialogComment.OnButtonRightClickListener, XOrderButtonClick.NextStepListener {
+public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHomeFragmentView, View.OnClickListener, XOrderButtonClick.NextStepListener {
     private TextView tv_title;//标题
     private TextView tv_role_title;//标题
     private View search;//搜索
@@ -67,7 +65,6 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
 
     HomeControl.IHomeFragmentPresent present;
-    DialogComment dialogComment,dialogAttes;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -101,28 +98,14 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     protected void initData() {
         super.initData();
         content.setVisibility(View.GONE);
-        if (getBundle()!=null){
-            boolean isLogin = getBundle().getBoolean(Param.TRAN,false);
+        if (getBundle() != null) {
+            boolean isLogin = getBundle().getBoolean(Param.TRAN, false);
             present.saveInfo(isLogin);
         }
         present.queryInfo(this);
-        dialogComment = new DialogComment.Builder()
-                .setBtLeft("刷新状态")
-                .setBtRight("查看详情")
-                .hideContent()
-                .setCancelable(false)
-                .setCanceledOnTouchOutside(false)
-                .setLeftClickListener(this)
-                .setRightClickListener(this)
-                .creatDialog(mContext);
 
-        dialogAttes = Utils.dialogAttes(mContext, new DialogComment.OnButtonRightClickListener() {
-            @Override
-            public void onRightClick(View view, Dialog dialog) {
-                dialog.dismiss();
-                present.jump2Attestion();
-            }
-        });
+
+
     }
 
     @Override
@@ -224,19 +207,11 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
      */
     @Override
     public void showPersonInfo(PersonInfor personInfo) {
+        //
         if (personInfo != null) {
             String name = TextUtils.isEmpty(personInfo.getContact()) ? "" : personInfo.getContact();
-            name=TextUtils.isEmpty(name)?personInfo.getMobile():name;
+            name = TextUtils.isEmpty(name) ? personInfo.getMobile() : name;
             tv_title.setText(String.format("%s好，%s", Utils.getTitleTime(), name));
-            if (InfoUtils.getState(personInfo) < 4&&InfoUtils.getState(personInfo) >0) {//审核中
-                dialogComment.setTitle("认证审核中");
-                dialogComment.show();
-            } else if (InfoUtils.getState(personInfo) == 5) {
-                dialogComment.setTitle("认证驳回");
-                dialogComment.show();
-            } else {
-                dialogComment.dismiss();
-            }
         }
 
     }
@@ -264,7 +239,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
                 .withSerializable(Param.TRAN, role)
-                .withBoolean(Param.TYPE, InfoUtils.getState(personInfo) == 5||InfoUtils.getState(personInfo) == 0)
+                .withBoolean(Param.TYPE, InfoUtils.getState(personInfo) == 5 || InfoUtils.getState(personInfo) == 0)
                 .navigation(mContext);
     }
 
@@ -299,7 +274,6 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     /**
      * 无正在运输中的订单,停止上传位置
-     *
      */
     @Override
     public void stopLocation() {
@@ -317,26 +291,39 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                 .navigation(mContext);
     }
 
-    boolean isFirst=true;
+    boolean isFirst = true;
+
     /**
      * 弹出去实名认证的提示
+     * @param myInfo
      */
     @Override
-    public void showAttestationAlert() {
-        if (isFirst){
-            isFirst=false;
-            dialogAttes.show();
+    public void showAttestationAlert(PersonInfor myInfo) {
+
+
+        if (isFirst) {
+            isFirst = false;
+            Utils.dialogAttes(mContext, new DialogComment.OnButtonRightClickListener() {
+                @Override
+                public void onRightClick(View view, Dialog dialog) {
+                    dialog.dismiss();
+                    present.jump2Attestion();
+                }
+            }).show();
+
         }
 
     }
 
+
     /**
-     * 跳转到人脸识别
+     * 跳转到实名认证
+     *
+     * @param personInfo
      */
     @Override
-    public void jump2Face() {
-        ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
-                .navigation(mContext);
+    public void jump2Attestion(PersonInfor personInfo) {
+        Utils.jump2Attestation(mContext, personInfo);
     }
 
     /**
@@ -373,25 +360,12 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         } else if (v.getId() == R.id.ll_more) {
             present.clickMore();
 
-        }else if (v.getId() == R.id.search) {
+        } else if (v.getId() == R.id.search) {
             ArouterUtils.getInstance()
                     .builder(ArouterParamApp.activity_qrcode)
                     .navigation(getContext());
 
         }
-
-
-    }
-
-
-    @Override
-    public void onLeftClick(View view, Dialog dialog) {
-        present.upDateState(this);
-    }
-
-    @Override
-    public void onRightClick(View view, Dialog dialog) {
-        present.checkStateInfo();
     }
 
     @Override

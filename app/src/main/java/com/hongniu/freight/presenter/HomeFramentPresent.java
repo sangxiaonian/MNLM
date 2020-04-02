@@ -16,6 +16,7 @@ import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.mode.HomeFragmentMode;
 import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.freight.utils.Utils;
 
 import io.reactivex.Observable;
 
@@ -76,9 +77,10 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                                 mode.savePersonInfo((PersonInfor) data);
                                 PersonInfor myInfo = mode.getPersonInfo();
                                 view.showPersonInfo(myInfo);
-                                if (!mode.isLogin()&&InfoUtils.isShowAlert()) {
+                                if ((!mode.isLogin()&&InfoUtils.isShowAlert())
+                                        ||(mode.isLogin()&&InfoUtils.isShowAlert()&&InfoUtils.getRole(myInfo)!=Role.UNKNOW)) {
                                     //跳转到实名认证
-                                    view.showAttestationAlert();
+                                    view.showAttestationAlert(myInfo);
                                 }
                             }else if (data instanceof PageBean){
                                 //订单数量数据
@@ -183,13 +185,6 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
         if (personInfo==null){
             return;
         }
-        if (InfoUtils.getRole(personInfo)==Role.UNKNOW) {
-            //跳转到实名认证选角色
-            view.jump2SelectRole();
-
-        } else if ( personInfo.getIsRealname() != 1) {
-            view.jump2Face();
-
-        }
+         view.jump2Attestion(personInfo);
     }
 }

@@ -73,13 +73,17 @@ public class HomeControl {
 
         /**
          * 弹出去实名认证的提示
+         * @param myInfo
          */
-        void showAttestationAlert();
+        void showAttestationAlert(PersonInfor myInfo);
+
+
 
         /**
-         * 跳转到人脸识别
+         * 跳转到实名认证
+         * @param personInfo
          */
-        void jump2Face();
+        void jump2Attestion(PersonInfor personInfo);
     }
     public interface IHomeFragmentPresent {
         /**

@@ -266,10 +266,9 @@ public class Utils {
     }
 
     public static DialogComment dialogAttes(Context mContext, DialogComment.OnButtonRightClickListener rightClickListener) {
-            //跳转到实名认证
-           return new DialogComment.Builder()
+        return new DialogComment.Builder()
                     .setBtLeft("暂不认证")
-                    .setDialogTitle("请前往身份认证")
+                    .setDialogTitle("未完成实名认证或实名认证")
                     .setBtRight("去认证")
                     .hideContent()
                     .setCancelable(false)
@@ -282,11 +281,11 @@ public class Utils {
     }
 
     public static void jump2Attestation(Context mContext,PersonInfor personInfo) {
-        if (InfoUtils.getRole(personInfo)== Role.UNKNOW) {
+        if (InfoUtils.getRole(personInfo)== Role.UNKNOW||InfoUtils.getState(personInfo)==5) {
             //跳转到实名认证选角色
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
                     .navigation(mContext);
-        } else if ( personInfo.getIsRealname() != 1) {
+        }  else if ( personInfo.getIsRealname() != 1) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
                     .navigation(mContext);
         }

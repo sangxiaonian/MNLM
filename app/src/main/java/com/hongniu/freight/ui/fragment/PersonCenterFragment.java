@@ -18,13 +18,11 @@ import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
-import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
-import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -36,11 +34,9 @@ import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
-import io.rong.imlib.model.UserData;
 import okhttp3.ResponseBody;
 
 /**
@@ -155,14 +151,12 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                             return;
                         }
                         Utils.jump2Attestation(mContext, personInfo);
-
-
                     }
                 }).show();
             } else {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
                         .withSerializable(Param.TRAN, InfoUtils.getRole(InfoUtils.getMyInfo()))
-                        .withBoolean(Param.TYPE, InfoUtils.getState(InfoUtils.getMyInfo()) == 5 || InfoUtils.getState(InfoUtils.getMyInfo()) == 0)
+                        .withBoolean(Param.TYPE, false)
                         .navigation(mContext);
             }
         } else if (v.getId() == R.id.ll_car) {
