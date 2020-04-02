@@ -6,16 +6,21 @@ import android.view.View;
 import com.amap.api.services.core.PoiItem;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hongniu.freight.config.OrderButtonConfig;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.AreaBean;
 import com.hongniu.freight.entity.Citys;
 import com.hongniu.freight.entity.NewAreaBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.widget.DialogComment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -246,16 +251,45 @@ public class Utils {
         if (role == RoleOrder.SHIPPER && data.getUserEvaluateState() == 1) {
             fliter = true;
         }
-        if (fliter){
+        if (fliter) {
             buttons.remove(OrderButtonConfig.EVALUATE);
         }
     }
 
     /**
      * 是否显示保险相关数据
+     *
      * @return
      */
     public static boolean isShowInsurance() {
         return true;
+    }
+
+    public static DialogComment dialogAttes(Context mContext, DialogComment.OnButtonRightClickListener rightClickListener) {
+            //跳转到实名认证
+           return new DialogComment.Builder()
+                    .setBtLeft("暂不认证")
+                    .setDialogTitle("请前往身份认证")
+                    .setBtRight("去认证")
+                    .hideContent()
+                    .setCancelable(false)
+                    .setCanceledOnTouchOutside(false)
+                    .setRightClickListener(rightClickListener)
+                    .creatDialog(mContext);
+
+
+
+    }
+
+    public static void jump2Attestation(Context mContext,PersonInfor personInfo) {
+        if (InfoUtils.getRole(personInfo)== Role.UNKNOW) {
+            //跳转到实名认证选角色
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_select_role)
+                    .navigation(mContext);
+        } else if ( personInfo.getIsRealname() != 1) {
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                    .navigation(mContext);
+        }
+
     }
 }

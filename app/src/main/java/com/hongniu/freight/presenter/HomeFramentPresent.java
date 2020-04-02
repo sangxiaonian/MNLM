@@ -76,10 +76,9 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                                 mode.savePersonInfo((PersonInfor) data);
                                 PersonInfor myInfo = mode.getPersonInfo();
                                 view.showPersonInfo(myInfo);
-                                if (!mode.isLogin()&&(InfoUtils.getState(myInfo)!=4||myInfo.getIsRealname()!=1)) {
+                                if (!mode.isLogin()&&InfoUtils.isShowAlert()) {
                                     //跳转到实名认证
                                     view.showAttestationAlert();
-
                                 }
                             }else if (data instanceof PageBean){
                                 //订单数量数据

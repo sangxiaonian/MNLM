@@ -29,6 +29,7 @@ import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.DialogComment;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
@@ -100,7 +101,8 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         queryInfo();
     }
 
-    private boolean isFirst=true;
+    private boolean isFirst = true;
+
     @Override
     public void onTaskStart(Disposable d) {
         if (isFirst) {
@@ -127,7 +129,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden){
+        if (!hidden) {
             queryInfo();
         }
     }
@@ -142,18 +144,30 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         if (v.getId() == R.id.icon_eyes) {
             switchBalance(!hideBalance);
         } else if (v.getId() == R.id.ll_identification) {
-            if ((InfoUtils.getMyInfo()!=null&&InfoUtils.getMyInfo().getIsRealname()==1)) {
+
+            if (InfoUtils.isShowAlert()) {
+                Utils.dialogAttes(mContext, new DialogComment.OnButtonRightClickListener() {
+                    @Override
+                    public void onRightClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        PersonInfor personInfo = InfoUtils.getMyInfo();
+                        if (personInfo == null) {
+                            return;
+                        }
+                        Utils.jump2Attestation(mContext, personInfo);
+
+
+                    }
+                }).show();
+            } else {
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_role_activity)
-                        .withSerializable(Param.TRAN,InfoUtils.getRole(InfoUtils.getMyInfo()))
-                        .withBoolean(Param.TYPE,InfoUtils.getState(InfoUtils.getMyInfo())==5||InfoUtils.getState(InfoUtils.getMyInfo())==0)
-                        .navigation(mContext);
-            }else {
-                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
+                        .withSerializable(Param.TRAN, InfoUtils.getRole(InfoUtils.getMyInfo()))
+                        .withBoolean(Param.TYPE, InfoUtils.getState(InfoUtils.getMyInfo()) == 5 || InfoUtils.getState(InfoUtils.getMyInfo()) == 0)
                         .navigation(mContext);
             }
         } else if (v.getId() == R.id.ll_car) {
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_my_car_list).navigation(mContext);
-        }  else if (v.getId() == R.id.img_heard) {
+        } else if (v.getId() == R.id.img_heard) {
             PermissionUtils.applyCamera(getActivity(), new PermissionUtils.onApplyPermission() {
                 @Override
                 public void hasPermission() {
@@ -163,18 +177,18 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                                 public void onResult(List<LocalMedia> result) {
                                     if (!CollectionUtils.isEmpty(result)) {
                                         String path = PicUtils.getPath(result.get(0));
-                                        HttpAppFactory.upImage(4,path,null)
-                                                .subscribe(new BaseObserver<UpImgData>(PersonCenterFragment.this){
+                                        HttpAppFactory.upImage(4, path, null)
+                                                .subscribe(new BaseObserver<UpImgData>(PersonCenterFragment.this) {
                                                     @Override
                                                     public void onNext(UpImgData result) {
                                                         super.onNext(result);
                                                         HttpAppFactory.upDateLogo(result.getPath())
-                                                                .subscribe(new BaseObserver<ResponseBody>(PersonCenterFragment.this){
+                                                                .subscribe(new BaseObserver<ResponseBody>(PersonCenterFragment.this) {
                                                                     @Override
                                                                     public void onNext(ResponseBody result) {
                                                                         super.onNext(result);
                                                                         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
-                                                                        ImageLoader.getLoader().load(mContext,img_heard,path);
+                                                                        ImageLoader.getLoader().load(mContext, img_heard, path);
 
                                                                     }
 
@@ -244,12 +258,12 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
 
     private void queryInfo() {
         HttpAppFactory.queryMyInfo()
-                .subscribe(new NetObserver<PersonInfor>(isFirst?this:null) {
+                .subscribe(new NetObserver<PersonInfor>(isFirst ? this : null) {
                     @Override
                     public void doOnSuccess(PersonInfor personInfor) {
                         super.doOnSuccess(personInfor);
                         initInfo(personInfor);
-                        isFirst=false;
+                        isFirst = false;
                     }
 
 
@@ -263,7 +277,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         this.personInfor = personInfor;
         ImageLoader.getLoader().loadHeaed(mContext, img_heard, personInfor.getLogoPath());
         String name = TextUtils.isEmpty(personInfor.getContact()) ? "" : personInfor.getContact();
-        name=TextUtils.isEmpty(name)?personInfor.getMobile():name;
+        name = TextUtils.isEmpty(name) ? personInfor.getMobile() : name;
         CommonUtils.setText(tv_name, name);
         Role role = InfoUtils.getRole(personInfor);
 
@@ -277,14 +291,14 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         switchBalance(hideBalance);
 
         //非平台员工隐藏接单中心
-        ll_order_center.setVisibility(role == Role.PLATFORM?View.VISIBLE:View.GONE);
-        ll_car.setVisibility((role == Role.PLATFORM||role==Role.CARRIER_COMPANY||role==Role.CARRIER_PERSONAL)?View.VISIBLE:View.GONE);
-        ll_identification.setVisibility((role == Role.PLATFORM?View.GONE:View.VISIBLE));
+        ll_order_center.setVisibility(role == Role.PLATFORM ? View.VISIBLE : View.GONE);
+        ll_car.setVisibility((role == Role.PLATFORM || role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) ? View.VISIBLE : View.GONE);
+        ll_identification.setVisibility((role == Role.PLATFORM ? View.GONE : View.VISIBLE));
     }
 
     private void switchBalance(boolean hideBalance) {
         this.hideBalance = hideBalance;
-        tv_count.setText(hideBalance ? "******" : personInfor == null||TextUtils.isEmpty(personInfor.getTotalBalance()) ? "0" : personInfor.getTotalBalance());
+        tv_count.setText(hideBalance ? "******" : personInfor == null || TextUtils.isEmpty(personInfor.getTotalBalance()) ? "0" : personInfor.getTotalBalance());
         icon_eyes.setImageResource(hideBalance ? R.mipmap.attention_forbid : R.mipmap.attention);
     }
 }

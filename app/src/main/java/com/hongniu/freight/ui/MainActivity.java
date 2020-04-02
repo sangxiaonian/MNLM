@@ -1,5 +1,6 @@
 package com.hongniu.freight.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,13 +29,17 @@ import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.entity.Event;
+import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.fragment.ChactListFragment;
 import com.hongniu.freight.ui.fragment.HomeFragment;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.LoactionUpUtils;
+import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.DialogComment;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
 import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.chact.control.ChactControl;
@@ -78,6 +83,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     private LoactionUtils loaction;
 
     private boolean isLogin;
+    private DialogComment dialogAttes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +120,18 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         img4 = findViewById(R.id.img4);
         img5 = findViewById(R.id.img5);
         demo = findViewById(R.id.demo);
+        dialogAttes = Utils.dialogAttes(mContext, new DialogComment.OnButtonRightClickListener() {
+            @Override
+            public void onRightClick(View view, Dialog dialog) {
+                dialog.dismiss();
+                PersonInfor personInfo = InfoUtils.getMyInfo();
+                if (personInfo==null){
+                    return;
+                }
+                Utils.jump2Attestation(mContext,personInfo);
 
+            }
+        });
     }
 
     @Override
@@ -173,7 +190,9 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
                 if (InfoUtils.getState(InfoUtils.getMyInfo()) == 4) {
                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_create)
                             .navigation();
-                } else {
+                } else if (InfoUtils.isShowAlert()){
+                    dialogAttes.show();
+                }else {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER)
                             .show("身份认证暂未成功，请联系客服");
                 }

@@ -110,11 +110,19 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                 .setBtLeft("刷新状态")
                 .setBtRight("查看详情")
                 .hideContent()
-                .setCancelable(true)
-                .setCanceledOnTouchOutside(true)
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
                 .setLeftClickListener(this)
                 .setRightClickListener(this)
                 .creatDialog(mContext);
+
+        dialogAttes = Utils.dialogAttes(mContext, new DialogComment.OnButtonRightClickListener() {
+            @Override
+            public void onRightClick(View view, Dialog dialog) {
+                dialog.dismiss();
+                present.jump2Attestion();
+            }
+        });
     }
 
     @Override
@@ -201,6 +209,12 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             tv_count_cyr.setText(getSpanner(data.getOwnerOrderNum() + "单"));
             tv_count_driver.setText(getSpanner(data.getDriverOrderNum() + "单"));
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        present.queryInfo(null);
     }
 
     /**
@@ -303,29 +317,17 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
                 .navigation(mContext);
     }
 
+    boolean isFirst=true;
     /**
      * 弹出去实名认证的提示
      */
     @Override
     public void showAttestationAlert() {
-        if (dialogAttes==null) {
-            dialogAttes = new DialogComment.Builder()
-                    .setBtLeft("否")
-                    .setDialogTitle("是否去实名认证?")
-                    .setBtRight("是")
-                    .hideContent()
-                    .setCancelable(false)
-                    .setCanceledOnTouchOutside(false)
-                    .setRightClickListener(new DialogComment.OnButtonRightClickListener() {
-                        @Override
-                        public void onRightClick(View view, Dialog dialog) {
-                            dialog.dismiss();
-                            present.jump2Attestion();
-                        }
-                    })
-                    .creatDialog(mContext);
+        if (isFirst){
+            isFirst=false;
             dialogAttes.show();
         }
+
     }
 
     /**

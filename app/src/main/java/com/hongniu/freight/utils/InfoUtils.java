@@ -1,5 +1,7 @@
 package com.hongniu.freight.utils;
 
+import android.util.Log;
+
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.companylibrary.config.Param;
 import com.google.gson.Gson;
@@ -235,4 +237,24 @@ public class InfoUtils {
         return getRole(info).getName();
     }
 
+    /**
+     * 是否实名认证成功
+     * @return false 未进行实名认证或者未进行人脸识别
+     */
+    public static boolean isShowAlert() {
+        PersonInfor myInfo = InfoUtils.getMyInfo();
+        if (myInfo!=null) {
+            Role role = getRole(myInfo);
+            if (role == Role.UNKNOW || myInfo.getIsRealname() != 1) {
+                return true;
+            }
+        }else {
+            LoginInfo loginInfo = InfoUtils.getLoginInfo();
+            Role role = getRole(loginInfo);
+            if (role == Role.UNKNOW || loginInfo.getIsRealname() != 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
