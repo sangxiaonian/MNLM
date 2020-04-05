@@ -19,6 +19,7 @@ import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -26,7 +27,6 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
-import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.Event;
@@ -89,7 +89,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setWhitToolBar("");
-        isLogin=getIntent().getBooleanExtra(Param.TRAN,false);
+        isLogin = getIntent().getBooleanExtra(Param.TRAN, false);
         initView();
         initData();
         initListener();
@@ -124,10 +124,10 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             public void onRightClick(View view, Dialog dialog) {
                 dialog.dismiss();
                 PersonInfor personInfo = InfoUtils.getMyInfo();
-                if (personInfo==null){
+                if (personInfo == null) {
                     return;
                 }
-                Utils.jump2Attestation(mContext,personInfo);
+                Utils.jump2Attestation(mContext, personInfo);
 
             }
         });
@@ -151,8 +151,11 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         demo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JLog.i(InfoUtils.getLoginInfo().getId());
-                ChactHelper.getHelper().startPriver(mContext, "277", "测试名称");
+//                JLog.i(InfoUtils.getLoginInfo().getId());
+//                ChactHelper.getHelper().startPriver(mContext, "277", "测试名称");
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_receive)
+                        .withString(Param.TRAN, "bean.getId()")
+                        .navigation(mContext);
 //                ArouterUtils.getInstance().builder(ArouterParamsMatch.activity_match_estimate_order)
 //                        .navigation(mContext);
             }
@@ -164,7 +167,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     protected void onStart() {
         super.onStart();
         if (ChactHelper.getHelper().disConnectState()) {
-            String rongToken =  InfoUtils.getLoginInfo().getRongToken() ;
+            String rongToken = InfoUtils.getLoginInfo().getRongToken();
             ChactHelper.getHelper().connect(mContext, rongToken, this);
             ChactHelper.getHelper().setUnReadCountListener(this);
         }
@@ -189,9 +192,9 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
                 if (InfoUtils.getState(InfoUtils.getMyInfo()) == 4) {
                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_create)
                             .navigation();
-                } else if (InfoUtils.isShowAlert()){
+                } else if (InfoUtils.isShowAlert()) {
                     dialogAttes.show();
-                }else {
+                } else {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER)
                             .show("身份认证审核中");
                 }
@@ -224,8 +227,8 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
 
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
-                    Bundle bundle=new Bundle();
-                    bundle.putBoolean(Param.TRAN,isLogin);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(Param.TRAN, isLogin);
                     homeFragment.setBundle(bundle);
                     fragmentTransaction.add(R.id.content, homeFragment);
                 } else {

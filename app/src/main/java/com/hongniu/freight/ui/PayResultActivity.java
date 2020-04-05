@@ -59,11 +59,13 @@ public class PayResultActivity extends CompanyBaseActivity implements View.OnCli
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_assign_order)
                     .withString(Param.TRAN, bean.getId())
                     .navigation(mContext);
+            finish();
         } else if (R.id.bt2 == v.getId()) {
             ArouterUtils.getInstance()
                     .builder(ArouterParamApp.activity_order_find_car)
                     .withString(Param.TRAN, bean.getId())
                     .navigation(mContext);
+            finish();
         }
     }
 }

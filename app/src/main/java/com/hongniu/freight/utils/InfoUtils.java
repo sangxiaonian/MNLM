@@ -1,11 +1,10 @@
 package com.hongniu.freight.utils;
 
-import android.util.Log;
-
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
 import com.fy.companylibrary.config.Param;
 import com.google.gson.Gson;
 import com.hongniu.freight.config.Role;
+import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.LoginInfo;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
@@ -256,5 +255,17 @@ public class InfoUtils {
             }
         }
         return false;
+    }
+
+    public static RoleOrder chagetRoleOrder(Role role) {
+        RoleOrder roleOrder;
+        if (role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) {
+            roleOrder = RoleOrder.CARRIER;
+        } else if (role == Role.DRIVER) {
+            roleOrder = RoleOrder.DRIVER;
+        } else {
+            roleOrder = RoleOrder.SHIPPER;
+        }
+        return roleOrder;
     }
 }

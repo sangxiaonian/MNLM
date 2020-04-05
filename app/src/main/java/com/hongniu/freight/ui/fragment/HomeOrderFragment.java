@@ -17,6 +17,7 @@ import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.PickerDialogUtils;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 @Route(path = ArouterParamApp.fragment_order_home)
 public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsSelectListener, View.OnClickListener {
 
-    private RoleOrder role=RoleOrder.SHIPPER ;
+    private RoleOrder role  ;
     private TextView tvTitle;
     private TextView tvRole;
     private View ll_filtrate;
@@ -60,6 +61,7 @@ public class HomeOrderFragment extends CompanyBaseFragment implements OnOptionsS
     @Override
     protected void initData() {
         super.initData();
+        role= InfoUtils.chagetRoleOrder(InfoUtils.getRole(InfoUtils.getMyInfo()));
         pickerView = PickerDialogUtils.initPickerDialog(mContext, this);
 
         roles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.roles)));

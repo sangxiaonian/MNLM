@@ -2,7 +2,6 @@ package com.fy.baselibrary.refrush;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +26,7 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 
 public class RecycleHeader extends LinearLayout implements RefreshHeader {
     private ImageView ivLoading;
-    private AnimationDrawable animationDrawable;
+//    private AnimationDrawable animationDrawable;
 
     public RecycleHeader(Context context) {
         super(context);
@@ -49,15 +48,12 @@ public class RecycleHeader extends LinearLayout implements RefreshHeader {
 
 
         removeAllViews();
-        int size = DeviceUtils.dip2px(context,50);
+        int size = DeviceUtils.dip2px(context, 50);
         ivLoading = new ImageView(context);
-        ivLoading.setImageResource(R.drawable.loading_refresh);
-          animationDrawable = (AnimationDrawable) ivLoading.getDrawable();
-//        Glide.with(getContext()).clear(ivLoading);
-//        Glide.with(getContext()).asBitmap().load(R.raw.loading).into(ivLoading);
+        Glide.with(getContext()).load(R.raw.loading).into(ivLoading);
 
 
-        addView(ivLoading, size/2, size/2);
+        addView(ivLoading, size  , size  );
         setMinimumHeight(size);
     }
 
@@ -74,12 +70,10 @@ public class RecycleHeader extends LinearLayout implements RefreshHeader {
     @Override
     public void onStartAnimator(RefreshLayout layout, int headHeight, int extendHeight) {
 //        mProgressDrawable.start();//开始动画
-        animationDrawable.start();
     }
 
     @Override
     public int onFinish(RefreshLayout layout, boolean success) {
-        animationDrawable.stop();
         return 0;//延迟500毫秒之后再弹回
     }
 
@@ -88,7 +82,6 @@ public class RecycleHeader extends LinearLayout implements RefreshHeader {
         switch (newState) {
             case None:
             case PullDownToRefresh://下拉开始刷新
-                animationDrawable.start();
 //                iv.setVisibility(VISIBLE);
 //                ivLoading.setVisibility(GONE);
 //                gifView.setVisibility(GONE);
@@ -105,7 +98,6 @@ public class RecycleHeader extends LinearLayout implements RefreshHeader {
             case ReleaseToRefresh://拉到底
                 break;
             case RefreshFinish://刷新完成
-                animationDrawable.stop();
                 break;
         }
     }
@@ -130,9 +122,8 @@ public class RecycleHeader extends LinearLayout implements RefreshHeader {
      */
     @Override
     public void onMoving(boolean isDragging, float percent, int offset, int height, int maxDragHeight) {
-        
-    }
 
+    }
 
 
     /**

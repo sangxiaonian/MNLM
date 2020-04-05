@@ -200,11 +200,9 @@ public class AssignOrderActivity extends CompanyBaseActivity implements View.OnC
 
     @Override
     public void onSearchTextChange(String msg) {
-        handler.removeMessages(1);
         handler.removeMessages(0);
-        handler.removeMessages(2);
         if (!TextUtils.isEmpty(msg) && show) {
-            handler.sendEmptyMessageDelayed(1, 300);
+            handler.sendEmptyMessageDelayed(0, 300);
         }
         show = true;
 

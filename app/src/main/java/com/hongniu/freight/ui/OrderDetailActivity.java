@@ -257,11 +257,11 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         int titleColor = getResources().getColor(R.color.color_of_666666);
         int contactColor = getResources().getColor(R.color.color_of_3d5688);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        append(titleColor, "托运人姓名", color, infoBean.getDriverName(), builder);
+        append(titleColor, "托运人姓名", color, infoBean.getUserName(), builder);
         append(titleColor, builder, "托运人手机");
         builder.append(gap);
 
-        append(color, builder, infoBean.getDriverMobile());
+        append(color, builder, infoBean.getUserMobile());
         appendLine(builder);
         appendClick(builder, "联系托运人", new XClickableSpan() {
             @Override

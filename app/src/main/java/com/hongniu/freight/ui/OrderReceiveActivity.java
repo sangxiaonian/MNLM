@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
 import com.fy.androidlibrary.widget.span.CenterAlignImageSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -24,8 +27,12 @@ import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.OrderDispathCarParams;
+import com.hongniu.freight.entity.OrderDriverPhoneBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
+import com.hongniu.freight.widget.CarNumPop;
+
+import java.util.List;
 
 /**
  *@data  2020/3/14
@@ -35,7 +42,7 @@ import com.hongniu.freight.utils.Utils;
  *
  */
 @Route(path = ArouterParamApp.activity_order_receive)
-public class OrderReceiveActivity extends CompanyBaseActivity implements View.OnClickListener, ItemTextView.OnCenterChangeListener {
+public class OrderReceiveActivity extends CompanyBaseActivity implements View.OnClickListener, ItemTextView.OnCenterChangeListener, CarNumPop.onItemClickListener<OrderDriverPhoneBean> {
 
 
     private TextView bt_sum;
@@ -44,8 +51,17 @@ public class OrderReceiveActivity extends CompanyBaseActivity implements View.On
     private ItemTextView item_driver_name;
     private CarInfoBean carInfo;
     private String orderID;
+    private CarNumPop<OrderDriverPhoneBean> popDriver;
 
+    private boolean show;
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            queryDriverInfor(item_driver_name.getTextCenter());
 
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +81,7 @@ public class OrderReceiveActivity extends CompanyBaseActivity implements View.On
         item_car_type = findViewById(R.id.item_car_type);
         item_driver_phone = findViewById(R.id.item_driver_phone);
         item_driver_name = findViewById(R.id.item_driver_name);
+        popDriver = new CarNumPop<>(this);
     }
 
     @Override
@@ -75,6 +92,17 @@ public class OrderReceiveActivity extends CompanyBaseActivity implements View.On
         item_car_type.setOnCenterChangeListener(this);
         item_driver_phone.setOnCenterChangeListener(this);
         item_driver_name.setOnCenterChangeListener(this);
+        popDriver.setListener(this);
+        item_driver_name.getEtCenter().addTextChangedListener(new SearchTextWatcher(new SearchTextWatcher.SearchTextChangeListener() {
+            @Override
+            public void onSearchTextChange(String msg) {
+                handler.removeMessages(0);
+                if (!TextUtils.isEmpty(msg) && show) {
+                    handler.sendEmptyMessageDelayed(0, 300);
+                }
+                show = true;
+            }
+        }));
     }
 
     @Override
@@ -173,5 +201,32 @@ public class OrderReceiveActivity extends CompanyBaseActivity implements View.On
     @Override
     public void onCenterChange(String msg) {
         check(false);
+    }
+
+    private void queryDriverInfor(String textCenter) {
+        HttpAppFactory.getDriverPhone(textCenter)
+                .subscribe(new NetObserver<List<OrderDriverPhoneBean>>(null) {
+                    @Override
+                    public void doOnSuccess(List<OrderDriverPhoneBean> orderDriverPhoneBeans) {
+                        super.doOnSuccess(orderDriverPhoneBeans);
+                        popDriver.upData(item_driver_name.getTextCenter(), orderDriverPhoneBeans);
+                        popDriver.show(item_driver_name);
+                    }
+                });
+    }
+
+    @Override
+    public void onItemClick(View tragetView, int position, OrderDriverPhoneBean data) {
+        popDriver.dismiss();
+        show = false;
+        if (tragetView != null && data != null) {
+            item_driver_phone.setTextCenter(data.getMobile());
+            item_driver_name.setTextCenter(data.getContact());
+        }
+    }
+
+    @Override
+    public void onDissmiss() {
+
     }
 }

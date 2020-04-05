@@ -202,7 +202,8 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                 .setBtLeft("不需要")
                 .setBtRight("填写补款")
                 .setDialogTitle("是否需要补运费？")
-                .setDialogContent(String.format("当前支付运费 %s元", ConvertUtils.changeFloat(bean.getMoney(), 2)))
+                .setDialogContent(String.format("当前支付运费 %s 元", ConvertUtils.changeFloat(bean.getMoney(), 2)))
+                .showContent(true)
                 .setLeftClickListener(new DialogComment.OnButtonLeftClickListener() {
                     @Override
                     public void onLeftClick(View view, Dialog dialog) {

@@ -221,14 +221,14 @@ public class DialogComment extends Dialog implements View.OnClickListener {
         if (i == R.id.btn_left) {
             if (leftClickListener != null) {
                 leftClickListener.onLeftClick(v, this);
-            }else {
+            } else {
                 dismiss();
             }
 
         } else if (i == R.id.btn_right) {
             if (rightClickListener != null) {
                 rightClickListener.onRightClick(v, this);
-            }else {
+            } else {
                 dismiss();
             }
 
@@ -298,15 +298,12 @@ public class DialogComment extends Dialog implements View.OnClickListener {
         private boolean cancelable = true;
 
         private boolean hideTitle;
-        private boolean hideContent=true;
+        private boolean hideContent = true;
         private boolean hideBtLeft;
         private boolean hideBtRight;
-        private int contentAlign;
 
         public Builder() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                contentAlign = View.TEXT_ALIGNMENT_CENTER;
-            }
+
         }
 
         public Builder hideTitle() {
@@ -316,6 +313,11 @@ public class DialogComment extends Dialog implements View.OnClickListener {
 
         public Builder hideContent() {
             hideContent = true;
+            return this;
+        }
+
+        public Builder showContent(boolean show) {
+            hideContent = !show;
             return this;
         }
 
@@ -358,11 +360,7 @@ public class DialogComment extends Dialog implements View.OnClickListener {
             return this;
         }
 
-        public Builder setContentAlign(int contentAlign) {
-            this.contentAlign = contentAlign;
 
-            return this;
-        }
 
         public Builder setBtRightColor(int btRightColor) {
             this.btRightColor = btRightColor;
@@ -454,7 +452,6 @@ public class DialogComment extends Dialog implements View.OnClickListener {
             dialog.hideContent(hideContent);
             dialog.hideBtLeft(hideBtLeft);
             dialog.hideBtRight(hideBtRight);
-            dialog.setContentAlign(contentAlign);
 
             return dialog;
         }
