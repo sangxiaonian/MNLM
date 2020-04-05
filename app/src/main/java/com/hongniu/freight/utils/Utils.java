@@ -244,7 +244,6 @@ public class Utils {
         if (role == RoleOrder.DRIVER && data.getDriverEvaluateState() == 1) {
             fliter = true;
         }
-        data.setOwenrEvaluateState(1);
         if (role == RoleOrder.CARRIER && data.getOwenrEvaluateState() == 1) {
             fliter = true;
         }

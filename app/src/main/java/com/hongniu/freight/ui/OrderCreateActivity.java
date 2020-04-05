@@ -130,8 +130,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
              */
             @Override
             public void onClick(@NonNull View widget) {
-                //TODO 保险条款
-                H5Config h5Config = new H5Config("保险条款", Param.insurance_polic, true);
+                H5Config h5Config = new H5Config("保险条款", Param.h_insurance_polic, true);
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
             }
@@ -150,8 +149,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
              */
             @Override
             public void onClick(@NonNull View widget) {
-                //TODO 投保须知
-                H5Config h5Config = new H5Config("投保须知", Param.insurance_notify, true);
+                H5Config h5Config = new H5Config("投保须知", Param.h_insurance_notify, true);
                 ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
             }
