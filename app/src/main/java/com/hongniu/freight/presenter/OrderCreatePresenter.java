@@ -20,7 +20,7 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
 
     public OrderCreatePresenter(OrderCreateControl.IOrderCreateView view) {
         this.view = view;
-        mode=new OrderCreateMode();
+        mode = new OrderCreateMode();
     }
 
     /**
@@ -42,18 +42,19 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
 
     /**
      * 显示发货时间
+     *
      * @param listener
      */
     @Override
     public void showStartTime(TaskControl.OnTaskListener listener) {
         mode.getTimeInfo()
-            .subscribe(new BaseObserver<Integer>(listener){
-                @Override
-                public void onNext(Integer result) {
-                    super.onNext(result);
-                    view.showTimePicker(mode.getDays(),mode.getHours(),mode.getMinutes());
-                }
-            })
+                .subscribe(new BaseObserver<Integer>(listener) {
+                    @Override
+                    public void onNext(Integer result) {
+                        super.onNext(result);
+                        view.showTimePicker(mode.getDays(), mode.getHours(), mode.getMinutes());
+                    }
+                })
         ;
     }
 
@@ -61,7 +62,7 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
      * 切换当前年月日
      *
      * @param options1 年月日
-     * @param options2  小时
+     * @param options2 小时
      * @param options3 分钟
      */
     @Override
@@ -74,7 +75,8 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             time = hours.get(options1).get(options2);
             mode.saveStartTime(null);
         } else {
-           time=String.format("%s%s%s", days.get(options1), hours.get(options1).get(options2), minutes.get(options1).get(options2).get(options3));
+            time = String.format("%s%s%s", days.get(options1), hours.get(options1).get(options2), minutes.get(options1).get(options2).get(options3));
+            mode.saveStartTime(time);
         }
         view.showTime(time);
     }
@@ -95,7 +97,7 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     @Override
     public void showPayDialog() {
         mode.getPayWaysInfo();
-        view.showPayDialog(mode.getPayType(),mode.getPayWaysInfo());
+        view.showPayDialog(mode.getPayType(), mode.getPayWaysInfo());
     }
 
     /**
@@ -107,24 +109,25 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     public void switchPayWay(int payType) {
         mode.savePayType(payType);
         String currentPayType = mode.getPayWaysInfo().get(payType);
-        view.showPayType(payType,currentPayType);
+        view.showPayType(payType, currentPayType);
     }
 
     /**
      * 展示所有被保险人信息
+     *
      * @param listener
      */
     @Override
     public void showInsuranceInfo(TaskControl.OnTaskListener listener) {
 
         mode.getAllInsuranceInfos()
-            .subscribe(new NetObserver<List<InsuranceInfoBean>>(listener){
-                @Override
-                public void doOnSuccess(List<InsuranceInfoBean> inforBeans) {
-                    super.doOnSuccess(inforBeans);
+                .subscribe(new NetObserver<List<InsuranceInfoBean>>(listener) {
+                    @Override
+                    public void doOnSuccess(List<InsuranceInfoBean> inforBeans) {
+                        super.doOnSuccess(inforBeans);
                         view.showInsuranceDialog(inforBeans);
-                }
-            })
+                    }
+                })
         ;
     }
 
@@ -136,24 +139,25 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
      */
     @Override
     public void onChangeInsuranceInfo(int position, InsuranceInfoBean def) {
-       mode.onChangeInsuranceInfo(position,def);
+        mode.onChangeInsuranceInfo(position, def);
     }
 
     /**
      * 创建订单
+     *
      * @param listener
      */
     @Override
     public void createOrder(TaskControl.OnTaskListener listener) {
         view.getParams(mode.getParams());
         mode.createOrder()
-            .subscribe(new NetObserver<OrderInfoBean>(listener){
-                @Override
-                public void doOnSuccess(OrderInfoBean o) {
-                    super.doOnSuccess(o);
-                    view.finishSuccess(o);
-                }
-            })
+                .subscribe(new NetObserver<OrderInfoBean>(listener) {
+                    @Override
+                    public void doOnSuccess(OrderInfoBean o) {
+                        super.doOnSuccess(o);
+                        view.finishSuccess(o);
+                    }
+                })
         ;
     }
 
@@ -165,20 +169,20 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     @Override
     public void searchInsruancePrice(String msg) {
         mode.queryInsurancePrice(msg)
-                .subscribe(new NetObserver<String>(null){
+                .subscribe(new NetObserver<String>(null) {
                     @Override
                     public void doOnSuccess(String s) {
                         super.doOnSuccess(s);
-                        if (s!=null&&s.startsWith(".")){
-                            s="0"+s;
+                        if (s != null && s.startsWith(".")) {
+                            s = "0" + s;
                         }
-                        view.showInsurancePrice(String.format("保费%s元",s));
+                        view.showInsurancePrice(String.format("保费%s元", s));
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        view.showInsurancePrice(String.format("保费%s元",0));
+                        view.showInsurancePrice(String.format("保费%s元", 0));
                     }
                 });
 
