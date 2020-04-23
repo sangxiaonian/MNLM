@@ -80,9 +80,11 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
         if (isEnd) {
             etSearch.setHint("在哪儿收货");
             item_name.setTextCenterHide("收货人姓名");
+            item_name.setTextLeft("收货人");
             item_phone.setTextCenterHide("收货人电话");
             tv.setText("填写收货信息");
         } else {
+            item_name.setTextLeft("发货人");
             tv.setText("填写发货信息");
             item_phone.setTextCenterHide("发货人姓名");
             item_phone.setTextCenterHide("发货人电话");
