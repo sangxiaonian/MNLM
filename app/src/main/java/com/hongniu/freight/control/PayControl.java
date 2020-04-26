@@ -31,7 +31,11 @@ public class PayControl {
         void showAccountInfo(AccountDetailBean data, float orderPrice, PayType payWay);
 
         void showError(String alert);
-
+        /**
+         * 切换支付方式
+         * @param type
+         */
+        void switchPay(PayType type);
         /**
          * 开始支付
          * @param payWay 支付方式
@@ -61,6 +65,8 @@ public class PayControl {
          * 支付成功
          */
         void finishWithSuccess();
+
+
     }
     public interface IPayPresenter{
         /**

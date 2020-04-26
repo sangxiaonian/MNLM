@@ -11,6 +11,7 @@ public enum PayType {
     ALIPAY(3,"支付宝支付"),
     BALANCE(4,"余额支付"),
     COMPANY(5,"企业支付"),
+    COMPANY_APPLY(5,"企业支付"),//企业申请支付
     UNIONPAY(1,"银联支付"),
     ;
 

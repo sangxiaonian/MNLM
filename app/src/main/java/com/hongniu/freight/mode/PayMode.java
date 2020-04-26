@@ -194,6 +194,7 @@ public class PayMode implements PayControl.IPayMode {
     public QueryPayInfoParams getPayInfo() {
         QueryPayInfoParams payInfoParams = new QueryPayInfoParams();
         payInfoParams.setPaybusiness(type);
+        payInfoParams.setType(payType);
         payInfoParams.setOrderId(id);
         payInfoParams.setPayType(payType.getPayType());
         payInfoParams.setOrderNum(orderInfo != null ? orderInfo.getOrderNum() : "");

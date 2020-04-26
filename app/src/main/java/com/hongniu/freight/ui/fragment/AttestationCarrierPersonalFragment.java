@@ -171,8 +171,8 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
                 params.setName(item_name.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setEmail(item_email.getTextCenter());
-                params.setAffiliationAgreementImageUrl(qualificationInfo.getAbsolutePath());
-                params.setRoadTransportPermitImageUrl(driverInfo.getAbsolutePath());
+                params.setAffiliationAgreementImageUrl(qualificationInfo.getPath());
+                params.setRoadTransportPermitImageUrl(driverInfo.getPath());
                 HttpAppFactory.verifyCarrierPerson(params)
                         .subscribe(new NetObserver<String>(this) {
                             @Override

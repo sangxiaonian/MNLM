@@ -3,6 +3,8 @@ package com.hongniu.freight.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.hongniu.freight.config.PayType;
+
 /**
  * 作者：  on 2020/3/7.
  */
@@ -11,6 +13,7 @@ public class QueryPayInfoParams implements Parcelable {
    private String orderNum;//	true	string	订单号
    private String orderId;//	true	string	订单号
    private int payType;//	true	string	0微信支付1银联支付3支付宝支付4余额支付 5企业支付
+   private PayType type;//	true	string	0微信支付1银联支付3支付宝支付4余额支付 5企业支付
    private String payPassword;//	false	strng	支付密码 (余额支付必填)
    private String appid;//	false	string	应用ID (微信、支付宝必传)
    private int paybusiness;//	true	string	支付业务类型(1订单支付2补款运费支付3补购保险支付)
@@ -33,6 +36,14 @@ public class QueryPayInfoParams implements Parcelable {
 
     public int getPayType() {
         return payType;
+    }
+
+    public PayType getType() {
+        return type;
+    }
+
+    public void setType(PayType type) {
+        this.type = type;
     }
 
     public void setPayType(int payType) {
@@ -76,6 +87,7 @@ public class QueryPayInfoParams implements Parcelable {
         dest.writeString(this.orderNum);
         dest.writeString(this.orderId);
         dest.writeInt(this.payType);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
         dest.writeString(this.payPassword);
         dest.writeString(this.appid);
         dest.writeInt(this.paybusiness);
@@ -85,6 +97,8 @@ public class QueryPayInfoParams implements Parcelable {
         this.orderNum = in.readString();
         this.orderId = in.readString();
         this.payType = in.readInt();
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : PayType.values()[tmpType];
         this.payPassword = in.readString();
         this.appid = in.readString();
         this.paybusiness = in.readInt();

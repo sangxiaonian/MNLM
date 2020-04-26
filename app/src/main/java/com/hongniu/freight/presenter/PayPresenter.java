@@ -75,6 +75,7 @@ public class PayPresenter implements PayControl.IPayPresenter {
     @Override
     public void switchPay(PayType type) {
         mode.switchPay(type);
+        view.switchPay(type);
     }
 
     /**
@@ -87,7 +88,7 @@ public class PayPresenter implements PayControl.IPayPresenter {
         PayType payWay = mode.getPayWay();
         if (payWay == null) {
             view.showError("请选择支付方式");
-        } else if (payWay==PayType.BALANCE) {
+        } else if (payWay==PayType.BALANCE||payWay==PayType.COMPANY) {
             if (mode.isSetPassWord()) {
                 view.showSetPassWord();
             }else {

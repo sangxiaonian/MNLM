@@ -109,6 +109,16 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         ToastUtils.getInstance().show(alert);
     }
 
+    @Override
+    public void switchPay(PayType type) {
+        if (type==PayType.COMPANY_APPLY){
+            bu_sum.setText("申请支付");
+        }else {
+            bu_sum.setText("支付订单");
+
+        }
+    }
+
     /**
      * 开始支付
      *

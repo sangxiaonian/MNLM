@@ -121,7 +121,7 @@ public class PayWayView extends LinearLayout {
         removeAllViews();
         payWayInfos.add(new PayWayInfo(PayType.BALANCE, R.mipmap.icon_gr_40, "个人余额", "可用余额" + ConvertUtils.changeFloat(getBalancePerson(), 2), false));
         if (data.getType() == 2) {
-            payWayInfos.add(new PayWayInfo(PayType.COMPANY, R.mipmap.icon_qy_40, "企业余额", "需提交申请企业账号支付", false));
+            payWayInfos.add(new PayWayInfo(PayType.COMPANY_APPLY, R.mipmap.icon_qy_40, "企业余额", "需提交申请企业账号支付", false));
         } else if (data.getType() == 3) {
             payWayInfos.add(new PayWayInfo(PayType.COMPANY, R.mipmap.icon_qy_40, "企业余额", "可用余额" + ConvertUtils.changeFloat(data.getCompanyAvailableBalance(), 2), false));
         }

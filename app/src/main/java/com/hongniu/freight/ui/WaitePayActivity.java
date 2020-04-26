@@ -80,14 +80,7 @@ public class WaitePayActivity extends CompanyBaseActivity {
         }
         type=payInfoParams.getPaybusiness();
 
-        for (PayType value : PayType.values()) {
-            if (value.getPayType() == payInfoParams.getPayType()) {
-                payType = value;
-                break;
-            }
-        }
-
-
+        payType = payInfoParams.getType();
 //      开始支付
         startPay();
     }
@@ -109,6 +102,10 @@ public class WaitePayActivity extends CompanyBaseActivity {
 
             case BALANCE://余额支付
             case COMPANY://企业支付
+                break;
+            case COMPANY_APPLY://企业支付
+                setResult(Activity.RESULT_OK);
+                finish();
                 break;
             default:
         }

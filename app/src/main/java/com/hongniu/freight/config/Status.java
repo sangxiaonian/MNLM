@@ -17,6 +17,9 @@ public enum Status {
     IN_TRANSIT(7,"运输中"),
     ARRIVE(8,"已到达"),
     RECEIVING(9,"已收货"),
+    AUDIT_WAITE(10,"待审核"),
+    AUDIT_FAIL(11,"审核失败"),
+
     ;
 
     int status;
