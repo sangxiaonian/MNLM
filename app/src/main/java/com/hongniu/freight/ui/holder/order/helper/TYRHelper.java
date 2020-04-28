@@ -13,9 +13,7 @@ import java.util.TreeMap;
  */
 public class TYRHelper extends BaseHelper {
 
-    private int type;//0个人 1平台
-    public TYRHelper(int type) {
-        this.type = type;
+    public TYRHelper( ) {
     }
 
 
@@ -27,13 +25,12 @@ public class TYRHelper extends BaseHelper {
      */
     @Override
     public Map<String, Integer> getButtons(int status) {
-        Map<String, Integer> map = type == 0 ? getPersonalMap(status) : getPlatformMap(status);
-        return map;
+        return getPersonalMap(status);
     }
 
     private Map<String, Integer> getPersonalMap(int status) {
         Map<String, Integer> map = new TreeMap<>();
-        if (status == Status.WAITE_PAY.getStatus()) {
+        if (status == Status.WAITE_PAY.getStatus()||status == Status.AUDIT_FAIL.getStatus()) {
 //            result = "待支付";
             map.put(OrderButtonConfig.ORDER_CANCEL, 0);
             map.put(OrderButtonConfig.PAY, 1);
@@ -79,7 +76,7 @@ public class TYRHelper extends BaseHelper {
 
     private Map<String, Integer> getPlatformMap(int status) {
         Map<String, Integer> map = new TreeMap<>();
-        if (status == Status.WAITE_PAY.getStatus()) {
+        if (status == Status.WAITE_PAY.getStatus()||status==Status.AUDIT_FAIL.getStatus()) {
 //            result = "待支付";
             map.put(OrderButtonConfig.ORDER_CANCEL, 0);
             map.put(OrderButtonConfig.PAY, 1);

@@ -24,14 +24,15 @@ public class PlatformHelper extends BaseHelper {
      */
     @Override
     public Map<String, Integer> getButtons(int status) {
-        Map<String, Integer> map =   getPlatformMap(status);
+        Map<String, Integer> map = getPlatformMap(status);
         return map;
     }
 
 
     private Map<String, Integer> getPlatformMap(int status) {
         Map<String, Integer> map = new TreeMap<>();
-        if (status == Status.WAITE_PAY.getStatus()) {
+        if (status == Status.WAITE_PAY.getStatus() || status == Status.AUDIT_FAIL.getStatus()) {
+
 //            result = "待支付";
             map.put(OrderButtonConfig.ORDER_CANCEL, 0);
             map.put(OrderButtonConfig.PAY, 1);
@@ -53,11 +54,11 @@ public class PlatformHelper extends BaseHelper {
                 //            result = "待发车(已买保险)";
                 map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
 
-            }else {
+            } else {
                 map.put(OrderButtonConfig.PAY_INSURANCE, 1);
                 map.put(OrderButtonConfig.RE_SEND_CARD, 1);
             }
-        }   else if (status == Status.IN_TRANSIT.getStatus()) {
+        } else if (status == Status.IN_TRANSIT.getStatus()) {
 //            result = "运输中";
             if (isInsurance) {
                 map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
@@ -72,7 +73,7 @@ public class PlatformHelper extends BaseHelper {
             map.put(OrderButtonConfig.ENTRY_RECEIVE, 1);
         } else if (status == Status.RECEIVING.getStatus()) {
 //            result = "已收货";
-            if (isInsurance){
+            if (isInsurance) {
                 map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
             }
 //            map.put(OrderButtonConfig.EVALUATE, 1);
