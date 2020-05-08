@@ -43,13 +43,6 @@ dependencies {
     api 'com.amap.api:location:latest.integration'
 
 
-    //人脸识别
-    implementation files('libs/FaceLivenessOpen-2.1.6.15.aar')
-    implementation files('libs/NoCaptchaSDK-external-release-5.4.33.aar')
-    implementation files('libs/SecurityBodySDK-external-release-5.4.79.aar')
-    implementation files('libs/SecurityGuardSDK-external-release-5.4.9901.aar')
-    implementation files('libs/oss-android-sdk-2.9.2.aar')
-    implementation files('libs/rpsdk-3.1.0.1.aar')
 
     //支付宝支付
     implementation files('libs/alipaySdk-15.7.4-20200228192319-noUtdid.aar')
@@ -77,4 +70,8 @@ dependencies {
 //PushSDK
     api 'com.umeng.umsdk:push:6.0.1'
     implementation project(path: ':BaseLibrary')
+
+    //疼腾讯实名认证
+    implementation files('libs\\WbCloudFaceLiveSdk-v3.1.15-33d33e4e.aar')
+    implementation files('libs\\WbCloudNormal-v4.0.10-1e5e27e.aar')
 }

@@ -51,7 +51,7 @@ import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyPersonParams;
-import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.thirdlibrary.verify.VerifyTokenBeans;
 import com.hongniu.freight.entity.WayBillBean;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;

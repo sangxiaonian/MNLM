@@ -10,7 +10,8 @@ import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.VerifyTokenBeans;
+import com.hongniu.freight.utils.InfoUtils;
+import com.hongniu.thirdlibrary.verify.VerifyTokenBeans;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.hongniu.thirdlibrary.verify.VerifyClient;
@@ -26,7 +27,6 @@ import com.hongniu.thirdlibrary.verify.VerifyClient;
 public class AttestationFaceActivity extends CompanyBaseActivity implements View.OnClickListener, PermissionUtils.onApplyPermission, VerifyClient.OnVerifyListener {
 
     private TextView btSum;
-    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,8 @@ public class AttestationFaceActivity extends CompanyBaseActivity implements View
                             ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
                                     .navigation(mContext);
                         }else {
-                            token = verifyTokenBeans.getToken();
-                            VerifyClient.getInstance().startVerify(mContext, token, AttestationFaceActivity.this);
+                            verifyTokenBeans.setUserID(InfoUtils.getLoginInfo().getId());
+                            VerifyClient.getInstance().startVerify(mContext, verifyTokenBeans, AttestationFaceActivity.this);
                         }
 
                     }
