@@ -41,6 +41,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     private ItemTextView item_company_name;//企业名称
     private ItemTextView item_company_address;//企业地址
     private ItemTextView item_name;//姓名
+    private ItemTextView item_id_card;//姓名
     private ItemTextView item_phone;//联系人手机号
     private ItemTextView item_email;//邮箱
     private ImageInforView img_business_license;//营业执照
@@ -54,6 +55,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         item_company_name = inflate.findViewById(R.id.item_company_name);
         item_company_address = inflate.findViewById(R.id.item_company_address);
         item_name = inflate.findViewById(R.id.item_name);
+        item_id_card = inflate.findViewById(R.id.item_id_card);
         item_phone = inflate.findViewById(R.id.item_phone);
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
@@ -76,6 +78,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
             item_company_name.setTextCenter(identity.getCompanyName());
             item_email.setTextCenter(identity.getContactEmail());
             item_name.setTextCenter(identity.getCompanyName());
+            item_id_card.setTextCenter(identity.getIdnumber());
             item_phone.setTextCenter(identity.getContactMobile());
              img_business_license.setImageInfo( identity.getBusinessLicenseImageUrl());
 
@@ -97,6 +100,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         item_name.setOnCenterChangeListener(this);
         item_phone.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
+        item_id_card.setOnCenterChangeListener(this);
         bt_sum.setOnClickListener(this);
         img_business_license.setOnClickListener(this);
     }
@@ -163,6 +167,8 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
                 params.setContactMobile(item_phone.getTextCenter());
                 params.setBusinessLicenseImageUrl(qualificationInfo.getPath());
                 params.setContactMobile(item_phone.getTextCenter());
+                params.setIdnumber(item_id_card.getTextCenter());
+                params.setName(item_name.getTextCenter());
 
                 HttpAppFactory.verifyShipperCompany(params)
                         .subscribe(new NetObserver<String>(this) {

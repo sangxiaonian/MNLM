@@ -5,13 +5,31 @@ package com.hongniu.freight.entity;
  * 公司承运人数据
  */
 public class VerifyCompanyParams {
-   private String companyName;//	false	string	企业名称
-   private String companyAddress;//	false	string	企业地址
-   private String contactName;//	false	string	联系人姓名
-   private String contactEmail;//	true	string	联系人邮箱
-   private String contactMobile;//	false	string	联系人手机号
-   private String businessLicenseImageUrl;//	false	string	营业执照照片url(相对路径) 传入文件类型参考11.1接口)
-   private String roadTransportPermitImageUrl;//	false	string	道路运输许可证照片url
+    private String companyName;//	false	string	企业名称
+    private String companyAddress;//	false	string	企业地址
+    private String contactName;//	false	string	联系人姓名
+    private String contactEmail;//	true	string	联系人邮箱
+    private String contactMobile;//	false	string	联系人手机号
+    private String businessLicenseImageUrl;//	false	string	营业执照照片url(相对路径) 传入文件类型参考11.1接口)
+    private String roadTransportPermitImageUrl;//	false	string	道路运输许可证照片url
+    private String idnumber;//	false	string	身份证
+    private String name;//	false	string	身份证
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIdnumber() {
+        return idnumber;
+    }
+
+    public void setIdnumber(String idnumber) {
+        this.idnumber = idnumber;
+    }
 
     public String getCompanyName() {
         return companyName;

@@ -52,7 +52,7 @@ public class App extends BaseApp {
                 .setBaseUrl(Param.baseUrl);
 
         // 初始化实人认证 SDK
-        VerifyClient.getInstance().initClient(this);
+        VerifyClient.getInstance().initClient( BuildConfig.IS_DEBUG);
 
         //融云
         ChactHelper.getHelper().initHelper(this);

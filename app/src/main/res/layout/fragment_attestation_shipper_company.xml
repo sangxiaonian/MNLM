@@ -36,6 +36,12 @@
                 app:textleft="联系人姓名" />
             <com.fy.companylibrary.widget.ItemTextView
                 style="@style/item_edit"
+                android:id="@+id/item_id_card"
+                app:centerType="idcard"
+                app:textcenterhide="请输入联系人身份证号"
+                app:textleft="联系人身份证号" />
+            <com.fy.companylibrary.widget.ItemTextView
+                style="@style/item_edit"
                 android:id="@+id/item_phone"
                 app:centerType="phone"
                 app:textcenterhide="请输入联系人手机"
