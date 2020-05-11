@@ -1,16 +1,22 @@
 package com.hongniu.freight.widget;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.net.http.SslError;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.fy.androidlibrary.utils.JLog;
 import com.hongniu.freight.R;
 
 
@@ -86,17 +92,25 @@ public class XWebView extends LinearLayout {
                 view.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+
+                handler.proceed();
+            }
+
+
         });
         webView.setWebChromeClient(new WebChromeClient() {
 
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress==100){
-                    if (mProgressBar.getVisibility()!=GONE) {
+                if (newProgress == 100) {
+                    if (mProgressBar.getVisibility() != GONE) {
                         mProgressBar.setVisibility(GONE);
                     }
-                }else {
-                    if (mProgressBar.getVisibility()!=VISIBLE) {
+                } else {
+                    if (mProgressBar.getVisibility() != VISIBLE) {
                         mProgressBar.setVisibility(VISIBLE);
                     }
                 }
@@ -107,8 +121,8 @@ public class XWebView extends LinearLayout {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                if (onReceivedTitleListener!=null){
-                    onReceivedTitleListener.onReceivedTitle(view,title);
+                if (onReceivedTitleListener != null) {
+                    onReceivedTitleListener.onReceivedTitle(view, title);
                 }
             }
 
@@ -123,7 +137,7 @@ public class XWebView extends LinearLayout {
     }
 
     public void setOnReceivedTitleListener(OnReceivedTitleListener onReceivedTitleListener) {
-        this.onReceivedTitleListener=onReceivedTitleListener;
+        this.onReceivedTitleListener = onReceivedTitleListener;
     }
 
     public boolean canGoBack() {
@@ -135,9 +149,8 @@ public class XWebView extends LinearLayout {
     }
 
     public interface OnReceivedTitleListener {
-        void onReceivedTitle(WebView view, String title) ;
+        void onReceivedTitle(WebView view, String title);
     }
-
 
 
 }

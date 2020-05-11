@@ -39,6 +39,12 @@
         <item name="android:backgroundDimEnabled">false</item><!--模糊，背景透明是这个-->
 
     </style>
+   <style name="dialog" parent="@android:style/Theme.Dialog">
+       <item name="android:windowFrame">@null</item>
+       <item name="android:windowBackground">@android:color/transparent</item>
+       <item name="android:windowNoTitle">false</item>
+
+    </style>
 
     <style name="dialog_alpha" parent="android:Animation">  <!--name为调用这个style动画的名字，自己设置的-->
         <item name="android:windowExitAnimation">@anim/alpha_dialog_out</item><!-- 退出动画-->
