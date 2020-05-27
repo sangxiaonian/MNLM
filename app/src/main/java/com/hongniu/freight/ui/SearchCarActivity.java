@@ -103,7 +103,7 @@ public class SearchCarActivity extends RefrushActivity<CarInfoBean> implements S
                         tv_car_type.setText(data.getCarType());
                         tv_phone.setText(data.getMobile());
 
-                        tv_title.setText(String.format("%s-%s", data.getName(), data.getCarNumber()));
+                        tv_title.setText(String.format("%s-%s%s", data.getName(), data.getCarNumber(),data.getTransportStatus()==1?"(运输中)":""));
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

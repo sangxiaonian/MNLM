@@ -57,16 +57,22 @@ public class TYRHelper extends BaseHelper {
             }
         } else if (status == Status.IN_TRANSIT.getStatus()) {
 //            result = "运输中";
-            map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            if (isInsurance) {
+                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            }
             map.put(OrderButtonConfig.QUERY_TRACK, 1);
         } else if (status == Status.ARRIVE.getStatus()) {
 //            result = "已到达";
 //            不显示订单
-            map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            if (isInsurance) {
+                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            }
             map.put(OrderButtonConfig.ENTRY_RECEIVE, 1);
         } else if (status == Status.RECEIVING.getStatus()) {
 //            result = "已收货";
-            map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            if (isInsurance) {
+                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            }
             map.put(OrderButtonConfig.EVALUATE, 1);
         } else {
 //            result = "未知状态";
@@ -74,57 +80,5 @@ public class TYRHelper extends BaseHelper {
         return map;
     }
 
-    private Map<String, Integer> getPlatformMap(int status) {
-        Map<String, Integer> map = new TreeMap<>();
-        if (status == Status.WAITE_PAY.getStatus()||status==Status.AUDIT_FAIL.getStatus()) {
-//            result = "待支付";
-            map.put(OrderButtonConfig.ORDER_CANCEL, 0);
-            map.put(OrderButtonConfig.PAY, 1);
-        } else if (status == Status.WAITE_RECEIVING_ORDER.getStatus()) {
-//            result = "待接单";
-            map.put(OrderButtonConfig.ORDER_CANCEL, 0);
-        } else if (status == Status.WAITE_PAY_BALANCE.getStatus()) {
-//            result = "差额支付中";
-            map.put(OrderButtonConfig.PAY_BALANCE, 1);
-        } else if (status == Status.WAITE_CAR.getStatus()) {
-//            result = "待派车";
-            map.put(OrderButtonConfig.SEND_ORDER, 1);
-            map.put(OrderButtonConfig.FIND_CAR, 0);
-        } else if (status == Status.FIND_CAR.getStatus()) {
-//            result = "找车中";
-            map.put(OrderButtonConfig.SEND_ORDER, 1);
-        } else if (status == Status.WAITE_DEPART_NO_INSURANCE.getStatus()) {
-//            result = "待发车(未买保险)";
-            if (isInsurance) {
-                //            result = "待发车(已买保险)";
-                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
 
-            }else {
-                map.put(OrderButtonConfig.PAY_INSURANCE, 1);
-                map.put(OrderButtonConfig.RE_SEND_CARD, 1);
-            }
-        }   else if (status == Status.IN_TRANSIT.getStatus()) {
-//            result = "运输中";
-            if (isInsurance) {
-                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
-            }
-            map.put(OrderButtonConfig.QUERY_TRACK, 1);
-        } else if (status == Status.ARRIVE.getStatus()) {
-//            result = "已到达";
-//            不显示订单
-            if (isInsurance) {
-                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
-            }
-            map.put(OrderButtonConfig.ENTRY_RECEIVE, 1);
-        } else if (status == Status.RECEIVING.getStatus()) {
-//            result = "已收货";
-            if (isInsurance){
-                map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
-            }
-//            map.put(OrderButtonConfig.EVALUATE, 1);
-        } else {
-//            result = "未知状态";
-        }
-        return map;
-    }
 }

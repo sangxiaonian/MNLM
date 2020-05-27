@@ -23,6 +23,15 @@ public class CarInfoBean implements Parcelable {
    private String  fullBackVImageUrl;//	true	string	背面行驶证照片url
    private int  isIdentity;//	false	string	车辆是否认证 0否 1是
    private int  identityStatus;//	false	string	车辆当前认证状态  0未提交审核资料 1已提交审核资料 2系统自动审核中 3人工后台审核中 4认证成功 5认证失败
+   private int  transportStatus;//	0 正常 1运输中
+
+    public int getTransportStatus() {
+        return transportStatus;
+    }
+
+    public void setTransportStatus(int transportStatus) {
+        this.transportStatus = transportStatus;
+    }
 
     public String getFullFaceVImageUrl() {
         return fullFaceVImageUrl;
