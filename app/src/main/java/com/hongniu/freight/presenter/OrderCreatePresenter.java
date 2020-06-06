@@ -1,5 +1,9 @@
 package com.hongniu.freight.presenter;
 
+import android.text.TextUtils;
+
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.companylibrary.net.NetObserver;
@@ -24,11 +28,67 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     }
 
     /**
+     * 储存传入的数据
+     *
+     * @param orderInfoBean
+     */
+    @Override
+    public void saveInfo(OrderInfoBean orderInfoBean) {
+        if (orderInfoBean != null) {
+            mode.saveInfo(orderInfoBean);
+            //发货地址
+            TranMapBean startInfor = new TranMapBean();
+            startInfor.setAddressDetail(orderInfoBean.getStartPlaceInfo());
+            startInfor.setAddress(orderInfoBean.getStartPlaceInfo());
+            LatLonPoint start = new LatLonPoint(orderInfoBean.getStartPlaceLat(), orderInfoBean.getStartPlaceLon());
+            PoiItem startPio = new PoiItem("", start, "", "");
+            startInfor.setPoiItem(startPio);
+            startInfor.setName(orderInfoBean.getShipperName());
+            startInfor.setPhone(orderInfoBean.getShipperMobile());
+           saveStartInfo(startInfor);
+
+            //收货地址
+            TranMapBean endInfor = new TranMapBean();
+            endInfor.setAddressDetail(orderInfoBean.getDestinationInfo());
+            endInfor.setAddress(orderInfoBean.getDestinationInfo());
+            LatLonPoint end = new LatLonPoint(orderInfoBean.getDestinationLat(), orderInfoBean.getDestinationLon());
+            PoiItem endPio = new PoiItem("", end, "", "");
+            endInfor.setPoiItem(endPio);
+            endInfor.setName(orderInfoBean.getReceiverName());
+            endInfor.setPhone(orderInfoBean.getReceiverMobile());
+            saveEndInfo( endInfor);
+
+            //更改保险数据
+            mode.saveIsInsurance(orderInfoBean.getInsurance() == 1);
+            view.switchInsurance(mode.getIsInsurance());
+            if (mode.getIsInsurance()){
+                InsuranceInfoBean insuranceInfoBean=new InsuranceInfoBean();
+                insuranceInfoBean.setId(orderInfoBean.getInsuranceUserId());
+                insuranceInfoBean.setUsername(orderInfoBean.getInsureUsername());
+                insuranceInfoBean.setIdnumber(orderInfoBean.getInsureIdnumber());
+                mode.onChangeInsuranceInfo(0,insuranceInfoBean);
+                //初始化保险信息
+                view.initInsuranceInfo( orderInfoBean.getGoodPrice(),orderInfoBean.getInsureUsername());
+            }
+
+            //发货时间
+            mode.saveStartTime(orderInfoBean.getDepartureTime());
+            view.showTime(TextUtils.isEmpty(orderInfoBean.getDepartureTime())?"立即发货":orderInfoBean.getDepartureTime());
+
+
+            view.initOrderUIInfo(orderInfoBean);
+
+        }
+    }
+
+    /**
      * @param result 发货地址
      */
     @Override
     public void saveStartInfo(TranMapBean result) {
         mode.saveStartInfo(result);
+        view.showStartInfo(result);
+
     }
 
     /**
@@ -37,6 +97,7 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     @Override
     public void saveEndInfo(TranMapBean result) {
         mode.saveEndInfo(result);
+        view.showEndInfo(result);
 
     }
 

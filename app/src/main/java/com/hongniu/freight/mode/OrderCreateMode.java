@@ -36,6 +36,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     List<String> payWays;//付款方式
     OrderCrateParams params;
     private InsuranceInfoBean insuranceInforBean;
+    private OrderInfoBean orderInfoBean;//从订单页面传入的订单详情数据
 
     public OrderCreateMode() {
         params = new OrderCrateParams();
@@ -47,6 +48,16 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
         payWays.add("现付");
         payWays.add("到付");
         payType=0;
+    }
+
+    /**
+     * 储存传入的数据
+     *
+     * @param orderInfoBean
+     */
+    @Override
+    public void saveInfo(OrderInfoBean orderInfoBean) {
+        this.orderInfoBean=orderInfoBean;
     }
 
     /**

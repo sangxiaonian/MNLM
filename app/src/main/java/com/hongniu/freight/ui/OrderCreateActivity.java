@@ -20,6 +20,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
@@ -84,6 +85,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         initData();
         initListener();
         presenter = new OrderCreatePresenter(this);
+        OrderInfoBean orderInfoBean = getIntent().getParcelableExtra(Param.TRAN);
+        presenter.saveInfo(orderInfoBean);
         switchInsurance(false);
 
         //版本暂时隐藏,仅支持先付
@@ -258,27 +261,61 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             //发货
             TranMapBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveStartInfo(result);
-            if (result != null && result.getPoiItem() != null) {
-                CommonUtils.setText(tv_start, result.getAddressDetail());
-                CommonUtils.setText(tv_start_contact, String.format("%s %s", result.getName(), result.getPhone()));
-            }
-            check(false);
         } else if (data != null && requestCode == 2) {
             //发货
             TranMapBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveEndInfo(result);
-            check(false);
-
-            if (result != null && result.getPoiItem() != null) {
-                CommonUtils.setText(tv_end, result.getAddressDetail());
-                CommonUtils.setText(tv_end_contact, String.format("%s %s", result.getName(), result.getPhone()));
-            }
-
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
+
+    /**
+     * 修改订单时候，初始化定订单数据
+     *
+     * @param orderInfoBean 订单详情
+     */
+    @Override
+    public void initOrderUIInfo(OrderInfoBean orderInfoBean) {
+        setWhitToolBar("修改订单");
+        bt_sum.setText("确认");
+        item_cargo.setTextCenter(orderInfoBean.getGoodName());
+        item_price.setTextCenter(ConvertUtils.changeFloat(orderInfoBean.getMoney(),2));
+        item_size.setTextCenter(orderInfoBean.getGoodVolume());
+        item_weight.setTextCenter(orderInfoBean.getGoodWeight());
+
+    }
+
+    /**
+     * 展示发货信息
+     *
+     * @param result
+     */
+    @Override
+    public void showStartInfo(TranMapBean result) {
+        if (result != null && result.getPoiItem() != null) {
+            CommonUtils.setText(tv_start, result.getAddressDetail());
+            CommonUtils.setText(tv_start_contact, String.format("%s %s", result.getName(), result.getPhone()));
+        }
+        check(false);
+
+    }
+
+    /**
+     * 初始化收货信息
+     *
+     * @param result
+     */
+    @Override
+    public void showEndInfo(TranMapBean result) {
+        if (result != null && result.getPoiItem() != null) {
+            CommonUtils.setText(tv_end, result.getAddressDetail());
+            CommonUtils.setText(tv_end_contact, String.format("%s %s", result.getName(), result.getPhone()));
+        }
+        check(false);
+
+    }
 
     /**
      * 显示发货日期
@@ -399,6 +436,18 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     public void showInsurancePrice(String insurancePrice) {
         item_cargo_price.setTextRight(insurancePrice);
 
+    }
+
+    /**
+     * 初始化保险信息
+     *
+     * @param goodPrice
+     * @param insureUsername
+     */
+    @Override
+    public void initInsuranceInfo(String goodPrice, String insureUsername) {
+        item_insurance_name.setTextCenter(insureUsername);
+        item_cargo_price.setTextCenter(goodPrice);
     }
 
     @Override

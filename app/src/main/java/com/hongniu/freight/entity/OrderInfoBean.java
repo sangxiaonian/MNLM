@@ -64,7 +64,7 @@ public class OrderInfoBean implements Parcelable {
     private String hasFreight;//": 1,
     private String freightPayClass;//": 1,
     private String goodPrice;//": 0,
-    private String insuranceUserId;//": null,
+    private String insuranceUserId;//": //被保险人id,
     private String isDel;//": 0,
     private String companyAccountId;//": null,
     private String ownerId;//": null,

@@ -49,4 +49,6 @@ public class Param {
     public static final int ENTRY_MIN = 5000;
     public static String LOGIN="login";//登录信息
     public static String MY="my";//个人信息
+
+    public static String ID ="ID";
 }

@@ -17,6 +17,24 @@ import io.reactivex.Observable;
 public class OrderCreateControl {
 
     public interface IOrderCreateView {
+
+        /**
+         * 修改订单时候，初始化定订单数据
+         * @param orderInfoBean 订单详情
+         */
+        void initOrderUIInfo(OrderInfoBean orderInfoBean);
+
+        /**
+         * 展示发货信息
+         * @param result
+         */
+        void showStartInfo(TranMapBean result);
+
+        /**
+         * 初始化收货信息
+         * @param result
+         */
+        void showEndInfo(TranMapBean result);
         /**
          * 显示发货日期弹窗
          * @param days
@@ -65,11 +83,27 @@ public class OrderCreateControl {
         void finishSuccess(OrderInfoBean o);
 
         void showInsurancePrice(String insurancePrice);
+
+        /**
+         * 初始化保险信息
+         * @param goodPrice
+         * @param insureUsername
+         */
+        void initInsuranceInfo(String goodPrice, String insureUsername);
+
+
     }
 
     ;
 
     public interface IOrderCreatePresenter {
+
+        /**
+         * 储存传入的数据
+         * @param orderInfoBean
+         */
+        void saveInfo(OrderInfoBean orderInfoBean);
+
         /**
          * @param result 发货地址
          */
@@ -135,11 +169,19 @@ public class OrderCreateControl {
          * @param msg
          */
         void searchInsruancePrice(String msg);
+
+
     }
 
     ;
 
     public interface IOrderCreateMode {
+
+        /**
+         * 储存传入的数据
+         * @param orderInfoBean
+         */
+        void saveInfo(OrderInfoBean orderInfoBean);
         /**
          * @param result 发货地址
          */
