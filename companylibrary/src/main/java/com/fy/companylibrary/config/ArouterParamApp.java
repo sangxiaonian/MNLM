@@ -184,6 +184,10 @@ public class ArouterParamApp {
      * 绑定银行卡
      */
     public static final String activity_bind_blank_card = "/app/activity_bind_blank_card";
+  /**
+     * 查看/上传回单
+     */
+    public static final String activity_order_up_receipt = "/app/activity_order_up_receipt";
 
    /**
      * 二维码扫描

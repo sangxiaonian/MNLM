@@ -37,6 +37,7 @@ import com.hongniu.freight.entity.QueryBlankInforsBean;
 import com.hongniu.freight.entity.QueryExpendResultBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
+import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
@@ -56,6 +57,7 @@ import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * 作者：  on 2020/2/23.
@@ -611,5 +613,20 @@ public interface AppService {
      */
     @POST("wlhyapi/api/user/updateDevice")
     Observable<CommonBean<Object>> upDateToken(@Body JsonObject formVals);
+   /**
+     * 查看回单
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/queryReceiptInfo")
+    Observable<CommonBean<QueryReceiveBean>> queryReceiptInfo(@Query("orderId") String id);
+   /**
+     * 保存回单
+     *
+     * @return
+    * @param id
+     */
+    @POST("wlhyapi/api/deliveryOrder/saveReceiptInfo")
+    Observable<CommonBean<String>> saveReceiptInfo(@Body QueryReceiveBean bean);
 
 }

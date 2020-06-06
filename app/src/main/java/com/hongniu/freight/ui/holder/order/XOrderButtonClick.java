@@ -27,6 +27,7 @@ import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
 import com.hongniu.freight.widget.DialogComment;
@@ -78,7 +79,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
         ArouterUtils.getInstance()
                 .builder(ArouterParamApp.activity_pay)
                 .withString(Param.TRAN, bean.getId())
-                .withInt(Param.TYPE,1)
+                .withInt(Param.TYPE, 1)
                 .navigation(mContext);
     }
 
@@ -114,7 +115,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
         ArouterUtils.getInstance()
                 .builder(ArouterParamApp.activity_pay)
                 .withString(Param.TRAN, bean.getId())
-                .withInt(Param.TYPE,2)
+                .withInt(Param.TYPE, 2)
                 .navigation(mContext);
     }
 
@@ -126,7 +127,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onPayInsuranceClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("购买保险");
-        InsuranceBuyDialog buyDialog=new InsuranceBuyDialog(mContext);
+        InsuranceBuyDialog buyDialog = new InsuranceBuyDialog(mContext);
         buyDialog.setOrderInfo(bean);
         buyDialog.setOnInsuranceBuyListener(this);
         buyDialog.show();
@@ -142,17 +143,17 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onCheckInsuranceClick(OrderInfoBean bean) {
         AppInsuranceInfo orderCreatBean = null;
-            try {
-                orderCreatBean = new Gson().fromJson(bean.getPolicyInfo(), AppInsuranceInfo.class);
-            } catch (JsonSyntaxException e) {
-                e.printStackTrace();
-            }
-        if (orderCreatBean!=null) {
+        try {
+            orderCreatBean = new Gson().fromJson(bean.getPolicyInfo(), AppInsuranceInfo.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        if (orderCreatBean != null) {
             H5Config h5Config = new H5Config("查看保单", orderCreatBean.getDownloadUrl(), false);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
                     .withSerializable(Param.TRAN, h5Config)
                     .navigation(mContext);
-        }else {
+        } else {
             ToastUtils.getInstance().show("保单信息异常,请稍后再试");
         }
     }
@@ -225,22 +226,22 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                     public void onRightClick(View view, Dialog dialog) {
                         dialog.dismiss();
 //                        ToastUtils.getInstance().show("设置差额");
-                        BalancePayDialog balancePayDialog=new BalancePayDialog(mContext);
-                        balancePayDialog.setPrice(ConvertUtils.changeFloat(bean.getMoney(),2));
+                        BalancePayDialog balancePayDialog = new BalancePayDialog(mContext);
+                        balancePayDialog.setPrice(ConvertUtils.changeFloat(bean.getMoney(), 2));
                         balancePayDialog.setOnBalancePayListener(new BalancePayDialog.OnBalancePayListener() {
                             @Override
                             public void onEntryClick(BalancePayDialog insuranceBuyDialog, String price) {
-                                        insuranceBuyDialog.dismiss();
-                                        HttpAppFactory.updateFare(bean.getId(),price)
-                                                .subscribe(new NetObserver<Object>(listener){
-                                                    @Override
-                                                    public void doOnSuccess(Object o) {
-                                                        super.doOnSuccess(o);
-                                                        if (nextStepListener!=null){
-                                                            nextStepListener.doUpdate();
-                                                        }
-                                                    }
-                                                });
+                                insuranceBuyDialog.dismiss();
+                                HttpAppFactory.updateFare(bean.getId(), price)
+                                        .subscribe(new NetObserver<Object>(listener) {
+                                            @Override
+                                            public void doOnSuccess(Object o) {
+                                                super.doOnSuccess(o);
+                                                if (nextStepListener != null) {
+                                                    nextStepListener.doUpdate();
+                                                }
+                                            }
+                                        });
 
                             }
                         });
@@ -260,9 +261,9 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onEvaluateClick(OrderInfoBean bean) {
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_appraise)
-                .withString(Param.TRAN,bean.getId())
+                .withString(Param.TRAN, bean.getId())
                 .withSerializable(Param.TYPE, type)
-                .navigation((Activity) mContext,1);
+                .navigation((Activity) mContext, 1);
     }
 
     /**
@@ -507,7 +508,8 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onUpLoadReceipts(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("上传回单");
+        ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_up_receipt)
+                .withString(Param.TRAN, bean.getId()).navigation(mContext);
 
     }
 
@@ -518,8 +520,18 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
      */
     @Override
     public void onCheckReceipts(OrderInfoBean bean) {
-        ToastUtils.getInstance().show("查看回单");
+        HttpAppFactory.queryReceiptInfo(bean.getId())
+                .subscribe(new NetObserver<QueryReceiveBean>(listener) {
+                    @Override
+                    public void doOnSuccess(QueryReceiveBean queryReceiveBean) {
+                        super.doOnSuccess(queryReceiveBean);
+                        ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_up_receipt)
+                                .withString(Param.TRAN, bean.getId()).navigation(mContext);
+                        BusFactory.getBus().postSticky(queryReceiveBean);
 
+                    }
+                })
+        ;
     }
 
     /**
@@ -530,11 +542,11 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onChoiceInsurance(InsuranceBuyDialog insuranceBuyDialog) {
         HttpAppFactory.queryInsuranceList()
-                .subscribe(new NetObserver<List<InsuranceInfoBean>>(listener){
+                .subscribe(new NetObserver<List<InsuranceInfoBean>>(listener) {
                     @Override
                     public void doOnSuccess(List<InsuranceInfoBean> insuranceInfoBeans) {
                         super.doOnSuccess(insuranceInfoBeans);
-                        InsuranceDialog insuranceDialog=new InsuranceDialog(mContext);
+                        InsuranceDialog insuranceDialog = new InsuranceDialog(mContext);
                         insuranceDialog.setItemClickListener(new InsuranceDialog.OnInsuranceDialogListener() {
                             /**
                              * 编辑被保险人
@@ -582,6 +594,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
 
     /**
      * 点击购买保险确认按钮
+     *
      * @param insuranceBuyDialog
      * @param price
      * @param orderInfo
@@ -590,32 +603,32 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onEntryClick(InsuranceBuyDialog insuranceBuyDialog, String price, OrderInfoBean orderInfo, InsuranceInfoBean insuranceInfo) {
         insuranceBuyDialog.dismiss();
-        BuyInsuranceParams params=new BuyInsuranceParams();
+        BuyInsuranceParams params = new BuyInsuranceParams();
         params.setGoodPrice(price);
-        params.setId( orderInfo.getId());
+        params.setId(orderInfo.getId());
         params.setInsuranceUserId(insuranceInfo.getId());
         HttpAppFactory.buyInsurance(params)
-            .subscribe(new NetObserver<Object>(listener){
-                @Override
-                public void doOnSuccess(Object o) {
-                    super.doOnSuccess(o);
-                    if (nextStepListener!=null){
-                        nextStepListener.doUpdate();
+                .subscribe(new NetObserver<Object>(listener) {
+                    @Override
+                    public void doOnSuccess(Object o) {
+                        super.doOnSuccess(o);
+                        if (nextStepListener != null) {
+                            nextStepListener.doUpdate();
+                        }
+                        ArouterUtils.getInstance()
+                                .builder(ArouterParamApp.activity_pay)
+                                .withString(Param.TRAN, orderInfo.getId())
+                                .withInt(Param.TYPE, 3)
+                                .navigation(mContext);
                     }
-                    ArouterUtils.getInstance()
-                            .builder(ArouterParamApp.activity_pay)
-                            .withString(Param.TRAN, orderInfo.getId())
-                            .withInt(Param.TYPE,3)
-                            .navigation(mContext);
-                }
-            });
+                });
         ;
 
 
     }
 
     public void setType(RoleOrder type) {
-        this.type=type;
+        this.type = type;
     }
 
     public interface NextStepListener {

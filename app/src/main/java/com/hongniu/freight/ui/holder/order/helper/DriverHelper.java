@@ -46,7 +46,6 @@ public class DriverHelper extends BaseHelper {
             map.put(OrderButtonConfig.ENTRY_ARRIVE,1);
         } else if (status == Status.ARRIVE.getStatus()) {
 //            result = "已到达";
-//            不显示订单
             if (!hasReceiptImage) {
                 map.put(OrderButtonConfig.UPDATE_RECEIPT, 1);
             }

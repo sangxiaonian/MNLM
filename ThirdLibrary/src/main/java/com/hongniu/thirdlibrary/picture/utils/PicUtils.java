@@ -1,13 +1,19 @@
 package com.hongniu.thirdlibrary.picture.utils;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
 import com.hongniu.thirdlibrary.BuildConfig;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
+import com.luck.picture.lib.PictureExternalPreviewActivity;
+import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
@@ -15,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import io.rong.imageloader.utils.L;
 
 /**
  * 作者：  on 2020/3/3.
@@ -76,7 +84,7 @@ public class PicUtils {
             if (localMedia.isCompressed()) {
                 path = localMedia.getCompressPath();
             } else {
-                path = localMedia.getPath();
+                path = localMedia.getAndroidQToPath();
             }
         } else {
             if (localMedia.isCompressed()) {
@@ -86,5 +94,19 @@ public class PicUtils {
             }
         }
         return path;
+    }
+
+    /**
+     * 图片预览
+     * @param context
+     * @param position
+     * @param medias
+     */
+    public static void jump2Preview(Context context, int position,List<LocalMedia> medias){
+        Intent intent = new Intent(context, PictureExternalPreviewActivity.class);
+        intent.putParcelableArrayListExtra(PictureConfig.EXTRA_PREVIEW_SELECT_LIST,
+                (ArrayList<? extends Parcelable>) medias);
+        intent.putExtra(PictureConfig.EXTRA_POSITION, position);
+        context.startActivity(intent);
     }
 }

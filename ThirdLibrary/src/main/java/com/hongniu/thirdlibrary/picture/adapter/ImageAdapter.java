@@ -32,7 +32,9 @@ public class ImageAdapter extends XAdapter<ImageInforBean> implements ImageAddHo
                 if (list.size() >= maxCount && getFoots().contains(imageAddHolder)) {
                     removeFoot(imageAddHolder);
                 } else if (list.size() < maxCount && !getFoots().contains(imageAddHolder)) {
-                    addFoot(imageAddHolder);
+                    if (!isHideAdd) {
+                        addFoot(imageAddHolder);
+                    }
                 }
             }
 
@@ -48,6 +50,7 @@ public class ImageAdapter extends XAdapter<ImageInforBean> implements ImageAddHo
     private int maxCount;//最大图片数量
     private ImageAddHolder.OnAddPicturesListener addPicturesListener;
     DealFailImageListener dealFailImageListener;
+    private boolean isHideAdd;
 
 
     public ImageAdapter(Context context, List<ImageInforBean> list) {
@@ -55,7 +58,9 @@ public class ImageAdapter extends XAdapter<ImageInforBean> implements ImageAddHo
         registerAdapterDataObserver(observer);
 
     }
-
+    public void hideAdd(boolean isHideAdd){
+        this.isHideAdd=isHideAdd;
+    }
 
     public void setDealFailImageListener(DealFailImageListener dealFailImageListener) {
         this.dealFailImageListener = dealFailImageListener;
@@ -75,7 +80,9 @@ public class ImageAdapter extends XAdapter<ImageInforBean> implements ImageAddHo
         getFoots().clear();
         imageAddHolder = new ImageAddHolder(context, recyclerView);
         imageAddHolder.setonAddPicturesListener(this);
-        addFoot(imageAddHolder);
+        if (!isHideAdd) {
+            addFoot(imageAddHolder);
+        }
     }
 
     @Override

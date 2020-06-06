@@ -45,6 +45,7 @@ import com.hongniu.freight.entity.QueryBlankInforsBean;
 import com.hongniu.freight.entity.QueryExpendResultBean;
 import com.hongniu.freight.entity.QueryOrderListBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
+import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
 import com.hongniu.freight.entity.UpImgData;
@@ -137,16 +138,18 @@ public class HttpAppFactory {
                 })
                 .compose(RxUtils.<CommonBean<PersonInfor>>getSchedulersObservableTransformer());
 
-    }    /**
+    }
+
+    /**
      * 查询个人信息
      *
      * @return
      */
     public static Observable<ResponseBody> upDateLogo(String userLogo) {
-        List<String> result=new ArrayList<>();
+        List<String> result = new ArrayList<>();
         result.add(userLogo);
-        JsonObject object=new JsonObject();
-        object.addProperty("userLogo",userLogo);
+        JsonObject object = new JsonObject();
+        object.addProperty("userLogo", userLogo);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .upDateLogo(object)
                 .compose(RxUtils.getSchedulersObservableTransformer());
@@ -191,7 +194,6 @@ public class HttpAppFactory {
 
 
     }
-
 
 
     /**
@@ -491,6 +493,7 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
+
     /**
      * 平台员工发布找车信息
      *
@@ -620,26 +623,54 @@ public class HttpAppFactory {
      * @return
      */
     public static Observable<UpImgData> upImage(int type, String path, FileProgressRequestBody.ProgressListener progressListener) {
+        List<String> list = new ArrayList<>();
+        list.add(path);
+        return upImage(type, list, progressListener)
+                        .map(new Function<CommonBean<List<UpImgData>>, UpImgData>() {
+                            @Override
+                            public UpImgData apply(CommonBean<List<UpImgData>> listCommonBean) throws Exception {
+                                return listCommonBean.getData().get(0);
+                            }
+                        })
+                ;
+    }
+
+    /**
+     * 上传图片
+     *
+     * @param type             文件分类：
+     *                         1-货单
+     *                         2-回单
+     *                         4-logo 头像
+     *                         7-企业营业执照
+     *                         8-身份证图片
+     *                         12-驾驶证行驶证图片
+     *                         13-道路运输许可证图片
+     *                         14-挂靠协议图片
+     *                         15-司机从业资格证
+     *                         16-意见反馈图片
+     * @param paths            路径
+     * @param progressListener 上传进度监听
+     * @return
+     */
+    public static Observable<CommonBean<List<UpImgData>>> upImage(int type, List<String> paths, FileProgressRequestBody.ProgressListener progressListener) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
-        File file = new File(path);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        if (progressListener != null) {
-            FileProgressRequestBody filePart = new FileProgressRequestBody(requestBody, progressListener);
-            builder.addFormDataPart("file", file.getName(), filePart);
-        } else {
-            builder.addFormDataPart("file", file.getName(), requestBody);
+        for (String path : paths) {
+            File file = new File(path);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            if (progressListener != null) {
+                FileProgressRequestBody filePart = new FileProgressRequestBody(requestBody, progressListener);
+                builder.addFormDataPart("file", file.getName(), filePart);
+            } else {
+                builder.addFormDataPart("file", file.getName(), requestBody);
+            }
         }
 
         builder.addFormDataPart("classify", String.valueOf(type));
         return CompanyClient.getInstance().creatService(AppService.class)
                 .upLoadImage(builder.build())
-                .map(new Function<CommonBean<List<UpImgData>>, UpImgData>() {
-                    @Override
-                    public UpImgData apply(CommonBean<List<UpImgData>> listCommonBean) throws Exception {
-                        return listCommonBean.getData().get(0);
-                    }
-                })
+
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
@@ -1012,4 +1043,24 @@ public class HttpAppFactory {
     }
 
 
+    /**
+     * 查看回单
+     * @param id
+     * @return
+     */
+    public static Observable<CommonBean<QueryReceiveBean>> queryReceiptInfo(String id) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryReceiptInfo(id)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+    /**
+     * 保存回单
+     * @param bean
+     * @return
+     */
+    public static Observable<CommonBean<String>> saveReceiptInfo(QueryReceiveBean bean) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .saveReceiptInfo(bean)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
 }

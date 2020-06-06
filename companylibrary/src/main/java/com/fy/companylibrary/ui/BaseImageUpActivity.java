@@ -111,6 +111,8 @@ public abstract class BaseImageUpActivity extends CompanyBaseActivity implements
     }
 
 
+
+
     @Override
     protected boolean isUseEventBus() {
         return true;
