@@ -117,9 +117,14 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
         et_phone.addTextChangedListener(new SearchTextWatcher(new SearchTextWatcher.SearchTextChangeListener() {
             @Override
             public void onSearchTextChange(String msg) {
-                if (msg.length() == 11&&!handler.hasMessages(0)) {
-                    setTvSmsEnable(true);
+                if (!handler.hasMessages(0)) {
+                    if (msg.length() == 11 ) {
+                        setTvSmsEnable(true);
+                    }else {
+                        setTvSmsEnable(false);
+                    }
                 }
+
                 check(false);
             }
         }));
