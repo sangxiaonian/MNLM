@@ -19,9 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
+    <com.fy.androidlibrary.widget.recycle.EmptyRecycleView
         android:layout_width="match_parent"
         android:id="@+id/rv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         android:background="@color/color_of_ffffff"
         android:layout_weight="1"
         android:layout_height="0dp"/>

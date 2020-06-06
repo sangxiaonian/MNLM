@@ -2,7 +2,15 @@ package com.hongniu.freight.ui;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.maps.AMap;
@@ -18,15 +26,20 @@ import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
+import com.fy.androidlibrary.widget.recycle.EmptyRecycleView;
+import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
+import com.fy.androidlibrary.widget.recycle.holder.BaseHolder;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
+import com.hongniu.freight.entity.AppPathStationBean;
 import com.hongniu.freight.entity.LocationBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.holder.EmptyHolder;
 import com.hongniu.thirdlibrary.map.MarkUtils;
 
 import java.util.ArrayList;
@@ -44,10 +57,12 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
     private MapView mapView;
 
     private AMap aMap;
-    private LBSTraceClient mTraceClient;
     private PolylineOptions lineOption;
     private OrderInfoBean bean;
+    private EmptyRecycleView rv;//轨迹站点数据
 
+    List<AppPathStationBean> stationBeans;
+    private XAdapter<AppPathStationBean> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +99,8 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
     protected void initView() {
         super.initView();
         mapView = findViewById(R.id.map);
+        rv = findViewById(R.id.rv);
         aMap = mapView.getMap();
-//        item = findViewById(R.id.item_order);
-//        item.hideButton(true);
-
 
     }
 
@@ -96,7 +109,6 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
     protected void initData() {
         super.initData();
         setWhitToolBar("查看轨迹");
-        mTraceClient = LBSTraceClient.getInstance(this);
         List<BitmapDescriptor> textureList = new ArrayList<BitmapDescriptor>();
         BitmapDescriptor mRedTexture = BitmapDescriptorFactory
                 .fromResource(R.mipmap.map_line);
@@ -107,6 +119,40 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
                 .width(DeviceUtils.dip2px(mContext, 5))
                 .color(Color.parseColor("#43BFA3"));
 
+//        LinearLayoutManager manager=new LinearLayoutManager(mContext);
+//        manager.setOrientation(LinearLayoutManager.VERTICAL);
+//        rv.setLayoutManager(manager);
+        rv.setEmptyHolder(new EmptyHolder(mContext,rv));
+        stationBeans=new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            stationBeans.add(new AppPathStationBean());
+
+        }
+
+       adapter=new XAdapter<AppPathStationBean>(mContext,stationBeans) {
+            @Override
+            public BaseHolder<AppPathStationBean> initHolder(ViewGroup parent, int viewType) {
+
+                return new BaseHolder<AppPathStationBean>(mContext,parent,R.layout.item_station){
+                    @Override
+                    public void initView(View itemView, int position, AppPathStationBean data) {
+                        super.initView(itemView, position, data);
+                        TextView tv_title=itemView.findViewById(R.id.tv_title);
+                        TextView tv_time=itemView.findViewById(R.id.tv_time);
+                        ImageView img_point=itemView.findViewById(R.id.img_point);
+                        View line_top=itemView.findViewById(R.id.line_top);
+                        line_top.setVisibility(position==0?View.GONE:View.VISIBLE);
+                        img_point.setImageDrawable(new ColorDrawable(getResources().getColor(position==0?R.color.color_of_e50000:R.color.color_of_999999)));
+                        tv_title.setText("快件正在路上");
+                        tv_time.setText("03：32\n2020-05-11");
+
+                    }
+                };
+            }
+        };
+
+       rv.setAdapter(adapter);
 
     }
     /**
