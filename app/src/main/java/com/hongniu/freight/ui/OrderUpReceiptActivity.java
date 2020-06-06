@@ -83,7 +83,7 @@ public class OrderUpReceiptActivity extends BaseImageUpActivity implements View.
 
     @Override
     protected int getImageType() {
-        return 16;
+        return 2;
     }
 
     @Override
@@ -119,11 +119,14 @@ public class OrderUpReceiptActivity extends BaseImageUpActivity implements View.
             if (!CollectionUtils.isEmpty(bean.getImages())) {
                 for (UpImgData imagesBean : bean.getImages()) {
                     ImageInforBean media = new ImageInforBean();
+                    media.setPath(imagesBean.getAbsolutePath());
+                    media.setPathOriginal(imagesBean.getAbsolutePath());
                     media.setPathUrl(imagesBean.getAbsolutePath());
                     media.setPathRelativeUrl(imagesBean.getPath());
                     datas.add(media);
                 }
             }
+            helper.upDates(datas);
 //            imageUtils.upList(pics);
             adapter.notifyDataSetChanged();
             etRemark.setEnabled(false);

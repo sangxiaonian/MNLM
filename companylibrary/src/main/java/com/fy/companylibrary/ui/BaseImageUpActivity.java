@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.dialog.CenterDialog;
 import com.fy.androidlibrary.widget.recycle.control.RecycleControl;
 import com.fy.baselibrary.interceptor.FileProgressRequestBody;
@@ -106,7 +107,16 @@ public abstract class BaseImageUpActivity extends CompanyBaseActivity implements
 
     @Override
     public void onItemClick(int position, ImageInforBean date) {
-
+        if (!CollectionUtils.isEmpty(datas)){
+            List<LocalMedia> result=new ArrayList<>();
+            for (ImageInforBean data : datas) {
+                LocalMedia media=new LocalMedia();
+                media.setChecked(true);
+                media.setPath(TextUtils.isEmpty(data.getPathOriginal())?data.getPath():data.getPathOriginal());
+                result.add(media);
+            }
+            PicUtils.jump2Preview(this,position,result);
+        }
 
     }
 

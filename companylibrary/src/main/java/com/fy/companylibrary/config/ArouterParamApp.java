@@ -152,7 +152,7 @@ public class ArouterParamApp {
      */
     public static final String fragment_bill_month = "/app/fragment_bill_month";
     /**
-     * 我要发货
+     * 我要发货 创建/修改订单
      */
     public static final String activity_order_create = "/app/activity_order_create";
     /**

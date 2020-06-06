@@ -46,7 +46,7 @@ import java.util.List;
 /**
  * @data 2020/2/14
  * @Author PING
- * @Description 创建订单
+ * @Description 创建/修改订单
  */
 @Route(path = ArouterParamApp.activity_order_create)
 public class OrderCreateActivity extends CompanyBaseActivity implements View.OnClickListener, OrderCreateControl.IOrderCreateView, OnOptionsSelectListener, ItemTextView.OnCenterChangeListener, InsuranceDialog.OnInsuranceDialogListener {

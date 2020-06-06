@@ -1,6 +1,8 @@
 package com.hongniu.freight.entity;
 
 
+import com.hongniu.thirdlibrary.picture.ImageInforBean;
+
 import java.util.List;
 
 /**

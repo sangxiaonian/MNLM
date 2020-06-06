@@ -55,8 +55,9 @@ public class App extends BaseApp {
         VerifyClient.getInstance().initClient( BuildConfig.IS_DEBUG);
 
         //融云
-        ChactHelper.getHelper().initHelper(this);
-        registerUM();
+        //TODO 测试关闭，正式环境务必开启
+//        ChactHelper.getHelper().initHelper(this);
+//        registerUM();
     }
 
     public void registerUM() {

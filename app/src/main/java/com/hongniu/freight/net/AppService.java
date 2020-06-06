@@ -619,7 +619,7 @@ public interface AppService {
      * @return
      */
     @POST("wlhyapi/api/deliveryOrder/queryReceiptInfo")
-    Observable<CommonBean<QueryReceiveBean>> queryReceiptInfo(@Query("orderId") String id);
+    Observable<CommonBean<QueryReceiveBean>> queryReceiptInfo(@Body JsonObject formVals);
    /**
      * 保存回单
      *

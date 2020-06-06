@@ -60,6 +60,11 @@ public class ImageAdapter extends XAdapter<ImageInforBean> implements ImageAddHo
     }
     public void hideAdd(boolean isHideAdd){
         this.isHideAdd=isHideAdd;
+        if (isHideAdd) {
+            if(getFoots().contains(imageAddHolder)){
+                getFoots().remove(imageAddHolder);
+            }
+        }
     }
 
     public void setDealFailImageListener(DealFailImageListener dealFailImageListener) {

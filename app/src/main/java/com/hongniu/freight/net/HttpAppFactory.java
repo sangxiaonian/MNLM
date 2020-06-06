@@ -1049,8 +1049,10 @@ public class HttpAppFactory {
      * @return
      */
     public static Observable<CommonBean<QueryReceiveBean>> queryReceiptInfo(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("orderId", id);
         return CompanyClient.getInstance().creatService(AppService.class)
-                .queryReceiptInfo(id)
+                .queryReceiptInfo(json)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
     /**

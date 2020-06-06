@@ -40,7 +40,7 @@ public class PicUtils {
         List<ImageInforBean> temp = new ArrayList<>();
         Map<String, LocalMedia> pathList = new TreeMap<>();
         for (LocalMedia media : paths) {
-            pathList.put(media.getPath(), media);
+            pathList.put(PicUtils.getPath(media), media);
 
         }
         for (ImageInforBean imageInforBean : datas) {
