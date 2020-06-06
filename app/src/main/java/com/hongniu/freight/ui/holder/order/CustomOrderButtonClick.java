@@ -81,6 +81,15 @@ public class CustomOrderButtonClick implements OrderButtonClickListener {
         } else if (TextUtils.equals(msg, OrderButtonConfig.QUERY_PATH)) {
             //查看路线
             onQueryPathClick(infoBean);
+        } else if (TextUtils.equals(msg, OrderButtonConfig.ORDER_MODIFY)) {
+            //修改订单
+            onOrderModify(infoBean);
+        }else if (TextUtils.equals(msg, OrderButtonConfig.UPDATE_RECEIPT)) {
+            //上传回单
+            onUpLoadReceipts(infoBean);
+        }else if (TextUtils.equals(msg, OrderButtonConfig.CHECK_RECEIPT)) {
+            //查看回单
+            onCheckReceipts(infoBean);
         }
     }
 
@@ -273,6 +282,42 @@ public class CustomOrderButtonClick implements OrderButtonClickListener {
     public void onQueryPathClick(OrderInfoBean bean) {
         if (listener != null) {
             listener.onQueryPathClick(bean);
+        }
+    }
+
+    /**
+     * 修改订单
+     *
+     * @param bean
+     */
+    @Override
+    public void onOrderModify(OrderInfoBean bean) {
+        if (listener != null) {
+            listener.onOrderModify(bean);
+        }
+    }
+
+    /**
+     * 上传回单
+     *
+     * @param bean
+     */
+    @Override
+    public void onUpLoadReceipts(OrderInfoBean bean) {
+        if (listener != null) {
+            listener.onUpLoadReceipts(bean);
+        }
+    }
+
+    /**
+     * 查看回单
+     *
+     * @param bean
+     */
+    @Override
+    public void onCheckReceipts(OrderInfoBean bean) {
+        if (listener != null) {
+            listener.onCheckReceipts(bean);
         }
     }
 }

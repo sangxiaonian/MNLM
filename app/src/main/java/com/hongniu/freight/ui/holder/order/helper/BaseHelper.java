@@ -11,6 +11,7 @@ import java.util.Map;
 public class BaseHelper implements HelperControl {
     protected int status=-1;
     protected boolean isInsurance;
+    protected boolean hasReceiptImage;//是否有回单
 
 
     @Override
@@ -28,6 +29,15 @@ public class BaseHelper implements HelperControl {
     @Override
     public HelperControl setInsurance(boolean isInsurance) {
         this.isInsurance=isInsurance;
+        return this;
+    }
+    /**
+     * 设置是否有回单
+     * @param hasReceiptImage true 有，false 没有回单
+     * @return
+     */
+    public HelperControl setHasReceiptImage(boolean hasReceiptImage) {
+        this.hasReceiptImage=hasReceiptImage;
         return this;
     }
 

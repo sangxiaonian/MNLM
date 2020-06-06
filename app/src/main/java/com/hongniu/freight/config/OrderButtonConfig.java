@@ -6,6 +6,7 @@ package com.hongniu.freight.config;
 public class OrderButtonConfig {
 
     public static String ORDER_CANCEL="取消订单";
+    public static String ORDER_MODIFY="修改订单";
     public static String PAY="继续付款";
     public static String PAY_BALANCE="支付差额";
     public static String PAY_INSURANCE="购买保险";
@@ -21,6 +22,8 @@ public class OrderButtonConfig {
     public static String START_CAR="开始发车";
     public static String ENTRY_ARRIVE="确认到达";
     public static String QUERY_PATH="查看路线";
+    public static String CHECK_RECEIPT="查看回单";
+    public static String UPDATE_RECEIPT="上传回单";
 
 
 }

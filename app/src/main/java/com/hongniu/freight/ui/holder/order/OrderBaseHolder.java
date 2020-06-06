@@ -54,24 +54,8 @@ public class OrderBaseHolder extends BaseHolder<OrderInfoBean> {
             }
         });
     }
-    protected  void addButton(Group bottom_group, ViewGroup ll_bt, final OrderInfoBean data, Map<String, Integer> status) {
-        ll_bt.removeAllViews();
-        if (CollectionUtils.isEmpty(status)) {
-            bottom_group.setVisibility(View.GONE);
-        } else {
-            bottom_group.setVisibility(View.VISIBLE);
-            for (final String s : status.keySet()) {
-                TextView button = OrderUtils.getButton(bottom_group.getContext(), status.get(s), s);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (orderButtonClickListener!=null){
-                            new CustomOrderButtonClick(orderButtonClickListener).performClick(s,data);
-                        }
-                    }
-                });
-                ll_bt.addView(button);
-            }
-        }
+    protected  void addButton(  ViewGroup ll_bt, final OrderInfoBean data, Map<String, Integer> status) {
+        OrderUtils.addButton( ll_bt,data,status,orderButtonClickListener);
+
     }
 }

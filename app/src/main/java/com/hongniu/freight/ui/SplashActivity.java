@@ -53,7 +53,7 @@ public class SplashActivity extends CompanyBaseActivity implements RuleAlertDial
 
     @Override
     public void onClickReportAlert(boolean isPositive) {
-        handler.sendEmptyMessage(0);
         SharedPreferencesUtils.getInstance().putBoolean("RULE",true);
+        handler.sendEmptyMessage(0);
     }
 }

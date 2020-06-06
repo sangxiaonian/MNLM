@@ -47,9 +47,16 @@ public class CYRHelper extends BaseHelper {
             map.put(OrderButtonConfig.QUERY_TRACK,1);
         } else if (status == Status.ARRIVE.getStatus()) {
 //            result = "已到达";
-//            不显示订单
+            map.put(OrderButtonConfig.QUERY_TRACK, 1);
+            if (hasReceiptImage) {
+                map.put(OrderButtonConfig.CHECK_RECEIPT, 1);
+            }
         } else if (status == Status.RECEIVING.getStatus()) {
 //            result = "已收货";
+            map.put(OrderButtonConfig.QUERY_TRACK, 1);
+            if (hasReceiptImage) {
+                map.put(OrderButtonConfig.CHECK_RECEIPT, 1);
+            }
             map.put(OrderButtonConfig.EVALUATE,1);
         } else {
 //            result = "未知状态";

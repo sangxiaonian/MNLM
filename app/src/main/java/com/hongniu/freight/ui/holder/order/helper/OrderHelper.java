@@ -47,6 +47,18 @@ public class OrderHelper implements HelperControl {
     }
 
     /**
+     * 设置是否有回单
+     *
+     * @param hasReceiptImage true 有，false 没有回单
+     * @return
+     */
+    @Override
+    public HelperControl setHasReceiptImage(boolean hasReceiptImage) {
+        helper.setHasReceiptImage(hasReceiptImage);
+        return this;
+    }
+
+    /**
      * 根据状态，获取到指定荒唐的按钮
      *
      * @param status

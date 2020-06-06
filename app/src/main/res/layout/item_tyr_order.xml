@@ -143,12 +143,18 @@
 
         <LinearLayout
             android:id="@+id/ll_bt"
+            android:divider="@drawable/ovl_10_gap"
+            android:dividerPadding="5dp"
+            android:showDividers="middle"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/gap_app"
             app:layout_constraintEnd_toEndOf="@id/line_right"
             app:layout_constraintTop_toBottomOf="@id/view_line2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+
+
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/bottom_group"

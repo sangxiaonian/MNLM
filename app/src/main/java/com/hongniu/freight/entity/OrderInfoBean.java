@@ -27,6 +27,7 @@ public class OrderInfoBean implements Parcelable {
     private double money;//	true	number	运费
     private int insurance;//	true	number	是否购买保险 1表示是 0表示否
     private int payPolicyState;//	 	string	保费 0未支付1支付成功
+    private int hasReceiptImage;//	 	string	是否有回单 0无 1有
     private double policyMoney;//	false	number	保险支付金额
     private String insureUsername;//	false	string	被保险人
     private String insureIdnumber;//	false	string	被保险人证件号码
@@ -80,6 +81,13 @@ public class OrderInfoBean implements Parcelable {
     private String longitude;//": null,
     private String latitude;//": null,
 
+    public int getHasReceiptImage() {
+        return hasReceiptImage;
+    }
+
+    public void setHasReceiptImage(int hasReceiptImage) {
+        this.hasReceiptImage = hasReceiptImage;
+    }
 
     public String getUserrId() {
         return userrId;
@@ -641,6 +649,7 @@ public class OrderInfoBean implements Parcelable {
         dest.writeDouble(this.money);
         dest.writeInt(this.insurance);
         dest.writeInt(this.payPolicyState);
+        dest.writeInt(this.hasReceiptImage);
         dest.writeDouble(this.policyMoney);
         dest.writeString(this.insureUsername);
         dest.writeString(this.insureIdnumber);
@@ -710,6 +719,7 @@ public class OrderInfoBean implements Parcelable {
         this.money = in.readDouble();
         this.insurance = in.readInt();
         this.payPolicyState = in.readInt();
+        this.hasReceiptImage = in.readInt();
         this.policyMoney = in.readDouble();
         this.insureUsername = in.readString();
         this.insureIdnumber = in.readString();

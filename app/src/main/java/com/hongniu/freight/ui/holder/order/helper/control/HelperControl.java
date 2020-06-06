@@ -20,6 +20,13 @@ public interface HelperControl {
     HelperControl setInsurance(boolean isInsurance);
 
     /**
+     * 设置是否有回单
+     * @param hasReceiptImage true 有，false 没有回单
+     * @return
+     */
+    HelperControl setHasReceiptImage(boolean hasReceiptImage);
+
+    /**
      * 根据状态，获取到指定荒唐的按钮
      * @return
      */

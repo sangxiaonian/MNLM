@@ -4,6 +4,7 @@ import com.hongniu.freight.config.OrderButtonConfig;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.config.Status;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -29,10 +30,11 @@ public class TYRHelper extends BaseHelper {
     }
 
     private Map<String, Integer> getPersonalMap(int status) {
-        Map<String, Integer> map = new TreeMap<>();
+        Map<String, Integer> map = new LinkedHashMap<>();
         if (status == Status.WAITE_PAY.getStatus()||status == Status.AUDIT_FAIL.getStatus()) {
 //            result = "待支付";
             map.put(OrderButtonConfig.ORDER_CANCEL, 0);
+            map.put(OrderButtonConfig.ORDER_MODIFY, 1);
             map.put(OrderButtonConfig.PAY, 1);
         } else if (status == Status.WAITE_RECEIVING_ORDER.getStatus()) {
 //            result = "待接单";
@@ -63,15 +65,24 @@ public class TYRHelper extends BaseHelper {
             map.put(OrderButtonConfig.QUERY_TRACK, 1);
         } else if (status == Status.ARRIVE.getStatus()) {
 //            result = "已到达";
-//            不显示订单
             if (isInsurance) {
                 map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            }
+
+            map.put(OrderButtonConfig.QUERY_TRACK, 1);
+
+            if (hasReceiptImage) {
+                map.put(OrderButtonConfig.CHECK_RECEIPT, 1);
             }
             map.put(OrderButtonConfig.ENTRY_RECEIVE, 1);
         } else if (status == Status.RECEIVING.getStatus()) {
 //            result = "已收货";
             if (isInsurance) {
                 map.put(OrderButtonConfig.CHECK_INSURANCE, 0);
+            }
+            map.put(OrderButtonConfig.QUERY_TRACK, 1);
+            if (hasReceiptImage) {
+                map.put(OrderButtonConfig.CHECK_RECEIPT, 1);
             }
             map.put(OrderButtonConfig.EVALUATE, 1);
         } else {

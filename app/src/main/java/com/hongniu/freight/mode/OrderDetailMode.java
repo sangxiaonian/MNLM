@@ -1,6 +1,5 @@
 package com.hongniu.freight.mode;
 
-import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.companylibrary.entity.CommonBean;
 import com.google.gson.Gson;
@@ -79,27 +78,16 @@ public class OrderDetailMode implements OrderDetailControl.IOrderDetailMode {
      * @return
      */
     @Override
-    public String[] getButtonMsg() {
-        String[] result = new String[2];
+    public Map<String, Integer> getButtonMsg() {
         HelperControl helper=new OrderHelper(role)
                 .setInsurance(infoBean.getPayPolicyState()==1)
+                .setHasReceiptImage(infoBean.getHasReceiptImage()==1)
                 .setStatus(getStatus().getStatus())
                 ;
         Map<String, Integer> buttons = helper.getButtons(getStatus().getStatus());
         Utils.fliter(role,infoBean, buttons);
 
-        if (!CollectionUtils.isEmpty(buttons)){
-            for (String s : buttons.keySet()) {
-                Integer integer = buttons.get(s);
-                if (integer !=null&&integer==0){
-                    result[0]=s;
-                }else {
-                    result[1]=s;
-
-                }
-            }
-        }
-        return result;
+        return buttons;
     }
 
     /**

@@ -491,6 +491,38 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     }
 
     /**
+     * 修改订单
+     *
+     * @param bean
+     */
+    @Override
+    public void onOrderModify(OrderInfoBean bean) {
+        ToastUtils.getInstance().show("修改订单");
+    }
+
+    /**
+     * 上传回单
+     *
+     * @param bean
+     */
+    @Override
+    public void onUpLoadReceipts(OrderInfoBean bean) {
+        ToastUtils.getInstance().show("上传回单");
+
+    }
+
+    /**
+     * 查看回单
+     *
+     * @param bean
+     */
+    @Override
+    public void onCheckReceipts(OrderInfoBean bean) {
+        ToastUtils.getInstance().show("查看回单");
+
+    }
+
+    /**
      * 选择被保险人
      *
      * @param insuranceBuyDialog

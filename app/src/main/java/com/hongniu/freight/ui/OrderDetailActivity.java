@@ -8,6 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.config.Status;
 import com.hongniu.freight.control.OrderDetailControl;
 import com.hongniu.freight.entity.AppInsuranceInfo;
 import com.hongniu.freight.entity.H5Config;
@@ -32,7 +34,10 @@ import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.presenter.OrderDetailPresenter;
 import com.hongniu.freight.ui.holder.order.CustomOrderButtonClick;
 import com.hongniu.freight.ui.holder.order.XOrderButtonClick;
+import com.hongniu.freight.ui.holder.order.helper.OrderUtils;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
+
+import java.util.Map;
 
 /**
  * @data 2020/2/8
@@ -54,12 +59,11 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     private TextView tv_detail;//订单详情
     private TextView tv_car_detail;//车辆信息
     private TextView tv_shipper_detail;//托运人信息
-    private TextView bt_left;//
-    private TextView bt_right;//
+    private ViewGroup ll_bottom;//底部按钮
+
 
 
     OrderDetailControl.IOrderDetailPresenter presenter;
-    private CustomOrderButtonClick customOrderButtonClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +95,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         tv_shipper_detail = findViewById(R.id.tv_shipper_detail);
         tv_detail = findViewById(R.id.tv_detail);
         tv_car_detail = findViewById(R.id.tv_car_detail);
-        bt_left = findViewById(R.id.bt_left);
-        bt_right = findViewById(R.id.bt_right);
+        ll_bottom = findViewById(R.id.ll_bottom);
     }
 
     @Override
@@ -100,8 +103,6 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         super.initListener();
         img_start_chat.setOnClickListener(this);
         img_end_chat.setOnClickListener(this);
-        bt_left.setOnClickListener(this);
-        bt_right.setOnClickListener(this);
 
     }
 
@@ -322,16 +323,18 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
 
     /**
      * 更改底部按钮数据
-     *
+     * @param roler
+     * @param buttonInfo
      * @param infoBean
+     * @param status
      */
     @Override
-    public void showButton(String[] infoBean) {
-        bt_left.setVisibility(TextUtils.isEmpty(infoBean[0]) ? View.GONE : View.VISIBLE);
-        bt_right.setVisibility(TextUtils.isEmpty(infoBean[1]) ? View.GONE : View.VISIBLE);
-        bt_left.setText(TextUtils.isEmpty(infoBean[0]) ? "" : infoBean[0]);
-        bt_right.setText(TextUtils.isEmpty(infoBean[1]) ? "" : infoBean[1]);
+    public void showButton(RoleOrder roler, Map<String, Integer> buttonInfo, OrderInfoBean infoBean, Status status) {
 
+        XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(this);
+        xOrderButtonClick.setType(roler);
+        xOrderButtonClick.setNextStepListener(this);
+        OrderUtils.addButton(ll_bottom,infoBean,buttonInfo,true,xOrderButtonClick);
     }
 
     /**
@@ -344,24 +347,8 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         CommonUtils.call(mContext, mobile);
     }
 
-    /**
-     * 当按钮被点击
-     *
-     * @param s
-     * @param orderInfo
-     */
-    @Override
-    public void clickButton(String s, OrderInfoBean orderInfo) {
-        customOrderButtonClick.performClick(s, orderInfo);
-    }
 
-    @Override
-    public void initClick(RoleOrder roler) {
-        XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(this);
-        xOrderButtonClick.setType(roler);
-        xOrderButtonClick.setNextStepListener(this);
-        customOrderButtonClick = new CustomOrderButtonClick(xOrderButtonClick);
-    }
+
 
     /**
      * 展示错误提现
@@ -429,11 +416,6 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         } else if (v.getId() == R.id.img_end_chat) {
 //            ToastUtils.getInstance().show("和收货人聊天");
             presenter.contactEnd();
-
-        } else if (v.getId() == R.id.bt_left) {
-            presenter.clickButton(0);
-        } else if (v.getId() == R.id.bt_right) {
-            presenter.clickButton(1);
 
         }
 

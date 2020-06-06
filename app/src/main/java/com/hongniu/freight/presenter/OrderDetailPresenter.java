@@ -34,14 +34,13 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
     @Override
     public void initInfo(OrderInfoBean infoBean, RoleOrder roler) {
         mode.saveInfo(infoBean,roler);
-        view.initClick(roler);
         view.showOrderState(mode.getStatusDes() ,String.format("订单编号\t %s",infoBean.getOrderNum()));
         view.showOrderAddressInfo(infoBean);
         view.initDriverInfo(infoBean,mode.isShowDriverInfo());
         view.showOrderDetail(infoBean,mode.isShowCargoPrice(),mode.isShowRealePrice());
         view.showShipperInfo(infoBean,mode.isShowCarInfo());
         view.showCarInfo(infoBean,mode.isShowCarInfo());
-        view.showButton(mode.getButtonMsg());
+        view.showButton(roler,mode.getButtonMsg(),infoBean,mode.getStatus());
     }
 
     /**
@@ -100,15 +99,6 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
     public void contactShipper() {
         view.startChat(mode.getOrderInfo().getUserId(),mode.getOrderInfo().getUserName());
     }
-    /**
-     * 点击按钮
-     * @param i
-     */
-    @Override
-    public void clickButton(int i) {
-        String[] buttonMsg = mode.getButtonMsg();
-        view.clickButton(buttonMsg[i],mode.getOrderInfo());
-    }
 
     /**
      * 查看保单
@@ -126,14 +116,6 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
 
 
 
-    /**
-     * 和发货人聊天
-     */
-    @Override
-    public void chatStart() {
-        //TODO 聊天,缺少ID
-
-    }
 
 
 }

@@ -86,5 +86,17 @@ public interface OrderButtonClickListener {
      * 查看路线
      */
     void onQueryPathClick(OrderInfoBean bean);
+    /**
+     * 修改订单
+     */
+    void onOrderModify(OrderInfoBean bean);
+    /**
+     * 上传回单
+     */
+    void onUpLoadReceipts(OrderInfoBean bean);
+    /**
+     * 查看回单
+     */
+    void onCheckReceipts(OrderInfoBean bean);
 
 }

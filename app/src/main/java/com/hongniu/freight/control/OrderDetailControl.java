@@ -7,6 +7,8 @@ import com.hongniu.freight.config.Status;
 import com.hongniu.freight.entity.AppInsuranceInfo;
 import com.hongniu.freight.entity.OrderInfoBean;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 
 /**
@@ -57,9 +59,12 @@ public class OrderDetailControl {
 
         /**
          * 更改底部按钮数据
+         * @param roler
+         * @param buttonInfo
          * @param infoBean
+         * @param status
          */
-        void showButton(String[] infoBean);
+        void showButton(RoleOrder roler, Map<String, Integer> buttonInfo, OrderInfoBean infoBean, Status status);
 
         /**
          * 拨打电话
@@ -67,14 +72,6 @@ public class OrderDetailControl {
          */
         void statCall(String mobile);
 
-        /**
-         * 当按钮被点击
-         * @param s
-         * @param orderInfo
-         */
-        void clickButton(String s, OrderInfoBean orderInfo);
-
-        void initClick(RoleOrder roler);
 
         /**
          * 展示错误提现
@@ -129,11 +126,6 @@ public class OrderDetailControl {
          * 联系司机
          */
         void contactDriver();
-        /**
-         * 点击按钮
-         * @param i
-         */
-        void clickButton(int i);
 
         /**
          * 查看保单
@@ -144,10 +136,6 @@ public class OrderDetailControl {
          */
         void contactShipper();
 
-        /**
-         * 和发货人聊天
-         */
-        void chatStart();
 
 
     }
@@ -171,7 +159,7 @@ public class OrderDetailControl {
          * 获取底部按钮文案
          * @return
          */
-        String[] getButtonMsg();
+        Map<String, Integer> getButtonMsg();
 
         /**
          * 查询订单详情

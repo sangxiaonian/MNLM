@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.Group;
 
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.hongniu.freight.R;
@@ -42,6 +43,8 @@ class OrderTYRHolder extends OrderBaseHolder {
 
         HelperControl helper = new OrderHelper(role)
                 .setInsurance(data.getPayPolicyState() == 1)
+                .setHasReceiptImage(data.getHasReceiptImage()==1)
+
                 .setStatus(data.getStatus());
 
         CommonUtils.setText(tv_time, ConvertUtils.formatTime(data.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
@@ -55,7 +58,8 @@ class OrderTYRHolder extends OrderBaseHolder {
         Utils.fliter(role,data, buttons);
 
         //控制底部button
-        addButton(bottom_group, ll_bt, data, buttons);
+        addButton( ll_bt, data, buttons);
+        bottom_group.setVisibility(CollectionUtils.isEmpty(buttons)?View.GONE:View.VISIBLE);
     }
 
 
