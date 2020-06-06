@@ -242,9 +242,9 @@ public class InfoUtils {
      */
     public static boolean isShowAlert() {
         //TODO 测hi
-        if (true){
-            return false;
-        }
+//        if (true){
+//            return false;
+//        }
 
         PersonInfor myInfo = InfoUtils.getMyInfo();
         if (myInfo!=null) {

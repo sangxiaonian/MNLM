@@ -77,4 +77,18 @@ public abstract class AttestationBaseFragment extends CompanyBaseFragment {
             }
         }
     }
+
+    protected String getAlert(int state, String type) {
+        String msg = type + "上传异常，请重试";
+        if (state == 0) {
+            msg = "请上传" + type;
+        }
+        if (state == 1) {
+            msg = type + "上传中,请稍后";
+        } else if (state == 2) {
+            msg = type + "上传失败,请重试";
+
+        }
+        return msg;
+    }
 }
