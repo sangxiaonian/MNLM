@@ -203,18 +203,5 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         check(false);
     }
 
-    private void startPhoto(OnResultCallbackListener listener) {
-        PermissionUtils.applyCamera(getActivity(), new PermissionUtils.onApplyPermission() {
-            @Override
-            public void hasPermission() {
-                new PictureClient()
-                        .startPhoto(AttestationDriverFragment.this, 1, null, listener);
-            }
 
-            @Override
-            public void noPermission() {
-
-            }
-        });
-    }
 }

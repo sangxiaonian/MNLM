@@ -45,8 +45,9 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     private ItemTextView item_phone;//联系人手机号
     private ItemTextView item_email;//邮箱
     private ImageInforView img_business_license;//营业执照
-    private int isqualification;
-    private UpImgData qualificationInfo;
+    private ImageInforView img_id_card_front;//身份证正面
+    private ImageInforView img_id_card_back;//身份证反面
+
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -60,12 +61,23 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
         img_business_license = inflate.findViewById(R.id.img_business_license);
+        img_id_card_front = inflate.findViewById(R.id.img_id_card_front);
+        img_id_card_back = inflate.findViewById(R.id.img_id_card_back);
         return inflate;
     }
 
     @Override
     protected void initData() {
         super.initData();
+
+        img_business_license.setAttached(this);
+        img_id_card_front.setAttached(this);
+        img_id_card_back.setAttached(this);
+
+        img_business_license.setType(7);
+        img_id_card_front.setType(8);
+        img_id_card_back.setType(8);
+
         check(false);
     }
 
@@ -80,14 +92,11 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
             item_name.setTextCenter(identity.getCompanyName());
             item_id_card.setTextCenter(identity.getIdnumber());
             item_phone.setTextCenter(identity.getContactMobile());
-             img_business_license.setImageInfo( identity.getBusinessLicenseImageUrl());
+            img_business_license.setImageInfo(identity.getBusinessLicenseImageUrl());
+            img_id_card_back.setImageInfo(identity.getIdnumberBackImageUrl());
+            img_id_card_front.setImageInfo(identity.getIdnumberFaceImageUrl());
 
-            if (!TextUtils.isEmpty(identity.getBusinessLicenseImageUrl())) {
-                qualificationInfo = new UpImgData();
-                qualificationInfo.setPath(identity.getBusinessLicenseImageUrl());
-                qualificationInfo.setAbsolutePath(identity.getBusinessLicenseImageUrl());
-                isqualification=2;
-            }
+
         }
 
     }
@@ -102,7 +111,6 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         item_email.setOnCenterChangeListener(this);
         item_id_card.setOnCenterChangeListener(this);
         bt_sum.setOnClickListener(this);
-        img_business_license.setOnClickListener(this);
     }
 
     private boolean check(boolean showAlert) {
@@ -116,22 +124,28 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         ) {
             return false;
         }
-        if (isqualification == 0) {
+        if (img_business_license.getState() != 3) {
+
             if (showAlert) {
-                ToastUtils.getInstance().show("请上传营业执照");
-            }
-            return false;
-        } else if (isqualification == 1) {
-            if (showAlert) {
-                ToastUtils.getInstance().show("营业执照上传中,请稍后");
-            }
-            return false;
-        } else if (isqualification == 3) {
-            if (showAlert) {
-                ToastUtils.getInstance().show("营业执照上传失败,请重试");
+                ToastUtils.getInstance().show(getAlert(img_business_license.getState(), "营业执照"));
             }
             return false;
         }
+        if (img_id_card_front.getState() != 3) {
+
+            if (showAlert) {
+                ToastUtils.getInstance().show(getAlert(img_id_card_front.getState(), "身份证正面"));
+            }
+            return false;
+        }
+        if (img_id_card_back.getState() != 3) {
+
+            if (showAlert) {
+                ToastUtils.getInstance().show(getAlert(img_id_card_back.getState(), "身份证反面"));
+            }
+            return false;
+        }
+
         Utils.setButton(bt_sum, true);
 
         return true;
@@ -165,10 +179,12 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
                 params.setContactName(item_name.getTextCenter());
                 params.setContactEmail(item_email.getTextCenter());
                 params.setContactMobile(item_phone.getTextCenter());
-                params.setBusinessLicenseImageUrl(qualificationInfo.getPath());
+                params.setBusinessLicenseImageUrl(img_business_license.getImgInfo().getPath());
                 params.setContactMobile(item_phone.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setName(item_name.getTextCenter());
+                params.setIdnumberFaceImageUrl(img_id_card_front.getImgInfo().getPath());
+                params.setIdnumberBackImageUrl(img_id_card_back.getImgInfo().getPath());
 
                 HttpAppFactory.verifyShipperCompany(params)
                         .subscribe(new NetObserver<String>(this) {
@@ -181,45 +197,7 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
                         });
 
             }
-        } else  if (v.getId() == R.id.img_business_license) {
-//            ToastUtils.getInstance().show("营业执照");
-            startPhoto(new OnResultCallbackListener() {
-                @Override
-                public void onResult(List<LocalMedia> result) {
-                    check(false);
-                    if (!CollectionUtils.isEmpty(result)) {
-                        String path = PicUtils.getPath(result.get(0));
-                         img_business_license.setImageInfo( path);
-                        HttpAppFactory.upImage(7,
-                                path
-                                , null
-                        )
-                                .subscribe(new BaseObserver<UpImgData>(null) {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
-                                        super.onSubscribe(d);
-                                        isqualification = 1;
-                                    }
 
-                                    @Override
-                                    public void onNext(UpImgData result) {
-                                        super.onNext(result);
-                                        qualificationInfo = result;
-                                        isqualification = 2;
-                                        check(false);
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        super.onError(e);
-                                        isqualification = 3;
-                                    }
-                                });
-
-                    }
-
-                }
-            });
         }
     }
 
@@ -228,18 +206,5 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         check(false);
     }
 
-    private void startPhoto(OnResultCallbackListener listener) {
-        PermissionUtils.applyCamera(getActivity(), new PermissionUtils.onApplyPermission() {
-            @Override
-            public void hasPermission() {
-                new PictureClient()
-                        .startPhoto(AttestationShipperCompanyFragment.this, 1, null, listener);
-            }
 
-            @Override
-            public void noPermission() {
-
-            }
-        });
-    }
 }
