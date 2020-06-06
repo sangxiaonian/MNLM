@@ -75,6 +75,12 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         img_id_card_back.setType(8);
         img_driver.setType(13);
         img_business_license.setType(7);
+        img_id_card_front.setAttached(this);
+        img_id_card_back.setAttached(this);
+        img_driver.setAttached(this);
+        img_business_license.setAttached(this);
+        check(false);
+
 
     }
 
@@ -91,10 +97,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         item_phone.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
 
-        img_id_card_front.setAttached(this);
-        img_id_card_back.setAttached(this);
-        img_driver.setAttached(this);
-        img_business_license.setAttached(this);
+
 
 //        img_driver.setOnClickListener(null);
 //        img_business_license.setOnClickListener(null);
