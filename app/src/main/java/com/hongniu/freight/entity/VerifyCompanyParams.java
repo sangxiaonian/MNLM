@@ -14,6 +14,24 @@ public class VerifyCompanyParams {
     private String roadTransportPermitImageUrl;//	false	string	道路运输许可证照片url
     private String idnumber;//	false	string	身份证
     private String name;//	false	string	身份证
+    private String idnumberFaceImageUrl;//	false	string	身份证正面照片url(相对路径) 传入文件类型参考11.1接口)
+    private String idnumberBackImageUrl;//	false	string	身份证背面照片url(相对路径)
+
+    public String getIdnumberFaceImageUrl() {
+        return idnumberFaceImageUrl;
+    }
+
+    public void setIdnumberFaceImageUrl(String idnumberFaceImageUrl) {
+        this.idnumberFaceImageUrl = idnumberFaceImageUrl;
+    }
+
+    public String getIdnumberBackImageUrl() {
+        return idnumberBackImageUrl;
+    }
+
+    public void setIdnumberBackImageUrl(String idnumberBackImageUrl) {
+        this.idnumberBackImageUrl = idnumberBackImageUrl;
+    }
 
     public String getName() {
         return name;

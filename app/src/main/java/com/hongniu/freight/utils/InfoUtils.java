@@ -241,6 +241,11 @@ public class InfoUtils {
      * @return false 未进行实名认证或者未进行人脸识别
      */
     public static boolean isShowAlert() {
+        //TODO 测hi
+        if (true){
+            return false;
+        }
+
         PersonInfor myInfo = InfoUtils.getMyInfo();
         if (myInfo!=null) {
             Role role = getRole(myInfo);

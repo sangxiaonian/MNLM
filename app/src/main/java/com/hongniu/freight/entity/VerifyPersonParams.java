@@ -12,6 +12,24 @@ public class VerifyPersonParams {
     private String qualificationCertificateImageUrl;//	false	司机从业资格证图片url(相对路径)
     private String faceDLImageUrl;//	false	驶证正面照片url(相对路径)
     private String backDLImageUrl;//	false	驶证反面照片url(相对路径)
+    private String idnumberFaceImageUrl;//	false	string	身份证正面照片url(相对路径) 传入文件类型参考11.1接口)
+    private String idnumberBackImageUrl;//	false	string	身份证背面照片url(相对路径)
+
+    public String getIdnumberBackImageUrl() {
+        return idnumberBackImageUrl;
+    }
+
+    public void setIdnumberBackImageUrl(String idnumberBackImageUrl) {
+        this.idnumberBackImageUrl = idnumberBackImageUrl;
+    }
+
+    public String getIdnumberFaceImageUrl() {
+        return idnumberFaceImageUrl;
+    }
+
+    public void setIdnumberFaceImageUrl(String idnumberFaceImageUrl) {
+        this.idnumberFaceImageUrl = idnumberFaceImageUrl;
+    }
 
     public String getQualificationCertificateImageUrl() {
         return qualificationCertificateImageUrl;
