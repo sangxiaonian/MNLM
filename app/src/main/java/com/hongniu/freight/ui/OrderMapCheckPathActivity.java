@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ import com.amap.api.trace.LBSTraceClient;
 import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.net.rx.RxUtils;
+import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.recycle.EmptyRecycleView;
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter;
@@ -42,6 +45,7 @@ import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.EmptyHolder;
 import com.hongniu.thirdlibrary.map.MarkUtils;
 
+import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,10 +129,10 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
         rv.setEmptyHolder(new EmptyHolder(mContext,rv));
         stationBeans=new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
-            stationBeans.add(new AppPathStationBean());
-
-        }
+//        for (int i = 0; i < 20; i++) {
+//            stationBeans.add(new AppPathStationBean());
+//
+//        }
 
        adapter=new XAdapter<AppPathStationBean>(mContext,stationBeans) {
             @Override
@@ -144,8 +148,9 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
                         View line_top=itemView.findViewById(R.id.line_top);
                         line_top.setVisibility(position==0?View.GONE:View.VISIBLE);
                         img_point.setImageDrawable(new ColorDrawable(getResources().getColor(position==0?R.color.color_of_e50000:R.color.color_of_999999)));
-                        tv_title.setText("快件正在路上");
-                        tv_time.setText("03：32\n2020-05-11");
+                        tv_title.setText(TextUtils.isEmpty(data.getInfo())?"":data.getInfo());
+                        String time = ConvertUtils.formatString(data.getTime(), "yyyy-MM-dd HH:mm:ss", "HH:mm\nyyyy-MM-dd");
+                        tv_time.setText(time);
 
                     }
                 };
@@ -174,6 +179,10 @@ public class OrderMapCheckPathActivity extends CompanyBaseActivity {
                     @Override
                     public List<LocationBean> apply(CommonBean<PathBean> pathBeanCommonBean) throws Exception {
                         if (pathBeanCommonBean.getCode() == 200) {
+                            if (!CollectionUtils.isEmpty(pathBeanCommonBean.getData().getLogisticsList())){
+                                stationBeans.addAll(pathBeanCommonBean.getData().getLogisticsList());
+                                adapter.notifyDataSetChanged();
+                            }
                             return pathBeanCommonBean.getData().getList();
 
                         } else {

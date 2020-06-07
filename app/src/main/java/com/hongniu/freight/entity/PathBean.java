@@ -18,6 +18,15 @@ public class PathBean {
     private String carNum;
     private String endPlace;
     private List<LocationBean> list;
+    private List<AppPathStationBean> logisticsList;
+
+    public List<AppPathStationBean> getLogisticsList() {
+        return logisticsList;
+    }
+
+    public void setLogisticsList(List<AppPathStationBean> logisticsList) {
+        this.logisticsList = logisticsList;
+    }
 
     public String getStartPlace() {
         return startPlace;

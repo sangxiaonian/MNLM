@@ -101,7 +101,7 @@ public class ConvertUtils {
      * 时间格式转换
      *
      * @param sour       原来时间    2018 年11月11日
-     * @param sourFormat 原来时间    yyyy年MM月dd日 HH:mm:ss
+     * @param sourFormat 原来时间格式    yyyy年MM月dd日 HH:mm:ss
      * @param desFormat  指定时间格式 yyyy年MM月dd日 HH:mm:ss
      * @return yyyy-MM-dd
      */
