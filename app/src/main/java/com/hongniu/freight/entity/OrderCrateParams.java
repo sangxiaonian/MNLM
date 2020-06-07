@@ -5,6 +5,7 @@ package com.hongniu.freight.entity;
  * 创建订单 我要发货
  */
 public class OrderCrateParams {
+   private String id;//	true	string	订单id
    private String startPlaceInfo;//	true	string	开始地描述
    private String startPlaceLon;//	true	number	开始地经度
    private String startPlaceLat;//	true	number	开始地纬度
@@ -173,7 +174,16 @@ public class OrderCrateParams {
         return goodPrice;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setGoodPrice(String goodPrice) {
+
         this.goodPrice = goodPrice;
     }
 }

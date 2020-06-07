@@ -70,13 +70,12 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
                 //初始化保险信息
                 view.initInsuranceInfo( orderInfoBean.getGoodPrice(),orderInfoBean.getInsureUsername());
             }
-
             //发货时间
             mode.saveStartTime(orderInfoBean.getDepartureTime());
             view.showTime(TextUtils.isEmpty(orderInfoBean.getDepartureTime())?"立即发货":orderInfoBean.getDepartureTime());
-
-
             view.initOrderUIInfo(orderInfoBean);
+        }else {
+           view.switchInsurance(false);
 
         }
     }

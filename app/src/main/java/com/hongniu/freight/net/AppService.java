@@ -200,6 +200,13 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/add")
     Observable<CommonBean<OrderInfoBean>> createOrder(@Body OrderCrateParams params);
+  /**
+     * 修改订单
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/update")
+    Observable<CommonBean<OrderInfoBean>> modifyOrder(@Body OrderCrateParams params);
 
     /**
      * 查询订单列表

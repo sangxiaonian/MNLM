@@ -333,6 +333,17 @@ public class HttpAppFactory {
                 .createOrder(param)
                 .compose(RxUtils.<CommonBean<OrderInfoBean>>getSchedulersObservableTransformer());
     }
+   /**
+     * 修改订单
+     *
+     * @param param
+     * @return
+     */
+    public static Observable<CommonBean<OrderInfoBean>> modifyOrder(OrderCrateParams param) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .modifyOrder(param)
+                .compose(RxUtils.<CommonBean<OrderInfoBean>>getSchedulersObservableTransformer());
+    }
 
     /**
      * 查询订单列表

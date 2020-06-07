@@ -36,7 +36,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     List<String> payWays;//付款方式
     OrderCrateParams params;
     private InsuranceInfoBean insuranceInforBean;
-    private OrderInfoBean orderInfoBean;//从订单页面传入的订单详情数据
+    private OrderInfoBean orderInfoBean;//从订单页面传入的订单详情数据,只有修改订单时候会有数据
 
     public OrderCreateMode() {
         params = new OrderCrateParams();
@@ -262,7 +262,14 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
             params.setInsuranceUserId(null);
         }
 
-        return HttpAppFactory.createOrder(params);
+        if (orderInfoBean!=null){
+            //修改订单
+            params.setId(orderInfoBean.getId());
+            return HttpAppFactory.modifyOrder(params);
+        }else {
+            //新增订单
+            return HttpAppFactory.createOrder(params);
+        }
     }
 
     /**

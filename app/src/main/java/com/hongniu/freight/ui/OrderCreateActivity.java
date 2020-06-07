@@ -87,7 +87,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         presenter = new OrderCreatePresenter(this);
         OrderInfoBean orderInfoBean = getIntent().getParcelableExtra(Param.TRAN);
         presenter.saveInfo(orderInfoBean);
-        switchInsurance(false);
+
 
         //版本暂时隐藏,仅支持先付
         item_pay_way.setVisibility(View.GONE);
