@@ -154,7 +154,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                     .withSerializable(Param.TRAN, h5Config)
                     .navigation(mContext);
         } else {
-            ToastUtils.getInstance().show("保单信息异常,请稍后再试");
+            ToastUtils.getInstance().show("保单暂未生成,请稍后再试");
         }
     }
 

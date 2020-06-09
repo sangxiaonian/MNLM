@@ -77,11 +77,11 @@ public class ArouterParamApp {
      * 立即派车
      */
     public static final String activity_assign_order = "/app/activity_assign_order";
-     /**
+    /**
      * 评价
      */
     public static final String activity_appraise = "/app/activity_appraise";
-      /**
+    /**
      * 实际承运人我要接单
      */
     public static final String activity_order_receive = "/app/activity_order_receive";
@@ -133,7 +133,7 @@ public class ArouterParamApp {
      * 我要接单
      */
     public static final String activity_order_center = "/app/activity_order_center";
- /**
+    /**
      * 查看轨迹
      */
     public static final String activity_map_check_path = "/app/activity_map_check_path";
@@ -184,12 +184,16 @@ public class ArouterParamApp {
      * 绑定银行卡
      */
     public static final String activity_bind_blank_card = "/app/activity_bind_blank_card";
-  /**
+    /**
      * 查看/上传回单
      */
     public static final String activity_order_up_receipt = "/app/activity_order_up_receipt";
+    /**
+     * 图片预览
+     */
+    public static final String activity_preview_image = "/app/activity_preview_image";
 
-   /**
+    /**
      * 二维码扫描
      */
     public static final String activity_qrcode = "/app/activity_qrcode";

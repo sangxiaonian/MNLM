@@ -9,6 +9,9 @@ import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.widget.dialog.CenterDialog;
 import com.fy.androidlibrary.widget.recycle.control.RecycleControl;
 import com.fy.baselibrary.interceptor.FileProgressRequestBody;
+import com.fy.baselibrary.utils.ArouterUtils;
+import com.fy.companylibrary.config.ArouterParamApp;
+import com.fy.companylibrary.config.Param;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
 import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.adapter.ImageAdapter;
@@ -108,14 +111,15 @@ public abstract class BaseImageUpActivity extends CompanyBaseActivity implements
     @Override
     public void onItemClick(int position, ImageInforBean date) {
         if (!CollectionUtils.isEmpty(datas)){
-            List<LocalMedia> result=new ArrayList<>();
+            ArrayList<String> result=new ArrayList<>();
             for (ImageInforBean data : datas) {
-                LocalMedia media=new LocalMedia();
-                media.setChecked(true);
-                media.setPath(TextUtils.isEmpty(data.getPathOriginal())?data.getPath():data.getPathOriginal());
-                result.add(media);
+                result.add(TextUtils.isEmpty(data.getPathOriginal())?data.getPath():data.getPathOriginal());
             }
-            PicUtils.jump2Preview(this,position,result);
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_preview_image)
+                    .withStringArrayList(Param.TRAN,result)
+                    .withInt(Param.TYPE,position)
+                    .navigation();
+
         }
 
     }

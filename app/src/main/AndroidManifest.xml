@@ -84,6 +84,7 @@
         <activity android:name=".ui.WayBillActivity" />
         <activity android:name=".ui.QRCodeActivity" />
         <activity android:name=".ui.OrderUpReceiptActivity" />
+        <activity android:name=".ui.PreviewImageActivity" />
 
         <receiver android:name=".receiver.MyPushReceiver"/>
         <!-- 高德地图 -->

@@ -237,7 +237,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
 
         append(titleColor, builder, "货物信息");
         builder.append(gap);
-        append(color, builder, String.format("%skg",infoBean.getGoodWeight()));
+        append(color, builder, String.format("%s吨",infoBean.getGoodWeight()));
         appendLine(builder);
         append(color, builder, String.format("%sm³",infoBean.getGoodVolume()));
 
@@ -312,9 +312,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
                     @Override
                     public void onClick(@NonNull View widget) {
                         presenter.contactCarrier();
-                        ToastUtils.getInstance().show("联系承运人");
                     }
-
                 }
                         .setColor(contactColor));
         tv_car_detail.setText(builder);

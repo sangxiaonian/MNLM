@@ -56,8 +56,8 @@ public class App extends BaseApp {
 
         //融云
         //TODO 测试关闭，正式环境务必开启
-//        ChactHelper.getHelper().initHelper(this);
-//        registerUM();
+        ChactHelper.getHelper().initHelper(this);
+        registerUM();
     }
 
     public void registerUM() {

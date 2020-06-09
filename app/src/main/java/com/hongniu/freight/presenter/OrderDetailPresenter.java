@@ -110,7 +110,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
             view.checkInsurance(insurance);
 
         }else {
-            view.showError("保单信息异常,请稍后再试");
+            view.showError("保单暂未生成,请稍后再试");
         }
     }
 
