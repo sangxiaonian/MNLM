@@ -66,43 +66,32 @@ android {
 
             buildConfigField "boolean", "IS_DEBUG", "true"
             versionNameSuffix "-debug"
-
-            //自定义一些清单文件数据，根据打包自动更改
-            manifestPlaceholders = [RONG_CLOUD_APP_KEY: "k51hidwqkvxmb"//融云聊天key
+            resValue "string", "app_name", "木牛流马"
+            resValue "string", "weChatAppid", "wx10d4b234bc2e64dc"//微信APPID
+            resValue "string", "UMAppKey", "5e723107167eddb65e0001b6"//友盟推送 appkey
+            resValue "string", "UMpushSercet", "8c2ef94dbc50f6546c4ded2e45579629"//友盟推送sercet
+            manifestPlaceholders = [
+                    RONG_CLOUD_APP_KEY: "k51hidwqkvxmb"//融云聊天key
+                    , GAODE_MAP       : "1457998aaed653947f53734c7bd5f47a"//高德地图
 
             ]
-
             signingConfig signingConfigs.release
         }
         release {
             buildConfigField "boolean", "IS_DEBUG", "false"
-            manifestPlaceholders = [RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+            resValue "string", "app_name", "木牛流马"
+            resValue "string", "weChatAppid", "wx10d4b234bc2e64dc"//微信APPID
+            resValue "string", "UMAppKey", "5e723107167eddb65e0001b6"//友盟推送 appkey
+            resValue "string", "UMpushSercet", "8c2ef94dbc50f6546c4ded2e45579629"//友盟推送sercet
+            manifestPlaceholders = [
+                    RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+                    , GAODE_MAP       : "1457998aaed653947f53734c7bd5f47a"//高德地图
             ]
             signingConfig signingConfigs.release
             // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    productFlavors {
-        zhijia{
-            applicationId "com.hongniu.zhijia"//智佳泓牛
-            resValue "string", "app_name", "智佳泓牛"
-            resValue "string", "weChatAppid", "wx10d4b234bc2e64dc"//微信APPID
-            resValue "string", "UMAppKey", "5ef5abb1167edd3c00000036"//友盟推送 appkey
-            resValue "string", "UMpushSercet", "dae81df871199ace057714f1cdce6f1d"//友盟推送sercet
-            manifestPlaceholders = [
-                    RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
-                   , GAODE_MAP: "f78422a8e2f09b6e9fff92336b74f185"//高德地图
-
-            ]
-
-        }
-//        zhijia1{
-//            applicationId "com.hongniu.zhijia"//智佳泓牛
-////            resValue "string", "app_name", "智佳泓牛1"
-//
-//        }
-    }
 
 }
 
