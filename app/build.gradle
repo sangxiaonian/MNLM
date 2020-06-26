@@ -14,12 +14,14 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.androidSupportVersion
     defaultConfig {
-        applicationId "com.hongniu.freight"
+//        applicationId "com.hongniu.freight"
+//        applicationId "com.hongniu.zhijia"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        flavorDimensions "versionCode"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -75,11 +77,26 @@ android {
         release {
             buildConfigField "boolean", "IS_DEBUG", "false"
             manifestPlaceholders = [RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
-
             ]
             signingConfig signingConfigs.release
             // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    productFlavors {
+        zhijia{
+            applicationId "com.hongniu.zhijia"//智佳泓牛
+            resValue "string", "app_name", "智佳泓牛"
+            manifestPlaceholders = [RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+
+            ]
+
+        }
+//        zhijia1{
+//            applicationId "com.hongniu.zhijia"//智佳泓牛
+////            resValue "string", "app_name", "智佳泓牛1"
+//
+//        }
     }
 
 }

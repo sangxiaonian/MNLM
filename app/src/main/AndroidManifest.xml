@@ -76,7 +76,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.hongniu.freight"
+                    android:host="${applicationId}"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>

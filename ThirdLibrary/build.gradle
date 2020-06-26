@@ -36,11 +36,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 //    导航
-    api 'com.amap.api:navi-3dmap:latest.integration'
+    api 'com.amap.api:navi-3dmap:7.5.0_3dmap7.5.0'
 //    搜索
-    api 'com.amap.api:search:latest.integration'
+    api 'com.amap.api:search:7.3.0'
 //    定位
-    api 'com.amap.api:location:latest.integration'
+    api 'com.amap.api:location:5.0.0'
 
 
 
