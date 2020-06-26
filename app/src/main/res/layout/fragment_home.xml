@@ -406,7 +406,7 @@
                             android:textSize="14dp"
                             app:layout_constraintStart_toEndOf="@+id/point_start"
                             app:layout_constraintTop_toBottomOf="@id/tv_bottom2"
-                            android:text="线上交易更便捷" />
+                            android:text="车货监控更安全" />
                     </LinearLayout>
 
 
