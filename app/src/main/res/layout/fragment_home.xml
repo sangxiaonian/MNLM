@@ -310,30 +310,127 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:id="@+id/ll_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:orientation="vertical" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/img_more"
+
+            <com.fy.androidlibrary.widget.shadow.ShadowLayout
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/bg_learn_more_home"
-                app:layout_constraintDimensionRatio="366:206"
+                app:hl_cornerRadius="5dp"
+                app:hl_shadowBackColor="@color/color_of_ffffff"
+                app:hl_shadowColor="#2a000000"
+                app:hl_shadowLimit="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/content" />
+                app:layout_constraintTop_toBottomOf="@id/content">
 
-            <View
-                android:id="@+id/bt_learn_more"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                app:layout_constraintBottom_toBottomOf="@id/img_more"
-                app:layout_constraintStart_toStartOf="@id/img_more" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/tv_bottom1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="为什么用"
+                        android:textColor="@color/color_of_e50000"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_bottom2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gap_app"
+                        android:text="木牛流马网络货运"
+                        android:textColor="@color/color_of_333333"
+                        android:textSize="23dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bottom1" />
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_content_bottom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gap_app"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bottom2">
+
+                        <com.fy.androidlibrary.widget.CircularImageView
+                            android:layout_width="6dp"
+                            android:layout_height="6dp"
+                            android:src="@color/color_of_e50000"
+                            app:viewradius="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/color_of_666666"
+                            android:textSize="14dp"
+                            app:layout_constraintStart_toEndOf="@+id/point_start"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bottom2"
+                            android:text="线上交易更便捷" />
+
+                        <com.fy.androidlibrary.widget.CircularImageView
+                            android:layout_width="6dp"
+                            android:layout_height="6dp"
+                            android:layout_marginLeft="@dimen/gap_app"
+                            android:src="@color/color_of_e50000"
+                            app:viewradius="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/color_of_666666"
+                            android:textSize="14dp"
+                            app:layout_constraintStart_toEndOf="@+id/point_start"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bottom2"
+                            android:text="线上交易更便捷" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/bt_learn_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gap_app"
+                        android:background="@drawable/ovl_5_e50000"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="了解更多"
+                        android:textColor="@color/color_of_ffffff"
+                        android:textSize="14dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_content_bottom" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.fy.androidlibrary.widget.shadow.ShadowLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
