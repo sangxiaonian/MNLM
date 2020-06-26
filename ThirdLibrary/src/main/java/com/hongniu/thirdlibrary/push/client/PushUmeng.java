@@ -38,8 +38,9 @@ public class PushUmeng implements IPush<UMessage> {
      *
      * @param context
      */
-    public PushUmeng(Context context) {
-        UMConfigure.init(context, PushConfig.appKey, DeviceUtils.getDeviceBrand(), UMConfigure.DEVICE_TYPE_PHONE, PushConfig.pushSercet);
+    public PushUmeng(Context context,String appKey,String pushSercet) {
+//        UMConfigure.init(context, PushConfig.appKey, DeviceUtils.getDeviceBrand(), UMConfigure.DEVICE_TYPE_PHONE, PushConfig.pushSercet);
+        UMConfigure.init(context, appKey, DeviceUtils.getDeviceBrand(), UMConfigure.DEVICE_TYPE_PHONE, pushSercet);
         mPushAgent = PushAgent.getInstance(context);
         //注册rom渠道
         registerRomChannel(context);

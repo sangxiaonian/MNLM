@@ -34,10 +34,7 @@ public class PushClient implements IPush {
         this.plush = plush;
     }
 
-    public void setPlush(Context context) {
-        this.plush = new PushUmeng(context);
 
-    }
 
     /**
      * 注册推送结果监听

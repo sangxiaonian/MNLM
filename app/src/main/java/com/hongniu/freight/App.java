@@ -20,6 +20,7 @@ import com.hongniu.thirdlibrary.map.SingleLocation;
 import com.hongniu.thirdlibrary.pay.wechat.WeChatAppPay;
 import com.hongniu.thirdlibrary.push.NotificationUtils;
 import com.hongniu.thirdlibrary.push.client.PushClient;
+import com.hongniu.thirdlibrary.push.client.PushUmeng;
 import com.hongniu.thirdlibrary.push.inter.PlushDealWithMessageListener;
 import com.hongniu.thirdlibrary.push.inter.PlushRegisterListener;
 import com.hongniu.thirdlibrary.verify.VerifyClient;
@@ -65,7 +66,10 @@ public class App extends BaseApp {
 
     public void registerUM() {
         PushClient plushClient = PushClient.getClient();
-        plushClient.setPlush(this);
+
+        PushUmeng pushUmeng = new PushUmeng(this,getString(R.string.UMAppKey),getString(R.string.UMpushSercet));
+
+        plushClient.setPlush(pushUmeng);
         plushClient.setPlushRegisterListener(new PlushRegisterListener() {
             @Override
             public void onSuccess(String data) {
