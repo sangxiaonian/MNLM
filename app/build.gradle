@@ -14,8 +14,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.androidSupportVersion
     defaultConfig {
-//        applicationId "com.hongniu.freight"
-//        applicationId "com.hongniu.zhijia"
+        applicationId "com.hongniu.freight"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
