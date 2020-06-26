@@ -56,7 +56,11 @@ public class App extends BaseApp {
         //初始化微信
         WeChatAppPay.getInstance().init(getString(R.string.weChatAppid));
         // 初始化实人认证 SDK
-        VerifyClient.getInstance().initClient( BuildConfig.IS_DEBUG);
+        VerifyClient.getInstance()
+                .setAppID(getString(R.string.verify_appID))
+                .setSecret(getString(R.string.verify_secret))
+                .setSDKlicense(getString(R.string.verify_SDKlicense))
+                .initClient( BuildConfig.IS_DEBUG);
 
         //融云
         //TODO 测试关闭，正式环境务必开启
