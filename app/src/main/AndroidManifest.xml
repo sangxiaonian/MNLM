@@ -90,7 +90,7 @@
         <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1457998aaed653947f53734c7bd5f47a" />
+            android:value="${GAODE_MAP}" />
         <service android:name="com.amap.api.location.APSService"/>
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -106,10 +106,7 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="${RONG_CLOUD_APP_KEY}"
             tools:replace="android:value" />
-       <!-- <meta-data
-            android:name="RONG_CLOUD_APP_KEY"
-            android:value="e0x9wycfe4enq"
-            tools:replace="android:value" />-->
+
     </application>
 
 </manifest>

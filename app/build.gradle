@@ -87,8 +87,10 @@ android {
         zhijia{
             applicationId "com.hongniu.zhijia"//智佳泓牛
             resValue "string", "app_name", "智佳泓牛"
-            resValue "string", "weChatAppid", "wx10d4b234bc2e64dc"
-            manifestPlaceholders = [RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+            resValue "string", "weChatAppid", "wx10d4b234bc2e64dc"//微信APPID
+            manifestPlaceholders = [
+                    RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+                   , GAODE_MAP: "f78422a8e2f09b6e9fff92336b74f185"//高德地图
 
             ]
 
