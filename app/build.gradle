@@ -87,6 +87,7 @@ android {
         zhijia{
             applicationId "com.hongniu.zhijia"//智佳泓牛
             resValue "string", "app_name", "智佳泓牛"
+            resValue "string", "weChatAppid", "wx10d4b234bc2e64dc"
             manifestPlaceholders = [RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
 
             ]

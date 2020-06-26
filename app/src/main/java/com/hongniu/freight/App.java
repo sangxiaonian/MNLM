@@ -17,6 +17,7 @@ import com.hongniu.freight.receiver.MyPushReceiver;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
 import com.hongniu.thirdlibrary.chact.control.ChactControl;
 import com.hongniu.thirdlibrary.map.SingleLocation;
+import com.hongniu.thirdlibrary.pay.wechat.WeChatAppPay;
 import com.hongniu.thirdlibrary.push.NotificationUtils;
 import com.hongniu.thirdlibrary.push.client.PushClient;
 import com.hongniu.thirdlibrary.push.inter.PlushDealWithMessageListener;
@@ -51,6 +52,8 @@ public class App extends BaseApp {
                 .addInterceptor(OkHttp.getLogInterceptor())//添加log日志
                 .setBaseUrl(Param.baseUrl);
 
+        //初始化微信
+        WeChatAppPay.getInstance().init(getString(R.string.weChatAppid));
         // 初始化实人认证 SDK
         VerifyClient.getInstance().initClient( BuildConfig.IS_DEBUG);
 

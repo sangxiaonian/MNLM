@@ -11,7 +11,6 @@ import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
-import com.hongniu.thirdlibrary.chact.config.RongConfig;
 import com.hongniu.thirdlibrary.chact.control.ChactControl;
 import com.hongniu.thirdlibrary.chact.control.OnGetUserInforListener;
 
@@ -22,7 +21,6 @@ import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
-import io.rong.push.RongPushClient;
 
 import static io.rong.imkit.utils.SystemUtils.getCurProcessName;
 

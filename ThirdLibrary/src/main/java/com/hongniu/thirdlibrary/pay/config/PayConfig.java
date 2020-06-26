@@ -5,6 +5,5 @@ package com.hongniu.thirdlibrary.pay.config;
  * 努力，为梦长留
  */
 public class PayConfig {
-    public static final String weChatAppid="wx10d4b234bc2e64dc";
 
 }

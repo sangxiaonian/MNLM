@@ -88,7 +88,7 @@ public class WaitePayActivity extends CompanyBaseActivity {
     private void startPay() {
         switch (payType) {
             case WEICHAT://微信支付
-                new WeChatAppPay().pay(WaitePayActivity.this,payInfoBean);
+                  WeChatAppPay.getInstance().pay(WaitePayActivity.this,payInfoBean);
 
                 break;
             case UNIONPAY://银联支付

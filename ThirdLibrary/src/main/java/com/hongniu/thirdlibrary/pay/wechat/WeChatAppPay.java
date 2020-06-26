@@ -15,11 +15,32 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
  * 作者： ${桑小年} on 2018/8/26.
  * 努力，为梦长留
  */
-public class WeChatAppPay   {
-    private boolean isDebug;
+public class WeChatAppPay {
 
+    private String weChatAppid;
+    private static WeChatAppPay appPay;
 
+    public static WeChatAppPay getInstance() {
+        if (appPay == null) {
+            synchronized (WeChatAppPay.class) {
+                if (appPay == null) {
+                    appPay = new WeChatAppPay();
+                }
+            }
+        }
+        return appPay;
+    }
 
+    public void init(String weChatAppid) {
+        this.weChatAppid = weChatAppid;
+    }
+
+    WeChatAppPay() {
+    }
+
+    public String getAppId() {
+        return weChatAppid;
+    }
 
     public void pay(Activity activity, PayInfoBean data) {
         pay(activity, data.getPartnerId(), data.getPrePayId(), data.getPrepay_id()
@@ -36,12 +57,12 @@ public class WeChatAppPay   {
      * @param timeStamp    时间戳
      * @param sign         sign
      */
-    private static void pay(Activity activity, String partnerId, String prepayId, String packageValue, String nonceStr, String timeStamp, String sign) {
+    private void pay(Activity activity, String partnerId, String prepayId, String packageValue, String nonceStr, String timeStamp, String sign) {
         IWXAPI api;
-        api = WXAPIFactory.createWXAPI(activity, PayConfig.weChatAppid);
+        api = WXAPIFactory.createWXAPI(activity,  weChatAppid);
         PayReq request = new PayReq();
         //应用ID
-        request.appId = PayConfig.weChatAppid;
+        request.appId =  weChatAppid;
         //商户号
         request.partnerId = partnerId;
         //预支付交易会话ID
@@ -61,8 +82,8 @@ public class WeChatAppPay   {
     /**
      * 掉起来小程序
      */
-    public static void jumpToXia(Context context, boolean isDebug) {
-        IWXAPI api = WXAPIFactory.createWXAPI(context, PayConfig.weChatAppid);// 填对应开发平台移动应用AppId
+    public   void jumpToXia(Context context, boolean isDebug) {
+        IWXAPI api = WXAPIFactory.createWXAPI(context, weChatAppid);// 填对应开发平台移动应用AppId
         WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
         req.userName = "gh_736800cd3405"; // 填小程序原始id（官方实例请填写自己的小程序id）
         req.path = "pages/authorize/authorize?from=app"; //拉起小程序页面的可带参路径，不填默认拉起小程序首页
@@ -75,5 +96,6 @@ public class WeChatAppPay   {
         }
         api.sendReq(req);
     }
+
 
 }
