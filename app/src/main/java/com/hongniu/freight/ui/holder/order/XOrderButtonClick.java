@@ -91,16 +91,32 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onOrderCancleClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("取消订单");
-        HttpAppFactory.orderCancel(bean.getId())
-                .subscribe(new NetObserver<Object>(listener) {
+
+        new DialogComment.Builder()
+                .setBtLeft("取消")
+                .setBtRight("确认")
+                .setDialogTitle("确认取消订单？")
+                .showContent(false)
+                .setRightClickListener(new DialogComment.OnButtonRightClickListener() {
                     @Override
-                    public void doOnSuccess(Object o) {
-                        super.doOnSuccess(o);
-                        if (nextStepListener != null) {
-                            nextStepListener.doUpdate();
-                        }
+                    public void onRightClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        HttpAppFactory.orderCancel(bean.getId())
+                                .subscribe(new NetObserver<Object>(listener) {
+                                    @Override
+                                    public void doOnSuccess(Object o) {
+                                        super.doOnSuccess(o);
+                                        if (nextStepListener != null) {
+                                            nextStepListener.doUpdate();
+                                        }
+                                    }
+                                });
                     }
-                });
+                })
+                .creatDialog(mContext)
+                .show();
+
+
     }
 
     /**
