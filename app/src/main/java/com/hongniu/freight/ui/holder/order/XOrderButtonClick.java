@@ -91,7 +91,6 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     @Override
     public void onOrderCancleClick(OrderInfoBean bean) {
 //        ToastUtils.getInstance().show("取消订单");
-
         new DialogComment.Builder()
                 .setBtLeft("取消")
                 .setBtRight("确认")
