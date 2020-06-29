@@ -54,7 +54,6 @@ public class BalanceActivity extends CompanyBaseActivity implements View.OnClick
         initView();
         initData();
         initListener();
-        queryAccountDetail();
     }
 
     @Override
@@ -80,6 +79,12 @@ public class BalanceActivity extends CompanyBaseActivity implements View.OnClick
         tv_recharge.setOnClickListener(this);
         tv_withdraw.setOnClickListener(this);
         inforDialog.setClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        queryAccountDetail();
     }
 
     public void queryAccountDetail() {
@@ -175,7 +180,7 @@ public class BalanceActivity extends CompanyBaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode== Activity.RESULT_OK&&requestCode==1){
+        if (resultCode== Activity.RESULT_OK){
             queryAccountDetail();
         }
     }
