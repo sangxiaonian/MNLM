@@ -458,9 +458,6 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                 if (distance > Param.ENTRY_MIN) {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离收货货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法确认到达");
                 } else {
-
-
-
                     //确认到达
                     HttpAppFactory.orderEnd(bean.getId())
                             .subscribe(new NetObserver<Object>(listener) {

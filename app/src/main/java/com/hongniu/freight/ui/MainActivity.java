@@ -101,10 +101,11 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         loaction.setListener(this);
 
         //初始化网络获取数据
+        //TODO 为了测试，强制使用测试环境
         FreightClient.getClient().initSdk(MainActivity.this, getPackageName(),
                 getString(R.string.freight_secret),
                 getString(R.string.freight_uniquie),
-                BuildConfig.IS_DEBUG, new OnResultListener() {
+                true, new OnResultListener() {
                     @Override
                     public void onSuccess() {
                         JLog.i("初始化成功");
