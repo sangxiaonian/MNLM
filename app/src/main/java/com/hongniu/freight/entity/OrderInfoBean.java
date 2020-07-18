@@ -50,6 +50,9 @@ public class OrderInfoBean implements Parcelable {
     private int userEvaluateState;//": 托运人评价状态 1:已评价 0:未评价
     private int owenrEvaluateState;//": 承运人评价状态 1:已评价 0:未评价
     private int driverEvaluateState;//":司机评价状态 1:已评价 0:未评价
+    private String  endCountrySubdivisionCode;//"重点点行政区划代码
+    private String   startCountrySubdivisionCode;//":起点行政区划代码
+
 
     private String userId;//": 268,
     private double startPlaceLon;//": 121.40225,
@@ -114,6 +117,21 @@ public class OrderInfoBean implements Parcelable {
     }
 
 
+    public String getEndCountrySubdivisionCode() {
+        return endCountrySubdivisionCode;
+    }
+
+    public void setEndCountrySubdivisionCode(String endCountrySubdivisionCode) {
+        this.endCountrySubdivisionCode = endCountrySubdivisionCode;
+    }
+
+    public String getStartCountrySubdivisionCode() {
+        return startCountrySubdivisionCode;
+    }
+
+    public void setStartCountrySubdivisionCode(String startCountrySubdivisionCode) {
+        this.startCountrySubdivisionCode = startCountrySubdivisionCode;
+    }
 
     public void setRealMoney(double realMoney) {
         this.realMoney = realMoney;
@@ -671,6 +689,8 @@ public class OrderInfoBean implements Parcelable {
         dest.writeInt(this.userEvaluateState);
         dest.writeInt(this.owenrEvaluateState);
         dest.writeInt(this.driverEvaluateState);
+        dest.writeString(this.endCountrySubdivisionCode);
+        dest.writeString(this.startCountrySubdivisionCode);
         dest.writeString(this.userId);
         dest.writeDouble(this.startPlaceLon);
         dest.writeDouble(this.startPlaceLat);
@@ -741,6 +761,8 @@ public class OrderInfoBean implements Parcelable {
         this.userEvaluateState = in.readInt();
         this.owenrEvaluateState = in.readInt();
         this.driverEvaluateState = in.readInt();
+        this.endCountrySubdivisionCode = in.readString();
+        this.startCountrySubdivisionCode = in.readString();
         this.userId = in.readString();
         this.startPlaceLon = in.readDouble();
         this.startPlaceLat = in.readDouble();

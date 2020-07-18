@@ -35,13 +35,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-//    导航
-    api 'com.amap.api:navi-3dmap:7.5.0_3dmap7.5.0'
-//    搜索
-    api 'com.amap.api:search:7.3.0'
-//    定位
-    api 'com.amap.api:location:5.0.0'
-
 
 
     //支付宝支付
@@ -74,4 +67,20 @@ dependencies {
     //疼腾讯实名认证
     implementation files('libs\\WbCloudFaceLiveSdk-v3.1.15-33d33e4e.aar')
     implementation files('libs\\WbCloudNormal-v4.0.10-1e5e27e.aar')
+
+
+    //    导航
+    api 'com.amap.api:navi-3dmap:7.5.0_3dmap7.5.0'
+//    搜索
+    api 'com.amap.api:search:7.3.0'
+//    定位
+//    api 'com.amap.api:location:5.0.0'
+
+
+    //省网络或许所需数据
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.alibaba:fastjson:1.2.61'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.47'
+    api files('libs/locationsdk-1.0.0.aar')
+
 }

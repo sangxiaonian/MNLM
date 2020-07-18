@@ -15,8 +15,7 @@ import com.hongniu.freight.net.interceptor.HeardInterceptor;
 import com.hongniu.freight.net.interceptor.LoginOutRespondInterceptor;
 import com.hongniu.freight.receiver.MyPushReceiver;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
-import com.hongniu.thirdlibrary.chact.control.ChactControl;
-import com.hongniu.thirdlibrary.map.SingleLocation;
+import com.hongniu.freight.huoyun.FreightClient;
 import com.hongniu.thirdlibrary.pay.wechat.WeChatAppPay;
 import com.hongniu.thirdlibrary.push.NotificationUtils;
 import com.hongniu.thirdlibrary.push.client.PushClient;
@@ -63,9 +62,13 @@ public class App extends BaseApp {
                 .initClient( BuildConfig.IS_DEBUG);
 
         //融云
-        //TODO 测试关闭，正式环境务必开启
         ChactHelper.getHelper().initHelper(this);
         registerUM();
+
+        //保活
+        FreightClient.getClient().startKeepLive(this,getString(R.string.app_name),"正在使用",R.mipmap.ic_launcher);
+
+
     }
 
     public void registerUM() {

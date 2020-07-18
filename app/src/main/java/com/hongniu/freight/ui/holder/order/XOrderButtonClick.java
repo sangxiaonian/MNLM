@@ -14,12 +14,15 @@ import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.JLog;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.net.NetObserver;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.hdgq.locationlib.entity.ShippingNoteInfo;
+import com.hdgq.locationlib.listener.OnResultListener;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.entity.AppInsuranceInfo;
 import com.hongniu.freight.entity.BuyInsuranceParams;
@@ -28,6 +31,7 @@ import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryReceiveBean;
+import com.hongniu.freight.huoyun.FreightClient;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
 import com.hongniu.freight.widget.DialogComment;
@@ -374,14 +378,23 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                         nextStepListener.doUpdate();
                                     }
 
-                                    if (mContext instanceof Activity) {
-                                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
+                                    ShippingNoteInfo noteInfo=new ShippingNoteInfo();
+                                    noteInfo.setShippingNoteNumber(bean.getId());
+                                    noteInfo.setSerialNumber("0000");
+                                    noteInfo.setStartCountrySubdivisionCode(bean.getStartCountrySubdivisionCode());
+                                    noteInfo.setEndCountrySubdivisionCode(bean.getEndCountrySubdivisionCode());
+                                    FreightClient.getClient().start(mContext, new OnResultListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            JLog.i("--------开始发车--------");
+                                        }
 
-                                            }
-                                        });
-                                    }
+                                        @Override
+                                        public void onFailure(String s, String s1) {
+                                            JLog.i("开始发车记录失败: "+s+ ": "+s1);
+                                        }
+                                    },noteInfo);
+
 
                                 }
 
@@ -445,6 +458,9 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                 if (distance > Param.ENTRY_MIN) {
                     ToastUtils.getInstance().makeToast(ToastUtils.ToastType.CENTER).show("距离收货货地点还有" + ConvertUtils.changeFloat(distance / 1000, 1) + "公里，无法确认到达");
                 } else {
+
+
+
                     //确认到达
                     HttpAppFactory.orderEnd(bean.getId())
                             .subscribe(new NetObserver<Object>(listener) {
@@ -455,6 +471,23 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                     if (nextStepListener != null) {
                                         nextStepListener.doUpdate();
                                     }
+
+                                    ShippingNoteInfo noteInfo=new ShippingNoteInfo();
+                                    noteInfo.setShippingNoteNumber(bean.getId());
+                                    noteInfo.setSerialNumber("0000");
+                                    noteInfo.setStartCountrySubdivisionCode(bean.getStartCountrySubdivisionCode());
+                                    noteInfo.setEndCountrySubdivisionCode(bean.getEndCountrySubdivisionCode());
+                                    FreightClient.getClient().stop(mContext, new OnResultListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            JLog.i("--------停止记录轨迹--------");
+                                        }
+
+                                        @Override
+                                        public void onFailure(String s, String s1) {
+                                            JLog.i("开始发车记录失败: "+s+": "+s1);
+                                        }
+                                    },noteInfo);
 
                                 }
 

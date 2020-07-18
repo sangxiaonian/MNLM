@@ -27,11 +27,13 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
+import com.hdgq.locationlib.listener.OnResultListener;
 import com.hongniu.freight.BuildConfig;
 import com.hongniu.freight.R;
 import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
+import com.hongniu.freight.huoyun.FreightClient;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.fragment.ChactListFragment;
 import com.hongniu.freight.ui.fragment.HomeFragment;
@@ -97,6 +99,24 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         loaction = LoactionUtils.getInstance();
         loaction.init(this);
         loaction.setListener(this);
+
+        //初始化网络获取数据
+        FreightClient.getClient().initSdk(MainActivity.this, getPackageName(),
+                getString(R.string.freight_secret),
+                getString(R.string.freight_uniquie),
+                BuildConfig.IS_DEBUG, new OnResultListener() {
+                    @Override
+                    public void onSuccess() {
+                        JLog.i("初始化成功");
+                    }
+
+                    @Override
+                    public void onFailure(String s, String s1) {
+                        JLog.e("初始化失败：" + s + "  " + s1);
+
+                    }
+                });
+
     }
 
     @Override
@@ -151,13 +171,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
         demo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                JLog.i(InfoUtils.getLoginInfo().getId());
-//                ChactHelper.getHelper().startPriver(mContext, "277", "测试名称");
-                ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_receive)
-                        .withString(Param.TRAN, "bean.getId()")
-                        .navigation(mContext);
-//                ArouterUtils.getInstance().builder(ArouterParamsMatch.activity_match_estimate_order)
-//                        .navigation(mContext);
+
             }
         });
 
