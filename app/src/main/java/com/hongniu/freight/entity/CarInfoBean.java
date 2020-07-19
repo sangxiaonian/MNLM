@@ -14,6 +14,7 @@ public class CarInfoBean implements Parcelable {
    private String  carcode;//	true	string	车架号
    private String  carTypeId;//	true	string	车辆类型id
    private String  carType;//	true	string	类型名称
+   private String  carColorId;//	true	string	车辆牙博士id
    private String  vehicleModel;//	false	string	品牌车型
    private String  name;//	true	string	承运人姓名
    private String  mobile;//	true	string	承运人手机号
@@ -47,6 +48,14 @@ public class CarInfoBean implements Parcelable {
 
     public void setFullBackVImageUrl(String fullBackVImageUrl) {
         this.fullBackVImageUrl = fullBackVImageUrl;
+    }
+
+    public String getCarColorId() {
+        return carColorId;
+    }
+
+    public void setCarColorId(String carColorId) {
+        this.carColorId = carColorId;
     }
 
     public String getId() {
@@ -164,6 +173,7 @@ public class CarInfoBean implements Parcelable {
         dest.writeString(this.carcode);
         dest.writeString(this.carTypeId);
         dest.writeString(this.carType);
+        dest.writeString(this.carColorId);
         dest.writeString(this.vehicleModel);
         dest.writeString(this.name);
         dest.writeString(this.mobile);
@@ -173,6 +183,7 @@ public class CarInfoBean implements Parcelable {
         dest.writeString(this.fullBackVImageUrl);
         dest.writeInt(this.isIdentity);
         dest.writeInt(this.identityStatus);
+        dest.writeInt(this.transportStatus);
     }
 
     protected CarInfoBean(Parcel in) {
@@ -181,6 +192,7 @@ public class CarInfoBean implements Parcelable {
         this.carcode = in.readString();
         this.carTypeId = in.readString();
         this.carType = in.readString();
+        this.carColorId = in.readString();
         this.vehicleModel = in.readString();
         this.name = in.readString();
         this.mobile = in.readString();
@@ -190,6 +202,7 @@ public class CarInfoBean implements Parcelable {
         this.fullBackVImageUrl = in.readString();
         this.isIdentity = in.readInt();
         this.identityStatus = in.readInt();
+        this.transportStatus = in.readInt();
     }
 
     public static final Creator<CarInfoBean> CREATOR = new Creator<CarInfoBean>() {

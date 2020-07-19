@@ -14,6 +14,7 @@ import com.hongniu.freight.entity.BindBlankParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.FaceBackParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LocationBean;
@@ -90,7 +91,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/user/finduserinfo")
     Observable<CommonBean<PersonInfor>> queryMyInfo(@Body Object o);
- /**
+
+    /**
      * 修改头像
      *
      * @param o
@@ -200,7 +202,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/add")
     Observable<CommonBean<OrderInfoBean>> createOrder(@Body OrderCrateParams params);
-  /**
+
+    /**
      * 修改订单
      *
      * @return
@@ -215,6 +218,15 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/queryPage")
     Observable<CommonBean<PageBean<OrderInfoBean>>> queryOrderList(@Body QueryOrderListBean params);
+
+    /**
+     * 查询货物分类，车辆颜色等
+     *
+     * @return
+     * @param params
+     */
+    @POST("wlhyapi/api/codeSet/getByType")
+    Observable<CommonBean<List<CargoTypeAndColorBeans>>> queryCargoType(@Body JsonObject params);
 
     /**
      * 查询
@@ -289,6 +301,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/dispatch")
     Observable<CommonBean<Object>> orderDispathCar(@Body OrderDispathCarParams params);
+
     /**
      * 获取车牌号联想
      * <p>
@@ -620,18 +633,20 @@ public interface AppService {
      */
     @POST("wlhyapi/api/user/updateDevice")
     Observable<CommonBean<Object>> upDateToken(@Body JsonObject formVals);
-   /**
+
+    /**
      * 查看回单
      *
      * @return
      */
     @POST("wlhyapi/api/deliveryOrder/queryReceiptInfo")
     Observable<CommonBean<QueryReceiveBean>> queryReceiptInfo(@Body JsonObject formVals);
-   /**
+
+    /**
      * 保存回单
      *
+     * @param id
      * @return
-    * @param id
      */
     @POST("wlhyapi/api/deliveryOrder/saveReceiptInfo")
     Observable<CommonBean<String>> saveReceiptInfo(@Body QueryReceiveBean bean);

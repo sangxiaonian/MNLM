@@ -6,8 +6,10 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
+import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
@@ -45,7 +47,7 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             startInfor.setPoiItem(startPio);
             startInfor.setName(orderInfoBean.getShipperName());
             startInfor.setPhone(orderInfoBean.getShipperMobile());
-           saveStartInfo(startInfor);
+            saveStartInfo(startInfor);
 
             //收货地址
             TranMapBean endInfor = new TranMapBean();
@@ -72,6 +74,12 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             }
             //发货时间
             mode.saveStartTime(orderInfoBean.getDepartureTime());
+
+            CargoTypeAndColorBeans cargoTypeAndColorBeans = new CargoTypeAndColorBeans();
+            cargoTypeAndColorBeans.setValue(orderInfoBean.getCargoTypeClassificationCode());
+            cargoTypeAndColorBeans.setName(orderInfoBean.getCargoTypeClassificationInfo());
+            mode.switchCargoType(cargoTypeAndColorBeans);
+            view.switchCargoType(cargoTypeAndColorBeans);
             view.showTime(TextUtils.isEmpty(orderInfoBean.getDepartureTime())?"立即发货":orderInfoBean.getDepartureTime());
             view.initOrderUIInfo(orderInfoBean);
         }else {
@@ -246,6 +254,40 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
                     }
                 });
 
+    }
+
+    /**
+     * 显示货物种类弹窗
+     * @param listener
+     */
+    @Override
+    public void showCargoType(TaskControl.OnTaskListener listener) {
+        if (!CollectionUtils.isEmpty(mode.getCargoType())){
+            view.showCargoTypes(mode.getCargoType());
+        }else {
+            mode.queryCargoType()
+                .subscribe(new NetObserver<List<CargoTypeAndColorBeans>>(listener){
+                    @Override
+                    public void doOnSuccess(List<CargoTypeAndColorBeans> cargoTypeAndColorBeans) {
+                        super.doOnSuccess(cargoTypeAndColorBeans);
+                        view.showCargoTypes(cargoTypeAndColorBeans);
+                    }
+                });
+            ;
+        }
+    }
+
+    /**
+     * 更新货物代码
+     *
+     * @param options1
+     */
+    @Override
+    public void switchCargoType(int options1) {
+        List<CargoTypeAndColorBeans> cargoType = mode.getCargoType();
+        CargoTypeAndColorBeans cargoTypeAndColorBeans = cargoType.get(options1);
+        mode.switchCargoType(cargoTypeAndColorBeans);
+        view.switchCargoType(cargoTypeAndColorBeans);
     }
 
 }

@@ -37,6 +37,12 @@
                 android:id="@+id/item_email"
                 app:textcenterhide="请输入邮箱"
                 app:textleft="邮箱" />
+            <com.fy.companylibrary.widget.ItemTextView
+                style="@style/item_edit"
+                app:centerType="normal"
+                android:id="@+id/item_number"
+                app:textcenterhide="请输入从业资格证编号"
+                app:textleft="从业资格证编号" />
 
             <TextView
                 android:layout_width="match_parent"

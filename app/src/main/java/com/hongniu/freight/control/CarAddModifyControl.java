@@ -4,6 +4,7 @@ import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.UpImgData;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -19,15 +20,19 @@ public class CarAddModifyControl {
 
         /**
          * 初始化信息
+         *
          * @param infoBean
          * @param enable
          */
         void initInfo(CarInfoBean infoBean, boolean enable);
+
         /**
          * 根据新增修改改变头部信息
+         *
          * @param isADd
          */
         void showTitle(boolean isADd);
+
         /**
          * 显示选择车辆类型
          *
@@ -44,6 +49,7 @@ public class CarAddModifyControl {
 
         /**
          * 显示图片
+         *
          * @param result
          * @param enable
          */
@@ -51,6 +57,7 @@ public class CarAddModifyControl {
 
         /**
          * 显示图片
+         *
          * @param positivePic
          * @param enable
          */
@@ -62,15 +69,24 @@ public class CarAddModifyControl {
         void finishWithSuccess();
 
 
+        /**
+         * 显示车牌颜色
+         *
+         * @param carNumberColors
+         */
+        void showCarNumberColorsDialog(List<CargoTypeAndColorBeans> carNumberColors);
 
+        void showCarNumberColor(String name);
     }
 
     public interface ICarAddModifyPresenter {
         /**
          * 储存外部传入的信息
+         *
          * @param infoBean
          */
         void saveInfo(CarInfoBean infoBean);
+
         /**
          * 点击修改车辆类型
          *
@@ -84,6 +100,13 @@ public class CarAddModifyControl {
          * @param options1
          */
         void onSwitchCarType(int options1);
+
+        /**
+         * 查询车牌颜色
+         *
+         * @param listener
+         */
+        void queryCarNumberColors(TaskControl.OnTaskListener listener);
 
         /**
          * 上传行驶证主页
@@ -103,17 +126,21 @@ public class CarAddModifyControl {
 
         /**
          * 检查是否又驾驶证主页
+         *
          * @return
          */
         boolean checkPositive();
+
         /**
          * 检查是否又驾驶证副页
+         *
          * @return
          */
         boolean checkMinus();
 
         /**
          * 新增修改车辆信息
+         *
          * @param infoBean
          * @param listener
          */
@@ -121,6 +148,13 @@ public class CarAddModifyControl {
 
 
         void deleted(TaskControl.OnTaskListener listener);
+
+
+        /**
+         * 切换车牌颜色
+         * * @param options1
+         */
+        void switchCargoColors(int options1);
     }
 
     public interface ICarAddModifyMode {
@@ -132,6 +166,7 @@ public class CarAddModifyControl {
          * @return
          */
         Observable<CommonBean<List<CarTypeBean>>> queryCarTypes();
+
         void saveCarTypes(List<CarTypeBean> carTypeBeans);
 
         /**
@@ -171,6 +206,7 @@ public class CarAddModifyControl {
 
         /**
          * 新增修改车辆信息
+         *
          * @param infoBean
          * @return
          */
@@ -180,8 +216,33 @@ public class CarAddModifyControl {
 
         /**
          * 删除车辆
+         *
          * @return
          */
         Observable<CommonBean<Object>> deleted();
+
+        /**
+         * 获取车辆颜色数据
+         *
+         * @return
+         */
+        List<CargoTypeAndColorBeans> getCarNumberColors();
+
+        /**
+         * 查询车辆颜色
+         *
+         * @return
+         */
+        Observable<CommonBean<List<CargoTypeAndColorBeans>>> queryCarNumberColors();
+
+        /**
+         * 储存车辆颜色信息
+         *
+         * @param carTypeBeans
+         */
+        void saveCarNumbers(List<CargoTypeAndColorBeans> carTypeBeans);
+
+        void switchCargoColors(CargoTypeAndColorBeans cargoTypeAndColorBeans);
+
     }
 }

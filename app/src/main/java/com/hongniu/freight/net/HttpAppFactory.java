@@ -22,6 +22,7 @@ import com.hongniu.freight.entity.BindBlankParams;
 import com.hongniu.freight.entity.BuyInsuranceParams;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.FaceBackParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.LocationBean;
@@ -355,6 +356,23 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderList(param)
                 .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
+    }  /**
+     * 查询订单列表
+     *
+     * @param type 文件分类：
+     * 1-业务类型代码
+     * 2-车牌颜色代码
+     * 4-车辆能源类型
+     * 6-货物分类代码
+     * @return
+     */
+    public static Observable<CommonBean<List<CargoTypeAndColorBeans>>> queryConfigInfoType(int type) {
+        JsonObject json = new JsonObject();
+        json.addProperty("type", type);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryCargoType(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
     }
 
     /**

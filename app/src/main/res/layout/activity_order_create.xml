@@ -201,6 +201,11 @@
                     style="@style/item_edit"
                     app:textcenterhide="请输入货物名称"
                     app:textleft="货物名称" />
+                <com.fy.companylibrary.widget.ItemTextView
+                    android:id="@+id/item_cargo_type"
+                    style="@style/item_text"
+                    app:textcenterhide="请选择货物分类"
+                    app:textleft="货物分类" />
 
                 <com.fy.companylibrary.widget.ItemTextView
                     android:id="@+id/item_weight"

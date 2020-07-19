@@ -3,8 +3,10 @@ package com.hongniu.freight.mode;
 import com.amap.api.services.core.LatLonPoint;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
 /**
@@ -37,17 +40,19 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     OrderCrateParams params;
     private InsuranceInfoBean insuranceInforBean;
     private OrderInfoBean orderInfoBean;//从订单页面传入的订单详情数据,只有修改订单时候会有数据
+    private List<CargoTypeAndColorBeans> cargoTypes;
+    private CargoTypeAndColorBeans cargoTypeAndColorBeans;//货物分类
 
     public OrderCreateMode() {
         params = new OrderCrateParams();
-
+        cargoTypes=new ArrayList<>();
         days = new ArrayList<>();
         hours = new ArrayList<>();
         minutes = new ArrayList<>();
         payWays = new ArrayList<>();
         payWays.add("现付");
         payWays.add("到付");
-        payType=0;
+        payType = 0;
     }
 
     /**
@@ -57,7 +62,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
      */
     @Override
     public void saveInfo(OrderInfoBean orderInfoBean) {
-        this.orderInfoBean=orderInfoBean;
+        this.orderInfoBean = orderInfoBean;
     }
 
     /**
@@ -233,6 +238,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
 
     /**
      * 创建订单
+     *
      * @return
      */
     @Override
@@ -256,17 +262,19 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
         }
         params.setFreightPayClass(payType == 0 ? 1 : 2);
         params.setInsurance(isInsurance ? 1 : 0);
+
+        params.setCargoTypeClassificationCode(cargoTypeAndColorBeans==null?null:cargoTypeAndColorBeans.getValue());
         if (isInsurance && insuranceInforBean != null) {
             params.setInsuranceUserId(insuranceInforBean.getId());
-        }else {
+        } else {
             params.setInsuranceUserId(null);
         }
 
-        if (orderInfoBean!=null){
+        if (orderInfoBean != null) {
             //修改订单
             params.setId(orderInfoBean.getId());
             return HttpAppFactory.modifyOrder(params);
-        }else {
+        } else {
             //新增订单
             return HttpAppFactory.createOrder(params);
         }
@@ -281,22 +289,63 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     @Override
     public Observable<CommonBean<String>> queryInsurancePrice(String msg) {
 
-        QueryInsurancePriceParams params=new QueryInsurancePriceParams();
+        QueryInsurancePriceParams params = new QueryInsurancePriceParams();
         if (startInfor != null) {
             LatLonPoint latLonPoint = startInfor.getPoiItem().getLatLonPoint();
-            params.setDestinationLat(latLonPoint.getLatitude() );
+            params.setDestinationLat(latLonPoint.getLatitude());
             params.setDestinationLon(latLonPoint.getLongitude());
 
         }
-        if (endInfor!=null){
+        if (endInfor != null) {
             LatLonPoint latLonPoint = endInfor.getPoiItem().getLatLonPoint();
-            params.setDestinationLat(latLonPoint.getLatitude() );
+            params.setDestinationLat(latLonPoint.getLatitude());
             params.setDestinationLon(latLonPoint.getLongitude());
         }
         params.setGoodPrice(msg);
 
-        return   HttpAppFactory.queryInstancePrice(params);
+        return HttpAppFactory.queryInstancePrice(params);
 
+    }
+
+    /**
+     * 查询货物种类
+     *
+     * @return
+     */
+    @Override
+    public ObservableSource<CommonBean<List<CargoTypeAndColorBeans>>> queryCargoType() {
+        return HttpAppFactory.queryConfigInfoType(6)
+                .map(new Function<CommonBean<List<CargoTypeAndColorBeans>>, CommonBean<List<CargoTypeAndColorBeans>>>() {
+                    @Override
+                    public CommonBean<List<CargoTypeAndColorBeans>> apply(CommonBean<List<CargoTypeAndColorBeans>> listCommonBean) throws Exception {
+                        cargoTypes.clear();
+                        if (listCommonBean.getCode()== Param.SUCCESS_FLAG&&!CollectionUtils.isEmpty(listCommonBean.getData())){
+                            cargoTypes.addAll(listCommonBean.getData());
+                        }
+                        return listCommonBean;
+                    }
+                })
+                ;
+    }
+
+    /**
+     * 查询货物种类
+     *
+     * @return
+     */
+    @Override
+    public List<CargoTypeAndColorBeans> getCargoType() {
+        return cargoTypes;
+    }
+
+    /**
+     * 更新当前选中的货物代码
+     *
+     * @param cargoTypeAndColorBeans
+     */
+    @Override
+    public void switchCargoType(CargoTypeAndColorBeans cargoTypeAndColorBeans) {
+        this.cargoTypeAndColorBeans=cargoTypeAndColorBeans;
     }
 
 

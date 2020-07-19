@@ -25,6 +25,8 @@ public class OrderCrateParams {
    private int insurance;//	true	number	是否购买保险 1表示是 0表示否
    private String insuranceUserId;//	false	number	被保险人id insurance=1时必填
    private String goodPrice;//	false	number	货物价格 insurance=1时必填
+   private String cargoTypeClassificationCode
+           ;//	货物分类代码
 
     public String getStartPlaceInfo() {
         return startPlaceInfo;
@@ -156,6 +158,14 @@ public class OrderCrateParams {
 
     public int getInsurance() {
         return insurance;
+    }
+
+    public String getCargoTypeClassificationCode() {
+        return cargoTypeClassificationCode;
+    }
+
+    public void setCargoTypeClassificationCode(String cargoTypeClassificationCode) {
+        this.cargoTypeClassificationCode = cargoTypeClassificationCode;
     }
 
     public void setInsurance(int insurance) {

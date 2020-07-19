@@ -7,6 +7,7 @@ import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.CarAddModifyControl;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.mode.CarAddModifyMod;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -78,6 +79,30 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
         List<CarTypeBean> carTypes = mode.getCarTypes();
         CarTypeBean typeBean = carTypes.get(options1);
         view.showCarType(typeBean.getCarType());
+    }
+
+    /**
+     * 查询车牌颜色
+     *
+     * @param listener
+     */
+    @Override
+    public void queryCarNumberColors(TaskControl.OnTaskListener listener) {
+        List<CargoTypeAndColorBeans> carNumberColors = mode.getCarNumberColors();
+        if (CollectionUtils.isEmpty(carNumberColors)){
+            mode.queryCarNumberColors()
+                    .subscribe(new NetObserver<List<CargoTypeAndColorBeans>>(listener){
+                        @Override
+                        public void doOnSuccess(List<CargoTypeAndColorBeans> carTypeBeans) {
+                            super.doOnSuccess(carTypeBeans);
+                            mode.saveCarNumbers(carTypeBeans);
+                            view.showCarNumberColorsDialog(carTypeBeans);
+                        }
+                    })
+            ;
+        }else {
+            view.showCarNumberColorsDialog(carNumberColors);
+        }
     }
 
     /**
@@ -189,5 +214,19 @@ public class CarAddModifyPresenter implements CarAddModifyControl.ICarAddModifyP
                 }
             })
         ;
+    }
+
+    /**
+     * 切换车牌颜色
+     * * @param options1
+     *
+     * @param options1
+     */
+    @Override
+    public void switchCargoColors(int options1) {
+        CargoTypeAndColorBeans cargoTypeAndColorBeans = mode.getCarNumberColors().get(options1);
+
+        mode.switchCargoColors(cargoTypeAndColorBeans);
+        view.showCarNumberColor(cargoTypeAndColorBeans.getName());
     }
 }

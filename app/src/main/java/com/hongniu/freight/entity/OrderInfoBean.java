@@ -52,6 +52,8 @@ public class OrderInfoBean implements Parcelable {
     private int driverEvaluateState;//":司机评价状态 1:已评价 0:未评价
     private String  endCountrySubdivisionCode;//"重点点行政区划代码
     private String   startCountrySubdivisionCode;//":起点行政区划代码
+    private String   cargoTypeClassificationInfo;//":起点行政区划代码
+    private String   cargoTypeClassificationCode;//":起点行政区划代码
 
 
     private String userId;//": 268,
@@ -83,6 +85,22 @@ public class OrderInfoBean implements Parcelable {
     private String receiptTime;//": null,
     private String longitude;//": null,
     private String latitude;//": null,
+
+    public String getCargoTypeClassificationInfo() {
+        return cargoTypeClassificationInfo;
+    }
+
+    public void setCargoTypeClassificationInfo(String cargoTypeClassificationInfo) {
+        this.cargoTypeClassificationInfo = cargoTypeClassificationInfo;
+    }
+
+    public String getCargoTypeClassificationCode() {
+        return cargoTypeClassificationCode;
+    }
+
+    public void setCargoTypeClassificationCode(String cargoTypeClassificationCode) {
+        this.cargoTypeClassificationCode = cargoTypeClassificationCode;
+    }
 
     public int getHasReceiptImage() {
         return hasReceiptImage;
@@ -691,6 +709,8 @@ public class OrderInfoBean implements Parcelable {
         dest.writeInt(this.driverEvaluateState);
         dest.writeString(this.endCountrySubdivisionCode);
         dest.writeString(this.startCountrySubdivisionCode);
+        dest.writeString(this.cargoTypeClassificationInfo);
+        dest.writeString(this.cargoTypeClassificationCode);
         dest.writeString(this.userId);
         dest.writeDouble(this.startPlaceLon);
         dest.writeDouble(this.startPlaceLat);
@@ -763,6 +783,8 @@ public class OrderInfoBean implements Parcelable {
         this.driverEvaluateState = in.readInt();
         this.endCountrySubdivisionCode = in.readString();
         this.startCountrySubdivisionCode = in.readString();
+        this.cargoTypeClassificationInfo = in.readString();
+        this.cargoTypeClassificationCode = in.readString();
         this.userId = in.readString();
         this.startPlaceLon = in.readDouble();
         this.startPlaceLat = in.readDouble();

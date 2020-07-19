@@ -5,6 +5,7 @@ import com.fy.baselibrary.interceptor.FileProgressRequestBody;
 import com.hongniu.freight.control.CarAddModifyControl;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.thirdlibrary.picture.utils.PicUtils;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * 作者：  on 2020/3/3.
@@ -24,9 +26,12 @@ public class CarAddModifyMod implements CarAddModifyControl.ICarAddModifyMode {
     private UpImgData positivePic;
     private UpImgData minusPic;
     private CarInfoBean infoBean;//外部传入的信息
+    private List<CargoTypeAndColorBeans> carNumbersColors;
+    private CargoTypeAndColorBeans carNumberColor;
 
     public CarAddModifyMod() {
         this.carTypeBeans = new ArrayList<>();
+        carNumbersColors =new ArrayList<>();
     }
 
     @Override
@@ -144,6 +149,11 @@ public class CarAddModifyMod implements CarAddModifyControl.ICarAddModifyMode {
         if (this.infoBean!=null){
             infoBean.setId(this.infoBean.getId());
         }
+
+        if (this.carNumberColor!=null){
+            infoBean.setCarColorId(carNumberColor.getId());
+        }
+
        return HttpAppFactory.createCar(infoBean);
 
     }
@@ -160,5 +170,44 @@ public class CarAddModifyMod implements CarAddModifyControl.ICarAddModifyMode {
     @Override
     public Observable<CommonBean<Object>> deleted() {
      return  HttpAppFactory.deletedCar(infoBean==null?"":infoBean.getId());
+    }
+
+    /**
+     * 获取车辆颜色数据
+     *
+     * @return
+     */
+    @Override
+    public List<CargoTypeAndColorBeans> getCarNumberColors() {
+        return carNumbersColors;
+    }
+
+    /**
+     * 查询车辆颜色
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<List<CargoTypeAndColorBeans>>> queryCarNumberColors() {
+        return HttpAppFactory.queryConfigInfoType(2)
+
+                ;
+    }
+
+    /**
+     * 储存车辆颜色信息
+     *
+     * @param carTypeBeans
+     */
+    @Override
+    public void saveCarNumbers(List<CargoTypeAndColorBeans> carTypeBeans) {
+        carNumbersColors.clear();
+        if (carTypeBeans!=null){
+            carNumbersColors.addAll(carTypeBeans);
+        }
+    }
+
+    @Override
+    public void switchCargoColors(CargoTypeAndColorBeans cargoTypeAndColorBeans) {
+        this.carNumberColor=cargoTypeAndColorBeans;
     }
 }

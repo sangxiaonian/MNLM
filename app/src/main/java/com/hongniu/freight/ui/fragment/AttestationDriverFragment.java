@@ -6,20 +6,16 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.toast.ToastUtils;
-import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
-import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.ImageInforView;
-import com.hongniu.thirdlibrary.picture.PictureClient;
-import com.luck.picture.lib.listener.OnResultCallbackListener;
 
 /**
  * 作者：  on 2020/2/24.
@@ -30,6 +26,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱
+    private ItemTextView item_number;//从业资格证编号
     private ImageInforView img_driver;//驾照
     private ImageInforView img_driver1;//驾照
     private ImageInforView img_qualification;//从业资格证
@@ -46,6 +43,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         item_email = inflate.findViewById(R.id.item_email);
         bt_sum = inflate.findViewById(R.id.bt_sum);
         img_driver = inflate.findViewById(R.id.img_driver);
+        item_number = inflate.findViewById(R.id.item_number);
         img_qualification = inflate.findViewById(R.id.img_qualification);
         root = inflate;
         img_id_card_front = inflate.findViewById(R.id.img_id_card_front);
@@ -77,6 +75,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
+            item_number.setTextCenter(idnumIdentity.getQualificationNumber());
             item_name.setTextCenter(idnumIdentity.getName());
             img_driver.setImageInfo(idnumIdentity.getFaceDLImageUrl());
             img_driver1.setImageInfo(idnumIdentity.getBackDLImageUrl());
@@ -95,6 +94,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         item_name.setOnCenterChangeListener(this);
         item_id_card.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
+        item_number.setOnCenterChangeListener(this);
         bt_sum.setOnClickListener(this);
 
     }
@@ -104,6 +104,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         if (!check(item_name, showAlert)
                 || !check(item_id_card, showAlert)
                 || !check(item_email, showAlert)
+                || !check(item_number, showAlert)
 
         ) {
             return false;
@@ -177,6 +178,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                 params.setEmail(item_email.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setName(item_name.getTextCenter());
+                params.setQualificationNumber(item_number.getTextCenter());
                 params.setFaceDLImageUrl(img_driver.getImgInfo().getPath());
                 params.setBackDLImageUrl(img_driver1.getImgInfo().getPath());
                 params.setQualificationCertificateImageUrl(img_qualification.getImgInfo().getPath());

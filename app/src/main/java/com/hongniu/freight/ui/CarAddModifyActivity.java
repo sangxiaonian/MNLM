@@ -2,17 +2,14 @@ package com.hongniu.freight.ui;
 
 
 import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -22,6 +19,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.control.CarAddModifyControl;
 import com.hongniu.freight.entity.CarInfoBean;
 import com.hongniu.freight.entity.CarTypeBean;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.presenter.CarAddModifyPresenter;
 import com.hongniu.freight.utils.PickerDialogUtils;
@@ -50,11 +48,13 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     private ItemTextView item_car_type;//车辆类型
     private ItemTextView item_car_band;//车辆品牌
     private ItemTextView item_car_number;//车牌号
+    private ItemTextView item_car_number_color;//车牌号
     private ItemTextView item_car_name;//姓名
     private ItemTextView item_car_phone;//手机号
 
     CarAddModifyControl.ICarAddModifyPresenter presenter;
     private OptionsPickerView<CarTypeBean> pickerView;
+    private OptionsPickerView cargoNumberColorDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_type = findViewById(R.id.item_car_type);
         item_car_band = findViewById(R.id.item_car_band);
         item_car_number = findViewById(R.id.item_car_number);
+        item_car_number_color = findViewById(R.id.item_car_number_color);
         item_car_name = findViewById(R.id.item_car_name);
         item_car_phone = findViewById(R.id.item_car_phone);
         btSum = findViewById(R.id.bt_sum);
@@ -97,14 +98,16 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
     protected void initListener() {
         super.initListener();
         item_car_type.setOnClickListener(this);
+        item_car_number_color.setOnClickListener(this);
         btSum.setOnClickListener(this);
         item_car_type.setOnCenterChangeListener(this);
         item_car_band.setOnCenterChangeListener(this);
         item_car_number.setOnCenterChangeListener(this);
         item_car_name.setOnCenterChangeListener(this);
+        item_car_number_color.setOnCenterChangeListener(this);
         item_car_phone.setOnCenterChangeListener(this);
-       img_positive.setOnClickListener(this);
-       img_minus.setOnClickListener(this);
+        img_positive.setOnClickListener(this);
+        img_minus.setOnClickListener(this);
     }
 
 
@@ -121,16 +124,19 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         item_car_number.setEnabled(enable);
         item_car_name.setEnabled(enable);
         item_car_phone.setEnabled(enable);
+        item_car_number_color.setEnabled(enable);
         img_minus.setEnabled(enable);
         img_positive.setEnabled(enable);
         btSum.setVisibility(enable ? View.VISIBLE : View.GONE);
 
-        if (infoBean!=null) {
+        if (infoBean != null) {
             item_car_type.setTextCenter(infoBean.getCarType());
             item_car_band.setTextCenter(infoBean.getVehicleModel());
             item_car_number.setTextCenter(infoBean.getCarNumber());
             item_car_name.setTextCenter(infoBean.getName());
             item_car_phone.setTextCenter(infoBean.getMobile());
+            //TODO 修改车辆车牌颜色有问题
+            item_car_number_color.setTextCenter(infoBean.getCarColorId());
         }
 
     }
@@ -236,6 +242,31 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         finish();
     }
 
+    /**
+     * 显示车牌颜色
+     *
+     * @param carNumberColors
+     */
+    @Override
+    public void showCarNumberColorsDialog(List<CargoTypeAndColorBeans> carNumberColors) {
+        if (cargoNumberColorDialog == null) {
+            cargoNumberColorDialog = PickerDialogUtils.initPickerDialog(mContext, new OnOptionsSelectListener() {
+                @Override
+                public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                    presenter.switchCargoColors(options1);
+                }
+            });
+            cargoNumberColorDialog.setTitleText("选择车牌颜色");
+            cargoNumberColorDialog.setPicker(carNumberColors);
+        }
+        cargoNumberColorDialog.show();
+    }
+
+    @Override
+    public void showCarNumberColor(String name) {
+        item_car_number_color.setTextCenter(name);
+    }
+
     @Override
     public void onOptionsSelect(int options1, int options2, int options3, View v) {
         presenter.onSwitchCarType(options1);
@@ -253,7 +284,7 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.img_positive ) {
+        if (v.getId() == R.id.img_positive) {
 //            ToastUtils.getInstance().show("行驶证正面");
             new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
                 @Override
@@ -275,6 +306,9 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         } else if (v.getId() == R.id.item_car_type) {
 //            ToastUtils.getInstance().show("车辆类型");
             presenter.queryCarTypes(this);
+        } else if (v.getId() == R.id.item_car_number_color) {
+//            ToastUtils.getInstance().show(车牌颜色);
+            presenter.queryCarNumberColors(this);
         } else if (v.getId() == R.id.bt_sum) {
 //            ToastUtils.getInstance().show("车辆类型");
             if (check(true)) {
@@ -319,6 +353,12 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         if (TextUtils.isEmpty(item_car_number.getTextCenter())) {
             if (showAlert) {
                 ToastUtils.getInstance().show(item_car_number.getTextCenterHide());
+            }
+            return false;
+        }
+        if (TextUtils.isEmpty(item_car_number_color.getTextCenter())) {
+            if (showAlert) {
+                ToastUtils.getInstance().show(item_car_number_color.getTextCenterHide());
             }
             return false;
         }

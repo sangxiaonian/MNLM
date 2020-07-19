@@ -30,6 +30,7 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -59,6 +60,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     private TextView tv_end_contact;//收货人
     private ItemTextView item_start_time;//发货时间
     private ItemTextView item_cargo;//货物名称
+    private ItemTextView item_cargo_type;//货物分类
     private ItemTextView item_weight;//货物重量
     private ItemTextView item_size;//货物体积
     private ItemTextView item_price;//运费
@@ -73,6 +75,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 
     OrderCreateControl.IOrderCreatePresenter presenter;
     private OptionsPickerView pickerDialog;
+    private OptionsPickerView cargoTypeDialog;
     private OptionsPickerView pickerDialogPay;
     private InsuranceDialog insuranceDialog;
 
@@ -105,6 +108,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         tv_end_contact = findViewById(R.id.tv_end_contact);
         item_start_time = findViewById(R.id.item_start_time);
         item_cargo = findViewById(R.id.item_cargo);
+        item_cargo_type = findViewById(R.id.item_cargo_type);
         item_weight = findViewById(R.id.item_weight);
         item_size = findViewById(R.id.item_size);
         item_price = findViewById(R.id.item_price);
@@ -121,10 +125,10 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     protected void initData() {
         super.initData();
-        SpannableStringBuilder builder=new SpannableStringBuilder("购买即代表同意");
+        SpannableStringBuilder builder = new SpannableStringBuilder("购买即代表同意");
         int start = builder.length();
         builder.append("《保险条款》");
-        int end=builder.length();
+        int end = builder.length();
         XClickableSpan xClickableSpan = new XClickableSpan() {
             /**
              * Performs the click action associated with this span.
@@ -139,11 +143,11 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             }
         };
         xClickableSpan.setColor(getResources().getColor(R.color.color_of_3d59ae));
-        builder.setSpan(xClickableSpan,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        builder.setSpan(xClickableSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append("、");
-        start=builder.length();
+        start = builder.length();
         builder.append("《投保须知》");
-        end=builder.length();
+        end = builder.length();
         XClickableSpan xClickableSpan1 = new XClickableSpan() {
             /**
              * Performs the click action associated with this span.
@@ -158,10 +162,10 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             }
         };
         xClickableSpan1.setColor(getResources().getColor(R.color.color_of_3d59ae));
-        builder.setSpan(xClickableSpan1,start,end,  Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        builder.setSpan(xClickableSpan1, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_agreement_insurance.setMovementMethod(LinkMovementMethod.getInstance());
         tv_agreement_insurance.setText(builder);
-        ll_insurance.setVisibility(Utils.isShowInsurance()?View.VISIBLE:View.GONE);
+        ll_insurance.setVisibility(Utils.isShowInsurance() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -175,12 +179,14 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         tv_agreement_insurance.setOnClickListener(this);
         tv_agreement.setOnClickListener(this);
         item_insurance_name.setOnClickListener(this);
+        item_cargo_type.setOnClickListener(this);
         bt_sum.setOnClickListener(this);
 
         item_start_time.setOnCenterChangeListener(this);
         item_cargo.setOnCenterChangeListener(this);
         item_weight.setOnCenterChangeListener(this);
         item_size.setOnCenterChangeListener(this);
+        item_cargo_type.setOnCenterChangeListener(this);
         item_price.setOnCenterChangeListener(this);
         item_pay_way.setOnCenterChangeListener(this);
         item_cargo_price.setOnCenterChangeListener(this);
@@ -240,7 +246,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         } else if (R.id.img_insurance == v.getId()) {
 //            ToastUtils.getInstance().show("是否购买保险");
             presenter.onSwitchIsInsurance();
-        }  else if (R.id.tv_agreement == v.getId()) {
+        } else if (R.id.tv_agreement == v.getId()) {
             H5Config h5Config = new H5Config("木牛流马合同协议", Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
@@ -252,6 +258,9 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             if (check(true)) {
                 presenter.createOrder(this);
             }
+        } else if (R.id.item_cargo_type == v.getId()) {
+//            ToastUtils.getInstance().show("货物分类");
+            presenter.showCargoType(this);
         }
     }
 
@@ -281,7 +290,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         setWhitToolBar("修改订单");
         bt_sum.setText("确认");
         item_cargo.setTextCenter(orderInfoBean.getGoodName());
-        item_price.setTextCenter(ConvertUtils.changeFloat(orderInfoBean.getMoney(),2));
+        item_price.setTextCenter(ConvertUtils.changeFloat(orderInfoBean.getMoney(), 2));
         item_size.setTextCenter(orderInfoBean.getGoodVolume());
         item_weight.setTextCenter(orderInfoBean.getGoodWeight());
 
@@ -392,8 +401,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      */
     @Override
     public void showInsuranceDialog(List<InsuranceInfoBean> inforBeans) {
-        if (insuranceDialog==null){
-            insuranceDialog=new InsuranceDialog(mContext);
+        if (insuranceDialog == null) {
+            insuranceDialog = new InsuranceDialog(mContext);
             insuranceDialog.setItemClickListener(this);
         }
         insuranceDialog.setData(inforBeans);
@@ -411,7 +420,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         params.setGoodVolume(item_size.getTextCenter());
         params.setGoodWeight(item_weight.getTextCenter());
         params.setMoney(item_price.getTextCenter());
-        if (item_cargo_price.isShown()){
+        if (item_cargo_price.isShown()) {
             params.setGoodPrice(item_cargo_price.getTextCenter());
         }
 
@@ -426,9 +435,9 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     public void finishSuccess(OrderInfoBean o) {
         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("下单成功");
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_pay)
-                .withString(Param.TRAN,o.getId())
-                .withInt(Param.TYPE,1)
-                .navigation((Activity) mContext,1);
+                .withString(Param.TRAN, o.getId())
+                .withInt(Param.TYPE, 1)
+                .navigation((Activity) mContext, 1);
         finish();
     }
 
@@ -448,6 +457,31 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     public void initInsuranceInfo(String goodPrice, String insureUsername) {
         item_insurance_name.setTextCenter(insureUsername);
         item_cargo_price.setTextCenter(goodPrice);
+    }
+
+    /**
+     * 显示货物种类
+     *
+     * @param cargoType
+     */
+    @Override
+    public void showCargoTypes(List<CargoTypeAndColorBeans> cargoType) {
+        if (cargoTypeDialog == null) {
+            cargoTypeDialog = PickerDialogUtils.initPickerDialog(mContext, new OnOptionsSelectListener() {
+                @Override
+                public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                    presenter.switchCargoType(options1);
+                }
+            });
+            cargoTypeDialog.setTitleText("选择货物分类");
+            cargoTypeDialog.setPicker(cargoType);
+        }
+        cargoTypeDialog.show();
+    }
+
+    @Override
+    public void switchCargoType(CargoTypeAndColorBeans cargoTypeAndColorBeans) {
+        item_cargo_type.setTextCenter(cargoTypeAndColorBeans.getName());
     }
 
     @Override
@@ -478,6 +512,12 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         if (TextUtils.isEmpty(item_cargo.getTextCenter())) {
             if (show) {
                 ToastUtils.getInstance().show(item_cargo.getTextCenterHide());
+            }
+            return false;
+        }
+        if (TextUtils.isEmpty(item_cargo_type.getTextCenter())) {
+            if (show) {
+                ToastUtils.getInstance().show(item_cargo_type.getTextCenterHide());
             }
             return false;
         }
@@ -561,7 +601,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void onChoice(DialogControl.IDialog dialog, int position, InsuranceInfoBean def) {
         dialog.dismiss();
-        presenter.onChangeInsuranceInfo(position,def);
-        item_insurance_name.setTextCenter(def.getInsuredType()==2?def.getCompanyName():def.getUsername());
+        presenter.onChangeInsuranceInfo(position, def);
+        item_insurance_name.setTextCenter(def.getInsuredType() == 2 ? def.getCompanyName() : def.getUsername());
     }
 }
