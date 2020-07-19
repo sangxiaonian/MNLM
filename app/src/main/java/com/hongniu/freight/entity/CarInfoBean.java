@@ -15,6 +15,7 @@ public class CarInfoBean implements Parcelable {
    private String  carTypeId;//	true	string	车辆类型id
    private String  carType;//	true	string	类型名称
    private String  carColorId;//	true	string	车辆牙博士id
+   private String  carColor;//	true	string	车辆颜色
    private String  vehicleModel;//	false	string	品牌车型
    private String  name;//	true	string	承运人姓名
    private String  mobile;//	true	string	承运人手机号
@@ -48,6 +49,14 @@ public class CarInfoBean implements Parcelable {
 
     public void setFullBackVImageUrl(String fullBackVImageUrl) {
         this.fullBackVImageUrl = fullBackVImageUrl;
+    }
+
+    public String getCarColor() {
+        return carColor;
+    }
+
+    public void setCarColor(String carColor) {
+        this.carColor = carColor;
     }
 
     public String getCarColorId() {
@@ -174,6 +183,7 @@ public class CarInfoBean implements Parcelable {
         dest.writeString(this.carTypeId);
         dest.writeString(this.carType);
         dest.writeString(this.carColorId);
+        dest.writeString(this.carColor);
         dest.writeString(this.vehicleModel);
         dest.writeString(this.name);
         dest.writeString(this.mobile);
@@ -193,6 +203,7 @@ public class CarInfoBean implements Parcelable {
         this.carTypeId = in.readString();
         this.carType = in.readString();
         this.carColorId = in.readString();
+        this.carColor = in.readString();
         this.vehicleModel = in.readString();
         this.name = in.readString();
         this.mobile = in.readString();

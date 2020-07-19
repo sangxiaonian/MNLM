@@ -135,8 +135,7 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
             item_car_number.setTextCenter(infoBean.getCarNumber());
             item_car_name.setTextCenter(infoBean.getName());
             item_car_phone.setTextCenter(infoBean.getMobile());
-            //TODO 修改车辆车牌颜色有问题
-            item_car_number_color.setTextCenter(infoBean.getCarColorId());
+            item_car_number_color.setTextCenter(infoBean.getCarColor());
         }
 
     }
