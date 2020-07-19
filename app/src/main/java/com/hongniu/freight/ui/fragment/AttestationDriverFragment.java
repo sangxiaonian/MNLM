@@ -75,7 +75,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         if (idnumIdentity != null) {
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
-            item_number.setTextCenter(idnumIdentity.getQualificationNumber());
+            item_number.setTextCenter(idnumIdentity.getInputQcNum());
             item_name.setTextCenter(idnumIdentity.getName());
             img_driver.setImageInfo(idnumIdentity.getFaceDLImageUrl());
             img_driver1.setImageInfo(idnumIdentity.getBackDLImageUrl());
@@ -178,7 +178,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                 params.setEmail(item_email.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setName(item_name.getTextCenter());
-                params.setQualificationNumber(item_number.getTextCenter());
+                params.setInputQcNum(item_number.getTextCenter());
                 params.setFaceDLImageUrl(img_driver.getImgInfo().getPath());
                 params.setBackDLImageUrl(img_driver1.getImgInfo().getPath());
                 params.setQualificationCertificateImageUrl(img_qualification.getImgInfo().getPath());
