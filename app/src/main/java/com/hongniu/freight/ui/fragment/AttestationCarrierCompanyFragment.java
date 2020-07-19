@@ -40,6 +40,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
     private ItemTextView item_company_address;//姓名
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
+    private ItemTextView item_road_transport_permit;//道路运输许可证
 
     private ItemTextView item_phone;//电话号码
     private ItemTextView item_email;//邮箱
@@ -56,6 +57,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
         img_id_card_back = inflate.findViewById(R.id.img_id_card_back);
         item_company_name = inflate.findViewById(R.id.item_company_name);
         item_company_address = inflate.findViewById(R.id.item_company_address);
+        item_road_transport_permit = inflate.findViewById(R.id.item_road_transport_permit);
         item_name = inflate.findViewById(R.id.item_name);
         item_id_card = inflate.findViewById(R.id.item_id_card);
         item_phone = inflate.findViewById(R.id.item_phone);
@@ -91,6 +93,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
 //        img_business_license.setOnClickListener(this);
         bt_sum.setOnClickListener(this);
         item_company_name.setOnCenterChangeListener(this);
+        item_road_transport_permit.setOnCenterChangeListener(this);
         item_company_address.setOnCenterChangeListener(this);
         item_name.setOnCenterChangeListener(this);
         item_id_card.setOnCenterChangeListener(this);
@@ -114,6 +117,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
             item_email.setTextCenter(identity.getContactEmail());
             item_name.setTextCenter(identity.getCompanyName());
             item_id_card.setTextCenter(identity.getIdnumber());
+            item_road_transport_permit.setTextCenter(identity.getInputRtpNum());
             item_phone.setTextCenter(identity.getContactMobile());
             img_business_license.setImageInfo(identity.getBusinessLicenseImageUrl());
             img_driver.setImageInfo(identity.getRoadTransportPermitImageUrl());
@@ -139,6 +143,7 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 params.setContactName(item_name.getTextCenter());
                 params.setContactEmail(item_email.getTextCenter());
                 params.setContactMobile(item_phone.getTextCenter());
+                params.setInputRtpNum(item_road_transport_permit.getTextCenter());
                 params.setBusinessLicenseImageUrl(img_business_license.getImgInfo().getPath());
                 params.setRoadTransportPermitImageUrl(img_driver.getImgInfo().getPath());
                 params.setContactMobile(item_phone.getTextCenter());
@@ -170,6 +175,8 @@ public class AttestationCarrierCompanyFragment extends AttestationBaseFragment i
                 || !check(item_name, showAlert)
                 || !check(item_phone, showAlert)
                 || !check(item_email, showAlert)
+                || !check(item_road_transport_permit, showAlert)
+
 
         ) {
             return false;

@@ -31,6 +31,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
     private ItemTextView item_email;//邮箱
+    private ItemTextView item_road_transport_permit;//道路运输许可证
     private ImageInforView img_driver;//道路运输许可证
     private ImageInforView img_qualification;//挂靠协议
 
@@ -46,6 +47,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         item_name = inflate.findViewById(R.id.item_name);
         item_id_card = inflate.findViewById(R.id.item_id_card);
         item_email = inflate.findViewById(R.id.item_email);
+        item_road_transport_permit = inflate.findViewById(R.id.item_road_transport_permit);
         bt_sum = inflate.findViewById(R.id.bt_sum);
         img_driver = inflate.findViewById(R.id.img_driver);
         img_qualification = inflate.findViewById(R.id.img_qualification);
@@ -79,6 +81,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
             item_email.setTextCenter(idnumIdentity.getEmail());
             item_id_card.setTextCenter(idnumIdentity.getIdnumber());
             item_name.setTextCenter(idnumIdentity.getName());
+            item_road_transport_permit.setTextCenter(idnumIdentity.getInputRtpNum());
             img_driver.setImageInfo(idnumIdentity.getRoadTransportPermitImageUrl());
             img_qualification.setImageInfo(idnumIdentity.getAffiliationAgreementImageUrl());
             img_id_card_back.setImageInfo(idnumIdentity.getIdnumberBackImageUrl());
@@ -94,6 +97,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         item_name.setOnCenterChangeListener(this);
         item_id_card.setOnCenterChangeListener(this);
         item_email.setOnCenterChangeListener(this);
+        item_road_transport_permit.setOnCenterChangeListener(this);
         bt_sum.setOnClickListener(this);
     }
 
@@ -102,6 +106,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         if (!check(item_name, showAlert)
                 || !check(item_id_card, showAlert)
                 || !check(item_email, showAlert)
+                || !check(item_road_transport_permit, showAlert)
 
         ) {
             return false;
@@ -170,6 +175,7 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
                 params.setName(item_name.getTextCenter());
                 params.setIdnumber(item_id_card.getTextCenter());
                 params.setEmail(item_email.getTextCenter());
+                params.setInputRtpNum(item_road_transport_permit.getTextCenter());
                 params.setAffiliationAgreementImageUrl(img_qualification.getImgInfo().getPath());
                 params.setRoadTransportPermitImageUrl(img_driver.getImgInfo().getPath());
                 params.setIdnumberFaceImageUrl(img_id_card_front.getImgInfo().getPath());

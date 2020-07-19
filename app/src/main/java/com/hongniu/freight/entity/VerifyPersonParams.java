@@ -8,6 +8,7 @@ public class VerifyPersonParams {
     private String email;//	false	string	邮箱
     private String idnumber;//	false	string	身份证
     private String inputQcNum;//	true	从业资格证编号
+    private String inputRtpNum;//	true	道路运输许可证编号
     private String affiliationAgreementImageUrl;//	false	string	个人承运人挂靠协议图片url(相对路径)
     private String roadTransportPermitImageUrl;//	false	string	道路运输许可证照片url(相对路径)
     private String qualificationCertificateImageUrl;//	false	司机从业资格证图片url(相对路径)
@@ -22,6 +23,14 @@ public class VerifyPersonParams {
 
     public void setIdnumberBackImageUrl(String idnumberBackImageUrl) {
         this.idnumberBackImageUrl = idnumberBackImageUrl;
+    }
+
+    public String getInputRtpNum() {
+        return inputRtpNum;
+    }
+
+    public void setInputRtpNum(String inputRtpNum) {
+        this.inputRtpNum = inputRtpNum;
     }
 
     public String getInputQcNum() {

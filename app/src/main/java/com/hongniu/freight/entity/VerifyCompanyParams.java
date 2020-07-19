@@ -16,6 +16,7 @@ public class VerifyCompanyParams {
     private String name;//	false	string	身份证
     private String idnumberFaceImageUrl;//	false	string	身份证正面照片url(相对路径) 传入文件类型参考11.1接口)
     private String idnumberBackImageUrl;//	false	string	身份证背面照片url(相对路径)
+    private String inputRtpNum;
 
     public String getIdnumberFaceImageUrl() {
         return idnumberFaceImageUrl;
@@ -103,5 +104,13 @@ public class VerifyCompanyParams {
 
     public void setRoadTransportPermitImageUrl(String roadTransportPermitImageUrl) {
         this.roadTransportPermitImageUrl = roadTransportPermitImageUrl;
+    }
+
+    public void setInputRtpNum(String inputRtpNum) {
+        this.inputRtpNum = inputRtpNum;
+    }
+
+    public String getInputRtpNum() {
+        return inputRtpNum;
     }
 }
