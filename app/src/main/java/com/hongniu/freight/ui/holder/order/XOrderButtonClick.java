@@ -379,7 +379,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                     }
 
                                     ShippingNoteInfo noteInfo=new ShippingNoteInfo();
-                                    noteInfo.setShippingNoteNumber(bean.getId());
+                                    noteInfo.setShippingNoteNumber(bean.getOrderNum());
                                     noteInfo.setSerialNumber("0000");
                                     noteInfo.setStartCountrySubdivisionCode(bean.getStartCountrySubdivisionCode());
                                     noteInfo.setEndCountrySubdivisionCode(bean.getEndCountrySubdivisionCode());
@@ -470,7 +470,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                     }
 
                                     ShippingNoteInfo noteInfo=new ShippingNoteInfo();
-                                    noteInfo.setShippingNoteNumber(bean.getId());
+                                    noteInfo.setShippingNoteNumber(bean.getOrderNum());
                                     noteInfo.setSerialNumber("0000");
                                     noteInfo.setStartCountrySubdivisionCode(bean.getStartCountrySubdivisionCode());
                                     noteInfo.setEndCountrySubdivisionCode(bean.getEndCountrySubdivisionCode());
