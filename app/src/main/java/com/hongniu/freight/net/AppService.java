@@ -489,7 +489,7 @@ public interface AppService {
      * @param blankID
      * @return
      */
-    @POST("hongniu/api/refund/remove")
+    @POST("wlhyapi/api/refund/remove")
     Observable<CommonBean<Object>> deleadCard(@Body JsonObject blankID);
 
 

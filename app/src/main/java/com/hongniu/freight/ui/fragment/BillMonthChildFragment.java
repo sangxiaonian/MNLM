@@ -53,6 +53,7 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
     BillInfoSearchParams params;
     private String year, month;
     OnBillListener billListener;
+    private BillInfoBean data;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
                    .filter(new Predicate<CommonBean<List<QueryExpendResultBean>>>() {
                        @Override
                        public boolean test(CommonBean<List<QueryExpendResultBean>> listCommonBean) throws Exception {
-                           return listCommonBean.getCode()!=Param.SUCCESS_FLAG;
+                           return listCommonBean.getCode()==Param.SUCCESS_FLAG;
                        }
                    })
                    .map(new Function<CommonBean<List<QueryExpendResultBean>>, CommonBean<List<QueryExpendResultBean>>>() {
@@ -187,7 +188,7 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
                                    commonBean.setCode(billInfoBeanCommonBean.getCode());
                                    commonBean.setMsg(billInfoBeanCommonBean.getMsg());
                                    if (commonBean.getCode() == Param.SUCCESS_FLAG) {
-                                       BillInfoBean data = billInfoBeanCommonBean.getData();
+                                         data = billInfoBeanCommonBean.getData();
                                        if (billListener != null) {
                                            billListener.showInfo(data.getTotalMoney(), data.getTotal());
                                        }
@@ -217,7 +218,7 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
                             commonBean.setCode(billInfoBeanCommonBean.getCode());
                             commonBean.setMsg(billInfoBeanCommonBean.getMsg());
                             if (commonBean.getCode() == Param.SUCCESS_FLAG) {
-                                BillInfoBean data = billInfoBeanCommonBean.getData();
+                                  data = billInfoBeanCommonBean.getData();
                                 if (billListener != null) {
                                     billListener.showInfo(data.getTotalMoney(), data.getTotal());
                                 }
@@ -241,6 +242,16 @@ public class BillMonthChildFragment extends RefrushFragmet<BillInfoListBean> {
                 return new BillHolder(mContext, parent);
             }
         };
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            if (billListener != null) {
+                billListener.showInfo(data==null?0:data.getTotalMoney(),data==null?0: data.getTotal());
+            }
+        }
     }
 
     public void setBillListener(OnBillListener billListener) {
