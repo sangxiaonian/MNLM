@@ -58,7 +58,7 @@ public class CarListActivity extends RefrushActivity<CarInfoBean> {
     @Override
     protected void initData() {
         super.initData();
-        adapter.addFoot(new PeakHolder(mContext, rv, R.layout.item_car_foot) {
+        adapter.addHeard(new PeakHolder(mContext, rv, R.layout.item_car_foot) {
             @Override
             public void initView(View itemView, int position) {
                 super.initView(itemView, position);
