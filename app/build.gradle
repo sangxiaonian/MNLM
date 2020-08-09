@@ -57,8 +57,8 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "app_" + buildType.name + "_v${defaultConfig.versionName}-${releaseTime()}.apk"
-        }
+            outputFileName = "mnlm_" + buildType.name + "_v${defaultConfig.versionName}-${releaseTime()}.apk"
+    }
     }
     buildTypes {
         debug {
