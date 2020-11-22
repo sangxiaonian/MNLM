@@ -41,8 +41,8 @@
                 android:id="@+id/item_road_transport_permit"
                 style="@style/item_edit"
                 app:centerType="normal"
-                app:textcenterhide="请输入道路运输许可证编号"
-                app:textleft="道路运输许可证编号" />
+                app:textcenterhide="请输入挂靠公司的道路运输许可证编号"
+                app:textleft="挂靠公司的道路运输许可证编号" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="@dimen/gap_app"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:text="道路运输许可证"
+                android:text="挂靠公司的道路运输许可证"
                 android:textColor="@color/color_of_666666"
                 android:textSize="14dp" />
 

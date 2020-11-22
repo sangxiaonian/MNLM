@@ -290,4 +290,16 @@ public class Utils {
         }
 
     }
+
+    /**
+     * 跳转到人脸识别页面，2020/11/22 由于需求更改，去掉人脸识别步骤，此处直接跳转到首页
+     * @param mContext
+     */
+    public static void jump2FaceAttestation(Context mContext ) {
+
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_main)
+                    .navigation(mContext);
+
+
+    }
 }

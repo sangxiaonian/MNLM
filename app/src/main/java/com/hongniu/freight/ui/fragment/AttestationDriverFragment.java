@@ -104,7 +104,7 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
         if (!check(item_name, showAlert)
                 || !check(item_id_card, showAlert)
                 || !check(item_email, showAlert)
-                || !check(item_number, showAlert)
+//                || !check(item_number, showAlert)
 
         ) {
             return false;
@@ -125,13 +125,15 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
             }
             return false;
         }
-        if (img_qualification.getState() != 3) {
 
-            if (showAlert) {
-                ToastUtils.getInstance().show(getAlert(img_qualification.getState(), "从业资格证"));
-            }
-            return false;
-        }
+        //从业资格证更改为选填
+//        if (img_qualification.getState() != 3) {
+//
+//            if (showAlert) {
+//                ToastUtils.getInstance().show(getAlert(img_qualification.getState(), "从业资格证"));
+//            }
+//            return false;
+//        }
         if (img_id_card_front.getState() != 3) {
 
             if (showAlert) {
@@ -181,7 +183,11 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                 params.setInputQcNum(item_number.getTextCenter());
                 params.setFaceDLImageUrl(img_driver.getImgInfo().getPath());
                 params.setBackDLImageUrl(img_driver1.getImgInfo().getPath());
-                params.setQualificationCertificateImageUrl(img_qualification.getImgInfo().getPath());
+
+                if (img_qualification!=null&&img_qualification.getImgInfo()!=null) {
+                    params.setQualificationCertificateImageUrl(img_qualification.getImgInfo().getPath());
+                }
+
                 params.setIdnumberFaceImageUrl(img_id_card_front.getImgInfo().getPath());
                 params.setIdnumberBackImageUrl(img_id_card_back.getImgInfo().getPath());
 
@@ -190,8 +196,8 @@ public class AttestationDriverFragment extends AttestationBaseFragment implement
                             @Override
                             public void doOnSuccess(String s) {
                                 super.doOnSuccess(s);
-                                ArouterUtils.getInstance().builder(ArouterParamApp.activity_attestation_face)
-                                        .navigation(getContext());
+
+                                Utils.jump2FaceAttestation(getContext());
                             }
                         });
 
