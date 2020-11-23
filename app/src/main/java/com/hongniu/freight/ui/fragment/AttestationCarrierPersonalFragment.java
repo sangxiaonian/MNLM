@@ -26,7 +26,7 @@ import com.luck.picture.lib.listener.OnResultCallbackListener;
  * 个人承运人身份认证第二部
  */
 @Route(path = ArouterParamApp.fragment_attestation_carrier_personal)
-public class AttestationCarrierPersonalFragment extends AttestationBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener {
+public class AttestationCarrierPersonalFragment extends AttestationBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener, ImageInforView.UpLoadFinishListener {
 
     private ItemTextView item_name;//姓名
     private ItemTextView item_id_card;//身份证号码
@@ -70,6 +70,10 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
         img_id_card_back.setAttached(this);
         img_driver.setAttached(this);
         img_qualification.setAttached(this);
+  img_id_card_front.setUpLoadFinishListener(this);
+        img_id_card_back.setUpLoadFinishListener(this);
+        img_driver.setUpLoadFinishListener(this);
+        img_qualification.setUpLoadFinishListener(this);
 
         check(false);
     }
@@ -201,4 +205,8 @@ public class AttestationCarrierPersonalFragment extends AttestationBaseFragment 
     }
 
 
+    @Override
+    public void onLoadFinish() {
+        check(false);
+    }
 }

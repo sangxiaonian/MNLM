@@ -41,6 +41,7 @@ public class ImageInforView extends LinearLayout implements View.OnClickListener
     private ImageView img;
     private View bt_img;
     private OnClickListener listener;
+    private UpLoadFinishListener upLoadFinishListener;
 
     private int state;//0 未上传图片 1正在上传 2上传失败 3 上传成功
     private int type;//图片类型
@@ -143,12 +144,18 @@ public class ImageInforView extends LinearLayout implements View.OnClickListener
                             super.onNext(result);
                             state = 3;
                             imgData=result;
+                            if (upLoadFinishListener!=null){
+                                upLoadFinishListener.onLoadFinish();
+                            }
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
                             state = 2;
+                            if (upLoadFinishListener!=null){
+                                upLoadFinishListener.onLoadFinish();
+                            }
                         }
                     });
         }
@@ -168,6 +175,10 @@ public class ImageInforView extends LinearLayout implements View.OnClickListener
         if (!enabled) {
             bt_img.setVisibility(GONE);
         }
+    }
+
+    public void setUpLoadFinishListener(UpLoadFinishListener upLoadFinishListener) {
+        this.upLoadFinishListener = upLoadFinishListener;
     }
 
     /**
@@ -212,4 +223,9 @@ public class ImageInforView extends LinearLayout implements View.OnClickListener
             setImageInfo(PicUtils.getPath(result.get(0)), true);
         }
     }
+
+    public interface UpLoadFinishListener{
+        void onLoadFinish();
+    }
+
 }

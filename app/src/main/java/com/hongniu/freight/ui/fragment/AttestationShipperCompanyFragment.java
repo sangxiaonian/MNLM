@@ -36,7 +36,7 @@ import io.reactivex.disposables.Disposable;
  * 公司托运人身份认证第二部
  */
 @Route(path = ArouterParamApp.fragment_attestation_shipper_company)
-public class AttestationShipperCompanyFragment extends AttestationBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener {
+public class AttestationShipperCompanyFragment extends AttestationBaseFragment implements ItemTextView.OnCenterChangeListener, View.OnClickListener, ImageInforView.UpLoadFinishListener {
 
     private ItemTextView item_company_name;//企业名称
     private ItemTextView item_company_address;//企业地址
@@ -73,6 +73,10 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
         img_business_license.setAttached(this);
         img_id_card_front.setAttached(this);
         img_id_card_back.setAttached(this);
+
+        img_business_license.setUpLoadFinishListener(this);
+        img_id_card_front.setUpLoadFinishListener(this);
+        img_id_card_back.setUpLoadFinishListener(this);
 
         img_business_license.setType(7);
         img_id_card_front.setType(8);
@@ -206,4 +210,8 @@ public class AttestationShipperCompanyFragment extends AttestationBaseFragment i
     }
 
 
+    @Override
+    public void onLoadFinish() {
+        check(false);
+    }
 }
