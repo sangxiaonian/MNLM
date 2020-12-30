@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup,android:theme">
-        <activity android:name=".ui.OrderReceiveActivity"></activity>
+        <activity android:name=".ui.OrderSelectOwnerActivity"></activity>
+        <activity android:name=".ui.OrderSelectDriverActivity" />
+        <activity android:name=".ui.OrderReceiveActivity" />
         <activity android:name=".ui.AppraiseActivity" />
         <activity android:name=".ui.PayResultActivity" />
         <activity android:name=".ui.OrderFindCarActivity" />
@@ -63,8 +65,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.InsureanceInfodActivity" />
-        <activity android:name=".ui.BindBlankCardActivity" />
-        <!-- 聊天 -->
+        <activity android:name=".ui.BindBlankCardActivity" /> <!-- 聊天 -->
         <activity
             android:name=".ui.ChatConversationActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
@@ -85,12 +86,13 @@
         <activity android:name=".ui.OrderUpReceiptActivity" />
         <activity android:name=".ui.PreviewImageActivity" />
 
-        <receiver android:name=".receiver.MyPushReceiver"/>
-        <!-- 高德地图 -->
+        <receiver android:name=".receiver.MyPushReceiver" /> <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="${GAODE_MAP}" />
-        <service android:name="com.amap.api.location.APSService"/>
+
+        <service android:name="com.amap.api.location.APSService" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.FileProvider"
@@ -105,7 +107,6 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="${RONG_CLOUD_APP_KEY}"
             tools:replace="android:value" />
-
     </application>
 
 </manifest>

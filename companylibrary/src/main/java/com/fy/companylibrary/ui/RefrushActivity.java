@@ -57,6 +57,7 @@ public abstract class RefrushActivity<T> extends CompanyBaseActivity implements 
         rv.setAdapter(adapter = getAdapter(datas));
         rv.setEmptyHolder(getEmptyHolder(rv));
         adapter.notifyDataSetChanged();
+        refresh.hideLoadFinish();
     }
 
     /**

@@ -9,6 +9,7 @@
     <com.fy.androidlibrary.widget.recycle.EmptyRecycleView
         android:id="@+id/rv"
         android:overScrollMode="never"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </com.fy.baselibrary.refrush.XRefreshLayout>

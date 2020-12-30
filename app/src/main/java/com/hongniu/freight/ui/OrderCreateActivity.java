@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -21,7 +22,9 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
+import com.fy.androidlibrary.widget.span.RoundedBackgroundSpan;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -35,6 +38,8 @@ import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.OrderSelectDriverInfoBean;
+import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.presenter.OrderCreatePresenter;
 import com.fy.androidlibrary.utils.permission.PermissionUtils;
@@ -65,6 +70,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     private ItemTextView item_size;//货物体积
     private ItemTextView item_price;//运费
     private ItemTextView item_pay_way;//支付类型
+    private ItemTextView item_owner;//承运人选填
+    private ItemTextView item_driver;//司机选填
     private TextView tv_agreement;//鸿牛协议
     private TextView tv_agreement_insurance;//保险链协议
     private ImageView img_insurance;//是否购买保险
@@ -119,6 +126,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         bt_sum = findViewById(R.id.bt_sum);
         item_cargo_price = findViewById(R.id.item_cargo_price);
         item_insurance_name = findViewById(R.id.item_insurance_name);
+        item_owner = findViewById(R.id.item_owner);
+        item_driver = findViewById(R.id.item_driver);
     }
 
 
@@ -181,6 +190,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         item_insurance_name.setOnClickListener(this);
         item_cargo_type.setOnClickListener(this);
         bt_sum.setOnClickListener(this);
+        item_driver.setOnClickListener(this);
+        item_owner.setOnClickListener(this);
 
         item_start_time.setOnCenterChangeListener(this);
         item_cargo.setOnCenterChangeListener(this);
@@ -191,6 +202,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         item_pay_way.setOnCenterChangeListener(this);
         item_cargo_price.setOnCenterChangeListener(this);
         item_insurance_name.setOnCenterChangeListener(this);
+        item_driver.setOnCenterChangeListener(this);
+        item_owner.setOnCenterChangeListener(this);
 
         item_cargo_price.getEtCenter().addTextChangedListener(new SearchTextWatcher(new SearchTextWatcher.SearchTextChangeListener() {
             @Override
@@ -261,6 +274,10 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         } else if (R.id.item_cargo_type == v.getId()) {
 //            ToastUtils.getInstance().show("货物分类");
             presenter.showCargoType(this);
+        }else if (R.id.item_driver == v.getId()) {
+            startActivityForResult(new Intent(this,OrderSelectDriverActivity.class),3);
+        }else if (R.id.item_owner == v.getId()) {
+            startActivityForResult(new Intent(this,OrderSelectOwnerActivity.class),4);
         }
     }
 
@@ -274,6 +291,14 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             //发货
             TranMapBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveEndInfo(result);
+        }else if (data != null && requestCode == 3) {
+            //选择司机
+            OrderSelectDriverInfoBean result = data.getParcelableExtra(Param.TRAN);
+            presenter.saveDriverInfo(result);
+        }else if (data != null && requestCode == 4) {
+            //选择承运人
+            OrderSelectOwnerInfoBean result = data.getParcelableExtra(Param.TRAN);
+            presenter.saveOwnerInfo(result);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -482,6 +507,49 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void switchCargoType(CargoTypeAndColorBeans cargoTypeAndColorBeans) {
         item_cargo_type.setTextCenter(cargoTypeAndColorBeans.getName());
+    }
+
+    /**
+     * 初始化承运人信息
+     *
+     * @param result
+     */
+    @Override
+    public void initOwnerInfo(OrderSelectOwnerInfoBean result) {
+        if (result==null){
+            item_owner.setSRCLeftShow(0);
+            item_owner.setTextCenter("");
+        }else {
+            item_owner.setSRCLeftShow(2);
+            RoundedBackgroundSpan span=new RoundedBackgroundSpan(mContext);
+            span.setBordColor(getResources().getColor(R.color.color_of_dceeea));
+            span.setTextColor(getResources().getColor(R.color.color_of_43bfa3));
+            span.setCornerRadius(DeviceUtils.dip2px(mContext,1.5f));
+            span.setPadding(DeviceUtils.dip2px(mContext,4f),DeviceUtils.dip2px(mContext,1),DeviceUtils.dip2px(mContext,4),DeviceUtils.dip2px(mContext,1.5f));
+            span.setMargin(DeviceUtils.dip2px(mContext,5f),0,0,0);
+            SpannableStringBuilder builder=new SpannableStringBuilder(result.getCarNumber());
+            int start=builder.length();
+            builder.append(result.getOwnerName()).append("\t")
+                    .append(result.getOwnerMobile());
+            builder.setSpan(span,start,builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            item_owner.setTextCenter(builder);
+        }
+    }
+
+    /**
+     * 初始化司机信息
+     *
+     * @param result
+     */
+    @Override
+    public void initDriverInfo(OrderSelectDriverInfoBean result) {
+        if (result==null){
+            item_driver.setSRCLeftShow(0);
+            item_driver.setTextCenter("");
+        }else {
+            item_driver.setSRCLeftShow(2);
+            item_driver.setTextCenter(result.getContact()+"  "+result.getMobile());
+        }
     }
 
     @Override

@@ -26,6 +26,8 @@ import com.hongniu.freight.entity.OrderDriverPhoneBean;
 import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
+import com.hongniu.freight.entity.OrderSelectDriverInfoBean;
+import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
@@ -650,5 +652,21 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/saveReceiptInfo")
     Observable<CommonBean<String>> saveReceiptInfo(@Body QueryReceiveBean bean);
+    /**
+     * 查询司机
+     *
+     * @param id
+     * @return
+     */
+    @POST("wlhyapi/api/user/fuzzyquerydriver")
+    Observable<CommonBean<List<OrderSelectDriverInfoBean>>> querySelectDriverInfo(@Body PageSearchParams bean);
+ /**
+     * 查询承运人
+     *
+     * @param id
+     * @return
+     */
+    @POST("wlhyapi/api/car/selectcarbycarnumber")
+    Observable<CommonBean<List<OrderSelectOwnerInfoBean>>> querySelectOwnerInfo(@Body PageSearchParams bean);
 
 }

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 
 android {
@@ -82,5 +83,11 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.61'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.47'
     api files('libs/locationsdk-1.0.0.aar')
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    mavenCentral()
 }

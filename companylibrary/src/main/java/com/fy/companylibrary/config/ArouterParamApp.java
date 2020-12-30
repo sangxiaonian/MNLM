@@ -200,4 +200,9 @@ public class ArouterParamApp {
     public static final String activity_way_bill = "/app/activity_way_bill";
     public static final String fragment_hand_input = "/app/fragment_hand_input";
 
+    /**
+     * 选择司机
+     */
+    public static final String activity_order_select_driver = "/app/activity_order_select_driver";
+
 }

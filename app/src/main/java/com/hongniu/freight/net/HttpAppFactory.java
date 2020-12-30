@@ -34,6 +34,8 @@ import com.hongniu.freight.entity.OrderDriverPhoneBean;
 import com.hongniu.freight.entity.OrderFindCarParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
+import com.hongniu.freight.entity.OrderSelectDriverInfoBean;
+import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
 import com.hongniu.freight.entity.OrderStatusBean;
 import com.hongniu.freight.entity.PageParams;
 import com.hongniu.freight.entity.PageSearchParams;
@@ -1092,6 +1094,29 @@ public class HttpAppFactory {
     public static Observable<CommonBean<String>> saveReceiptInfo(QueryReceiveBean bean) {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .saveReceiptInfo(bean)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    } /**
+     * 保存回单
+     * @param bean
+     * @return
+     */
+    public static Observable<CommonBean<List<OrderSelectDriverInfoBean>>> querySelectDriverInfo(String searchText) {
+        PageSearchParams bean=new PageSearchParams();
+        bean.setSearchText(searchText);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .querySelectDriverInfo(bean)
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }/**
+     * 保存回单
+     * @param bean
+     * @return
+     */
+    public static Observable<CommonBean<List<OrderSelectOwnerInfoBean>>> querySelectOwnerInfo(String searchText) {
+        PageSearchParams bean=new PageSearchParams();
+        bean.setSearchText(searchText);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .querySelectOwnerInfo(bean)
+
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 }
