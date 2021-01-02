@@ -14,6 +14,8 @@ data class OrderSelectDriverInfoBean(var id:String?,var mobile:String?,var conta
             parcel.readString()) {
     }
 
+    constructor() : this(null,null,null)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(mobile)

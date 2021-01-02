@@ -27,6 +27,8 @@ data class OrderSelectOwnerInfoBean(var carNumber:String?,//车牌号
             parcel.readString()) {
     }
 
+    constructor() : this(null,null,null,null,null,null,null,null);
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(carNumber)
         parcel.writeString(ownerCompanyAccountId)

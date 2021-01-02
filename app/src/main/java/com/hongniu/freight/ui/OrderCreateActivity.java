@@ -527,7 +527,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             span.setCornerRadius(DeviceUtils.dip2px(mContext,1.5f));
             span.setPadding(DeviceUtils.dip2px(mContext,4f),DeviceUtils.dip2px(mContext,1),DeviceUtils.dip2px(mContext,4),DeviceUtils.dip2px(mContext,1.5f));
             span.setMargin(DeviceUtils.dip2px(mContext,5f),0,0,0);
-            SpannableStringBuilder builder=new SpannableStringBuilder(result.getCarNumber());
+            SpannableStringBuilder builder=new SpannableStringBuilder(CommonUtils.getText(result.getCarNumber(),""));
             int start=builder.length();
             builder.append(result.getOwnerName()).append("\t")
                     .append(result.getOwnerMobile());

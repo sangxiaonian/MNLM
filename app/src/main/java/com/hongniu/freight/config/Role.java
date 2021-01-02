@@ -14,6 +14,7 @@ public enum Role {
     CARRIER_COMPANY(3, "公司承运人"),//承运人
     CARRIER_PERSONAL(4, "个人承运人"),//承运人
     DRIVER(5, "司机"),//司机
+    CARRIERANDDRIVER(6, "承运人&司机"),//司机
     ;
     private final String name;
     private final int type;

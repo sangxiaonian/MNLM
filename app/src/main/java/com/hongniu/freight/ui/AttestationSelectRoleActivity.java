@@ -67,6 +67,7 @@ public class AttestationSelectRoleActivity extends CompanyBaseActivity implement
         itemInfos.add(new ItemInfo("公司托运人", "货物所有者/货物管理者", Role.SHIPPER_COMPANY));
         itemInfos.add(new ItemInfo("个人托运人", "货物所有者/货物管理者", Role.SHIPPER_PERSONAL));
         itemInfos.add(new ItemInfo("公司承运人", "货物运输过程中的实际承运人", Role.CARRIER_COMPANY));
+        itemInfos.add(new ItemInfo("个人承运人&司机", "货物运输过程中的实际承运人和司机", Role.CARRIERANDDRIVER));
         itemInfos.add(new ItemInfo("个人承运人", "货物运输过程中的实际承运人", Role.CARRIER_PERSONAL));
         itemInfos.add(new ItemInfo("司机", "货物运输过程中的驾驶员",  Role.DRIVER));
          selectAdapter = new SelectAdapter<ItemInfo>(mContext, rv) {

@@ -37,15 +37,29 @@
                 android:textSize="17dp"
                 tools:text="李四 15515872882" />
 
-            <TextView
-                android:id="@+id/tv_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:textColor="#999999"
-                android:textSize="13dp"
-                tools:text="李四 15515872882" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textColor="#999999"
+                    android:textSize="13dp"
+                    tools:text="李四 15515872882" />
+                <TextView
+                    android:id="@+id/tv_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_of_3d5688"
+                    android:textSize="13dp"
+                    tools:text="联系司机" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_car_type"

@@ -2,8 +2,6 @@ package com.hongniu.freight.ui;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
@@ -12,7 +10,6 @@ import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
-import com.hongniu.freight.utils.InfoUtils;
 
 /**
  * @data 2020/2/24
@@ -55,6 +52,10 @@ public class AttestationRoleActivityActivity extends CompanyBaseActivity {
         } else if (role == Role.SHIPPER_PERSONAL) {
 //            route = "个人托运人身份认证";
             route = ArouterParamApp.fragment_attestation_shipper_personal;
+
+        } else if (role == Role.CARRIERANDDRIVER) {
+//            route = "承运人和司机";
+            route = ArouterParamApp.fragment_attestation_carrier_and_driver_personal;
 
         }
         if (route != null) {

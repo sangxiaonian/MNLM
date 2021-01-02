@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.fy.androidlibrary.toast.ToastUtils
 import com.fy.androidlibrary.utils.CommonUtils
 import com.fy.androidlibrary.widget.SearchTitleView
 import com.fy.androidlibrary.widget.recycle.adapter.XAdapter
@@ -44,7 +46,6 @@ class OrderSelectDriverActivity : RefrushActivity<OrderSelectDriverInfoBean>() {
         initView()
         initData()
         initListener()
-        queryData(true)
     }
 
     override fun initView() {
@@ -74,12 +75,22 @@ class OrderSelectDriverActivity : RefrushActivity<OrderSelectDriverInfoBean>() {
         return null
     }
 
+    override fun queryData(isClear: Boolean) {
+        super.queryData(isClear)
+
+    }
+
     override fun getListDatas(): Observable<CommonBean<PageBean<OrderSelectDriverInfoBean>>> {
         return HttpAppFactory.querySelectDriverInfo(searchText)
                 .map {
                     var bean=CommonBean<PageBean<OrderSelectDriverInfoBean>>();
                     bean.code=it.code
-                    bean.msg=it.msg
+                    if ("必填参数不能为空" == it.msg){
+                        bean.msg="请输入搜索内容"
+                    }else {
+                        bean.msg = it.msg
+                    }
+
                     bean.data= PageBean<OrderSelectDriverInfoBean>()
                     bean.data.list=it.data
                     bean

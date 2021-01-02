@@ -100,24 +100,14 @@ class OrderSelectOwnerActivity : RefrushActivity<OrderSelectOwnerInfoBean>() {
                         builder.append("\t")
                         builder.setSpan(CenterAlignImageSpan(mContext, R.drawable.ovl_line_v), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
 
-                        lineStart = builder.length
-                        builder.append("联系司机")
-                        lineEnd = builder.length
-//                       builder.append("\t")
-//                       builder.setSpan(CenterAlignImageSpan(mContext, R.mipmap.phone), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-                        builder.setSpan(object : XClickableSpan() {
-
-                            override fun onClick(widget: View) {
-                                CommonUtils.call(mContext, data.ownerMobile)
-                            }
-                        }.setColor(resources.getColor(R.color.color_of_3d5688)), lineStart, lineEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
-
 
                         itemView.findViewById<TextView>(R.id.tv_title).text = data.carNumber
                         itemView.findViewById<TextView>(R.id.tv_name).text = builder
 
                         itemView.findViewById<TextView>(R.id.tv_car_type).text = "${data.model}（${data.vehicleType}）"
-                        itemView.findViewById<TextView>(R.id.tv_name).movementMethod = LinkMovementMethod.getInstance()
+                        itemView.findViewById<TextView>(R.id.tv_call).setOnClickListener{
+                            CommonUtils.call(mContext, data.ownerMobile)
+                        }
 
 
                         itemView.setOnClickListener{

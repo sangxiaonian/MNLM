@@ -33,6 +33,7 @@ public class ArouterParamApp {
      * 个人承运人身份认证第二部
      */
     public static final String fragment_attestation_carrier_personal = "/app/fragment_attestation_carrier_personal";
+    public static final String fragment_attestation_carrier_and_driver_personal = "/app/fragment_attestation_carrier_and_driver_personal";
     /**
      * 司机身份认证
      */

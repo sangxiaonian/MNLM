@@ -84,6 +84,26 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             view.switchCargoType(cargoTypeAndColorBeans);
             view.showTime(TextUtils.isEmpty(orderInfoBean.getDepartureTime()) ? "立即发货" : orderInfoBean.getDepartureTime());
             view.initOrderUIInfo(orderInfoBean);
+
+
+
+            if ("1".equals(orderInfoBean.getIsdirect())) {
+                OrderSelectOwnerInfoBean infoBean = new OrderSelectOwnerInfoBean();
+                infoBean.setOwnerCompanyAccountId(orderInfoBean.getOwnerCompanyAccountId());
+                infoBean.setOwnerId(orderInfoBean.getOwnerId());
+                infoBean.setOwnerMobile(orderInfoBean.getOwnerMobile());
+                infoBean.setOwnerName(orderInfoBean.getOwnerName());
+                infoBean.setCarNumber(orderInfoBean.getCarNum());
+                mode.saveOwnerInfo(infoBean);
+
+                OrderSelectDriverInfoBean driverInfoBean = new OrderSelectDriverInfoBean();
+                driverInfoBean.setId(orderInfoBean.getDriverId());
+                driverInfoBean.setContact(orderInfoBean.getDriverName());
+                driverInfoBean.setMobile(orderInfoBean.getDriverMobile());
+                mode.saveDriverInfo(driverInfoBean);
+                view.initDriverInfo(driverInfoBean);
+                view.initOwnerInfo(infoBean);
+            }
         } else {
             view.switchInsurance(false);
 

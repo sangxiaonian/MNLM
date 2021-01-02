@@ -237,6 +237,17 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyCarrierPerson(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+    }  /**
+     * @param params
+     * @return
+     * @data 2020/3/1
+     * @Author PING
+     * @Description 个人承运人司机身份认证
+     */
+    public static Observable<CommonBean<String>> verifyCarrierAndDriverPerson(VerifyPersonParams params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .verifyCarrierAndDriverPerson(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
     }
 
     /**
@@ -1097,7 +1108,6 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer());
     } /**
      * 保存回单
-     * @param bean
      * @return
      */
     public static Observable<CommonBean<List<OrderSelectDriverInfoBean>>> querySelectDriverInfo(String searchText) {
@@ -1108,7 +1118,6 @@ public class HttpAppFactory {
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }/**
      * 保存回单
-     * @param bean
      * @return
      */
     public static Observable<CommonBean<List<OrderSelectOwnerInfoBean>>> querySelectOwnerInfo(String searchText) {

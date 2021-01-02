@@ -136,6 +136,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/identityAuthen/personCarrierAuth")
     Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyPersonParams params);
+    /**
+     * 个人承运人和司机同时身份认证
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/identityAuthen/CarrierandDriverAuth")
+    Observable<CommonBean<String>> verifyCarrierAndDriverPerson(@Body VerifyPersonParams params);
 
     /**
      * 公司承运人身份认证

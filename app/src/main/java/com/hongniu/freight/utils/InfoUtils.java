@@ -169,7 +169,11 @@ public class InfoUtils {
         if (info == null) {
             return Role.UNKNOW;
         }
-        if (info.getIsStaff() == 1) {
+
+        if (info.getIsDriver() == 1 && info.getIsPersonCarrier() == 1) {
+            //如果是司机
+            status = Role.CARRIERANDDRIVER;
+        } else if (info.getIsStaff() == 1) {
             //平台员工
             status = Role.PLATFORM;
         } else if (info.getIsDriver() == 1) {
@@ -187,7 +191,7 @@ public class InfoUtils {
         } else if (info.getIsPersonShipper() == 1) {
             //个人托运人
             status = Role.SHIPPER_PERSONAL;
-        } else {
+        }  else {
             status = Role.UNKNOW;
         }
         return status;
@@ -238,19 +242,20 @@ public class InfoUtils {
 
     /**
      * 是否实名认证成功
+     *
      * @return false 未进行实名认证或者未进行人脸识别
      */
     public static boolean isShowAlert() {
         PersonInfor myInfo = InfoUtils.getMyInfo();
-        if (myInfo!=null) {
+        if (myInfo != null) {
             Role role = getRole(myInfo);
-            if (role == Role.UNKNOW || myInfo.getIsRealname() != 1||InfoUtils.getState(myInfo)==5) {
+            if (role == Role.UNKNOW || myInfo.getIsRealname() != 1 || InfoUtils.getState(myInfo) == 5) {
                 return true;
             }
-        }else {
+        } else {
             LoginInfo loginInfo = InfoUtils.getLoginInfo();
             Role role = getRole(loginInfo);
-            if (role == Role.UNKNOW || loginInfo.getIsRealname() != 1||InfoUtils.getState(loginInfo)==5) {
+            if (role == Role.UNKNOW || loginInfo.getIsRealname() != 1 || InfoUtils.getState(loginInfo) == 5) {
                 return true;
             }
         }
@@ -259,7 +264,7 @@ public class InfoUtils {
 
     public static RoleOrder chagetRoleOrder(Role role) {
         RoleOrder roleOrder;
-        if (role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) {
+        if (role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL || role == Role.CARRIERANDDRIVER) {
             roleOrder = RoleOrder.CARRIER;
         } else if (role == Role.DRIVER) {
             roleOrder = RoleOrder.DRIVER;
