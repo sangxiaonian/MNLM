@@ -256,7 +256,7 @@
                     app:showline="true"
                     app:srcLeftshow="show"
                     app:srcLeftSize="24dp"
-                    app:srcLeft="@mipmap/ic_launcher"
+                    app:srcLeft="@mipmap/icon_detail_owner"
                     app:textcenterhide="请选择实际承运人（运费收款人）"
                     app:textleft="" />
 
@@ -267,7 +267,7 @@
                     app:showline="false"
                     app:srcLeftshow="show"
                     app:srcLeftSize="24dp"
-                    app:srcLeft="@mipmap/ic_launcher"
+                    app:srcLeft="@mipmap/icon_detail_driver"
                     android:id="@+id/item_driver"
                     app:textcenterhide="请选择司机（驾驶员）"
                     app:textleft="" />

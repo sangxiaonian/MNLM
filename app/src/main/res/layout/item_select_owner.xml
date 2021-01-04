@@ -57,7 +57,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/color_of_3d5688"
                     android:textSize="13dp"
-                    tools:text="联系司机" />
+                    android:text="拨打电话" />
             </LinearLayout>
 
 

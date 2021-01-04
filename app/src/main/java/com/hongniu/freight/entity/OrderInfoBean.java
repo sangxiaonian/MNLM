@@ -54,7 +54,9 @@ public class OrderInfoBean implements Parcelable {
     private String   startCountrySubdivisionCode;//":起点行政区划代码
     private String   cargoTypeClassificationInfo;//":起点行政区划代码
     private String   cargoTypeClassificationCode;//":起点行政区划代码
-
+    private String isdirect;//		添加承运人司机一起下单1表示是 0或空表示否
+    private String ownerCompanyAccountId;//	承运人企业帐号id（4.15查询信息
+    private String carInfo;//": null,
 
     private String userId;//": 268,
     private double startPlaceLon;//": 121.40225,
@@ -79,7 +81,6 @@ public class OrderInfoBean implements Parcelable {
     private String orderTakingUserId;//": null,
     private String orderTakingTime;//": null,
     private String carId;//": null,
-    private String carInfo;//": null,
     private String departTime;//": null,
     private String arrivedTime;//": null,
     private String receiptTime;//": null,
@@ -87,8 +88,7 @@ public class OrderInfoBean implements Parcelable {
     private String latitude;//": null,
 
 
-    private String isdirect;//		添加承运人司机一起下单1表示是 0或空表示否
-    private String ownerCompanyAccountId;//	承运人企业帐号id（4.15查询信息
+
 
     protected OrderInfoBean(Parcel in) {
         status = in.readInt();

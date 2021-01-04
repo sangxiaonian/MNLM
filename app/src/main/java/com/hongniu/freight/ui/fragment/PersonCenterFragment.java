@@ -286,7 +286,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
 
         //非平台员工隐藏接单中心
         ll_order_center.setVisibility(role == Role.PLATFORM ? View.VISIBLE : View.GONE);
-        ll_car.setVisibility((role == Role.PLATFORM || role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL) ? View.VISIBLE : View.GONE);
+        ll_car.setVisibility((role == Role.PLATFORM || role == Role.CARRIER_COMPANY || role == Role.CARRIER_PERSONAL|| role == Role.CARRIERANDDRIVER) ? View.VISIBLE : View.GONE);
         ll_identification.setVisibility((role == Role.PLATFORM ? View.GONE : View.VISIBLE));
     }
 

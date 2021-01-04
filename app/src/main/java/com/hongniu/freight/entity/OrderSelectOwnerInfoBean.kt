@@ -15,8 +15,11 @@ data class OrderSelectOwnerInfoBean(var carNumber:String?,//车牌号
                                     var ownerName:String?,//承运人姓名
                                     var ownerMobile:String?,//承运人手机
                                     var isDriver:String?,//是否是司机
+                                    var carid:String?,//车辆ID
                                     ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
+            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -27,8 +30,7 @@ data class OrderSelectOwnerInfoBean(var carNumber:String?,//车牌号
             parcel.readString()) {
     }
 
-    constructor() : this(null,null,null,null,null,null,null,null);
-
+    constructor() : this(null,null,null,null,null,null,null,null,null);
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(carNumber)
         parcel.writeString(ownerCompanyAccountId)
@@ -38,6 +40,7 @@ data class OrderSelectOwnerInfoBean(var carNumber:String?,//车牌号
         parcel.writeString(ownerName)
         parcel.writeString(ownerMobile)
         parcel.writeString(isDriver)
+        parcel.writeString(carid)
     }
 
     override fun describeContents(): Int {
@@ -53,4 +56,5 @@ data class OrderSelectOwnerInfoBean(var carNumber:String?,//车牌号
             return arrayOfNulls(size)
         }
     }
+
 }

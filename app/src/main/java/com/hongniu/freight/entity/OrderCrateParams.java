@@ -34,7 +34,33 @@ public class OrderCrateParams {
     private String driverId;//司机id（1.32查询信息
     private String driverName;//司机名（1.32查询信息
     private String driverMobile;//司机手机号（1.32查询信息
+    private String carId;//车辆id
+    private String carInfo;//车辆类型
+    private String carNum;//车牌号
 
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getCarInfo() {
+        return carInfo;
+    }
+
+    public void setCarInfo(String carInfo) {
+        this.carInfo = carInfo;
+    }
+
+    public String getCarNum() {
+        return carNum;
+    }
+
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
+    }
 
     public String getIsdirect() {
         return isdirect;

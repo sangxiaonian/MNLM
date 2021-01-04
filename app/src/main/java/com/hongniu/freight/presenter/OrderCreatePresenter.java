@@ -88,12 +88,24 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
 
 
             if ("1".equals(orderInfoBean.getIsdirect())) {
+
+//                        var vehicleType:String?,//车辆类型
+//                        var model:String?,//车辆品牌
+//                        var ownerId:String?,//承运人id
+//                        var ownerName:String?,//承运人姓名
+//                        var ownerMobile:String?,//承运人手机
+//                        var isDriver:String?,//是否是司机
+//                        var carid:String?,//车辆ID
+
                 OrderSelectOwnerInfoBean infoBean = new OrderSelectOwnerInfoBean();
                 infoBean.setOwnerCompanyAccountId(orderInfoBean.getOwnerCompanyAccountId());
                 infoBean.setOwnerId(orderInfoBean.getOwnerId());
                 infoBean.setOwnerMobile(orderInfoBean.getOwnerMobile());
                 infoBean.setOwnerName(orderInfoBean.getOwnerName());
                 infoBean.setCarNumber(orderInfoBean.getCarNum());
+                infoBean.setCarid(orderInfoBean.getCarId());
+                infoBean.setVehicleType(orderInfoBean.getCarInfo());
+                infoBean.setModel(orderInfoBean.getCartype());
                 mode.saveOwnerInfo(infoBean);
 
                 OrderSelectDriverInfoBean driverInfoBean = new OrderSelectDriverInfoBean();
@@ -323,6 +335,11 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     public void saveOwnerInfo(OrderSelectOwnerInfoBean result) {
         mode.saveOwnerInfo(result);
         view.initOwnerInfo(result);
+    }
+
+    @Override
+    public OrderSelectOwnerInfoBean getOwnerInfo() {
+        return mode.getOwnerInfo();
     }
 
 }

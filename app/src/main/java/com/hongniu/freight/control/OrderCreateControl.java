@@ -228,6 +228,8 @@ public class OrderCreateControl {
         void saveDriverInfo(OrderSelectDriverInfoBean result);
 
         void saveOwnerInfo(OrderSelectOwnerInfoBean result);
+
+        OrderSelectOwnerInfoBean getOwnerInfo();
     }
 
     ;
@@ -357,6 +359,7 @@ public class OrderCreateControl {
         void saveDriverInfo(OrderSelectDriverInfoBean result);
 
         void saveOwnerInfo(OrderSelectOwnerInfoBean result);
+        OrderSelectOwnerInfoBean getOwnerInfo();
     }
 
     ;

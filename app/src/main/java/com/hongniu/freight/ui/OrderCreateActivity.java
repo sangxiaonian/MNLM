@@ -32,6 +32,7 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
+import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.OrderCreateControl;
 import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.H5Config;
@@ -43,6 +44,7 @@ import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.presenter.OrderCreatePresenter;
 import com.fy.androidlibrary.utils.permission.PermissionUtils;
+import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.dialog.InsuranceDialog;
@@ -94,6 +96,8 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         initView();
         initData();
         initListener();
+        initDriverInfo(null);
+        initOwnerInfo(null);
         presenter = new OrderCreatePresenter(this);
         OrderInfoBean orderInfoBean = getIntent().getParcelableExtra(Param.TRAN);
         presenter.saveInfo(orderInfoBean);
@@ -101,6 +105,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 
         //版本暂时隐藏,仅支持先付
         item_pay_way.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -277,7 +282,12 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         }else if (R.id.item_driver == v.getId()) {
             startActivityForResult(new Intent(this,OrderSelectDriverActivity.class),3);
         }else if (R.id.item_owner == v.getId()) {
-            startActivityForResult(new Intent(this,OrderSelectOwnerActivity.class),4);
+            OrderSelectOwnerInfoBean result=  presenter.getOwnerInfo();
+            Intent intent = new Intent(this, OrderSelectOwnerActivity.class);
+            if (result!=null&& InfoUtils.getRole(InfoUtils.getMyInfo())== Role.CARRIERANDDRIVER){
+                intent.putExtra(Param.TRAN,result);
+            }
+            startActivityForResult(intent,4);
         }
     }
 

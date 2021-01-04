@@ -285,6 +285,9 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
             params.setOwnerId(ownerInfo.getOwnerId());
             params.setOwnerName(ownerInfo.getOwnerName());
             params.setOwnerMobile(ownerInfo.getOwnerMobile());
+            params.setCarId(ownerInfo.getCarid());
+            params.setCarInfo(ownerInfo.getVehicleType());
+            params.setCarNum(ownerInfo.getCarNumber());
         }
 
         if (orderInfoBean != null) {
@@ -373,6 +376,11 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     @Override
     public void saveOwnerInfo(OrderSelectOwnerInfoBean result) {
         this.ownerInfo=result;
+    }
+
+    @Override
+    public OrderSelectOwnerInfoBean getOwnerInfo() {
+        return ownerInfo;
     }
 
 
