@@ -3,6 +3,7 @@ package com.hongniu.freight.mode;
 import com.amap.api.services.core.LatLonPoint;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.control.OrderCreateControl;
@@ -281,7 +282,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
             params.setDriverName(driverInfo.getContact());
         }
         if (ownerInfo!=null){
-            params.setOwnerCompanyAccountId(ownerInfo.getOwnerCompanyAccountId());
+            params.setOwnerCompanyAccountId(CommonUtils.getText(ownerInfo.getOwnerCompanyAccountId(),"0"));
             params.setOwnerId(ownerInfo.getOwnerId());
             params.setOwnerName(ownerInfo.getOwnerName());
             params.setOwnerMobile(ownerInfo.getOwnerMobile());
