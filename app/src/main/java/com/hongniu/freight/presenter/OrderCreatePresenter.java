@@ -18,6 +18,7 @@ import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.mode.OrderCreateMode;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 作者：  on 2020/2/17.
@@ -335,6 +336,15 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     public void saveOwnerInfo(OrderSelectOwnerInfoBean result) {
         mode.saveOwnerInfo(result);
         view.initOwnerInfo(result);
+
+        if (Objects.equals(result.isDriver(), "是")){
+            OrderSelectDriverInfoBean driverInfoBean=new OrderSelectDriverInfoBean();
+            driverInfoBean.setMobile(result.getOwnerMobile());
+            driverInfoBean.setContact(result.getOwnerName());
+            driverInfoBean.setId(result.getOwnerId());
+            saveDriverInfo(driverInfoBean);
+        }
+
     }
 
     @Override

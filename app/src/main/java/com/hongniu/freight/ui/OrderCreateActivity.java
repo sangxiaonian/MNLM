@@ -284,9 +284,6 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         }else if (R.id.item_owner == v.getId()) {
             OrderSelectOwnerInfoBean result=  presenter.getOwnerInfo();
             Intent intent = new Intent(this, OrderSelectOwnerActivity.class);
-            if (result!=null&& InfoUtils.getRole(InfoUtils.getMyInfo())== Role.CARRIERANDDRIVER){
-                intent.putExtra(Param.TRAN,result);
-            }
             startActivityForResult(intent,4);
         }
     }

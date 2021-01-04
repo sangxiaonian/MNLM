@@ -37,14 +37,9 @@ class OrderSelectOwnerActivity : RefrushActivity<OrderSelectOwnerInfoBean>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_select_owner)
         setWhitToolBar("请选择实际承运人")
-        val stringExtra = intent?.getParcelableExtra<OrderSelectOwnerInfoBean>(Param.TRAN)
-        if (stringExtra?.carNumber != null) {
-            searchText= stringExtra.carNumber!!
-        }
         initView()
         initData()
         initListener()
-        queryData(true)
     }
 
     override fun initData() {
