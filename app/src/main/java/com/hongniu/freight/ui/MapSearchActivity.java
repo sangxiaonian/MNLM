@@ -63,6 +63,7 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
 
 
     private TranMapBean bean;
+    private boolean isEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +73,10 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
         StatusBarCompat.setTranslucent(getWindow(), true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         bean = new TranMapBean();
+        isEnd = getIntent().getBooleanExtra(Param.TRAN, false);
         initView();
-
         initData();
         initListener();
-        boolean isEnd = getIntent().getBooleanExtra(Param.TRAN, false);
         if (isEnd) {
             etSearch.setHint("在哪儿收货");
             item_name.setTextCenterHide("收货人姓名");
@@ -108,6 +108,9 @@ public class MapSearchActivity extends RefrushActivity<PoiItem> implements View.
         btCancle = findViewById(R.id.bt_cancel);
         bt_sum = findViewById(R.id.bt_sum);
         frament = new MapPointFragment();
+        Bundle bundle=new Bundle();
+        bundle.putBoolean(Param.TRAN,!isEnd);
+        frament.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, frament)
                 .commit()

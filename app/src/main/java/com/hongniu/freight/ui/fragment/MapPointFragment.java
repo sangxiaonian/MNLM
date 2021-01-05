@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.fy.androidlibrary.imgload.ImageLoader;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.PageBean;
@@ -36,7 +38,6 @@ public class MapPointFragment extends CompanyBaseFragment implements MapUtils.On
     private AMap aMap;
     //    private Marker marker;
     MapUtils mapUtils;
-    private boolean start = true;
 
     //移动地图的时候是否更新数据
     private boolean upData = true;
@@ -46,6 +47,7 @@ public class MapPointFragment extends CompanyBaseFragment implements MapUtils.On
     OnMapPointChangeListener listener;
 
     MapUtils.OnMapChangeListener changeListener;
+    private ImageView img_mark;
 
     @Nullable
     @Override
@@ -55,6 +57,7 @@ public class MapPointFragment extends CompanyBaseFragment implements MapUtils.On
         llMarkDes = inflate.findViewById(R.id.ll);
         tv_title = inflate.findViewById(R.id.tv_title);
         tv_des = inflate.findViewById(R.id.tv_des);
+        img_mark = inflate.findViewById(R.id.img_mark);
         aMap = mMapView.getMap();
 
 
@@ -78,6 +81,10 @@ public class MapPointFragment extends CompanyBaseFragment implements MapUtils.On
         aMap.getUiSettings().setScaleControlsEnabled(false);//隐藏定位标签
         llMarkDes.setVisibility(View.GONE);
 
+        if (getArguments()!=null) {
+            boolean start = getArguments().getBoolean(Param.TRAN);
+            ImageLoader.getLoader().load(getContext(), img_mark, start ? R.mipmap.start : R.mipmap.end);
+        }
 
     }
 
