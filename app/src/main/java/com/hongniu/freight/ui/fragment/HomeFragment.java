@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.event.BusFactory;
@@ -51,6 +52,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     private View search;//搜索
     private ImageView icon_eyes;//查看余额
     private TextView tv_count;//余额
+    private View group_company;//公司用户
     private TextView tv_count_company;//企业余额
     private TextView tv_count_tyr;//托运人订单数量
     private TextView tv_count_cyr;//承运人订单数量
@@ -85,6 +87,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         tv_count_driver = inflate.findViewById(R.id.tv_count_driver);
         view_driver = inflate.findViewById(R.id.view_driver);
         bt_learn_more = inflate.findViewById(R.id.bt_learn_more);
+        group_company = inflate.findViewById(R.id.group_company);
         ll_more = inflate.findViewById(R.id.ll_more);
         shadow = inflate.findViewById(R.id.shadow);
         present = new HomeFramentPresent(this);
@@ -105,7 +108,6 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
             present.saveInfo(isLogin);
         }
         present.queryInfo(this);
-
 
 
     }
@@ -220,8 +222,9 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     /**
      * 显示余额数据
-     *  @param showBalance  true 显示
-     * @param totalBalance 余额
+     *
+     * @param showBalance    true 显示
+     * @param totalBalance   余额
      * @param companyBalance
      */
     @Override
@@ -298,6 +301,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     /**
      * 弹出去实名认证的提示
+     *
      * @param myInfo
      */
     @Override
@@ -327,6 +331,16 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     @Override
     public void jump2Attestion(PersonInfor personInfo) {
         Utils.jump2Attestation(mContext, personInfo);
+    }
+
+    @Override
+    public void showCompany(boolean companyPayPermission) {
+        group_company.setVisibility(companyPayPermission ? View.VISIBLE : View.GONE);
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) tv_count.getLayoutParams();
+        if (params != null) {
+            params.endToStart = companyPayPermission ? R.id.guide : R.id.icon_eyes;
+            tv_count.setLayoutParams(params);
+        }
     }
 
     /**

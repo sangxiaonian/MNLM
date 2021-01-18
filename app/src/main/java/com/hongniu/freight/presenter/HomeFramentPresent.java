@@ -94,39 +94,13 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                             }else if (data instanceof AccountDetailBean){
                                 //账户余额信息
                                 mode.saveAccoundDetail((AccountDetailBean) data);
-
+                                view.showCompany(((AccountDetailBean) data).isCompanyPayPermission());
                             }
                         }
                     }
                 });
 
 
-
-
-//        mode.queryOrderList();
-//
-//        Observable.zip(mode.queryMyInfo()
-//                , mode.queryOrderNum()
-//                , new BiFunction<CommonBean<PersonInfor>, CommonBean<OrderNumberInfoBean>, CommonBean<PersonInfor>>() {
-//                    @Override
-//                    public CommonBean<PersonInfor> apply(CommonBean<PersonInfor> personInforCommonBean, CommonBean<OrderNumberInfoBean> orderNumberInfoBeanCommonBean) throws Exception {
-//                        mode.savePersonInfo(personInforCommonBean.getData());
-//                        view.showPersonInfo(mode.getPersonInfo());
-//                        view.showOrderNum(orderNumberInfoBeanCommonBean.getData());
-//                        return personInforCommonBean;
-//                    }
-//                }
-//
-//        )
-//                .doFinally(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle());
-//                        //查询订单数据
-//                    }
-//                })
-//            .subscribe(new NetObserver<PersonInfor>(listener))
-//        ;
 
 
     }

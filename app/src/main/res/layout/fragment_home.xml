@@ -133,13 +133,12 @@
                         android:id="@+id/tv_count"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
                         android:text="******"
                         android:textColor="@color/color_of_040000"
                         android:textSize="24dp"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/guide"
-                        app:layout_constraintStart_toEndOf="@id/view_line"
+                        app:layout_constraintStart_toStartOf="@id/tv_count_des"
+                        app:layout_constraintEnd_toEndOf="@id/tv_count_des"
                         app:layout_constraintTop_toBottomOf="@id/tv_count_des" />
 
                     <ImageView
@@ -211,6 +210,13 @@
                         app:layout_constraintStart_toEndOf="@id/view_line_company"
                         app:layout_constraintTop_toBottomOf="@id/tv_count_company_des" />
 
+                    <androidx.constraintlayout.widget.Group
+                        android:layout_width="wrap_content"
+                        android:id="@+id/group_company"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        app:constraint_referenced_ids="tv_company,tv_count_company,tv_count_company_des,view_line_company"
+                        android:layout_height="wrap_content"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.fy.androidlibrary.widget.shadow.ShadowLayout>

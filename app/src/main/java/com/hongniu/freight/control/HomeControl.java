@@ -86,6 +86,8 @@ public class HomeControl {
          * @param personInfo
          */
         void jump2Attestion(PersonInfor personInfo);
+
+        void showCompany(boolean companyPayPermission);
     }
     public interface IHomeFragmentPresent {
         /**

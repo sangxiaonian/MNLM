@@ -8,21 +8,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.fy.androidlibrary.imgload.ImageLoader;
+import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
+import com.fy.companylibrary.entity.CommonBean;
+import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.fy.companylibrary.ui.CompanyBaseFragment;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.entity.AccountDetailBean;
+import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
@@ -36,6 +44,7 @@ import com.luck.picture.lib.listener.OnResultCallbackListener;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.ResponseBody;
 
@@ -59,9 +68,11 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     private ViewGroup ll_quit;//推出账号
     private ViewGroup ll_order_center;//接单中心
     private ViewGroup shadow;//我的金库
-
+    private View group_company;//公司用户
+    private TextView tv_count_company;//企业余额
     private boolean hideBalance = true;//是否隐藏余额
     private PersonInfor personInfor;
+    private AccountDetailBean accountInfo;
 
     @Override
     protected View initView(LayoutInflater inflater) {
@@ -78,6 +89,8 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         ll_about_us = inflate.findViewById(R.id.ll_about_us);
         ll_quit = inflate.findViewById(R.id.ll_quit);
         ll_order_center = inflate.findViewById(R.id.ll_order_center);
+        group_company = inflate.findViewById(R.id.group_company);
+        tv_count_company = inflate.findViewById(R.id.tv_count_company);
         shadow = inflate.findViewById(R.id.shadow);
         return inflate;
     }
@@ -251,17 +264,34 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     }
 
     private void queryInfo() {
-        HttpAppFactory.queryMyInfo()
-                .subscribe(new NetObserver<PersonInfor>(isFirst ? this : null) {
-                    @Override
-                    public void doOnSuccess(PersonInfor personInfor) {
-                        super.doOnSuccess(personInfor);
+
+        Observable.concat(
+                HttpAppFactory.queryMyInfo(),
+                HttpAppFactory.queryAccountDetails()
+        )  .subscribe(new BaseObserver<CommonBean<? extends Object>>(isFirst ? this : null) {
+            @Override
+            public void onNext(CommonBean<?> result) {
+                super.onNext(result);
+                if (result.getCode() != 200) {
+                    onError(new NetException(result.getCode(), result.getMsg()));
+                } else {
+                    Object data = result.getData();
+                    if (data instanceof PersonInfor){
+                        //个人数据
                         initInfo(personInfor);
                         isFirst = false;
+                    } else if (data instanceof AccountDetailBean){
+                        //账户余额信息
+                        accountInfo= (AccountDetailBean) data;
+                        showCompany(accountInfo.isCompanyPayPermission());
+
                     }
+                }
+            }
+        });
 
 
-                });
+
     }
 
     private void initInfo(PersonInfor personInfor) {
@@ -294,5 +324,15 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         this.hideBalance = hideBalance;
         tv_count.setText(hideBalance ? "******" : personInfor == null || TextUtils.isEmpty(personInfor.getTotalBalance()) ? "0" : personInfor.getTotalBalance());
         icon_eyes.setImageResource(hideBalance ? R.mipmap.attention_forbid : R.mipmap.attention);
+        tv_count_company.setText(hideBalance ?  "******":(accountInfo==null )?"0": ConvertUtils.changeFloat(accountInfo.getCompanyAvailableBalance(),2));
+    }
+
+    public void showCompany(boolean companyPayPermission) {
+        group_company.setVisibility(companyPayPermission ? View.VISIBLE : View.GONE);
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) tv_count.getLayoutParams();
+        if (params != null) {
+            params.endToStart = companyPayPermission ? R.id.guide : R.id.icon_eyes;
+            tv_count.setLayoutParams(params);
+        }
     }
 }
