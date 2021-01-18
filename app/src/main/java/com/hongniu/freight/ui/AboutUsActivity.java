@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.baselibrary.utils.ArouterUtils;
 import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.config.Param;
@@ -24,6 +25,7 @@ import com.hongniu.freight.entity.H5Config;
 public class AboutUsActivity extends CompanyBaseActivity implements View.OnClickListener {
     private TextView tv_privacy;
     private TextView tv_agreement;
+    private TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,13 @@ public class AboutUsActivity extends CompanyBaseActivity implements View.OnClick
 
         tv_privacy = findViewById(R.id.tv_privacy);
         tv_agreement = findViewById(R.id.tv_agreement);
+        tv_version = findViewById(R.id.tv_version);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        tv_version.setText("版本号："+ DeviceUtils.getVersionName(this));
     }
 
     @Override

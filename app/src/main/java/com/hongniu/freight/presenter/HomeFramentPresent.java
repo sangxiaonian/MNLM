@@ -4,23 +4,18 @@ import com.fy.androidlibrary.net.error.NetException;
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.utils.CollectionUtils;
-import com.fy.baselibrary.utils.ArouterUtils;
-import com.fy.companylibrary.config.ArouterParamApp;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.HomeControl;
-import com.hongniu.freight.entity.LoginInfo;
+import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.mode.HomeFragmentMode;
 import com.hongniu.freight.utils.InfoUtils;
-import com.hongniu.freight.utils.Utils;
 
 import io.reactivex.Observable;
-
-import static com.taobao.accs.init.Launcher_InitAccs.mContext;
 
 /**
  * 作者：  on 2020/2/6.
@@ -61,7 +56,8 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
         Observable.concat(
                 mode.queryMyInfo(),
                 mode.queryOrderNum(),
-                mode.queryOrderList()
+                mode.queryOrderList(),
+                mode.queryAccountDetails()
         )
                 .subscribe(new BaseObserver<CommonBean<? extends Object>>(listener) {
                     @Override
@@ -95,6 +91,10 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                                 }else {
                                     view.stopLocation(  );
                                 }
+                            }else if (data instanceof AccountDetailBean){
+                                //账户余额信息
+                                mode.saveAccoundDetail((AccountDetailBean) data);
+
                             }
                         }
                     }
@@ -137,7 +137,7 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
     @Override
     public void switchBalance() {
         mode.switchBalance(!mode.isShowBalance());
-        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle());
+        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle(),mode.getCompanyBalance());
     }
 
     /**
@@ -153,7 +153,7 @@ public class HomeFramentPresent implements HomeControl.IHomeFragmentPresent {
                         super.doOnSuccess(personInfor);
                         mode.savePersonInfo(personInfor);
                         view.showPersonInfo(mode.getPersonInfo());
-                        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle());
+                        view.showBalance(mode.isShowBalance(), mode.getBalanceTotle(), mode.getCompanyBalance());
                     }
                 });
     }

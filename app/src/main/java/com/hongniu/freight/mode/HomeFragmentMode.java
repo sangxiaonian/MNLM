@@ -3,12 +3,14 @@ package com.hongniu.freight.mode;
 import android.text.TextUtils;
 
 import com.fy.androidlibrary.utils.CollectionUtils;
+import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
 import com.hongniu.freight.control.HomeControl;
+import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.HomeInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
@@ -33,6 +35,7 @@ public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
     private boolean isShowBalance;
     private List<OrderInfoBean> list;
     private boolean isLogin;
+    private AccountDetailBean accountDetail;
 
     public HomeFragmentMode() {
         list=new ArrayList<>();
@@ -184,6 +187,36 @@ public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
     @Override
     public List<OrderInfoBean> getOrderList() {
 return list;
+    }
+
+    /**
+     * 查询账户余额详情
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<AccountDetailBean>> queryAccountDetails() {
+     return    HttpAppFactory.queryAccountDetails();
+
+    }
+
+    /**
+     * 获取账户余额信息
+     *
+     * @param data
+     */
+    @Override
+    public void saveAccoundDetail(AccountDetailBean data) {
+        this.accountDetail=data;
+    }
+
+    /**
+     * 获取企业余额
+     *
+     * @return
+     */
+    @Override
+    public String getCompanyBalance() {
+          return accountDetail==null?"0": ConvertUtils.changeFloat(accountDetail.getCompanyAvailableBalance(),2);
     }
 
 

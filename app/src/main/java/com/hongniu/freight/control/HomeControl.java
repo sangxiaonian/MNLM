@@ -5,6 +5,7 @@ import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.config.RoleOrder;
+import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderNumberInfoBean;
 import com.hongniu.freight.entity.PersonInfor;
@@ -43,8 +44,9 @@ public class HomeControl {
          * 显示余额数据
          * @param showBalance true 显示
          * @param totalBalance 余额
+         * @param companyBalance
          */
-        void showBalance(boolean showBalance, String totalBalance);
+        void showBalance(boolean showBalance, String totalBalance, String companyBalance);
 
         /**
          * 跳转到查看认证信息页面
@@ -195,6 +197,19 @@ public class HomeControl {
         void saveOrderList(List list);
         List<OrderInfoBean> getOrderList( );
 
+        Observable<CommonBean<AccountDetailBean>> queryAccountDetails();
+
+        /**
+         * 获取账户余额信息
+         * @param data
+         */
+        void saveAccoundDetail(AccountDetailBean data);
+
+        /**
+         * 获取企业余额
+         * @return
+         */
+        String getCompanyBalance();
     }
 
 }

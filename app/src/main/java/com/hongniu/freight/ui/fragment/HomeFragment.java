@@ -51,6 +51,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
     private View search;//搜索
     private ImageView icon_eyes;//查看余额
     private TextView tv_count;//余额
+    private TextView tv_count_company;//企业余额
     private TextView tv_count_tyr;//托运人订单数量
     private TextView tv_count_cyr;//承运人订单数量
     private TextView tv_count_driver;//司机订单数量
@@ -76,6 +77,7 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
         search = inflate.findViewById(R.id.search);
         icon_eyes = inflate.findViewById(R.id.icon_eyes);
         tv_count = inflate.findViewById(R.id.tv_count);
+        tv_count_company = inflate.findViewById(R.id.tv_count_company);
         tv_count_tyr = inflate.findViewById(R.id.tv_count_tyr);
         view_tuoyunren = inflate.findViewById(R.id.view_tuoyunren);
         tv_count_cyr = inflate.findViewById(R.id.tv_count_cyr);
@@ -218,13 +220,14 @@ public class HomeFragment extends CompanyBaseFragment implements HomeControl.IHo
 
     /**
      * 显示余额数据
-     *
-     * @param showBalance  true 显示
+     *  @param showBalance  true 显示
      * @param totalBalance 余额
+     * @param companyBalance
      */
     @Override
-    public void showBalance(boolean showBalance, String totalBalance) {
+    public void showBalance(boolean showBalance, String totalBalance, String companyBalance) {
         tv_count.setText(showBalance ? totalBalance : "******");
+        tv_count_company.setText(showBalance ? companyBalance : "******");
         icon_eyes.setImageResource(showBalance ? R.mipmap.attention : R.mipmap.attention_forbid);
     }
 

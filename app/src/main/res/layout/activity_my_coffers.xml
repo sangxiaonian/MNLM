@@ -33,7 +33,7 @@
             android:textColor="@color/color_of_040000"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_month_bill"
+            app:layout_constraintEnd_toStartOf="@+id/tv_recharge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,14 +91,33 @@
             app:layout_constraintStart_toEndOf="@id/tv_balance_of_unentry_des"
             app:layout_constraintTop_toTopOf="@id/tv_balance_of_unentry_des" />
 
+
+
+
+
+
         <TextView
-            android:id="@+id/tv_month_bill"
+            android:id="@+id/tv_recharge"
             android:layout_width="65dp"
             android:layout_height="25dp"
             android:background="@drawable/ovl_5_e50000"
             android:gravity="center"
-            android:text="月账单"
+            android:text="充值"
+            android:layout_marginEnd="@dimen/gap_app"
             android:textColor="@color/color_of_ffffff"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_withdraw"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_withdraw"
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ovl_5_eeeeee"
+            android:gravity="center"
+            android:text="提现"
+            android:textColor="@color/color_of_040000"
             android:textSize="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
