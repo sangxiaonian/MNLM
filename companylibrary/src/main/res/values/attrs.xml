@@ -47,7 +47,8 @@
             <enum name="phone" value="1" />
             <enum name="idcard" value="2" />
             <enum name="number" value="3" />
-            <enum name="password" value="4" />
+            <enum name="numberPassword" value="4" />
+            <enum name="passWord" value="5" />
         </attr>
     </declare-styleable>
 

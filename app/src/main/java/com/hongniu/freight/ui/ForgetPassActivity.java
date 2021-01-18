@@ -57,13 +57,24 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
     private int currentTime;
 
 
+    /**
+     * 0 1 支付密码 2设置登录密码
+     */
     private int type;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_pass);
-        type = getIntent().getIntExtra(Param.TRAN, 0);
+        phone = getIntent().getStringExtra(Param.TRAN);
+        type = getIntent().getIntExtra(Param.TYPE, 0);
+
+        if (TextUtils.isEmpty(phone)&&InfoUtils.getMyInfo()!=null) {
+            phone = InfoUtils.getMyInfo().getMobile();
+        }
+
+
         initView();
         initData();
         initListener();
@@ -84,11 +95,41 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
     @Override
     protected void initData() {
         super.initData();
-        itemPhone.setTextCenter(InfoUtils.getMyInfo().getMobile());
-        itemPhone.setEnabled(false);
-        setWhitToolBar(type == 0 ? "忘记支付/提现密码" : "设置木牛流马支付/提现密码");
-        itemPass.setTextCenterHide("请输入六位数字新密码");
-        itemNewPass.setTextCenterHide("请再次输入六位数字密码");
+
+
+
+
+        if (type==0){
+            setWhitToolBar( "忘记支付/提现密码" );
+            itemPhone.setTextCenter(phone);
+            itemPhone.setEnabled(false);
+            itemPass.setTextCenterHide("请输入六位数字新密码");
+            itemNewPass.setTextCenterHide("请再次输入六位数字密码");
+        }else if (type==1){
+            setWhitToolBar(  "设置木牛流马支付/提现密码");
+            itemPhone.setTextCenter(phone);
+            itemPhone.setEnabled(false);
+            itemPass.setTextCenterHide("请输入六位数字新密码");
+            itemNewPass.setTextCenterHide("请再次输入六位数字密码");
+        }else if (type==2){
+            setWhitToolBar(  "设置登录密码");
+
+            itemPhone.setTextCenter(phone);
+            itemNewPass.setMaxLength(32);
+            itemPass.setMaxLength(32);
+            itemNewPass.setCenterType(5);
+            itemPass.setCenterType(5);
+            itemPhone.setEditable(TextUtils.isEmpty(phone));
+            itemPhone.setEnabled(TextUtils.isEmpty(phone));
+            itemPass.setTextCenterHide("请输入密码");
+            itemNewPass.setTextCenterHide("请再次输入密码");
+        }else {
+            setWhitToolBar(  "设置密码");
+            ToastUtils.getInstance().show("类型错误");
+        }
+
+//        setWhitToolBar(type == 0 ? "忘记支付/提现密码" : "设置木牛流马支付/提现密码");
+
 
 
     }
@@ -114,7 +155,11 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sms) {
             startCountTime();
-            HttpAppFactory.getSms(InfoUtils.getMyInfo().getMobile())
+            if (TextUtils.isEmpty(itemPhone.getTextCenter())){
+                ToastUtils.getInstance().show(itemPhone.getTextCenterHide());
+                return;
+            }
+            HttpAppFactory.getSms(itemPhone.getTextCenter())
                     .subscribe(new NetObserver<String>(null) {
                         @Override
                         public void doOnSuccess(String data) {
@@ -125,18 +170,12 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
         } else if (v.getId() == R.id.bt_sum) {
 
             if (check()) {
-                String trim = itemPass.getTextCenter();
-                HttpAppFactory
-                        .upPassword(ConvertUtils.MD5(trim), itemSms.getTextCenter())
-                        .subscribe(new NetObserver<Object>(this) {
-                            @Override
-                            public void doOnSuccess(Object data) {
-                                ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show(type == 0 ? "修改密码成功" : "设置密码成功");
-                                Intent intent = new Intent();
-                                setResult(RESULT_OK, intent);
-                                finish();
-                            }
-                        });
+                String passWord = itemPass.getTextCenter();
+                if (type==0||type==1) {
+                    setPayPassword(passWord);
+                }else {
+                    setLoginPassword(passWord);
+                }
 
             }
 
@@ -144,7 +183,46 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
         }
     }
 
+    /**
+     * 设置登录密码
+     * @param passWord
+     */
+    private void setLoginPassword(String passWord) {
+        HttpAppFactory
+                .setLoginPass(itemPhone.getTextCenter(), itemSms.getTextCenter(),passWord)
+                .subscribe(new NetObserver<String>(this){
+                    @Override
+                    public void doOnSuccess(String s) {
+                        super.doOnSuccess(s);
+                        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show();
+                        finish();
+                    }
+                });
+    }
+
+    private void setPayPassword(String trim) {
+        HttpAppFactory
+                .upPassword(ConvertUtils.MD5(trim), itemSms.getTextCenter())
+                .subscribe(new NetObserver<Object>(this) {
+                    @Override
+                    public void doOnSuccess(Object data) {
+                        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show(type == 0 ? "修改密码成功" : "设置密码成功");
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
+    }
+
+    private void getResultMsg(){
+
+    }
+
     private boolean check() {
+        if (TextUtils.isEmpty(itemPhone.getTextCenter())) {
+            ToastUtils.getInstance().show(itemPhone.getTextCenterHide());
+            return false;
+        }
         if (TextUtils.isEmpty(itemSms.getTextCenter())) {
             ToastUtils.getInstance().show(itemSms.getTextCenterHide());
             return false;

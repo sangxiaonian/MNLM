@@ -14,7 +14,16 @@ public class QuerySmsParams {
      */
     private String code;
     private String checkCode;
+    private String passwd;//密码
 
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
 
     public String getMobile() {
         return mobile;

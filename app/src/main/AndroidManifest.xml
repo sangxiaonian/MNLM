@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup,android:theme">
-        <activity android:name=".ui.OrderSelectOwnerActivity"></activity>
+        <activity android:name=".ui.SetPasswordActivity"></activity>
+        <activity android:name=".ui.OrderSelectOwnerActivity" />
         <activity android:name=".ui.OrderSelectDriverActivity" />
         <activity android:name=".ui.OrderReceiveActivity" />
         <activity android:name=".ui.AppraiseActivity" />

@@ -84,6 +84,25 @@ public interface AppService {
      */
     @POST("wlhyapi/api/login/login")
     Observable<CommonBean<LoginInfo>> login(@Body QuerySmsParams params);
+ /**
+     * 发送验证码
+     *
+     * @param params
+     * @return
+     */
+    @POST("wlhyapi/api/login/loginpasswd")
+    Observable<CommonBean<LoginInfo>> loginWitPassWord(@Body QuerySmsParams params);
+
+    /**
+     * 更新/设置登录密码
+     *
+     * @param payInfoParams
+     * @return
+     */
+    @POST("wlhyapi/api/login/resetpasswd")
+    Observable<CommonBean<String>> setLoginPass(@Body JsonObject payInfoParams);
+
+
 
     /**
      * 查询个人资料

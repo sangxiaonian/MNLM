@@ -167,7 +167,7 @@ public class BalancePendingActivity extends CompanyBaseActivity implements View.
                                 public void onRightClick(View view, Dialog dialog) {
                                     dialog.dismiss();
                                     ArouterUtils.getInstance().builder(ArouterParamApp.activity_forget_pass)
-                                            .withInt(Param.TRAN, 0)
+                                            .withInt(Param.TYPE, 0)
                                             .navigation((Activity) mContext, 2);
                                 }
                             })
@@ -253,7 +253,7 @@ public class BalancePendingActivity extends CompanyBaseActivity implements View.
     public void onForgetPassowrd(Dialog dialog) {
         dialog.dismiss();
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_forget_pass)
-                .withInt(Param.TRAN, 1)
+                .withInt(Param.TYPE, 1)
                 .navigation(this, 2);
     }
 }

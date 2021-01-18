@@ -15,6 +15,7 @@
         android:id="@+id/item_phone"
         android:layout_marginTop="@dimen/gap_app"
         app:editable="false"
+        app:centerType="phone"
         app:textcenterhide="请输入手机号码"
         app:textleft="手机号码" />
 
@@ -54,7 +55,7 @@
         android:id="@+id/item_pass"
         style="@style/item_edit"
         app:centerLength="6"
-        app:centerType="password"
+        app:centerType="numberPassword"
         android:layout_marginTop="@dimen/gap_app"
         app:textcenterhide="请输入六位支付密码"
         app:textleft="新密码" />
@@ -64,7 +65,7 @@
         style="@style/item_edit"
         app:showline="false"
         app:centerLength="6"
-        app:centerType="password"
+        app:centerType="numberPassword"
         app:textcenterhide="请再次输入六位支付密码"
         app:textleft="确认新密码" />
 

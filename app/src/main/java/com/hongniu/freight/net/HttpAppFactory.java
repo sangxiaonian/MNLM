@@ -5,11 +5,11 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
+import com.fy.baselibrary.interceptor.FileProgressRequestBody;
 import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.fy.companylibrary.entity.PageBean;
 import com.fy.companylibrary.net.CompanyClient;
-import com.fy.baselibrary.interceptor.FileProgressRequestBody;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
@@ -55,12 +55,12 @@ import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyPersonParams;
-import com.hongniu.thirdlibrary.verify.VerifyTokenBeans;
 import com.hongniu.freight.entity.WayBillBean;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
+import com.hongniu.thirdlibrary.verify.VerifyTokenBeans;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -119,6 +119,46 @@ public class HttpAppFactory {
                     }
                 })
                 .compose(RxUtils.<CommonBean<LoginInfo>>getSchedulersObservableTransformer());
+
+    }  /**
+     * 使用密码登录
+     *
+     * @param phone
+     * @return
+     */
+    public static Observable<CommonBean<LoginInfo>> loginWitPassWord(String phone, String password) {
+        QuerySmsParams params = new QuerySmsParams();
+        params.setMobile(phone);
+        params.setPasswd(password);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .loginWitPassWord(params)
+                .map(new Function<CommonBean<LoginInfo>, CommonBean<LoginInfo>>() {
+                    @Override
+                    public CommonBean<LoginInfo> apply(CommonBean<LoginInfo> loginInfoCommonBean) throws Exception {
+                        if (loginInfoCommonBean.getCode() == Param.SUCCESS_FLAG) {
+                            InfoUtils.saveLoginInfo(loginInfoCommonBean.getData());
+                        }
+                        return loginInfoCommonBean;
+                    }
+                })
+                .compose(RxUtils.<CommonBean<LoginInfo>>getSchedulersObservableTransformer());
+
+    }
+
+    /**
+     * 设置登录密码
+     *
+     * @param phone
+     * @return
+     */
+    public static Observable<CommonBean<String>> setLoginPass(String phone, String sms, String passWord) {
+        JsonObject json = new JsonObject();
+        json.addProperty("mobile", phone);
+        json.addProperty("checkCode", sms);
+        json.addProperty("passwd", passWord);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .setLoginPass(json)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
 
     }
 
@@ -237,7 +277,9 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .verifyCarrierPerson(params)
                 .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
-    }  /**
+    }
+
+    /**
      * @param params
      * @return
      * @data 2020/3/1
@@ -347,7 +389,8 @@ public class HttpAppFactory {
                 .createOrder(param)
                 .compose(RxUtils.<CommonBean<OrderInfoBean>>getSchedulersObservableTransformer());
     }
-   /**
+
+    /**
      * 修改订单
      *
      * @param param
@@ -369,14 +412,16 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderList(param)
                 .compose(RxUtils.<CommonBean<PageBean<OrderInfoBean>>>getSchedulersObservableTransformer());
-    }  /**
+    }
+
+    /**
      * 查询订单列表
      *
      * @param type 文件分类：
-     * 1-业务类型代码
-     * 2-车牌颜色代码
-     * 4-车辆能源类型
-     * 6-货物分类代码
+     *             1-业务类型代码
+     *             2-车牌颜色代码
+     *             4-车辆能源类型
+     *             6-货物分类代码
      * @return
      */
     public static Observable<CommonBean<List<CargoTypeAndColorBeans>>> queryConfigInfoType(int type) {
@@ -668,12 +713,12 @@ public class HttpAppFactory {
         List<String> list = new ArrayList<>();
         list.add(path);
         return upImage(type, list, progressListener)
-                        .map(new Function<CommonBean<List<UpImgData>>, UpImgData>() {
-                            @Override
-                            public UpImgData apply(CommonBean<List<UpImgData>> listCommonBean) throws Exception {
-                                return listCommonBean.getData().get(0);
-                            }
-                        })
+                .map(new Function<CommonBean<List<UpImgData>>, UpImgData>() {
+                    @Override
+                    public UpImgData apply(CommonBean<List<UpImgData>> listCommonBean) throws Exception {
+                        return listCommonBean.getData().get(0);
+                    }
+                })
                 ;
     }
 
@@ -1087,6 +1132,7 @@ public class HttpAppFactory {
 
     /**
      * 查看回单
+     *
      * @param id
      * @return
      */
@@ -1097,8 +1143,10 @@ public class HttpAppFactory {
                 .queryReceiptInfo(json)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
+
     /**
      * 保存回单
+     *
      * @param bean
      * @return
      */
@@ -1106,22 +1154,28 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .saveReceiptInfo(bean)
                 .compose(RxUtils.getSchedulersObservableTransformer());
-    } /**
+    }
+
+    /**
      * 保存回单
+     *
      * @return
      */
     public static Observable<CommonBean<List<OrderSelectDriverInfoBean>>> querySelectDriverInfo(String searchText) {
-        PageSearchParams bean=new PageSearchParams();
+        PageSearchParams bean = new PageSearchParams();
         bean.setSearchText(searchText);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .querySelectDriverInfo(bean)
                 .compose(RxUtils.getSchedulersObservableTransformer());
-    }/**
+    }
+
+    /**
      * 保存回单
+     *
      * @return
      */
     public static Observable<CommonBean<List<OrderSelectOwnerInfoBean>>> querySelectOwnerInfo(String searchText) {
-        PageSearchParams bean=new PageSearchParams();
+        PageSearchParams bean = new PageSearchParams();
         bean.setSearchText(searchText);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .querySelectOwnerInfo(bean)

@@ -331,12 +331,25 @@ public class ItemTextView extends FrameLayout {
         } else if (centerType == 4) {//密码
             etCenter.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength < 0 ? Integer.MAX_VALUE : maxLength), new SpaceFilter()});
             etCenter.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        }else if (centerType == 5) {//密码
+            etCenter.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength < 0 ? Integer.MAX_VALUE : maxLength), new SpaceFilter()});
+            etCenter.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
         } else {
 
             etCenter.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength < 0 ? Integer.MAX_VALUE : maxLength), new SpaceFilter()});
         }
     }
 
+    public void setCenterType(int centerType) {
+        this.centerType = centerType;
+        setCenter(maxLength,centerType);
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+        setCenter(maxLength,centerType);
+
+    }
 
     public void setEditable(boolean editable) {
 
