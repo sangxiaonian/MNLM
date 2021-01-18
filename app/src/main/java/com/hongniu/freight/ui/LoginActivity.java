@@ -240,7 +240,7 @@ public class LoginActivity extends CompanyBaseActivity implements View.OnClickLi
                             @Override
                             public void onError(Throwable e) {
                                 super.onError(e);
-                                if (!isSmsLogin&&e instanceof NetException&&((NetException) e).getErrorCode()==400){
+                                if (!isSmsLogin&&e instanceof NetException&&((NetException) e).getErrorCode()==306){
                                     jumpToSetPassword();
                                 }
                             }
