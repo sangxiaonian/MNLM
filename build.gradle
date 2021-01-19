@@ -7,8 +7,8 @@ ext {
     compileSdkVersion = 29
     minSdkVersion = 19
     targetSdkVersion = 29
-    versionCode = 130
-    versionName = "1.3.0"
+    versionCode = 140
+    versionName = "1.4.0"
 //    versionName = releaseTime()+".01"
 
 

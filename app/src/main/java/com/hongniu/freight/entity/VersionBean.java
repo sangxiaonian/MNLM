@@ -15,7 +15,7 @@ public class VersionBean {
     /**
      * true	string	版本说明
       */
-    private String   versionName	;
+    private String   versionNane	;
 
     public int getType() {
         return type;
@@ -34,10 +34,10 @@ public class VersionBean {
     }
 
     public String getVersionName() {
-        return versionName;
+        return versionNane;
     }
 
     public void setVersionName(String versionName) {
-        this.versionName = versionName;
+        this.versionNane = versionName;
     }
 }
