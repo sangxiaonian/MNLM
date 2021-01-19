@@ -70,7 +70,7 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
         phone = getIntent().getStringExtra(Param.TRAN);
         type = getIntent().getIntExtra(Param.TYPE, 0);
 
-        if (TextUtils.isEmpty(phone)&&InfoUtils.getMyInfo()!=null) {
+        if (TextUtils.isEmpty(phone) && InfoUtils.getMyInfo() != null) {
             phone = InfoUtils.getMyInfo().getMobile();
         }
 
@@ -97,39 +97,35 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
         super.initData();
 
 
-
-
-        if (type==0){
-            setWhitToolBar( "忘记支付/提现密码" );
+        if (type == 0) {
+            setWhitToolBar("忘记支付/提现密码");
             itemPhone.setTextCenter(phone);
             itemPhone.setEnabled(false);
             itemPass.setTextCenterHide("请输入六位数字新密码");
             itemNewPass.setTextCenterHide("请再次输入六位数字密码");
-        }else if (type==1){
-            setWhitToolBar(  "设置木牛流马支付/提现密码");
+        } else if (type == 1) {
+            setWhitToolBar("设置木牛流马支付/提现密码");
             itemPhone.setTextCenter(phone);
             itemPhone.setEnabled(false);
             itemPass.setTextCenterHide("请输入六位数字新密码");
             itemNewPass.setTextCenterHide("请再次输入六位数字密码");
-        }else if (type==2){
-            setWhitToolBar(  "设置登录密码");
+        } else if (type == 2) {
+            setWhitToolBar("设置登录密码");
 
             itemPhone.setTextCenter(phone);
             itemNewPass.setMaxLength(32);
             itemPass.setMaxLength(32);
             itemNewPass.setCenterType(5);
             itemPass.setCenterType(5);
-            itemPhone.setEditable(TextUtils.isEmpty(phone));
             itemPhone.setEnabled(TextUtils.isEmpty(phone));
             itemPass.setTextCenterHide("请输入密码");
             itemNewPass.setTextCenterHide("请再次输入密码");
-        }else {
-            setWhitToolBar(  "设置密码");
+        } else {
+            setWhitToolBar("设置密码");
             ToastUtils.getInstance().show("类型错误");
         }
 
 //        setWhitToolBar(type == 0 ? "忘记支付/提现密码" : "设置木牛流马支付/提现密码");
-
 
 
     }
@@ -141,11 +137,13 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
         tv_sms.setOnClickListener(this);
 
     }
+
     private void setTvSmsEnable(boolean enable) {
         tv_sms.setOnClickListener(enable ? this : null);
         tv_sms.setTextColor(getResources().getColor(enable ? R.color.color_of_040000 : R.color.color_of_999999));
         tv_sms.setText(isRetry ? "再次获取验证码" : "获取验证码");
     }
+
     /**
      * Called when a view has been clicked.
      *
@@ -155,7 +153,7 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
     public void onClick(View v) {
         if (v.getId() == R.id.bt_sms) {
             startCountTime();
-            if (TextUtils.isEmpty(itemPhone.getTextCenter())){
+            if (TextUtils.isEmpty(itemPhone.getTextCenter())) {
                 ToastUtils.getInstance().show(itemPhone.getTextCenterHide());
                 return;
             }
@@ -171,9 +169,9 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
 
             if (check()) {
                 String passWord = itemPass.getTextCenter();
-                if (type==0||type==1) {
+                if (type == 0 || type == 1) {
                     setPayPassword(passWord);
-                }else {
+                } else {
                     setLoginPassword(passWord);
                 }
 
@@ -185,12 +183,13 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
 
     /**
      * 设置登录密码
+     *
      * @param passWord
      */
     private void setLoginPassword(String passWord) {
         HttpAppFactory
-                .setLoginPass(itemPhone.getTextCenter(), itemSms.getTextCenter(),passWord)
-                .subscribe(new NetObserver<String>(this){
+                .setLoginPass(itemPhone.getTextCenter(), itemSms.getTextCenter(), passWord)
+                .subscribe(new NetObserver<String>(this) {
                     @Override
                     public void doOnSuccess(String s) {
                         super.doOnSuccess(s);
@@ -214,7 +213,7 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
                 });
     }
 
-    private void getResultMsg(){
+    private void getResultMsg() {
 
     }
 
