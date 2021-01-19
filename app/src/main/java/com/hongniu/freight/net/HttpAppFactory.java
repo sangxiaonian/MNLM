@@ -55,6 +55,7 @@ import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
 import com.hongniu.freight.entity.VerifyPersonParams;
+import com.hongniu.freight.entity.VersionBean;
 import com.hongniu.freight.entity.WayBillBean;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
 import com.hongniu.freight.utils.InfoUtils;
@@ -82,6 +83,18 @@ public class HttpAppFactory {
 
 
     /**
+     *
+     *
+     * @return 获取版本更新
+     */
+    public static Observable<CommonBean<VersionBean>> getVersion() {
+        JsonObject json = new JsonObject();
+        json.addProperty("type", 2);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .getVersion(json)
+                .compose(RxUtils.<CommonBean<VersionBean>>getSchedulersObservableTransformer());
+
+    }/**
      * 获取验证码
      *
      * @param phone

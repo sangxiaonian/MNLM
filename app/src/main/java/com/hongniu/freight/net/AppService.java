@@ -47,6 +47,7 @@ import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyPersonParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
+import com.hongniu.freight.entity.VersionBean;
 import com.hongniu.thirdlibrary.verify.VerifyTokenBeans;
 import com.hongniu.freight.entity.WayBillBean;
 import com.hongniu.freight.ui.QueryInsurancePriceParams;
@@ -66,6 +67,15 @@ import retrofit2.http.Query;
  * 作者：  on 2020/2/23.
  */
 public interface AppService {
+
+    /**
+     * 获取版本更新
+     *
+     * @return
+     * @param json
+     */
+    @POST("wlhyapi/api/app/getVersion/")
+    Observable<CommonBean<VersionBean>> getVersion(@Body JsonObject json);
 
     /**
      * 发送验证码

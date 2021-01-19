@@ -16,6 +16,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.fy.androidlibrary.event.BusFactory;
 import com.fy.androidlibrary.toast.ToastUtils;
+import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
 import com.fy.androidlibrary.utils.JLog;
 import com.fy.androidlibrary.utils.SharedPreferencesUtils;
@@ -33,6 +34,7 @@ import com.hongniu.freight.R;
 import com.hongniu.freight.entity.Event;
 import com.hongniu.freight.entity.PersonInfor;
 import com.hongniu.freight.entity.UmenToken;
+import com.hongniu.freight.entity.VersionBean;
 import com.hongniu.freight.huoyun.FreightClient;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.ui.fragment.ChactListFragment;
@@ -41,6 +43,9 @@ import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.LoactionUpUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.DialogComment;
+import com.hongniu.freight.widget.dialog.CenterAlertBuilder;
+import com.hongniu.freight.widget.dialog.UpDialog;
+import com.hongniu.freight.widget.dialog.inter.DialogControl;
 import com.hongniu.thirdlibrary.chact.ChactHelper;
 import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.chact.control.ChactControl;
@@ -172,11 +177,57 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
 
+                upDate();
+
             }
         });
 
     }
 
+
+    private void upDate(){
+        HttpAppFactory.getVersion().subscribe(new NetObserver<VersionBean>(null){
+            @Override
+            public void doOnSuccess(VersionBean data) {
+                super.doOnSuccess(data);
+                try {
+                    if (data != null && !TextUtils.isEmpty(data.getVersionCode())) {
+                        String versionName = DeviceUtils.getVersionName(mContext);
+                        String current = versionName.replace(".", "").replace("-debug", "");
+                        String needUpdata = data.getVersionCode().replace(".", "");
+                        if (Integer.parseInt(current) < Integer.parseInt(needUpdata)) {
+                            showUpAleart(data.getVersionName());
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * 显示强制更新接口
+     */
+    public void showUpAleart(String msg) {
+        UpDialog alertDialog = new UpDialog(mContext);
+        new CenterAlertBuilder()
+                .setRightClickListener(new DialogControl.OnButtonRightClickListener() {
+                    @Override
+                    public void onRightClick(View view, DialogControl.ICenterDialog dialog) {
+                        CommonUtils.launchAppDetail(mContext);
+                    }
+
+                })
+                .hideBtLeft()
+                .hideContent()
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .setDialogTitle(msg)
+                .setBtRight("立即更新")
+                .creatDialog(alertDialog)
+                .show();
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -185,6 +236,7 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             ChactHelper.getHelper().connect(mContext, rongToken, this);
             ChactHelper.getHelper().setUnReadCountListener(this);
         }
+        upDate();
     }
 
     /**
