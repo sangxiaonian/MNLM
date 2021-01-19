@@ -118,6 +118,7 @@ public class ForgetPassActivity extends CompanyBaseActivity implements View.OnCl
             itemNewPass.setCenterType(5);
             itemPass.setCenterType(5);
             itemPhone.setEnabled(TextUtils.isEmpty(phone));
+            itemPhone.setEditable(TextUtils.isEmpty(phone));
             itemPass.setTextCenterHide("请输入密码");
             itemNewPass.setTextCenterHide("请再次输入密码");
         } else {
