@@ -149,7 +149,7 @@ public class HomeFragmentMode implements HomeControl.IHomeFragmentMode {
      */
     @Override
     public String getBalanceTotle() {
-       return TextUtils.isEmpty(getPersonInfo().getTotalBalance())?"0":getPersonInfo().getTotalBalance();
+        return accountDetail == null || TextUtils.isEmpty(accountDetail.getTotalBalance()) ? "0" : accountDetail.getTotalBalance();
     }
 
     /**

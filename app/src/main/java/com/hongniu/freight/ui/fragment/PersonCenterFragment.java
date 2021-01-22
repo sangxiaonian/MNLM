@@ -322,7 +322,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
 
     private void switchBalance(boolean hideBalance) {
         this.hideBalance = hideBalance;
-        tv_count.setText(hideBalance ? "******" : personInfor == null || TextUtils.isEmpty(personInfor.getTotalBalance()) ? "0" : personInfor.getTotalBalance());
+        tv_count.setText(hideBalance ? "******" : accountInfo == null || TextUtils.isEmpty(accountInfo.getTotalBalance()) ? "0" : accountInfo.getTotalBalance());
         icon_eyes.setImageResource(hideBalance ? R.mipmap.attention_forbid : R.mipmap.attention);
         tv_count_company.setText(hideBalance ?  "******":(accountInfo==null )?"0": ConvertUtils.changeFloat(accountInfo.getCompanyAvailableBalance(),2));
     }
