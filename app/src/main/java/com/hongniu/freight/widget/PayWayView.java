@@ -119,15 +119,14 @@ public class PayWayView extends LinearLayout {
         this.payCount = payCount;
         payWayInfos.clear();
         removeAllViews();
-        payWayInfos.add(new PayWayInfo(PayType.BALANCE, R.mipmap.icon_gr_40, "个人余额", "可用余额" + ConvertUtils.changeFloat(getBalancePerson(), 2), false));
         if (data.getType() == 2) {
             payWayInfos.add(new PayWayInfo(PayType.COMPANY_APPLY, R.mipmap.icon_qy_40, "企业余额", "需提交申请企业账号支付", false));
         } else if (data.getType() == 3) {
             payWayInfos.add(new PayWayInfo(PayType.COMPANY, R.mipmap.icon_qy_40, "企业余额", "可用余额" + ConvertUtils.changeFloat(data.getCompanyAvailableBalance(), 2), false));
         }
+        payWayInfos.add(new PayWayInfo(PayType.BALANCE, R.mipmap.icon_gr_40, "个人余额", "可用余额" + ConvertUtils.changeFloat(getBalancePerson(), 2), false));
         payWayInfos.add(new PayWayInfo(PayType.WEICHAT, R.mipmap.icon_wx_40, "微信支付", "微信安全支付", false));
         payWayInfos.add(new PayWayInfo(PayType.ALIPAY, R.mipmap.icon_zfb_40, "支付宝", "不可使用花呗", false));
-//        payWayInfos.add(new PayWayInfo(PayType.UNIONPAY, R.mipmap.icon_ylzf_40, "银联支付", "中国银联在线支付服务", false));
         for (PayWayInfo payWayInfo : payWayInfos) {
             addView(payWayInfo);
         }

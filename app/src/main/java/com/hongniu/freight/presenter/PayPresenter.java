@@ -62,14 +62,13 @@ public class PayPresenter implements PayControl.IPayPresenter {
                             mode.saveServiceInfo(serviceChargeBeanCommonBean.getData());
                         }
 
-                        if (orderInfoBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
+                        if (orderInfoBeanCommonBean.getCode() == Param.SUCCESS_FLAG&&accountDetailBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
                             mode.saveOrderInfo(orderInfoBeanCommonBean.getData());
-                            view.showPriceInfo(mode.getOrderPriceInfo(), mode.getPriceDetail());
-                        }
-                        if (accountDetailBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
                             mode.saveAccountInfo(accountDetailBeanCommonBean.getData());
                             view.showAccountInfo(accountDetailBeanCommonBean.getData(), mode.getOrderPrice(),mode.getPayWay());
+                            view.showPriceInfo(mode.getOrderPriceInfo(), mode.getPriceDetail());
                         }
+                         
                         return accountDetailBeanCommonBean;
                     }
                 }

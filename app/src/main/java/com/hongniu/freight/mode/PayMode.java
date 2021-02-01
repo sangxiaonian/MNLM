@@ -2,6 +2,7 @@ package com.hongniu.freight.mode;
 
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.companylibrary.entity.CommonBean;
+import com.hongniu.freight.R;
 import com.hongniu.freight.config.PayType;
 import com.hongniu.freight.control.PayControl;
 import com.hongniu.freight.entity.AccountDetailBean;
@@ -90,6 +91,14 @@ public class PayMode implements PayControl.IPayMode {
     @Override
     public void saveAccountInfo(AccountDetailBean data) {
         this.accountInfo = data;
+        if (data!=null&&type==1) {
+            if (data.getType() == 2) {
+                switchPay(PayType.COMPANY_APPLY);
+            } else if (data.getType() == 3) {
+                switchPay(PayType.COMPANY);
+            }
+        }
+
     }
 
     /**
