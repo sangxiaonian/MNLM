@@ -203,10 +203,6 @@ public class PayControl {
 
         void saveServiceInfo(ServiceChargeBean data);
 
-        /**
-         * 获取需要支付的总价
-         * @return
-         */
-        float getTotalPrice();
+
     }
 }

@@ -38,7 +38,7 @@ import io.reactivex.Observable
 class AppAddressListActivity : RefrushActivity<AppAddressListBean>(), SearchTitleView.OnSearchClickListener, SearchTitleView.OnClearClickListener {
 
     var start: Boolean = false
-    val param = AppAddressListParam(true, "", 1);
+    val param = AppAddressListParam("start", "", 1);
     private val binding: ActivityAppAddressListBinding by lazy {
         ActivityAppAddressListBinding.inflate(layoutInflater)
     }
@@ -56,7 +56,7 @@ class AppAddressListActivity : RefrushActivity<AppAddressListBean>(), SearchTitl
     override fun initData() {
         super.initData()
         start = intent.getBooleanExtra(Param.TRAN, true)
-        param.startOrEnd = start
+        param.startOrEnd = if(start)"start" else "end"
         binding.tvAdd.text=if (start) "新增发货信息" else "新增收货信息"
     }
 

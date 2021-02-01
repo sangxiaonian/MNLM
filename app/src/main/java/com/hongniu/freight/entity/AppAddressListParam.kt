@@ -8,8 +8,8 @@ import com.fy.companylibrary.config.Param
  */
 data class AppAddressListParam(
 
-        var startOrEnd:Boolean,//	true	String	地址状态 start是查出发地 end是查目的地
-        var searchText:String,//	false	string	搜索字段
+        var startOrEnd:String?,//	true	String	地址状态 start是查出发地 end是查目的地
+        var searchText:String?,//	false	string	搜索字段
         var pageNum:Int,//	true	number	页数 默认1
         var pageSize:Int=Param.PAGE_SIZE,//	true	number	每页条数
 

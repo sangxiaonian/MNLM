@@ -106,7 +106,7 @@ public class PayPresenter implements PayControl.IPayPresenter {
             if (mode.isSetPassWord()) {
                 view.showSetPassWord();
             }else {
-                view.showPassDialog(mode.getTotalPrice());
+                view.showPassDialog(mode.getOrderPrice());
             }
         } else {
             mode.queryPayInfo(null)

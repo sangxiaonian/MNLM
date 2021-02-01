@@ -107,6 +107,11 @@ public class PayMode implements PayControl.IPayMode {
                 } else {
                     pay = (float) orderInfo.getMoney();
                 }
+
+                if (serviceInfo != null && type == 1 && (payType == PayType.COMPANY || payType == PayType.COMPANY_APPLY)) {//运费支付
+                    pay +=serviceInfo.getServiceCharge();
+                }
+
             } else if (type == 2) {//补运费支付
                 pay = (float) orderInfo.getBalanceMoney();
             } else if (type == 3) {//补购保险
@@ -154,7 +159,7 @@ public class PayMode implements PayControl.IPayMode {
                 }
 
                 if (orderInfo.getInsurance() == 1 && orderInfo.getPayPolicyState() == 0) {
-                    des += String.format("\n保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
+                    des += String.format("\n保费：%s", ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
 
                 }
             } else if (type == 2) {//补运费支付
@@ -245,21 +250,5 @@ public class PayMode implements PayControl.IPayMode {
         this.serviceInfo = data;
     }
 
-    /**
-     * 获取需要支付的总价
-     *
-     * @return
-     */
-    @Override
-    public float getTotalPrice() {
-        float pay = 0;
-        if (orderInfo != null) {
-            if (serviceInfo != null && type == 1 && (payType == PayType.COMPANY || payType == PayType.COMPANY_APPLY)) {//运费支付
-                pay = getOrderPrice() + serviceInfo.getServiceCharge();
-            } else {
-                pay = getOrderPrice();
-            }
-        }
-        return pay;
-    }
+
 }
