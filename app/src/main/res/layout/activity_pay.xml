@@ -47,6 +47,7 @@
                     android:textSize="45dp"
                     tools:text="¥1300.08" />
 
+
                 <TextView
                     android:id="@+id/tv_count_detail"
                     android:layout_width="wrap_content"
@@ -54,6 +55,7 @@
                     android:textColor="@color/color_of_999999"
                     android:textSize="14dp"
                     tools:text="运费：1300元 保费：0.08元" />
+
 
             </LinearLayout>
 

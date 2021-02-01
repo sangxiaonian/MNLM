@@ -83,7 +83,6 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
 
     /**
      * 展示价格信息
-     *
      * @param orderPrice  订单需要支付的价格
      * @param priceDetail 价格详情
      */
@@ -91,6 +90,7 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
     public void showPriceInfo(String orderPrice, String priceDetail) {
         tv_count.setText(String.format("%s", orderPrice));
         tv_count_detail.setText(priceDetail);
+
     }
 
     /**
@@ -199,6 +199,8 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("支付成功");
         finish();
     }
+
+
 
     /**
      * Called when a view has been clicked.

@@ -9,12 +9,14 @@ import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.PayControl;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderInfoBean;
+import com.hongniu.freight.entity.ServiceChargeBean;
 import com.hongniu.freight.mode.PayMode;
 import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.BiFunction;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function3;
 
 /**
  * 作者：  on 2020/3/5.
@@ -49,11 +51,19 @@ public class PayPresenter implements PayControl.IPayPresenter {
         Observable.zip(
                 mode.queryOrderDetail(),
                 mode.queryAccountDetails(),
-                new BiFunction<CommonBean<OrderInfoBean>, CommonBean<AccountDetailBean>, CommonBean<AccountDetailBean>>() {
+                mode.queryOrderServiceCharge(),
+
+                new Function3<CommonBean<OrderInfoBean>, CommonBean<AccountDetailBean>, CommonBean<ServiceChargeBean>, CommonBean<AccountDetailBean>>() {
+                    @NonNull
                     @Override
-                    public CommonBean<AccountDetailBean> apply(CommonBean<OrderInfoBean> pageBeanCommonBean, CommonBean<AccountDetailBean> accountDetailBeanCommonBean) throws Exception {
-                        if (pageBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
-                            mode.saveOrderInfo(pageBeanCommonBean.getData());
+                    public CommonBean<AccountDetailBean> apply(@NonNull CommonBean<OrderInfoBean> orderInfoBeanCommonBean, @NonNull CommonBean<AccountDetailBean> accountDetailBeanCommonBean, @NonNull CommonBean<ServiceChargeBean> serviceChargeBeanCommonBean) throws Exception {
+
+                        if (serviceChargeBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
+                            mode.saveServiceInfo(serviceChargeBeanCommonBean.getData());
+                        }
+
+                        if (orderInfoBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
+                            mode.saveOrderInfo(orderInfoBeanCommonBean.getData());
                             view.showPriceInfo(mode.getOrderPriceInfo(), mode.getPriceDetail());
                         }
                         if (accountDetailBeanCommonBean.getCode() == Param.SUCCESS_FLAG) {
@@ -62,7 +72,9 @@ public class PayPresenter implements PayControl.IPayPresenter {
                         }
                         return accountDetailBeanCommonBean;
                     }
-                })
+                }
+
+        )
                 .subscribe(new NetObserver<AccountDetailBean>(listener));
 
     }
@@ -76,6 +88,8 @@ public class PayPresenter implements PayControl.IPayPresenter {
     public void switchPay(PayType type) {
         mode.switchPay(type);
         view.switchPay(type);
+        view.showPriceInfo(mode.getOrderPriceInfo(), mode.getPriceDetail() );
+
     }
 
     /**
@@ -92,7 +106,7 @@ public class PayPresenter implements PayControl.IPayPresenter {
             if (mode.isSetPassWord()) {
                 view.showSetPassWord();
             }else {
-                view.showPassDialog(mode.getOrderPrice());
+                view.showPassDialog(mode.getTotalPrice());
             }
         } else {
             mode.queryPayInfo(null)

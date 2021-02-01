@@ -1,15 +1,14 @@
 package com.hongniu.freight.mode;
 
 import com.fy.androidlibrary.utils.ConvertUtils;
-import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.entity.CommonBean;
 import com.hongniu.freight.config.PayType;
 import com.hongniu.freight.control.PayControl;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
+import com.hongniu.freight.entity.ServiceChargeBean;
 import com.hongniu.freight.net.HttpAppFactory;
-import com.hongniu.thirdlibrary.pay.config.PayConfig;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 import com.hongniu.thirdlibrary.pay.wechat.WeChatAppPay;
 
@@ -24,6 +23,7 @@ public class PayMode implements PayControl.IPayMode {
     private AccountDetailBean accountInfo;
     private PayType payType;//切换支付方式
     private int type;//付款类型 支付业务类型(1订单支付2补款运费支付3补购保险支付)
+    private ServiceChargeBean serviceInfo;
 
     /**
      * 储存订单id
@@ -45,6 +45,16 @@ public class PayMode implements PayControl.IPayMode {
     @Override
     public Observable<CommonBean<OrderInfoBean>> queryOrderDetail() {
         return HttpAppFactory.queryOrderDetail(id);
+    }
+
+    /**
+     * 查询订单支付金额详情
+     *
+     * @return
+     */
+    @Override
+    public Observable<CommonBean<ServiceChargeBean>> queryOrderServiceCharge() {
+        return HttpAppFactory.queryOrderServiceCharge(id);
     }
 
     /**
@@ -92,7 +102,7 @@ public class PayMode implements PayControl.IPayMode {
         float pay = 0;
         if (orderInfo != null) {
             if (type == 1) {//运费支付
-                if (orderInfo.getInsurance() == 1&&orderInfo.getPayPolicyState()==0) {
+                if (orderInfo.getInsurance() == 1 && orderInfo.getPayPolicyState() == 0) {
                     pay = (float) (orderInfo.getPolicyMoney() + orderInfo.getMoney());
                 } else {
                     pay = (float) orderInfo.getMoney();
@@ -105,6 +115,7 @@ public class PayMode implements PayControl.IPayMode {
         }
         return pay;
     }
+
 
     /**
      * 获取订单价格
@@ -125,10 +136,26 @@ public class PayMode implements PayControl.IPayMode {
         if (orderInfo != null) {
 
             if (type == 1) {//运费支付
-                if (orderInfo.getInsurance() == 1&&orderInfo.getPayPolicyState()==0) {
-                    des = String.format("运费：%s\t\t保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
-                } else {
-                    des = String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));
+
+                des = String.format("运费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2));
+
+                if (payType == PayType.COMPANY_APPLY
+                        || payType == PayType.COMPANY
+                ) {
+                    //企业支付，增加税费
+
+                    String serviceMoney = "0";
+                    String serviceRadio = "6%";
+                    if (serviceInfo != null) {
+                        serviceMoney = ConvertUtils.changeFloat(serviceInfo.getServiceCharge(), 2);
+                        serviceRadio = ConvertUtils.changeFloat(serviceInfo.getCharge()*100, 2)+"%";
+                    }
+                    des += String.format("\t\t服务费：%s 费率（%s）", serviceMoney, serviceRadio);
+                }
+
+                if (orderInfo.getInsurance() == 1 && orderInfo.getPayPolicyState() == 0) {
+                    des += String.format("\n保费：%s", ConvertUtils.changeFloat(orderInfo.getMoney(), 2), ConvertUtils.changeFloat(orderInfo.getPolicyMoney(), 2));
+
                 }
             } else if (type == 2) {//补运费支付
                 des = String.format("运费差额：%s", ConvertUtils.changeFloat(orderInfo.getBalanceMoney(), 2));
@@ -211,5 +238,28 @@ public class PayMode implements PayControl.IPayMode {
     @Override
     public int getType() {
         return type;
+    }
+
+    @Override
+    public void saveServiceInfo(ServiceChargeBean data) {
+        this.serviceInfo = data;
+    }
+
+    /**
+     * 获取需要支付的总价
+     *
+     * @return
+     */
+    @Override
+    public float getTotalPrice() {
+        float pay = 0;
+        if (orderInfo != null) {
+            if (serviceInfo != null && type == 1 && (payType == PayType.COMPANY || payType == PayType.COMPANY_APPLY)) {//运费支付
+                pay = getOrderPrice() + serviceInfo.getServiceCharge();
+            } else {
+                pay = getOrderPrice();
+            }
+        }
+        return pay;
     }
 }

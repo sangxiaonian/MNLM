@@ -43,6 +43,7 @@ import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
+import com.hongniu.freight.entity.ServiceChargeBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyPersonParams;
@@ -282,6 +283,13 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/detail")
     Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
+   /**
+     * 查询订单详情
+     *
+     * @return
+     */
+    @POST("wlhyapi/api/deliveryOrder/queryCharge")
+    Observable<CommonBean<ServiceChargeBean>> queryOrderServiceCharge(@Body JsonObject params);
 
     /**
      * 承运人查询我要接单列表

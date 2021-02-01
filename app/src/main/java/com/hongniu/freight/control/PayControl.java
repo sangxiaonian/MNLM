@@ -6,6 +6,7 @@ import com.hongniu.freight.config.PayType;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryPayInfoParams;
+import com.hongniu.freight.entity.ServiceChargeBean;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 
 import io.reactivex.Observable;
@@ -121,6 +122,12 @@ public class PayControl {
         Observable<CommonBean<OrderInfoBean>> queryOrderDetail();
 
         /**
+         * 查询订单支付金额详情
+         * @return
+         */
+        Observable<CommonBean<ServiceChargeBean>> queryOrderServiceCharge();
+
+        /**
          * 查询账户详情
          * @return
          */
@@ -193,5 +200,13 @@ public class PayControl {
          * @return
          */
         int getType();
+
+        void saveServiceInfo(ServiceChargeBean data);
+
+        /**
+         * 获取需要支付的总价
+         * @return
+         */
+        float getTotalPrice();
     }
 }

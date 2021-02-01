@@ -51,6 +51,7 @@ import com.hongniu.freight.entity.QueryPayInfoParams;
 import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.entity.QuerySmsParams;
 import com.hongniu.freight.entity.QueryVeriBean;
+import com.hongniu.freight.entity.ServiceChargeBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.entity.VerifyCompanyParams;
 import com.hongniu.freight.entity.VerifyInfoBean;
@@ -468,6 +469,20 @@ public class HttpAppFactory {
         json.addProperty("id", id);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryOrderDetail(json)
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
+    /**
+     * 查询订单支付所需要的费用
+     *
+     * @return
+     */
+    public static Observable<CommonBean<ServiceChargeBean>> queryOrderServiceCharge(String id) {
+        JsonObject json = new JsonObject();
+        json.addProperty("orderId", id);
+        json.addProperty("paybusiness", 1);
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryOrderServiceCharge(json)
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
     }
