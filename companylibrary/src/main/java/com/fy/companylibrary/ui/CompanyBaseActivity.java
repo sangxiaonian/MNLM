@@ -67,6 +67,28 @@ public class CompanyBaseActivity extends ModuleBaseActivity {
     }
 
     @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+        llToolbarLeft = findViewById(R.id.toolbar_left);
+        llToolbarRight = findViewById(R.id.toolbar_right);
+        imgToolbarLeft = findViewById(R.id.toolbar_src_left);
+        imgToolbarRight = findViewById(R.id.toolbar_src_right);
+        tvToolbarTitle = findViewById(R.id.toolbar_title);
+        tvToolbarRight = findViewById(R.id.tv_toolbar_right);
+        tool = findViewById(R.id.tool);
+
+        if (llToolbarLeft != null) {
+            llToolbarLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
+    }
+
+
+    @Override
     public void onResume() {
         super.onResume();
 

@@ -9,6 +9,14 @@ public class PageParams {
   protected int pageNum;//	false	string	页数，默认1
   protected int pageSize= Param.PAGE_SIZE;//	false	string	每页条数，默认20
 
+    public PageParams() {
+    }
+
+    public PageParams(int pageNum, int pageSize) {
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+    }
+
     public int getPageNum() {
         return pageNum;
     }

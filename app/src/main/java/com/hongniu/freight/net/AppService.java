@@ -5,6 +5,8 @@ import com.fy.companylibrary.entity.PageBean;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.AppAddressListBean;
+import com.hongniu.freight.entity.AppAddressListParam;
 import com.hongniu.freight.entity.AppraiseParams;
 import com.hongniu.freight.entity.BalanceWithDrawBean;
 import com.hongniu.freight.entity.BillInfoBean;
@@ -62,7 +64,6 @@ import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * 作者：  on 2020/2/23.
@@ -72,8 +73,8 @@ public interface AppService {
     /**
      * 获取版本更新
      *
-     * @return
      * @param json
+     * @return
      */
     @POST("wlhyapi/api/app/getVersion/")
     Observable<CommonBean<VersionBean>> getVersion(@Body JsonObject json);
@@ -95,7 +96,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/login/login")
     Observable<CommonBean<LoginInfo>> login(@Body QuerySmsParams params);
- /**
+
+    /**
      * 发送验证码
      *
      * @param params
@@ -112,7 +114,6 @@ public interface AppService {
      */
     @POST("wlhyapi/api/login/resetpasswd")
     Observable<CommonBean<String>> setLoginPass(@Body JsonObject payInfoParams);
-
 
 
     /**
@@ -166,6 +167,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/identityAuthen/personCarrierAuth")
     Observable<CommonBean<String>> verifyCarrierPerson(@Body VerifyPersonParams params);
+
     /**
      * 个人承运人和司机同时身份认证
      *
@@ -262,8 +264,8 @@ public interface AppService {
     /**
      * 查询货物分类，车辆颜色等
      *
-     * @return
      * @param params
+     * @return
      */
     @POST("wlhyapi/api/codeSet/getByType")
     Observable<CommonBean<List<CargoTypeAndColorBeans>>> queryCargoType(@Body JsonObject params);
@@ -283,7 +285,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/detail")
     Observable<CommonBean<OrderInfoBean>> queryOrderDetail(@Body JsonObject params);
-   /**
+
+    /**
      * 查询订单详情
      *
      * @return
@@ -697,6 +700,7 @@ public interface AppService {
      */
     @POST("wlhyapi/api/deliveryOrder/saveReceiptInfo")
     Observable<CommonBean<String>> saveReceiptInfo(@Body QueryReceiveBean bean);
+
     /**
      * 查询司机
      *
@@ -705,7 +709,8 @@ public interface AppService {
      */
     @POST("wlhyapi/api/user/fuzzyquerydriver")
     Observable<CommonBean<List<OrderSelectDriverInfoBean>>> querySelectDriverInfo(@Body PageSearchParams bean);
- /**
+
+    /**
      * 查询承运人
      *
      * @param id
@@ -713,5 +718,14 @@ public interface AppService {
      */
     @POST("wlhyapi/api/car/selectcarbycarnumber")
     Observable<CommonBean<List<OrderSelectOwnerInfoBean>>> querySelectOwnerInfo(@Body PageSearchParams bean);
+
+    /**
+     * 查询常用地址
+     *
+     * @param id
+     * @return
+     */
+    @POST("wlhyapi/api/address/queryAddress")
+    Observable<CommonBean<PageBean<AppAddressListBean>>> queryAddressList(@Body AppAddressListParam bean);
 
 }

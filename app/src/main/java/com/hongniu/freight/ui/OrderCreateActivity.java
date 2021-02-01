@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
@@ -34,6 +36,7 @@ import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
 import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.AppAddressListBean;
 import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.H5Config;
 import com.hongniu.freight.entity.OrderCrateParams;
@@ -227,34 +230,13 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (R.id.group_start == v.getId()) {
-            PermissionUtils.applyMap(this, new PermissionUtils.onApplyPermission() {
-                @Override
-                public void hasPermission() {
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_map_search)
-                            .withBoolean(Param.TRAN, false)
-                            .navigation((Activity) mContext, 1);
-                }
-
-                @Override
-                public void noPermission() {
-
-                }
-            });
+            Intent intent = new Intent(this, AppAddressListActivity.class);
+            intent.putExtra(Param.TRAN,true);
+            startActivityForResult(intent,1);
         } else if (R.id.group_end == v.getId()) {
-            PermissionUtils.applyMap(this, new PermissionUtils.onApplyPermission() {
-                @Override
-                public void hasPermission() {
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_map_search)
-                            .withBoolean(Param.TRAN, true)
-                            .navigation((Activity) mContext, 2);
-
-                }
-
-                @Override
-                public void noPermission() {
-
-                }
-            });
+            Intent intent = new Intent(this, AppAddressListActivity.class);
+            intent.putExtra(Param.TRAN,false);
+            startActivityForResult(intent,2);
         } else if (R.id.item_start_time == v.getId()) {
 //            ToastUtils.getInstance().show("发货时间");
             presenter.showStartTime(this);
@@ -292,11 +274,11 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (data != null && requestCode == 1) {
             //发货
-            TranMapBean result = data.getParcelableExtra(Param.TRAN);
+            AppAddressListBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveStartInfo(result);
         } else if (data != null && requestCode == 2) {
-            //发货
-            TranMapBean result = data.getParcelableExtra(Param.TRAN);
+            //收货
+            AppAddressListBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveEndInfo(result);
         }else if (data != null && requestCode == 3) {
             //选择司机

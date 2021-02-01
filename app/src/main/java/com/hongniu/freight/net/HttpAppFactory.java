@@ -13,6 +13,8 @@ import com.fy.companylibrary.net.CompanyClient;
 import com.google.gson.JsonObject;
 import com.hongniu.freight.entity.AccountDetailBean;
 import com.hongniu.freight.entity.AccountFlowParams;
+import com.hongniu.freight.entity.AppAddressListBean;
+import com.hongniu.freight.entity.AppAddressListParam;
 import com.hongniu.freight.entity.AppraiseParams;
 import com.hongniu.freight.entity.BalanceWithDrawBean;
 import com.hongniu.freight.entity.BillInfoBean;
@@ -63,6 +65,8 @@ import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.thirdlibrary.chact.UserInfor;
 import com.hongniu.thirdlibrary.pay.entity.PayInfoBean;
 import com.hongniu.thirdlibrary.verify.VerifyTokenBeans;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -1208,6 +1212,17 @@ public class HttpAppFactory {
         return CompanyClient.getInstance().creatService(AppService.class)
                 .querySelectOwnerInfo(bean)
 
+                .compose(RxUtils.getSchedulersObservableTransformer());
+    }
+
+    /**
+     * 查询常用地址列表
+     * @return
+     */
+    @NotNull
+    public static Observable<CommonBean<PageBean<AppAddressListBean>>> queryAddressList(AppAddressListParam params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryAddressList(params)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
 }

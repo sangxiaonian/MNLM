@@ -1,6 +1,7 @@
 package com.fy.companylibrary.ui;
 
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,24 @@ public abstract class RefrushActivity<T> extends CompanyBaseActivity implements 
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
+        refresh = findViewById(R.id.refresh);
+        rv = findViewById(R.id.rv);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(manager);
+        if (refresh != null) {
+            refresh.setOnRefreshListener(this);
+            refresh.setOnLoadMoreListener(this);
+        }
+        rv.setAdapter(adapter = getAdapter(datas));
+        rv.setEmptyHolder(getEmptyHolder(rv));
+        adapter.notifyDataSetChanged();
+        refresh.hideLoadFinish();
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
         refresh = findViewById(R.id.refresh);
         rv = findViewById(R.id.rv);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);

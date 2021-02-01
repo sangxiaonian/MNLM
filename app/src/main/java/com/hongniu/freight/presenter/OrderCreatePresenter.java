@@ -9,6 +9,7 @@ import com.fy.androidlibrary.net.rx.BaseObserver;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.companylibrary.net.NetObserver;
 import com.hongniu.freight.control.OrderCreateControl;
+import com.hongniu.freight.entity.AppAddressListBean;
 import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
@@ -50,7 +51,8 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             startInfor.setPoiItem(startPio);
             startInfor.setName(orderInfoBean.getShipperName());
             startInfor.setPhone(orderInfoBean.getShipperMobile());
-            saveStartInfo(startInfor);
+            mode.saveStartInfo(startInfor);
+            view.showStartInfo(startInfor);
 
             //收货地址
             TranMapBean endInfor = new TranMapBean();
@@ -61,7 +63,8 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             endInfor.setPoiItem(endPio);
             endInfor.setName(orderInfoBean.getReceiverName());
             endInfor.setPhone(orderInfoBean.getReceiverMobile());
-            saveEndInfo(endInfor);
+            mode.saveEndInfo(endInfor);
+            view.showEndInfo(endInfor);
 
             //更改保险数据
             mode.saveIsInsurance(orderInfoBean.getInsurance() == 1);
@@ -117,9 +120,17 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
      * @param result 发货地址
      */
     @Override
-    public void saveStartInfo(TranMapBean result) {
-        mode.saveStartInfo(result);
-        view.showStartInfo(result);
+    public void saveStartInfo(AppAddressListBean result) {
+
+        TranMapBean bean=new TranMapBean();
+        bean.setAddressDetail(result.getStartPlaceInfo());
+        bean.setAddress(result.getStartPlaceInfo());
+        bean.setName(result.getShipperName());
+        bean.setPhone(result.getShipperMobile());
+        PoiItem poiItem =new PoiItem("",new LatLonPoint(result.getStartPlaceLat(),result.getStartPlaceLon()),"","");
+        bean.setPoiItem(poiItem);
+        mode.saveStartInfo(bean);
+        view.showStartInfo(bean);
 
     }
 
@@ -127,9 +138,17 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
      * @param result 收货地址
      */
     @Override
-    public void saveEndInfo(TranMapBean result) {
-        mode.saveEndInfo(result);
-        view.showEndInfo(result);
+    public void saveEndInfo(AppAddressListBean result) {
+        TranMapBean bean=new TranMapBean();
+        bean.setAddressDetail(result.getDestinationInfo());
+        bean.setAddress(result.getDestinationInfo());
+        bean.setName(result.getShipperName());
+        bean.setPhone(result.getShipperMobile());
+        PoiItem poiItem =new PoiItem("",new LatLonPoint(result.getDestinationLat(),result.getDestinationLon()),"","");
+        bean.setPoiItem(poiItem);
+
+        mode.saveEndInfo(bean);
+        view.showEndInfo(bean);
 
     }
 

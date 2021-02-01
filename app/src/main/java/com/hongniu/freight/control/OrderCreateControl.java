@@ -2,6 +2,7 @@ package com.hongniu.freight.control;
 
 import com.fy.androidlibrary.net.listener.TaskControl;
 import com.fy.companylibrary.entity.CommonBean;
+import com.hongniu.freight.entity.AppAddressListBean;
 import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
@@ -142,12 +143,12 @@ public class OrderCreateControl {
         /**
          * @param result 发货地址
          */
-        void saveStartInfo(TranMapBean result);
+        void saveStartInfo(AppAddressListBean result);
 
         /**
          * @param result 收货地址
          */
-        void saveEndInfo(TranMapBean result);
+        void saveEndInfo(AppAddressListBean result);
 
         /**
          * 显示发货时间
