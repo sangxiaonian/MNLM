@@ -64,15 +64,7 @@ class AppAddressListActivity : RefrushActivity<AppAddressListBean>(), SearchTitl
         super.initListener()
         binding.tvAdd.setOnClickListener {
 
-            PermissionUtils.applyMap(this, object : onApplyPermission {
-                override fun hasPermission() {
-                    ArouterUtils.getInstance().builder(ArouterParamApp.activity_map_search)
-                            .withBoolean(Param.TRAN, !start)
-                            .navigation(mContext as Activity, 2)
-                }
-
-                override fun noPermission() {}
-            })
+            jump2Add()
 
         }
         binding.search.setOnSearchClickListener(this);
@@ -81,6 +73,18 @@ class AppAddressListActivity : RefrushActivity<AppAddressListBean>(), SearchTitl
             param.searchText = if (it.isNullOrEmpty()) "" else it
             queryData(true)
         }
+    }
+
+    private fun jump2Add() {
+        PermissionUtils.applyMap(this, object : onApplyPermission {
+            override fun hasPermission() {
+                ArouterUtils.getInstance().builder(ArouterParamApp.activity_map_search)
+                        .withBoolean(Param.TRAN, !start)
+                        .navigation(mContext as Activity, 2)
+            }
+
+            override fun noPermission() {}
+        })
     }
 
 
@@ -93,9 +97,16 @@ class AppAddressListActivity : RefrushActivity<AppAddressListBean>(), SearchTitl
         return null
     }
 
+    var isJump=true
     override fun getListDatas(): Observable<CommonBean<PageBean<AppAddressListBean>>> {
         param.pageNum = currentPage;
-        return HttpAppFactory.queryAddressList(param);
+        return HttpAppFactory.queryAddressList(param)
+                .doOnComplete{
+                    if (isJump&&datas.isEmpty()){
+                        isJump=false
+                        jump2Add()
+                    }
+                }
     }
 
     override fun getAdapter(datas: MutableList<AppAddressListBean>?): XAdapter<AppAddressListBean> {
