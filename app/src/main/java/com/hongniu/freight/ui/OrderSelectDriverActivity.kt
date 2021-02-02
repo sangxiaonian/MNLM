@@ -46,6 +46,7 @@ class OrderSelectDriverActivity : RefrushActivity<OrderSelectDriverInfoBean>() {
         initView()
         initData()
         initListener()
+        searchView.getFocus()
     }
 
     override fun initView() {

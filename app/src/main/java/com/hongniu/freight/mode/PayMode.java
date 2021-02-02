@@ -208,7 +208,8 @@ public class PayMode implements PayControl.IPayMode {
      */
     @Override
     public boolean isSetPassWord() {
-        return accountInfo != null && !accountInfo.isSetPassWord();
+        //只有余额支付需要设置密码
+        return getPayWay()==PayType.BALANCE&&accountInfo != null && !accountInfo.isSetPassWord();
     }
 
     /**

@@ -11,9 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme"
         tools:replace="android:allowBackup,android:theme" >
-        <activity android:name=".ui.AppAddressListActivity" >
+        <activity android:name=".ui.AppAddressListActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
-        <activity android:name=".ui.SetPasswordActivity" />
         <activity android:name=".ui.OrderSelectOwnerActivity" />
         <activity android:name=".ui.OrderSelectDriverActivity" />
         <activity android:name=".ui.OrderReceiveActivity" />

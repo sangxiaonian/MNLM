@@ -40,6 +40,7 @@ class OrderSelectOwnerActivity : RefrushActivity<OrderSelectOwnerInfoBean>() {
         initView()
         initData()
         initListener()
+        searchView.getFocus()
     }
 
     override fun initData() {
