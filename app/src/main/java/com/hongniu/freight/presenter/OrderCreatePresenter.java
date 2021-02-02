@@ -142,8 +142,8 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
         TranMapBean bean=new TranMapBean();
         bean.setAddressDetail(result.getDestinationInfo());
         bean.setAddress(result.getDestinationInfo());
-        bean.setName(result.getShipperName());
-        bean.setPhone(result.getShipperMobile());
+        bean.setName(result.getReceiverName());
+        bean.setPhone(result.getReceiverMobile());
         PoiItem poiItem =new PoiItem("",new LatLonPoint(result.getDestinationLat(),result.getDestinationLon()),"","");
         bean.setPoiItem(poiItem);
 
