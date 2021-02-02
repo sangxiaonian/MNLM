@@ -148,12 +148,12 @@ public class PayPresenter implements PayControl.IPayPresenter {
             if (InfoUtils.getRole(InfoUtils.getMyInfo())== Role.PLATFORM){
                 view.jump2Succes(mode.getOrderInfo());
             }else {
-                view.finishWithSuccess();
+                view.finishWithSuccess(mode.getPayWay()==PayType.COMPANY_APPLY?"申请成功":"支付成功");
             }
         }else if (type==2){
-            view.finishWithSuccess();
+            view.finishWithSuccess("支付成功");
         }else if (type==3){
-            view.finishWithSuccess();
+            view.finishWithSuccess("支付成功");
         }
     }
 }

@@ -64,8 +64,9 @@ public class PayControl {
 
         /**
          * 支付成功
+         * @param result
          */
-        void finishWithSuccess();
+        void finishWithSuccess(String result);
 
 
     }

@@ -189,15 +189,16 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_pay_result)
                 .withParcelable(Param.TRAN, orderInfo)
                 .navigation(mContext);
-       finishWithSuccess();
+       finishWithSuccess("支付成功");
     }
 
     /**
      * 支付成功
+     * @param result
      */
     @Override
-    public void finishWithSuccess() {
-        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show("支付成功");
+    public void finishWithSuccess(String result) {
+        ToastUtils.getInstance().makeToast(ToastUtils.ToastType.SUCCESS).show(result);
         finish();
     }
 
