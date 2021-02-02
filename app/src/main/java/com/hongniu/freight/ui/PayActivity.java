@@ -102,6 +102,7 @@ public class PayActivity extends CompanyBaseActivity implements PayControl.IPayV
     public void showAccountInfo(AccountDetailBean data, float orderPrice, PayType payWay) {
         payview.setAccountInfo(data, orderPrice);
         payview.setCurrentPayType(payWay);
+        switchPay(payWay);
     }
 
     @Override
