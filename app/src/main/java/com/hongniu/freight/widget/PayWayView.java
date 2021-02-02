@@ -92,6 +92,9 @@ public class PayWayView extends LinearLayout {
                 //如果个人余额不足,选中微信支付
                 result = refrushCheck(PayType.WEICHAT);
                 ToastUtils.getInstance().show("余额不足");
+                if (result != null && payWayChangeListener != null) {
+                    payWayChangeListener.onPayChange(result.type);
+                }
             }
         }
 
@@ -101,6 +104,9 @@ public class PayWayView extends LinearLayout {
                 //如果是企业需要支付密码支付,并且余额不足,选中微信支付
                 result = refrushCheck(PayType.WEICHAT);
                 ToastUtils.getInstance().show("余额不足");
+                if (result != null && payWayChangeListener != null) {
+                    payWayChangeListener.onPayChange(result.type);
+                }
             }
         }
 
