@@ -88,7 +88,7 @@ android {
 
 
             manifestPlaceholders = [
-                    RONG_CLOUD_APP_KEY: "k51hidwqkvxmb"//融云聊天key，测试
+                    RONG_CLOUD_APP_KEY: "e0x9wycfe4enq"//融云聊天key，测试
                     , GAODE_MAP       : "1457998aaed653947f53734c7bd5f47a"//高德地图
 
             ]
@@ -112,7 +112,7 @@ android {
             ///////////////////////////////////////////////////
 
             manifestPlaceholders = [
-                    RONG_CLOUD_APP_KEY: "tdrvipkstno85"//融云聊天key
+                    RONG_CLOUD_APP_KEY: "x18ywvqfxbxhc"//融云聊天key
                     , GAODE_MAP       : "1457998aaed653947f53734c7bd5f47a"//高德地图
             ]
             signingConfig signingConfigs.release

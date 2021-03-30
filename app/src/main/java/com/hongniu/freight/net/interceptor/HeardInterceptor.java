@@ -42,12 +42,16 @@ public class HeardInterceptor implements Interceptor {
                 time +
                 random;
         final String sign = ConvertUtils.MD5(buffer.trim().replace(" ", ""));
+        String versionName = DeviceUtils.getVersionName(context);
+        if (versionName!=null){
+            versionName= versionName.replace("-debug","");
+        }
         requestBuilder.addHeader("timestamp", time)
                 .addHeader("randomNumber", random)
                 .addHeader("hn_sign", sign)
                 .addHeader("codetype", "token")
                 .addHeader("hn_app_key", Param.AppKey)
-                .addHeader("appVersion", DeviceUtils.getVersionName(context))
+                .addHeader("appVersion", versionName)
         ;
         Request newRequest = requestBuilder.build();
         return chain.proceed(newRequest);

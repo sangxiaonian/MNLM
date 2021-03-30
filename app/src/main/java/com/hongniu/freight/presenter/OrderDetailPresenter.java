@@ -82,7 +82,7 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
      */
     @Override
     public void contactCarrier() {
-        view.startChat(mode.getOrderInfo().getOwnerId(),mode.getOrderInfo().getOwnerName());
+        view.startChat(mode.getOrderInfo().getOwnerRongId(),mode.getOrderInfo().getOwnerName());
     }
 
     /**
@@ -90,14 +90,14 @@ public class OrderDetailPresenter implements OrderDetailControl.IOrderDetailPres
      */
     @Override
     public void contactDriver() {
-        view.startChat(mode.getOrderInfo().getDriverId(),mode.getOrderInfo().getDriverName());
+        view.startChat(mode.getOrderInfo().getDriverRongId(),mode.getOrderInfo().getDriverName());
     }
     /**
      * 联系托运人
      */
     @Override
     public void contactShipper() {
-        view.startChat(mode.getOrderInfo().getUserId(),mode.getOrderInfo().getUserName());
+        view.startChat(mode.getOrderInfo().getUserRongId(),mode.getOrderInfo().getUserName());
     }
 
     /**

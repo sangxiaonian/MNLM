@@ -90,9 +90,9 @@ public class ChatConversationActivity extends CompanyBaseActivity {
 
         //更改自己的用户名信息
         LoginInfo loginInfor = InfoUtils.getLoginInfo();
-        if (loginInfor != null && loginInfor.getId() != null) {
-            final String id = loginInfor.getId();
-            HttpAppFactory.queryRongInfor(loginInfor.getId())
+        if (loginInfor != null && loginInfor.getRongId() != null) {
+            final String id = loginInfor.getRongId();
+            HttpAppFactory.queryRongInfor(id)
                     .subscribe(new NetObserver<UserInfor>(null) {
                         @Override
                         public void doOnSuccess(UserInfor data) {

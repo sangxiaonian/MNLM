@@ -1107,10 +1107,10 @@ public class HttpAppFactory {
     /**
      * 根据userID查询用户数据
      */
-    public static Observable<CommonBean<UserInfor>> queryRongInfor(String userId) {
+    public static Observable<CommonBean<UserInfor>> queryRongInfor(String rongId) {
 
         JsonObject bean = new JsonObject();
-        bean.addProperty("userId", userId);
+        bean.addProperty("rongId", rongId);
         return CompanyClient.getInstance().creatService(AppService.class)
                 .queryRongInfor(bean)
                 .compose(RxUtils.<CommonBean<UserInfor>>getSchedulersObservableTransformer())
