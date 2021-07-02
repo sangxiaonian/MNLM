@@ -20,8 +20,13 @@ buildscript {
     ext.kotlin_version = '1.4.30-M1'
     repositories {
         google()
-        jcenter()
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        google()
+        mavenCentral()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven {url  "http://maven.rongcloud.cn/repository/maven-releases/"}
 
     }
     dependencies {
@@ -36,10 +41,12 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://jitpack.io' }
-        maven {url  "https://dl.bintray.com/rongcloud/maven"}
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven {url  "http://maven.rongcloud.cn/repository/maven-releases/"}
     }
 }
 
