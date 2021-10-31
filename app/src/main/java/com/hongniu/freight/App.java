@@ -40,7 +40,7 @@ public class App extends BaseApp {
         } else {
             Param.baseUrl = Param.releaseUrl;
         }
-
+        Param.baseUrl = Param.releaseUrl;
         ImageLoader.getLoader().headErrorImg(R.mipmap.icon_default_avatar_100);
         ImageLoader.getLoader().headPlaceholder(R.mipmap.icon_default_avatar_100);
         ImageLoader.getLoader().globalPlaceholder(R.drawable.ovl_5_f7f7f7);

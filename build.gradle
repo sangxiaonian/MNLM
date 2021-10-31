@@ -4,11 +4,11 @@ def releaseTime() {
     return new Date().format("yy.MM.dd", TimeZone.getDefault())
 }
 ext {
-    compileSdkVersion = 29
+    compileSdkVersion = 30
     minSdkVersion = 19
-    targetSdkVersion = 29
-    versionCode = 160
-    versionName = "1.6.0"
+    targetSdkVersion = 30
+    versionCode = 161
+    versionName = "1.6.1"
 //    versionName = releaseTime()+".01"
 
 

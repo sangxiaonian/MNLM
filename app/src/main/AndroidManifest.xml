@@ -112,6 +112,13 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="${RONG_CLOUD_APP_KEY}"
             tools:replace="android:value" />
+
+
     </application>
+    <queries>
+        <package android:name="com.tencent.mm" />
+        <package android:name="com.eg.android.AlipayGphone" />
+        <package android:name="com.unionpay" />
+    </queries>
 
 </manifest>
