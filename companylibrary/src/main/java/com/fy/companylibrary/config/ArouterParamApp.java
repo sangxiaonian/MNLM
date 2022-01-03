@@ -206,4 +206,9 @@ public class ArouterParamApp {
      */
     public static final String activity_order_select_driver = "/app/activity_order_select_driver";
 
+    /**
+     * 注销页面
+     */
+    public final static String activity_cancellation = "/app/activity_cancellation";
+
 }

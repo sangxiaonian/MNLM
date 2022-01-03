@@ -3,10 +3,11 @@
 def releaseTime() {
     return new Date().format("yy.MM.dd", TimeZone.getDefault())
 }
+
 ext {
-    compileSdkVersion = 30
+    compileSdkVersion = 31
     minSdkVersion = 19
-    targetSdkVersion = 30
+    targetSdkVersion = 31
     versionCode = 161
     versionName = "1.6.1"
 //    versionName = releaseTime()+".01"
@@ -17,16 +18,15 @@ ext {
 
 }
 buildscript {
-    ext.kotlin_version = '1.4.30-M1'
+    ext.kotlin_version = '1.6.0'
     repositories {
         google()
-        google()
         mavenCentral()
+        maven { url 'http://maven.rongcloud.cn/repository/maven-releases/' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
-        maven {url  "http://maven.rongcloud.cn/repository/maven-releases/"}
 
     }
     dependencies {
@@ -42,11 +42,11 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'http://maven.rongcloud.cn/repository/maven-releases/' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
-        maven {url  "http://maven.rongcloud.cn/repository/maven-releases/"}
     }
 }
 

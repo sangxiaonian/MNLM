@@ -90,6 +90,7 @@
         <activity android:name=".ui.QRCodeActivity" />
         <activity android:name=".ui.OrderUpReceiptActivity" />
         <activity android:name=".ui.PreviewImageActivity" />
+        <activity android:name=".ui.CancellationActivity" />
 
         <receiver android:name=".receiver.MyPushReceiver" /> <!-- 高德地图 -->
         <meta-data

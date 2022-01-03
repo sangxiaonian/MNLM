@@ -49,4 +49,7 @@ public interface IPush<T> {
      * @return
      */
     boolean isSupport(Context context);
+
+    void init(Context context, boolean isAgree);
+
 }

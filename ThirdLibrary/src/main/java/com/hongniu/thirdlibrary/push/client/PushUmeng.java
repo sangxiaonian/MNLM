@@ -1,22 +1,17 @@
 package com.hongniu.thirdlibrary.push.client;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.fy.androidlibrary.utils.DeviceUtils;
-import com.fy.androidlibrary.utils.JLog;
-import com.hongniu.thirdlibrary.push.NotificationUtils;
-import com.hongniu.thirdlibrary.push.config.PushConfig;
 import com.hongniu.thirdlibrary.push.inter.PlushDealWithMessageListener;
 import com.hongniu.thirdlibrary.push.inter.PlushRegisterListener;
 import com.umeng.commonsdk.UMConfigure;
-import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.commonsdk.utils.UMUtils;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
 import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.api.UPushRegisterCallback;
 import com.umeng.message.entity.UMessage;
-
-
 
 
 /**
@@ -27,58 +22,19 @@ import com.umeng.message.entity.UMessage;
 public class PushUmeng implements IPush<UMessage> {
 
 
-    private final PushAgent mPushAgent;
+    private PushAgent mPushAgent;
 
 
     private PlushRegisterListener registerListener;
     private PlushDealWithMessageListener<UMessage> dealWithMessageListener;
+    private boolean isAgree;
+    private int notifyId;
 
     /**
      * 只能在Application中使用
      *
-     * @param context
      */
-    public PushUmeng(Context context,String appKey,String pushSercet) {
-//        UMConfigure.init(context, PushConfig.appKey, DeviceUtils.getDeviceBrand(), UMConfigure.DEVICE_TYPE_PHONE, PushConfig.pushSercet);
-        UMConfigure.init(context, appKey, DeviceUtils.getDeviceBrand(), UMConfigure.DEVICE_TYPE_PHONE, pushSercet);
-        mPushAgent = PushAgent.getInstance(context);
-        //注册rom渠道
-        registerRomChannel(context);
-        mPushAgent.register(new IUmengRegisterCallback() {
-
-            @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回device token
-                if (registerListener != null) {
-                    registerListener.onSuccess(deviceToken);
-                }
-            }
-
-            @Override
-            public void onFailure(String s, String s1) {
-                if (registerListener != null) {
-                    registerListener.onFailure(s, s1);
-                }
-            }
-        });
-        //自定义消息处理
-        UmengMessageHandler messageHandler = new UmengMessageHandler() {
-            @Override
-            public void dealWithNotificationMessage(Context context, UMessage msg) {
-                if (dealWithMessageListener != null) {
-                    dealWithMessageListener.dealMessage(context, msg);
-                } else {
-                    NotificationUtils.getInstance().showNotification(context
-                            , msg.ticker == null ? "新消息来了" : msg.ticker
-                            , msg.title == null ? "新消息来了" : msg.title
-                            , msg.text == null ? "新消息来了" : msg.text
-                            , msg.custom
-                    );
-                }
-            }
-        };
-        mPushAgent.setMessageHandler(messageHandler);
-    }
+    public PushUmeng() {}
 
     private void registerRomChannel(Context context) {
         String deviceBrand = DeviceUtils.getDeviceBrand();
@@ -98,6 +54,71 @@ public class PushUmeng implements IPush<UMessage> {
 //            OppoRegister.register(context, PushConfig.oppo_appkey, PushConfig.oppo_appsecret);
 //        }
 
+    }
+
+    public void init(final Context context, boolean isAgreed) {
+        UMConfigure.setLogEnabled(true);
+        //预初始化
+        preInit(context);
+        this.isAgree = isAgreed;
+        if (!isAgreed) {
+            return;
+        }
+        boolean isMainProcess = UMUtils.isMainProgress(context);
+        if (isMainProcess) {
+            //启动优化：建议在子线程中执行初始化
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    configUmeng(context.getApplicationContext());
+                }
+            }).start();
+        } else {
+            //若不是主进程（":channel"结尾的进程），直接初始化sdk，不可在子线程中执行
+            configUmeng(context.getApplicationContext());
+        }
+    }
+
+    private void preInit(Context context) {
+        //解决厂商通知点击时乱码等问题
+        PushAgent.setup(context, PushConstants.APP_KEY, PushConstants.MESSAGE_SECRET);
+        UMConfigure.preInit(context, PushConstants.APP_KEY, PushConstants.CHANNEL);
+    }
+
+    private void configUmeng(Context context) {
+        UMConfigure.init(context, PushConstants.APP_KEY, PushConstants.CHANNEL,
+                UMConfigure.DEVICE_TYPE_PHONE, PushConstants.MESSAGE_SECRET);
+        mPushAgent = PushAgent.getInstance(context);
+        //自定义消息处理
+        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+            @Override
+            public void dealWithNotificationMessage(Context context, UMessage msg) {
+                notifyId++;
+                if (dealWithMessageListener != null) {
+                    dealWithMessageListener.dealMessage(context, msg);
+                }
+            }
+        };
+        mPushAgent.setMessageHandler(messageHandler);
+        mPushAgent.register(new UPushRegisterCallback() {
+
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+                if (registerListener != null) {
+                    registerListener.onSuccess(deviceToken);
+                }
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                if (registerListener != null) {
+                    registerListener.onFailure(s, s1);
+                }
+            }
+        });
+
+        registerRomChannel(context);
     }
 
     /**

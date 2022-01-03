@@ -48,21 +48,30 @@ dependencies {
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
 
     //融云聊天
-    api 'cn.rongcloud.sdk:sight:2.9.17'
-    api 'cn.rongcloud.sdk:rcsticker:2.9.17'
-    // rcsticker 必须依赖 im_kit
-    api 'cn.rongcloud.sdk:im_kit:2.9.18'
-    // im_kit 必须依赖 im_lib ，所以需要加入对应依赖
-    api 'cn.rongcloud.sdk:im_lib:2.9.18'
+//    api 'cn.rongcloud.sdk:sight:2.9.17'
+//    api 'cn.rongcloud.sdk:rcsticker:2.9.17'
+//    // rcsticker 必须依赖 im_kit
+//    api 'cn.rongcloud.sdk:im_kit:2.9.18'
+//    // im_kit 必须依赖 im_lib ，所以需要加入对应依赖
+//    api 'cn.rongcloud.sdk:im_lib:2.9.18'
+    api 'cn.rongcloud.sdk:im_kit:4.0.3.14'
+    api 'cn.rongcloud.sdk:im_lib:4.0.3.14'
+
+
     implementation files('libs\\UPPayAssistEx.jar')
     implementation files('libs\\UPPayPluginExPro.jar')
 
-    //友盟推送
-    api 'com.umeng.umsdk:common:2.1.0'
-//PushSDK必须依赖utdid库，所以需要加入对应依赖
-    api 'com.umeng.umsdk:utdid:1.1.5.3'
-//PushSDK
-    api 'com.umeng.umsdk:push:6.0.1'
+
+    //友盟统计
+    api 'com.umeng.umsdk:apm:1.5.2'
+    //友盟基础库依赖（必须）
+    api 'com.umeng.umsdk:common:9.4.4'
+    api 'com.umeng.umsdk:asms:1.4.1'
+    //友盟Push依赖
+    api 'com.umeng.umsdk:push:6.4.7'
+
+
+
     implementation project(path: ':BaseLibrary')
 
     //疼腾讯实名认证

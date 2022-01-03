@@ -1225,4 +1225,14 @@ public class HttpAppFactory {
                 .queryAddressList(params)
                 .compose(RxUtils.getSchedulersObservableTransformer());
     }
+
+    /**
+     * 注销账号
+     */
+    public static Observable<CommonBean<Object>> cancelAccount() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .cancelAccount()
+                .compose(RxUtils.getSchedulersObservableTransformer())
+                ;
+    }
 }

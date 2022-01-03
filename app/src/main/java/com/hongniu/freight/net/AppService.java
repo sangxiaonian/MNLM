@@ -713,8 +713,6 @@ public interface AppService {
     /**
      * 查询承运人
      *
-     * @param id
-     * @return
      */
     @POST("wlhyapi/api/car/selectcarbycarnumber")
     Observable<CommonBean<List<OrderSelectOwnerInfoBean>>> querySelectOwnerInfo(@Body PageSearchParams bean);
@@ -722,10 +720,16 @@ public interface AppService {
     /**
      * 查询常用地址
      *
-     * @param id
-     * @return
      */
     @POST("wlhyapi/api/address/queryAddress")
     Observable<CommonBean<PageBean<AppAddressListBean>>> queryAddressList(@Body AppAddressListParam bean);
+
+    /**
+     * 注销账号
+     *
+     */
+    @POST("wlhyapi/api/user/cancelAccount")
+    Observable<CommonBean<Object>> cancelAccount();
+
 
 }

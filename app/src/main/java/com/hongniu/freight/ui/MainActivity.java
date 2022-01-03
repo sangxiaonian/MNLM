@@ -58,9 +58,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 @Route(path = ArouterParamApp.activity_main)
-public class MainActivity extends CompanyBaseActivity implements View.OnClickListener, ChactControl.OnConnectListener, AMapLocationListener, ChactControl.OnReceiveUnReadCountListener {
+public class MainActivity extends CompanyBaseActivity implements View.OnClickListener, AMapLocationListener, ChactControl.OnReceiveUnReadCountListener {
 
     private TextView demo;
 
@@ -185,8 +186,8 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     }
 
 
-    private void upDate(){
-        HttpAppFactory.getVersion().subscribe(new NetObserver<VersionBean>(null){
+    private void upDate() {
+        HttpAppFactory.getVersion().subscribe(new NetObserver<VersionBean>(null) {
             @Override
             public void doOnSuccess(VersionBean data) {
                 super.doOnSuccess(data);
@@ -228,12 +229,53 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
                 .creatDialog(alertDialog)
                 .show();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         if (ChactHelper.getHelper().disConnectState()) {
             String rongToken = InfoUtils.getLoginInfo().getRongToken();
-            ChactHelper.getHelper().connect(mContext, rongToken, this);
+            ChactHelper.getHelper().connect(mContext, rongToken, new RongIMClient.ConnectCallback() {
+                @Override
+                public void onSuccess(final String userID) {
+                    ChactHelper.getHelper().setUseInfor(new OnGetUserInforListener() {
+                        @Override
+                        public Observable<UserInfor> onGetUserInfor(String usrID) {
+                            return HttpAppFactory.queryRongInfor(usrID)
+                                    .map(new Function<CommonBean<UserInfor>, UserInfor>() {
+                                        @Override
+                                        public UserInfor apply(CommonBean<UserInfor> userInforCommonBean) throws Exception {
+                                            return userInforCommonBean.getData();
+                                        }
+                                    })
+                                    ;
+                        }
+                    });
+                    HttpAppFactory.queryRongInfor(userID)
+                            .subscribe(new NetObserver<UserInfor>(null) {
+                                @Override
+                                public void doOnSuccess(UserInfor data) {
+
+                                    ChactHelper.getHelper().refreshUserInfoCache(userID, data);
+                                }
+                            });
+
+                    RongIM.getInstance().setMessageAttachedUserInfo(true);
+                    BusFactory.getBus().post(new Event.UpChactFragment());
+                }
+
+                @Override
+                public void onError(RongIMClient.ConnectionErrorCode connectionErrorCode) {
+                    if (connectionErrorCode.getValue() == 31010) {//不是异地登录
+                        ToastUtils.getInstance().show("异地登录");
+                    }
+                }
+
+                @Override
+                public void onDatabaseOpened(RongIMClient.DatabaseOpenStatus databaseOpenStatus) {
+
+                }
+            });
             ChactHelper.getHelper().setUnReadCountListener(this);
         }
         upDate();
@@ -344,51 +386,9 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
     }
 
 
-    /**
-     * 连接成功
-     *
-     * @param userID
-     */
-    @Override
-    public void onConnectSuccess(String userID) {
-        ChactHelper.getHelper().setUseInfor(new OnGetUserInforListener() {
-            @Override
-            public Observable<UserInfor> onGetUserInfor(String usrID) {
-                return HttpAppFactory.queryRongInfor(usrID)
-                        .map(new Function<CommonBean<UserInfor>, UserInfor>() {
-                            @Override
-                            public UserInfor apply(CommonBean<UserInfor> userInforCommonBean) throws Exception {
-                                return userInforCommonBean.getData();
-                            }
-                        })
-                        ;
-            }
-        });
-        HttpAppFactory.queryRongInfor(userID)
-                .subscribe(new NetObserver<UserInfor>(null) {
-                    @Override
-                    public void doOnSuccess(UserInfor data) {
 
-                        ChactHelper.getHelper().refreshUserInfoCache(userID, data);
-                    }
-                });
 
-        RongIM.getInstance().setMessageAttachedUserInfo(true);
-        BusFactory.getBus().post(new Event.UpChactFragment());
-    }
 
-    /**
-     * 连接错误
-     *
-     * @param errorCode
-     * @param errorMsg
-     */
-    @Override
-    public void onConnectError(int errorCode, String errorMsg) {
-        if (errorCode == 31010) {//不是异地登录
-            ToastUtils.getInstance().show("异地登录");
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -498,4 +498,6 @@ public class MainActivity extends CompanyBaseActivity implements View.OnClickLis
             BusFactory.getBus().removeStickyEvent(umenToken);
         }
     }
+
+
 }

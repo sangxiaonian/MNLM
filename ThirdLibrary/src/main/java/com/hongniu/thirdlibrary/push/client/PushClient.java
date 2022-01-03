@@ -103,4 +103,11 @@ public class PushClient implements IPush {
     public boolean isSupport(Context context) {
         return true;
     }
+
+    @Override
+    public void init(Context context, boolean isAgree) {
+        if (plush != null) {
+            plush.init(context, isAgree);
+        }
+    }
 }
