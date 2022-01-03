@@ -153,7 +153,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <Space
+                    <View
                         android:id="@+id/guide"
                         android:layout_width="1dp"
                         android:layout_height="0dp"
@@ -362,7 +362,24 @@
                        />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_cancel"
+                    style="@style/person_center_parent">
 
+                    <ImageView
+                        style="@style/person_center_img_left"
+                        android:src="@mipmap/icon_quite" />
+
+                    <TextView
+                        style="@style/person_center_text"
+                        android:text="注销账号" />
+
+                    <ImageView
+                        style="@style/person_center_img_right"
+                        app:srcCompat="@drawable/icon_go_999999"
+                       />
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -87,10 +87,10 @@ android {
             resValue "string", "freight_uniquie", "37103085"//企业唯一标识
             resValue "string", "freight_secret", "5928b6bab955463a858ef0777e0e8853c7750ed293c2420f8a7942b79ef11f91"//安全码
             ///////////////////////////////////////////////////
-            resValue "string", "rong_app_key", "e0x9wycfe4enq"//融云聊天key
+            resValue "string", "rong_app_key", "x18ywvqfxbxhc"//融云聊天key
 
             manifestPlaceholders = [
-                    RONG_CLOUD_APP_KEY: "e0x9wycfe4enq"//融云聊天key，测试
+                    RONG_CLOUD_APP_KEY: "x18ywvqfxbxhc"//融云聊天key，测试
                     , GAODE_MAP       : "1457998aaed653947f53734c7bd5f47a"//高德地图
 
             ]

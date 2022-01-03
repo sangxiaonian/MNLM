@@ -67,6 +67,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
     private ViewGroup ll_about_us;//关于我们
     private ViewGroup ll_quit;//推出账号
     private ViewGroup ll_order_center;//接单中心
+    private ViewGroup ll_cancel;//接单中心
     private ViewGroup shadow;//我的金库
     private View group_company;//公司用户
     private TextView tv_count_company;//企业余额
@@ -89,6 +90,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         ll_about_us = inflate.findViewById(R.id.ll_about_us);
         ll_quit = inflate.findViewById(R.id.ll_quit);
         ll_order_center = inflate.findViewById(R.id.ll_order_center);
+        ll_cancel = inflate.findViewById(R.id.ll_cancel);
         group_company = inflate.findViewById(R.id.group_company);
         tv_count_company = inflate.findViewById(R.id.tv_count_company);
         shadow = inflate.findViewById(R.id.shadow);
@@ -132,6 +134,7 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
         ll_about_us.setOnClickListener(this);
         ll_quit.setOnClickListener(this);
         ll_order_center.setOnClickListener(this);
+        ll_cancel.setOnClickListener(this);
         shadow.setOnClickListener(this);
     }
 
@@ -255,11 +258,10 @@ public class PersonCenterFragment extends CompanyBaseFragment implements View.On
                     .withSerializable(Param.TRAN, RoleOrder.PLATFORM)
                     .navigation(mContext);
 
-        } else if (v.getId() == R.id.shadow) {
+        }else if (v.getId() == R.id.ll_cancel) {//注销账号
             ArouterUtils.getInstance()
-                    .builder(ArouterParamApp.activity_my_coffers)
-                    .navigation(mContext);
-
+                    .builder(ArouterParamApp.activity_cancellation)
+                    .navigation(getContext());
         }
     }
 
