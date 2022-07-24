@@ -121,7 +121,8 @@ public class RuleAlertDialog extends Dialog {
         String str2 = "《隐私权政策》";
         String str3 = "和";
         String str4 = "《用户协议》";
-        String str5 = "。如同意以上条款，请点击“同意”开始接受我们的服务。";
+        String str5 = "。产品集成友盟+SDK及推送通道SDK（如小米、华为、oppo、vivo、魅族等），推送通道SDK需要收集采集设备标识符（IMEI/MAC/Android ID/IDFA/OpenUDID/GUID/SIM 卡 IMSI 信息等），用于唯一标识设备，以便向用户设备推送消息。采集地理位置甄别推送通道，提高消息推送的区域覆盖率";
+        String str6 = "。如同意以上条款，请点击“同意”开始接受我们的服务。";
 
         int start1 = str1.length();
         int end1 = start1 + str2.length();
@@ -133,6 +134,7 @@ public class RuleAlertDialog extends Dialog {
         style.append(str3);
         style.append(str4);
         style.append(str5);
+        style.append(str6);
 
 
 //        //设置部分文字点击事件

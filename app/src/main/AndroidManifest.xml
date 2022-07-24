@@ -51,7 +51,7 @@
         <activity android:name=".ui.SearchOrderActivity" />
         <activity android:name=".ui.MyOrderActivity" />
         <activity android:name=".ui.ForgetPassActivity" />
-        <activity android:name=".ui.SplashActivity" >
+        <activity android:name=".ui.SplashActivity" android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,7 +62,7 @@
             android:name=".ui.MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.H5Activity" />
-        <activity android:name=".ui.LoginActivity" >
+        <activity android:name=".ui.LoginActivity" android:exported="true">
             <intent-filter>
                 <action android:name="${applicationId}.login" />
 
@@ -73,6 +73,7 @@
         <activity android:name=".ui.BindBlankCardActivity" /> <!-- 聊天 -->
         <activity
             android:name=".ui.ChatConversationActivity"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize"
             tools:ignore="DuplicateActivity" >
             <intent-filter>
