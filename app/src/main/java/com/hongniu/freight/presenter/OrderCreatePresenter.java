@@ -15,8 +15,10 @@ import com.hongniu.freight.entity.InsuranceInfoBean;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderSelectDriverInfoBean;
 import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
+import com.hongniu.freight.entity.PolicyCaculParam;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.mode.OrderCreateMode;
+import com.hongniu.freight.net.HttpAppFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -77,6 +79,18 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
                 mode.onChangeInsuranceInfo(0, insuranceInfoBean);
                 //初始化保险信息
                 view.initInsuranceInfo(orderInfoBean.getGoodPrice(), orderInfoBean.getInsureUsername());
+
+                // 查询保险价格
+                HttpAppFactory.calculatePolicyInfo(mode.getPolicyParam())
+                        .subscribe(new NetObserver<String>(null) {
+                            @Override
+                            public void doOnSuccess(String data) {
+                                super.doOnSuccess(data);
+                                mode.getPolicyParam().setPolicyPrice(data);
+                                view.showInsurancePrice(mode.getPolicyParam());
+                            }
+                        });
+
             }
             //发货时间
             mode.saveStartTime(orderInfoBean.getDepartureTime());
@@ -112,7 +126,6 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
             }
         } else {
             view.switchInsurance(false);
-
         }
     }
 
@@ -122,29 +135,31 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     @Override
     public void saveStartInfo(AppAddressListBean result) {
 
-        TranMapBean bean=new TranMapBean();
+        TranMapBean bean = new TranMapBean();
         bean.setAddressDetail(result.getStartPlaceInfo());
         bean.setAddress(result.getStartPlaceInfo());
         bean.setName(result.getShipperName());
         bean.setPhone(result.getShipperMobile());
-        PoiItem poiItem =new PoiItem("",new LatLonPoint(result.getStartPlaceLat(),result.getStartPlaceLon()),"","");
+        PoiItem poiItem = new PoiItem("", new LatLonPoint(result.getStartPlaceLat(), result.getStartPlaceLon()), "", "");
         bean.setPoiItem(poiItem);
         mode.saveStartInfo(bean);
         view.showStartInfo(bean);
 
+
     }
 
     /**
-     * @param result 收货地址
+     *
      */
     @Override
     public void saveEndInfo(AppAddressListBean result) {
-        TranMapBean bean=new TranMapBean();
+
+        TranMapBean bean = new TranMapBean();
         bean.setAddressDetail(result.getDestinationInfo());
         bean.setAddress(result.getDestinationInfo());
         bean.setName(result.getReceiverName());
         bean.setPhone(result.getReceiverMobile());
-        PoiItem poiItem =new PoiItem("",new LatLonPoint(result.getDestinationLat(),result.getDestinationLon()),"","");
+        PoiItem poiItem = new PoiItem("", new LatLonPoint(result.getDestinationLat(), result.getDestinationLon()), "", "");
         bean.setPoiItem(poiItem);
 
         mode.saveEndInfo(bean);
@@ -274,33 +289,6 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     }
 
     /**
-     * 查询保费
-     *
-     * @param msg
-     */
-    @Override
-    public void searchInsruancePrice(String msg) {
-        mode.queryInsurancePrice(msg)
-                .subscribe(new NetObserver<String>(null) {
-                    @Override
-                    public void doOnSuccess(String s) {
-                        super.doOnSuccess(s);
-                        if (s != null && s.startsWith(".")) {
-                            s = "0" + s;
-                        }
-                        view.showInsurancePrice(String.format("保费%s元", s));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        view.showInsurancePrice(String.format("保费%s元", 0));
-                    }
-                });
-
-    }
-
-    /**
      * 显示货物种类弹窗
      *
      * @param listener
@@ -359,6 +347,16 @@ public class OrderCreatePresenter implements OrderCreateControl.IOrderCreatePres
     @Override
     public OrderSelectOwnerInfoBean getOwnerInfo() {
         return mode.getOwnerInfo();
+    }
+
+    @Override
+    public PolicyCaculParam getPolicyParam() {
+        return mode.getPolicyParam();
+    }
+
+    @Override
+    public void savePolicyParam(PolicyCaculParam result) {
+        mode.setPolicyParam(result);
     }
 
 }

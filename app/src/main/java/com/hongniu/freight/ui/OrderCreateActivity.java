@@ -17,15 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.core.PoiItem;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.fy.androidlibrary.toast.ToastUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
 import com.fy.androidlibrary.utils.ConvertUtils;
 import com.fy.androidlibrary.utils.DeviceUtils;
-import com.fy.androidlibrary.widget.editext.SearchTextWatcher;
+import com.fy.androidlibrary.utils.permission.PermissionUtils;
 import com.fy.androidlibrary.widget.span.RoundedBackgroundSpan;
 import com.fy.androidlibrary.widget.span.XClickableSpan;
 import com.fy.baselibrary.utils.ArouterUtils;
@@ -34,20 +32,18 @@ import com.fy.companylibrary.config.Param;
 import com.fy.companylibrary.ui.CompanyBaseActivity;
 import com.fy.companylibrary.widget.ItemTextView;
 import com.hongniu.freight.R;
-import com.hongniu.freight.config.Role;
 import com.hongniu.freight.control.OrderCreateControl;
 import com.hongniu.freight.entity.AppAddressListBean;
 import com.hongniu.freight.entity.CargoTypeAndColorBeans;
 import com.hongniu.freight.entity.H5Config;
-import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.InsuranceInfoBean;
+import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderSelectDriverInfoBean;
 import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
+import com.hongniu.freight.entity.PolicyCaculParam;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.presenter.OrderCreatePresenter;
-import com.fy.androidlibrary.utils.permission.PermissionUtils;
-import com.hongniu.freight.utils.InfoUtils;
 import com.hongniu.freight.utils.PickerDialogUtils;
 import com.hongniu.freight.utils.Utils;
 import com.hongniu.freight.widget.dialog.InsuranceDialog;
@@ -75,8 +71,6 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     private ItemTextView item_size;//货物体积
     private ItemTextView item_price;//运费
     private ItemTextView item_pay_way;//支付类型
-    private ItemTextView item_owner;//承运人选填
-    private ItemTextView item_driver;//司机选填
     private TextView tv_agreement;//鸿牛协议
     private TextView tv_agreement_insurance;//保险链协议
     private ImageView img_insurance;//是否购买保险
@@ -84,6 +78,10 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     private ItemTextView item_cargo_price;//货物价值
     private ItemTextView item_insurance_name;//被保险人信息
     private ViewGroup ll_insurance;//保险条例相关
+
+    private ItemTextView item_owner;//承运人选填
+    private ItemTextView item_driver;//司机选填
+
 
     OrderCreateControl.IOrderCreatePresenter presenter;
     private OptionsPickerView pickerDialog;
@@ -99,8 +97,6 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         initView();
         initData();
         initListener();
-        initDriverInfo(null);
-        initOwnerInfo(null);
         presenter = new OrderCreatePresenter(this);
         OrderInfoBean orderInfoBean = getIntent().getParcelableExtra(Param.TRAN);
         presenter.saveInfo(orderInfoBean);
@@ -108,7 +104,6 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 
         //版本暂时隐藏,仅支持先付
         item_pay_way.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -212,14 +207,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         item_insurance_name.setOnCenterChangeListener(this);
         item_driver.setOnCenterChangeListener(this);
         item_owner.setOnCenterChangeListener(this);
-
-        item_cargo_price.getEtCenter().addTextChangedListener(new SearchTextWatcher(new SearchTextWatcher.SearchTextChangeListener() {
-            @Override
-            public void onSearchTextChange(String msg) {
-                //查询保费相关信息
-                presenter.searchInsruancePrice(msg);
-            }
-        }));
+        item_cargo_price.setOnClickListener(this);
     }
 
     /**
@@ -230,13 +218,33 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (R.id.group_start == v.getId()) {
-            Intent intent = new Intent(this, AppAddressListActivity.class);
-            intent.putExtra(Param.TRAN,true);
-            startActivityForResult(intent,1);
+            PermissionUtils.applyMap(this, new PermissionUtils.onApplyPermission() {
+                @Override
+                public void hasPermission() {
+                    Intent intent = new Intent(mContext, AppAddressListActivity.class);
+                    intent.putExtra(Param.TRAN, true);
+                    startActivityForResult(intent, 1);
+                }
+
+                @Override
+                public void noPermission() {
+
+                }
+            });
         } else if (R.id.group_end == v.getId()) {
-            Intent intent = new Intent(this, AppAddressListActivity.class);
-            intent.putExtra(Param.TRAN,false);
-            startActivityForResult(intent,2);
+            PermissionUtils.applyMap(this, new PermissionUtils.onApplyPermission() {
+                @Override
+                public void hasPermission() {
+                    Intent intent = new Intent(mContext, AppAddressListActivity.class);
+                    intent.putExtra(Param.TRAN, false);
+                    startActivityForResult(intent, 2);
+                }
+
+                @Override
+                public void noPermission() {
+
+                }
+            });
         } else if (R.id.item_start_time == v.getId()) {
 //            ToastUtils.getInstance().show("发货时间");
             presenter.showStartTime(this);
@@ -247,7 +255,7 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
 //            ToastUtils.getInstance().show("是否购买保险");
             presenter.onSwitchIsInsurance();
         } else if (R.id.tv_agreement == v.getId()) {
-            H5Config h5Config = new H5Config("木牛流马合同协议", Param.hongniu_agreement, true);
+            H5Config h5Config = new H5Config("网络货运运输协议", Param.hongniu_agreement, true);
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5).withSerializable(Param.TRAN, h5Config).navigation(mContext);
 
         } else if (R.id.item_insurance_name == v.getId()) {
@@ -261,12 +269,15 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
         } else if (R.id.item_cargo_type == v.getId()) {
 //            ToastUtils.getInstance().show("货物分类");
             presenter.showCargoType(this);
-        }else if (R.id.item_driver == v.getId()) {
-            startActivityForResult(new Intent(this,OrderSelectDriverActivity.class),3);
-        }else if (R.id.item_owner == v.getId()) {
-            OrderSelectOwnerInfoBean result=  presenter.getOwnerInfo();
+        } else if (R.id.item_driver == v.getId()) {
+            startActivityForResult(new Intent(this, OrderSelectDriverActivity.class), 3);
+        } else if (R.id.item_owner == v.getId()) {
             Intent intent = new Intent(this, OrderSelectOwnerActivity.class);
-            startActivityForResult(intent,4);
+            startActivityForResult(intent, 4);
+        } else if (R.id.item_cargo_price == v.getId()) {
+            ArouterUtils.getInstance().builder(ArouterParamApp.activity_policy)
+                    .withParcelable(Param.TRAN, presenter.getPolicyParam())
+                    .navigation(this, 100);
         }
     }
 
@@ -280,14 +291,19 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
             //收货
             AppAddressListBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveEndInfo(result);
-        }else if (data != null && requestCode == 3) {
+        } else if (data != null && requestCode == 3) {
             //选择司机
             OrderSelectDriverInfoBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveDriverInfo(result);
-        }else if (data != null && requestCode == 4) {
+        } else if (data != null && requestCode == 4) {
             //选择承运人
             OrderSelectOwnerInfoBean result = data.getParcelableExtra(Param.TRAN);
             presenter.saveOwnerInfo(result);
+        } else if (data != null && resultCode == 100) {
+            //保险信息
+            PolicyCaculParam result = data.getParcelableExtra(Param.TRAN);
+            presenter.savePolicyParam(result);
+            showInsurancePrice(result);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -456,9 +472,9 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
     }
 
     @Override
-    public void showInsurancePrice(String insurancePrice) {
-        item_cargo_price.setTextRight(insurancePrice);
-
+    public void showInsurancePrice(PolicyCaculParam result) {
+        item_cargo_price.setTextRight(String.format("保费%s元", result.getPolicyPrice()));
+        item_cargo_price.setTextCenter(result.getGoodPrice());
     }
 
     /**
@@ -505,22 +521,22 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      */
     @Override
     public void initOwnerInfo(OrderSelectOwnerInfoBean result) {
-        if (result==null){
+        if (result == null) {
             item_owner.setSRCLeftShow(0);
             item_owner.setTextCenter("");
-        }else {
+        } else {
             item_owner.setSRCLeftShow(2);
-            RoundedBackgroundSpan span=new RoundedBackgroundSpan(mContext);
+            RoundedBackgroundSpan span = new RoundedBackgroundSpan(mContext);
             span.setBordColor(getResources().getColor(R.color.color_of_dceeea));
             span.setTextColor(getResources().getColor(R.color.color_of_43bfa3));
-            span.setCornerRadius(DeviceUtils.dip2px(mContext,1.5f));
-            span.setPadding(DeviceUtils.dip2px(mContext,4f),DeviceUtils.dip2px(mContext,1),DeviceUtils.dip2px(mContext,4),DeviceUtils.dip2px(mContext,1.5f));
-            span.setMargin(DeviceUtils.dip2px(mContext,5f),0,0,0);
-            SpannableStringBuilder builder=new SpannableStringBuilder(CommonUtils.getText(result.getCarNumber(),""));
-            int start=builder.length();
+            span.setCornerRadius(DeviceUtils.dip2px(mContext, 1.5f));
+            span.setPadding(DeviceUtils.dip2px(mContext, 4f), DeviceUtils.dip2px(mContext, 1), DeviceUtils.dip2px(mContext, 4), DeviceUtils.dip2px(mContext, 1.5f));
+            span.setMargin(DeviceUtils.dip2px(mContext, 5f), 0, 0, 0);
+            SpannableStringBuilder builder = new SpannableStringBuilder(CommonUtils.getText(result.getCarNumber(), ""));
+            int start = builder.length();
             builder.append(result.getOwnerName()).append("\t")
                     .append(result.getOwnerMobile());
-            builder.setSpan(span,start,builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            builder.setSpan(span, start, builder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             item_owner.setTextCenter(builder);
         }
     }
@@ -532,12 +548,12 @@ public class OrderCreateActivity extends CompanyBaseActivity implements View.OnC
      */
     @Override
     public void initDriverInfo(OrderSelectDriverInfoBean result) {
-        if (result==null){
+        if (result == null) {
             item_driver.setSRCLeftShow(0);
             item_driver.setTextCenter("");
-        }else {
+        } else {
             item_driver.setSRCLeftShow(2);
-            item_driver.setTextCenter(result.getContact()+"  "+result.getMobile());
+            item_driver.setTextCenter(result.getContact() + "  " + result.getMobile());
         }
     }
 

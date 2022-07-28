@@ -44,9 +44,9 @@ public class OrderInfoBean implements Parcelable {
     private String driverName;//": null,司机名
     private String driverMobile;//": null,司机手机号
 
-   private String userrId;//	true	number	托运人id
-   private String userName;//	true	number	托运人姓名
-   private String userMobile;//	true	number	托运人手机号
+    private String userrId;//	true	number	托运人id
+    private String userName;//	true	number	托运人姓名
+    private String userMobile;//	true	number	托运人手机号
     private int userEvaluateState;//": 托运人评价状态 1:已评价 0:未评价
     private int owenrEvaluateState;//": 承运人评价状态 1:已评价 0:未评价
     private int driverEvaluateState;//":司机评价状态 1:已评价 0:未评价
@@ -87,10 +87,15 @@ public class OrderInfoBean implements Parcelable {
     private String longitude;//": null,
     private String latitude;//": null,
 
-     private String userRongId;//	false	string	托运人融云id
-     private String ownerRongId;//	false	string	车主融云id
-     private String driverRongId;//	false	string	司机融云id
+    private String userRongId;//	false	string	托运人融云id
+    private String ownerRongId;//	false	string	车主融云id
+    private String driverRongId;//	false	string	司机融云id
 
+    private String goodsTypes;    //false	string	货物类型
+    private String loadingMethods; //false	string	装载方式
+    private String transportMethods; //false	string	运输方式
+    private String packingMethods; //false	string	打包方式
+    private String policyType; //false	string	险种类型
 
     protected OrderInfoBean(Parcel in) {
         status = in.readInt();
@@ -169,6 +174,11 @@ public class OrderInfoBean implements Parcelable {
         userRongId = in.readString();
         ownerRongId = in.readString();
         driverRongId = in.readString();
+        goodsTypes = in.readString();
+        loadingMethods = in.readString();
+        transportMethods = in.readString();
+        packingMethods = in.readString();
+        policyType = in.readString();
     }
 
     @Override
@@ -249,6 +259,11 @@ public class OrderInfoBean implements Parcelable {
         dest.writeString(userRongId);
         dest.writeString(ownerRongId);
         dest.writeString(driverRongId);
+        dest.writeString(goodsTypes);
+        dest.writeString(loadingMethods);
+        dest.writeString(transportMethods);
+        dest.writeString(packingMethods);
+        dest.writeString(policyType);
     }
 
     @Override
@@ -267,6 +282,46 @@ public class OrderInfoBean implements Parcelable {
             return new OrderInfoBean[size];
         }
     };
+
+    public String getGoodsTypes() {
+        return goodsTypes;
+    }
+
+    public void setGoodsTypes(String goodsTypes) {
+        this.goodsTypes = goodsTypes;
+    }
+
+    public String getLoadingMethods() {
+        return loadingMethods;
+    }
+
+    public void setLoadingMethods(String loadingMethods) {
+        this.loadingMethods = loadingMethods;
+    }
+
+    public String getTransportMethods() {
+        return transportMethods;
+    }
+
+    public void setTransportMethods(String transportMethods) {
+        this.transportMethods = transportMethods;
+    }
+
+    public String getPackingMethods() {
+        return packingMethods;
+    }
+
+    public void setPackingMethods(String packingMethods) {
+        this.packingMethods = packingMethods;
+    }
+
+    public String getPolicyType() {
+        return policyType;
+    }
+
+    public void setPolicyType(String policyType) {
+        this.policyType = policyType;
+    }
 
     public String getIsdirect() {
         return isdirect;

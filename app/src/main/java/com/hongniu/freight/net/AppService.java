@@ -36,6 +36,7 @@ import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PayInforBeans;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.PolicyInfoBean;
 import com.hongniu.freight.entity.QueryAppraiseInfo;
 import com.hongniu.freight.entity.QueryBindHuaInforsBean;
 import com.hongniu.freight.entity.QueryBlankInforsBean;
@@ -731,5 +732,15 @@ public interface AppService {
     @POST("wlhyapi/api/user/cancelAccount")
     Observable<CommonBean<Object>> cancelAccount();
 
+    /**
+     * @return 查询车辆保险信息
+     */
+    @POST("api/deliveryOrder/getInsuranceData")
+    Observable<CommonBean<PolicyInfoBean>> queryPolicyInfo(@Body Object infor);
 
+    /**
+     * @return 计算保费
+     */
+    @POST("api/deliveryOrder/premiumCalculateNoId")
+    Observable<CommonBean<String>> calculatePolicyInfo(@Body Object infor);
 }

@@ -92,6 +92,7 @@
         <activity android:name=".ui.OrderUpReceiptActivity" />
         <activity android:name=".ui.PreviewImageActivity" />
         <activity android:name=".ui.CancellationActivity" />
+        <activity android:name=".ui.AppMnlmPolicyActivity" />
 
         <receiver android:name=".receiver.MyPushReceiver" /> <!-- 高德地图 -->
         <meta-data

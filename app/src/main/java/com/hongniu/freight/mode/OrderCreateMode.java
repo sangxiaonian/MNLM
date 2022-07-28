@@ -1,6 +1,5 @@
 package com.hongniu.freight.mode;
 
-import com.amap.api.services.core.LatLonPoint;
 import com.fy.androidlibrary.net.rx.RxUtils;
 import com.fy.androidlibrary.utils.CollectionUtils;
 import com.fy.androidlibrary.utils.CommonUtils;
@@ -13,9 +12,9 @@ import com.hongniu.freight.entity.OrderCrateParams;
 import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.OrderSelectDriverInfoBean;
 import com.hongniu.freight.entity.OrderSelectOwnerInfoBean;
+import com.hongniu.freight.entity.PolicyCaculParam;
 import com.hongniu.freight.entity.TranMapBean;
 import com.hongniu.freight.net.HttpAppFactory;
-import com.hongniu.freight.ui.QueryInsurancePriceParams;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,9 +47,12 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     private OrderSelectOwnerInfoBean ownerInfo;
     private OrderSelectDriverInfoBean driverInfo;
 
+    // 保险结果信息
+    private PolicyCaculParam policyParams = new PolicyCaculParam();
+
     public OrderCreateMode() {
         params = new OrderCrateParams();
-        cargoTypes=new ArrayList<>();
+        cargoTypes = new ArrayList<>();
         days = new ArrayList<>();
         hours = new ArrayList<>();
         minutes = new ArrayList<>();
@@ -68,6 +70,13 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
     @Override
     public void saveInfo(OrderInfoBean orderInfoBean) {
         this.orderInfoBean = orderInfoBean;
+        policyParams.setId(orderInfoBean.getId());
+        policyParams.setPolicyType(orderInfoBean.getPolicyType());
+        policyParams.setGoodPrice(orderInfoBean.getGoodPrice());
+        policyParams.setGoodTypes(orderInfoBean.getGoodsTypes());
+        policyParams.setLoadingMethods(orderInfoBean.getLoadingMethods());
+        policyParams.setTransportMethods(orderInfoBean.getTransportMethods());
+        policyParams.setPackingMethods(orderInfoBean.getPackingMethods());
     }
 
     /**
@@ -268,27 +277,36 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
         params.setFreightPayClass(payType == 0 ? 1 : 2);
         params.setInsurance(isInsurance ? 1 : 0);
 
-        params.setCargoTypeClassificationCode(cargoTypeAndColorBeans==null?null:cargoTypeAndColorBeans.getValue());
+        params.setCargoTypeClassificationCode(cargoTypeAndColorBeans == null ? null : cargoTypeAndColorBeans.getValue());
         if (isInsurance && insuranceInforBean != null) {
             params.setInsuranceUserId(insuranceInforBean.getId());
         } else {
             params.setInsuranceUserId(null);
         }
 
-        params.setIsdirect((driverInfo!=null&&ownerInfo!=null)?"1":"0");
-        if (driverInfo!=null){
+        params.setIsdirect((driverInfo != null && ownerInfo != null) ? "1" : "0");
+        if (driverInfo != null) {
             params.setDriverId(driverInfo.getId());
             params.setDriverMobile(driverInfo.getMobile());
             params.setDriverName(driverInfo.getContact());
         }
-        if (ownerInfo!=null){
-            params.setOwnerCompanyAccountId(CommonUtils.getText(ownerInfo.getOwnerCompanyAccountId(),"0"));
+        if (ownerInfo != null) {
+            params.setOwnerCompanyAccountId(CommonUtils.getText(ownerInfo.getOwnerCompanyAccountId(), "0"));
             params.setOwnerId(ownerInfo.getOwnerId());
             params.setOwnerName(ownerInfo.getOwnerName());
             params.setOwnerMobile(ownerInfo.getOwnerMobile());
             params.setCarId(ownerInfo.getCarid());
             params.setCarInfo(ownerInfo.getVehicleType());
             params.setCarNum(ownerInfo.getCarNumber());
+        }
+
+        if (policyParams != null) {
+            params.setPolicyType(policyParams.getPolicyType());
+            params.setPackingMethods(policyParams.getPackingMethods());
+            params.setLoadingMethods(policyParams.getLoadingMethods());
+            params.setTransportMethods(policyParams.getTransportMethods());
+            params.setGoodsTypes(policyParams.getGoodTypes());
+            params.setGoodPrice(policyParams.getGoodPrice());
         }
 
         if (orderInfoBean != null) {
@@ -299,33 +317,6 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
             //新增订单
             return HttpAppFactory.createOrder(params);
         }
-    }
-
-    /**
-     * 根据货物价格查询保费
-     *
-     * @param msg
-     * @return
-     */
-    @Override
-    public Observable<CommonBean<String>> queryInsurancePrice(String msg) {
-
-        QueryInsurancePriceParams params = new QueryInsurancePriceParams();
-        if (startInfor != null) {
-            LatLonPoint latLonPoint = startInfor.getPoiItem().getLatLonPoint();
-            params.setDestinationLat(latLonPoint.getLatitude());
-            params.setDestinationLon(latLonPoint.getLongitude());
-
-        }
-        if (endInfor != null) {
-            LatLonPoint latLonPoint = endInfor.getPoiItem().getLatLonPoint();
-            params.setDestinationLat(latLonPoint.getLatitude());
-            params.setDestinationLon(latLonPoint.getLongitude());
-        }
-        params.setGoodPrice(msg);
-
-        return HttpAppFactory.queryInstancePrice(params);
-
     }
 
     /**
@@ -340,7 +331,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
                     @Override
                     public CommonBean<List<CargoTypeAndColorBeans>> apply(CommonBean<List<CargoTypeAndColorBeans>> listCommonBean) throws Exception {
                         cargoTypes.clear();
-                        if (listCommonBean.getCode()== Param.SUCCESS_FLAG&&!CollectionUtils.isEmpty(listCommonBean.getData())){
+                        if (listCommonBean.getCode() == Param.SUCCESS_FLAG && !CollectionUtils.isEmpty(listCommonBean.getData())) {
                             cargoTypes.addAll(listCommonBean.getData());
                         }
                         return listCommonBean;
@@ -366,22 +357,32 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
      */
     @Override
     public void switchCargoType(CargoTypeAndColorBeans cargoTypeAndColorBeans) {
-        this.cargoTypeAndColorBeans=cargoTypeAndColorBeans;
+        this.cargoTypeAndColorBeans = cargoTypeAndColorBeans;
     }
 
     @Override
     public void saveDriverInfo(OrderSelectDriverInfoBean result) {
-        this.driverInfo=result;
+        this.driverInfo = result;
     }
 
     @Override
     public void saveOwnerInfo(OrderSelectOwnerInfoBean result) {
-        this.ownerInfo=result;
+        this.ownerInfo = result;
     }
 
     @Override
     public OrderSelectOwnerInfoBean getOwnerInfo() {
         return ownerInfo;
+    }
+
+    @Override
+    public PolicyCaculParam getPolicyParam() {
+        return policyParams;
+    }
+
+    @Override
+    public void setPolicyParam(PolicyCaculParam param) {
+        this.policyParams = param;
     }
 
 

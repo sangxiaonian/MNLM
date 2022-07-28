@@ -44,6 +44,8 @@ import com.hongniu.freight.entity.PageSearchParams;
 import com.hongniu.freight.entity.PathBean;
 import com.hongniu.freight.entity.PayInforBeans;
 import com.hongniu.freight.entity.PersonInfor;
+import com.hongniu.freight.entity.PolicyCaculParam;
+import com.hongniu.freight.entity.PolicyInfoBean;
 import com.hongniu.freight.entity.QueryAppraiseInfo;
 import com.hongniu.freight.entity.QueryBindHuaInforsBean;
 import com.hongniu.freight.entity.QueryBlankInforsBean;
@@ -1234,5 +1236,29 @@ public class HttpAppFactory {
                 .cancelAccount()
                 .compose(RxUtils.getSchedulersObservableTransformer())
                 ;
+    }
+    /**
+     * 查询车辆保险信息
+     *
+     * @return
+     */
+    public static Observable<CommonBean<PolicyInfoBean>> queryPolicyInfo() {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .queryPolicyInfo(new Object())
+                .compose(RxUtils.<CommonBean<PolicyInfoBean>>getSchedulersObservableTransformer());
+
+    }
+
+    /**
+     * 计算保费
+     *
+     * @return
+     * @param params
+     */
+    public static Observable<CommonBean<String>> calculatePolicyInfo(PolicyCaculParam params) {
+        return CompanyClient.getInstance().creatService(AppService.class)
+                .calculatePolicyInfo(params)
+                .compose(RxUtils.<CommonBean<String>>getSchedulersObservableTransformer());
+
     }
 }

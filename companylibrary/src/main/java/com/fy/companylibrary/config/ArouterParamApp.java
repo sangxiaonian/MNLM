@@ -210,5 +210,6 @@ public class ArouterParamApp {
      * 注销页面
      */
     public final static String activity_cancellation = "/app/activity_cancellation";
+    public final static String activity_policy = "/app/activity_policy";
 
 }
