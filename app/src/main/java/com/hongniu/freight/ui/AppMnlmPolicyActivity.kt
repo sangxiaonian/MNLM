@@ -210,7 +210,7 @@ class AppMnlmPolicyActivity : CompanyBaseActivity() {
             return false
         }
         if (!bind.imgPolicy.isSelected) {
-            ToastUtils.getInstance().show("请确认保险信息")
+            ToastUtils.getInstance().show("请先同意保险条款")
             return false
         }
 

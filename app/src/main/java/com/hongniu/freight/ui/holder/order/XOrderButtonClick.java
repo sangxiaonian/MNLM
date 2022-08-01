@@ -33,6 +33,7 @@ import com.hongniu.freight.entity.OrderInfoBean;
 import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.huoyun.FreightClient;
 import com.hongniu.freight.net.HttpAppFactory;
+import com.hongniu.freight.ui.holder.order.helper.OrderUtils;
 import com.hongniu.freight.ui.holder.order.helper.control.OrderButtonClickListener;
 import com.hongniu.freight.widget.DialogComment;
 import com.hongniu.freight.widget.dialog.BalancePayDialog;
@@ -168,10 +169,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
             e.printStackTrace();
         }
         if (orderCreatBean != null) {
-            H5Config h5Config = new H5Config("查看保单", orderCreatBean.getDownloadUrl(), false);
-            ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
-                    .withSerializable(Param.TRAN, h5Config)
-                    .navigation(mContext);
+            OrderUtils.scanPDf((Activity) mContext, orderCreatBean.getDownloadUrl());
         } else {
             ToastUtils.getInstance().show("保单暂未生成,请稍后再试");
         }
@@ -378,7 +376,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                         nextStepListener.doUpdate();
                                     }
 
-                                    ShippingNoteInfo noteInfo=new ShippingNoteInfo();
+                                    ShippingNoteInfo noteInfo = new ShippingNoteInfo();
                                     noteInfo.setShippingNoteNumber(bean.getOrderNum());
                                     noteInfo.setSerialNumber("0000");
                                     noteInfo.setStartCountrySubdivisionCode(bean.getStartCountrySubdivisionCode());
@@ -391,9 +389,9 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
 
                                         @Override
                                         public void onFailure(String s, String s1) {
-                                            JLog.i("开始发车记录失败: "+s+ ": "+s1);
+                                            JLog.i("开始发车记录失败: " + s + ": " + s1);
                                         }
-                                    },noteInfo);
+                                    }, noteInfo);
 
 
                                 }
@@ -469,7 +467,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
                                         nextStepListener.doUpdate();
                                     }
 
-                                    ShippingNoteInfo noteInfo=new ShippingNoteInfo();
+                                    ShippingNoteInfo noteInfo = new ShippingNoteInfo();
                                     noteInfo.setShippingNoteNumber(bean.getOrderNum());
                                     noteInfo.setSerialNumber("0000");
                                     noteInfo.setStartCountrySubdivisionCode(bean.getStartCountrySubdivisionCode());
@@ -482,9 +480,9 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
 
                                         @Override
                                         public void onFailure(String s, String s1) {
-                                            JLog.i("开始发车记录失败: "+s+": "+s1);
+                                            JLog.i("开始发车记录失败: " + s + ": " + s1);
                                         }
-                                    },noteInfo);
+                                    }, noteInfo);
 
                                 }
 
@@ -545,7 +543,7 @@ public class XOrderButtonClick implements OrderButtonClickListener, InsuranceBuy
     public void onOrderModify(OrderInfoBean bean) {
 
         ArouterUtils.getInstance().builder(ArouterParamApp.activity_order_create)
-                .withParcelable(Param.TRAN,bean)
+                .withParcelable(Param.TRAN, bean)
                 .navigation();
     }
 

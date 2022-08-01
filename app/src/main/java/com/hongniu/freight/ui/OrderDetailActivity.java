@@ -1,5 +1,6 @@
 package com.hongniu.freight.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -60,7 +61,6 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     private TextView tv_car_detail;//车辆信息
     private TextView tv_shipper_detail;//托运人信息
     private ViewGroup ll_bottom;//底部按钮
-
 
 
     OrderDetailControl.IOrderDetailPresenter presenter;
@@ -178,7 +178,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         }
                 .setColor(contactColor));
         tv_driver_contact.setText(builder);
-        tv_driver_contact.setVisibility(showDriverInfo?View.VISIBLE:View.GONE);
+        tv_driver_contact.setVisibility(showDriverInfo ? View.VISIBLE : View.GONE);
     }
 
     //添加一个点击事件
@@ -211,10 +211,10 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
             append(titleColor, "实际运费", color, String.format("%s元", ConvertUtils.changeFloat(infoBean.getRealMoney(), 2)), builder);
         }
 
-        if (infoBean.getInsurance()==1) {
+        if (infoBean.getInsurance() == 1) {
             append(titleColor, builder, "货物保费");
             builder.append(gap);
-            append(color, builder, String.format("%s元",ConvertUtils.changeFloat(infoBean.getPolicyMoney(),2)));
+            append(color, builder, String.format("%s元", ConvertUtils.changeFloat(infoBean.getPolicyMoney(), 2)));
             appendLine(builder);
             appendClick(builder, "查看保单"
                     , new XClickableSpan() {
@@ -226,7 +226,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
                     }
                             .setColor(contactColor));
             builder.append("\n");
-            append(titleColor, "被保险人", color, String.format("%s %s",infoBean.getInsureUsername(),infoBean.getInsureIdnumber()), builder);
+            append(titleColor, "被保险人", color, String.format("%s %s", infoBean.getInsureUsername(), infoBean.getInsureIdnumber()), builder);
         }
         if (showCargoPrice) {
             append(titleColor, "货物运费", color, String.format("%s元", ConvertUtils.changeFloat(infoBean.getMoney(), 2)), builder);
@@ -237,9 +237,9 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
 
         append(titleColor, builder, "货物信息");
         builder.append(gap);
-        append(color, builder, String.format("%s吨",infoBean.getGoodWeight()));
+        append(color, builder, String.format("%s吨", infoBean.getGoodWeight()));
         appendLine(builder);
-        append(color, builder, String.format("%sm³",infoBean.getGoodVolume()));
+        append(color, builder, String.format("%sm³", infoBean.getGoodVolume()));
 
 
         tv_detail.setText(builder);
@@ -273,7 +273,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         }
                 .setColor(contactColor));
         tv_shipper_detail.setText(builder);
-        tv_shipper_detail.setVisibility(showCarInfo?View.VISIBLE:View.GONE);
+        tv_shipper_detail.setVisibility(showCarInfo ? View.VISIBLE : View.GONE);
     }
 
     //添加一条竖线
@@ -316,11 +316,12 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
                 }
                         .setColor(contactColor));
         tv_car_detail.setText(builder);
-        tv_car_detail.setVisibility(showCarInfo?View.VISIBLE:View.GONE);
+        tv_car_detail.setVisibility(showCarInfo ? View.VISIBLE : View.GONE);
     }
 
     /**
      * 更改底部按钮数据
+     *
      * @param roler
      * @param buttonInfo
      * @param infoBean
@@ -332,7 +333,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
         XOrderButtonClick xOrderButtonClick = new XOrderButtonClick(this);
         xOrderButtonClick.setType(roler);
         xOrderButtonClick.setNextStepListener(this);
-        OrderUtils.addButton(ll_bottom,infoBean,buttonInfo,true,xOrderButtonClick);
+        OrderUtils.addButton(ll_bottom, infoBean, buttonInfo, true, xOrderButtonClick);
     }
 
     /**
@@ -344,8 +345,6 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
     public void statCall(String mobile) {
         CommonUtils.call(mContext, mobile);
     }
-
-
 
 
     /**
@@ -366,10 +365,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      */
     @Override
     public void checkInsurance(AppInsuranceInfo insurance) {
-        H5Config h5Config = new H5Config("查看保单", insurance.getDownloadUrl(), false);
-        ArouterUtils.getInstance().builder(ArouterParamApp.activity_h5)
-                .withSerializable(Param.TRAN, h5Config)
-                .navigation(mContext);
+        OrderUtils.scanPDf((Activity) mContext, insurance.getDownloadUrl());
     }
 
     /**
@@ -380,7 +376,7 @@ public class OrderDetailActivity extends CompanyBaseActivity implements OrderDet
      */
     @Override
     public void startChat(String id, String name) {
-        ChactHelper.getHelper().startPriver(mContext,id,name);
+        ChactHelper.getHelper().startPriver(mContext, id, name);
     }
 
     private void append(int color, SpannableStringBuilder builder, String msg) {

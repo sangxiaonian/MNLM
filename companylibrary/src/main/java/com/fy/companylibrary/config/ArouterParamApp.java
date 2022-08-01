@@ -211,5 +211,6 @@ public class ArouterParamApp {
      */
     public final static String activity_cancellation = "/app/activity_cancellation";
     public final static String activity_policy = "/app/activity_policy";
+    public final static String activity_pdf = "/app/activity_pdf";
 
 }
