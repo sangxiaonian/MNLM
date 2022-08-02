@@ -735,12 +735,12 @@ public interface AppService {
     /**
      * @return 查询车辆保险信息
      */
-    @POST("api/deliveryOrder/getInsuranceData")
+    @POST("wlhyapi/api/deliveryOrder/getInsuranceData")
     Observable<CommonBean<PolicyInfoBean>> queryPolicyInfo(@Body Object infor);
 
     /**
      * @return 计算保费
      */
-    @POST("api/deliveryOrder/premiumCalculateNoId")
+    @POST("wlhyapi/api/deliveryOrder/premiumCalculateNoId")
     Observable<CommonBean<String>> calculatePolicyInfo(@Body Object infor);
 }

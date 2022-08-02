@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BaseLibrary</string>
+    <string name="order_insruance_police">《保险条款》</string>
+    <string name="order_insruance_notify">《投保须知》</string>
+    <string name="order_insruance_police_front">本人承诺投保信息的真实性，理解并同意</string>
+    <string name="order_insruance_police_end">的全部内容</string>
+
+
 </resources>

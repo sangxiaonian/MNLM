@@ -41,7 +41,7 @@ public class Param {
    public static final String  agreement = "https://api.hongniudai.cn/static/wlhyagreement.html";
 
   public static final String h_insurance_notify = "https://api.hongniudai.cn/" + "static/html/notice.html";
-  public static final String h_insurance_polic = "https://api.hongniudai.cn/" + "static/html/insurance_2009.html";
+  public static final String h_insurance_polic = "https://api.hongniudai.cn/static/html/insurance_2009.html";
 
     /**
      * 确认到达时候，距离目的地的最小距离 单位 千米

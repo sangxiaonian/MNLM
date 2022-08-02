@@ -355,7 +355,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="人保货物运输保险"
+                            android:text="货物运输保险"
                             android:textColor="@color/color_of_666666"
                             android:textSize="15dp" />
 
@@ -384,6 +384,7 @@
                     app:centerType="number"
                     app:colorRight="@color/color_of_e50000"
                     app:sizeright="15dp"
+                    app:editable="false"
                     app:textcenterhide="请输入货物价值"
                     app:textleft="货物价值"
                     app:textright="保费 0 元" />

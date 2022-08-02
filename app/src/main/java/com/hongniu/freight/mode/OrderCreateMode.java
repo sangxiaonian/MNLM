@@ -73,7 +73,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
         policyParams.setId(orderInfoBean.getId());
         policyParams.setPolicyType(orderInfoBean.getPolicyType());
         policyParams.setGoodPrice(orderInfoBean.getGoodPrice());
-        policyParams.setGoodTypes(orderInfoBean.getGoodsTypes());
+        policyParams.setGoodsTypes(orderInfoBean.getGoodsTypes());
         policyParams.setLoadingMethods(orderInfoBean.getLoadingMethods());
         policyParams.setTransportMethods(orderInfoBean.getTransportMethods());
         policyParams.setPackingMethods(orderInfoBean.getPackingMethods());
@@ -305,7 +305,7 @@ public class OrderCreateMode implements OrderCreateControl.IOrderCreateMode {
             params.setPackingMethods(policyParams.getPackingMethods());
             params.setLoadingMethods(policyParams.getLoadingMethods());
             params.setTransportMethods(policyParams.getTransportMethods());
-            params.setGoodsTypes(policyParams.getGoodTypes());
+            params.setGoodsTypes(policyParams.getGoodsTypes());
             params.setGoodPrice(policyParams.getGoodPrice());
         }
 
