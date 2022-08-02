@@ -78,7 +78,7 @@ class AppMnlmPolicyActivity : CompanyBaseActivity() {
     override fun initListener() {
         super.initListener()
         model.policyResult.observe(this) {
-            bind.itemPrice.textRight = "保费" + it.policyPrice + "元"
+            bind.itemPrice.textRight = "保费${model.params?.policyPrice ?: "0.00"}元"
 
         }
 

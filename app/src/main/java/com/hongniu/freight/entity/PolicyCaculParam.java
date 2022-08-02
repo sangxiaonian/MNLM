@@ -2,6 +2,7 @@ package com.hongniu.freight.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * @data 2022/7/13$
@@ -46,6 +47,9 @@ public class PolicyCaculParam implements Parcelable {
     };
 
     public String getPolicyPrice() {
+        if (!TextUtils.isEmpty(policyPrice)&&policyPrice.startsWith(".")){
+            return "0"+policyPrice;
+        }
         return policyPrice;
     }
 
