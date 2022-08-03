@@ -121,7 +121,7 @@ public class PDFActivity extends CompanyBaseActivity implements OnLoadCompleteLi
 
     @Override
     public void hasPermission() {
-        String path = Environment.getExternalStorageDirectory().getPath() + "/hongniu/";
+        String path = getFilesDir().getAbsolutePath() + "/hongniu/";
         JLog.i(path);
         showLoad();
         DownloadUtil.get().download(pdfUrl, path, SystemClock.currentThreadTimeMillis() + ".pdf", this);

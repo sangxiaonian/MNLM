@@ -93,6 +93,7 @@
         <activity android:name=".ui.PreviewImageActivity" />
         <activity android:name=".ui.CancellationActivity" />
         <activity android:name=".ui.AppMnlmPolicyActivity" />
+        <activity android:name=".ui.PDFActivity" />
 
         <receiver android:name=".receiver.MyPushReceiver" /> <!-- 高德地图 -->
         <meta-data
