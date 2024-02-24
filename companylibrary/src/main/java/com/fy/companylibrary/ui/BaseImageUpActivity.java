@@ -17,7 +17,6 @@ import com.hongniu.thirdlibrary.picture.PictureClient;
 import com.hongniu.thirdlibrary.picture.adapter.ImageAdapter;
 import com.hongniu.thirdlibrary.picture.helper.ImageUpHelper;
 import com.hongniu.thirdlibrary.picture.holder.ImageAddHolder;
-import com.hongniu.thirdlibrary.picture.utils.PicUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 
@@ -35,7 +34,7 @@ import io.reactivex.Observable;
  * <p>
  * 图片上传功能的基础类
  */
-public abstract class BaseImageUpActivity extends CompanyBaseActivity implements RecycleControl.OnItemClickListener<ImageInforBean>, ImageAdapter.DealFailImageListener, ImageAddHolder.OnAddPicturesListener, OnResultCallbackListener {
+public abstract class BaseImageUpActivity extends CompanyBaseActivity implements RecycleControl.OnItemClickListener<ImageInforBean>, ImageAdapter.DealFailImageListener, ImageAddHolder.OnAddPicturesListener, OnResultCallbackListener<LocalMedia> {
 
     protected ImageAdapter adapter;
     protected List<ImageInforBean> datas;
@@ -110,21 +109,19 @@ public abstract class BaseImageUpActivity extends CompanyBaseActivity implements
 
     @Override
     public void onItemClick(int position, ImageInforBean date) {
-        if (!CollectionUtils.isEmpty(datas)){
-            ArrayList<String> result=new ArrayList<>();
+        if (!CollectionUtils.isEmpty(datas)) {
+            ArrayList<String> result = new ArrayList<>();
             for (ImageInforBean data : datas) {
-                result.add(TextUtils.isEmpty(data.getPathOriginal())?data.getPath():data.getPathOriginal());
+                result.add(TextUtils.isEmpty(data.getPathOriginal()) ? data.getPath() : data.getPathOriginal());
             }
             ArouterUtils.getInstance().builder(ArouterParamApp.activity_preview_image)
-                    .withStringArrayList(Param.TRAN,result)
-                    .withInt(Param.TYPE,position)
+                    .withStringArrayList(Param.TRAN, result)
+                    .withInt(Param.TYPE, position)
                     .navigation();
 
         }
 
     }
-
-
 
 
     @Override
@@ -248,28 +245,14 @@ public abstract class BaseImageUpActivity extends CompanyBaseActivity implements
             for (ImageInforBean data : datas) {
                 LocalMedia media = new LocalMedia();
                 media.setChecked(true);
-                media.setPath(TextUtils.isEmpty(data.getPathOriginal())?data.getPath():data.getPathOriginal());
+                media.setPath(TextUtils.isEmpty(data.getPathOriginal()) ? data.getPath() : data.getPathOriginal());
                 list.add(media);
             }
         }
-        new PictureClient().startPhoto(this,   getMaxCount(), list, this);
+        new PictureClient().startPhoto(this, getMaxCount(), list, this);
     }
 
-    /**
-     * return LocalMedia result
-     *
-     * @param result
-     */
-    @Override
-    public void onResult(List<LocalMedia> result) {
-        if (result == null) {
-            result = new ArrayList<>();
-        }
-        int index = datas.size();
-        PicUtils.filtImage(3, datas, result);
-        adapter.notifyDataSetChanged();
-        helper.upDates(datas);
-    }
+
 }
 
 

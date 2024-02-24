@@ -23,6 +23,7 @@ import com.hongniu.freight.entity.QueryReceiveBean;
 import com.hongniu.freight.entity.UpImgData;
 import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -183,8 +184,13 @@ public class OrderUpReceiptActivity extends BaseImageUpActivity implements View.
     }
 
 
+    @Override
+    public void onResult(List<LocalMedia> result) {
 
+    }
 
+    @Override
+    public void onCancel() {
 
-
+    }
 }

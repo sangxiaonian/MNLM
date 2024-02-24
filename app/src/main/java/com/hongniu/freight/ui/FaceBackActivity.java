@@ -24,6 +24,7 @@ import com.hongniu.freight.net.HttpAppFactory;
 import com.hongniu.freight.utils.Utils;
 import com.fy.companylibrary.ui.BaseImageUpActivity;
 import com.hongniu.thirdlibrary.picture.ImageInforBean;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,5 +163,15 @@ public class FaceBackActivity extends BaseImageUpActivity implements SearchTextW
                 ToastUtils.getInstance().show(et.getHint().toString());
             }
         }
+    }
+
+    @Override
+    public void onResult(List<LocalMedia> result) {
+
+    }
+
+    @Override
+    public void onCancel() {
+
     }
 }

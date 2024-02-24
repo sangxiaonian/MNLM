@@ -286,20 +286,32 @@ public class CarAddModifyActivity extends CompanyBaseActivity implements View.On
         if (v.getId() == R.id.img_positive) {
 //            ToastUtils.getInstance().show("行驶证正面");
             new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
+
+
                 @Override
-                public void onResult(List<LocalMedia> result) {
-                    LocalMedia media = result.get(0);
+                public void onCancel() {
+
+                }
+
+                @Override
+                public void onResult(List result) {
+                    LocalMedia media = (LocalMedia) result.get(0);
                     img_positive.setImageInfo(PicUtils.getPath(media));
                     presenter.upPositive(media, CarAddModifyActivity.this);
                 }
             });
         } else if (v.getId() == R.id.img_minus) {
-            new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener() {
+            new PictureClient().startPhoto(this, 1, null, new OnResultCallbackListener<LocalMedia>() {
                 @Override
                 public void onResult(List<LocalMedia> result) {
-                    LocalMedia media = result.get(0);
-                    img_minus.setImageInfo(PicUtils.getPath(media));
-                    presenter.upMinus(media, CarAddModifyActivity.this);
+                    LocalMedia media = (LocalMedia) result.get(0);
+                    img_positive.setImageInfo(PicUtils.getPath(media));
+                    presenter.upPositive(media, CarAddModifyActivity.this);
+                }
+
+                @Override
+                public void onCancel() {
+
                 }
             });
         } else if (v.getId() == R.id.item_car_type) {

@@ -87,11 +87,7 @@ public class SimpleFragmentAdapter extends PagerAdapter {
             ImageView ivPlay = contentView.findViewById(R.id.iv_play);
             String path = images.get(position);
             if (path != null) {
-
-                boolean isHttp = PictureMimeType.isHttp(path);
                 ivPlay.setVisibility(View.GONE);
-                boolean isGif = false;
-                final boolean eqLongImg = false;
                 imageView.setVisibility(View.VISIBLE);
                 longImageView.setVisibility(View.GONE);
 

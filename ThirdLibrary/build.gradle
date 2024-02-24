@@ -45,8 +45,10 @@ dependencies {
 
 
     //https://github.com/LuckSiege/PictureSelector 图片选择器
-    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
-
+//    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
+    api('com.github.LuckSiege.PictureSelector:picture_library:v2.5.8') {
+        exclude group: 'com.github.bumptech.glide'
+    }
     //融云聊天
 //    api 'cn.rongcloud.sdk:sight:2.9.17'
 //    api 'cn.rongcloud.sdk:rcsticker:2.9.17'

@@ -20,6 +20,8 @@ ext {
 buildscript {
     ext.kotlin_version = '1.6.0'
     repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
         google()
         mavenCentral()
         maven { url 'https://maven.rongcloud.cn/repository/maven-releases/' }
@@ -40,6 +42,8 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
         google()
         mavenCentral()
         maven { url 'https://maven.rongcloud.cn/repository/maven-releases/' }
